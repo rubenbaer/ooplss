@@ -11,7 +11,12 @@ view: build
 	$(VIEWER) $(TARGET)
 
 build:
-	if [[ -a "/usr/bin/rubber" ]]; then rubber -d $(SOURCE); else pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; fi 
+	#if [[ -a "/usr/bin/rubber" ]]; then rubber -d $(SOURCE); else pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; fi 
+	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
+	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
+	# bibtex $(SOURCE) > /dev/null
+	# pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
+
 
 # cleans index, logs, temporary files etc. 
 clean:
