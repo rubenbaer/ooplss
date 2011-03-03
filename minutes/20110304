@@ -1,0 +1,45 @@
+No.:    02
+Date:   03.03.2011 11:00
+Place:  Dr. O. Biberstein's office
+
+Discussed Issues from last time:
+* Deliverables
+	- 3 Documents, one for the secretariat, one for the expert and one for the 
+	  advisor
+	- Should be a single document
+	- Includes the CD with all the project data on it
+
+* Documentation 
+	- Should include some project managment (gantt diagramm), maybe a little
+	  journal
+	- The intro and conclusion are very important
+	- Abstract could be englisch *and* german
+	- It will be important to give good examples of subtyping and subclassing
+	  to distinguish those two concepts
+	- Documentation will also contain a part "Design documentation"
+
+* Expert meeting
+	- Some time during the semester there will be a meeting with the expert to 
+	  show him what we're doing
+	
+* Implementation
+	- It is up to us which languages we use to implement the different parts of
+	  the project, including the target language to compile to. It could also
+	  be possible to mix those languages
+
+
+Todo for next meeting
+* Outline of the documentation 
+* Schedule, as good as possible since this is not a usual development project
+* Decision, which kind of syntax style our language will have
+
+Issues for next meeting
+* Virtual Methods
+* Multiple inheritance yes or no / interfaces?
+
+
+
+Next meeting:
+ Date:  
+ Place: Dr. O. Biberstein's office
+
