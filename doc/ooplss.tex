@@ -20,7 +20,7 @@
 \usepackage{fancyvrb}
 
 \lstset{ %
-language=Java,                % choose the language of the code
+language=Java,                  % choose the language of the code
 basicstyle=\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
 numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
@@ -30,23 +30,23 @@ backgroundcolor=\color{white},  % choose the background color. You must add \use
 showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,   		% adds a frame around the code
-tabsize=2,  		% sets default tabsize to 2 spaces
-captionpos=b,   		% sets the caption-position to bottom
-breaklines=true,    	% sets automatic line breaking
-breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
-escapeinside={\%}{)}          % if you want to add a comment within your code
+frame=single,   		            % adds a frame around the code
+tabsize=2,  		                % sets default tabsize to 2 spaces
+captionpos=b,   		            % sets the caption-position to bottom
+breaklines=true,    	          % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+escapeinside={\%}{)}            % if you want to add a comment within your code
 }
 
-\includeonly{abstract}
+%\includeonly{abstract}
 % DOCUMENT CONTENT ------------------------------------------------
 \begin{document}
 
 \title{Bachelor Thesis\\
 Object-Oriented Language with Subtyping and Subclassing}
 
-\author{Ruben Bär ruben.baer@codedump.ch\\
-Stefan Heinemann stefan.heinemann@codedump.ch}
+\author{Ruben Bär\footnote{\url{ruben.baer@codedump.ch}}\\
+Stefan Heinemann\footnote{\url{stefan.heinemann@codedump.ch}}}
 
 
 % Bern University of Applied Sciences - Engineering and Information Technology, Quellgasse 21, 2501 Biel, Switzerland
@@ -62,6 +62,25 @@ Stefan Heinemann stefan.heinemann@codedump.ch}
 \tableofcontents
 
 \include{introduction}
+
+\part{Project Management}
+
+\part{Language Specification}
+
+\part{Implementation}
+\chapter{Design}
+\chapter{Translation}
+\chapter{Algorithms}
+\chapter{Testing}
+
+\part{User Guide}
+
+\appendix
+\part{Appendix}
+
+\chapter{Conclusion}
+
+\chapter{Tool Evaluations}
 
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bib/ooplss.bib}

@@ -8,21 +8,21 @@
 % Ruben Bär, Stefan Heinemann
 %**********************************************************************************
 \NeedsTeXFormat{LaTeX2e}\relax
-\ProvidesClass{tstpTemplate}[2010/10/12 Template for TSTP Documentation]
+\ProvidesClass{ooplssTemplate}[2011/03/03 Template for OOPLSS Documentation]
 
 %% Load the book class with the following parameters:
 %% a4 paper, 10pt, two side pages, titlepage
 \DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{acrreprt}}
+\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
-%% Load book class
-%\LoadClass{scrbook} % report better for pdf 
+%% Load reprt class
+%\LoadClass{scrreprt} % report better for pdf 
 \LoadClass{scrreprt} % report better for pdf 
 
 %% Since here we can modify the macros of the loaded class
