@@ -12,23 +12,29 @@
 
 %% Load the book class with the following parameters:
 %% a4 paper, 10pt, two side pages, titlepage
-\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrbook}}
+\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrbook}}
+\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrbook}}
+%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrbook}}
+\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrbook}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
-%% Load reprt class
-%\LoadClass{scrreprt} % report better for pdf 
-\LoadClass{scrreprt} % report better for pdf 
+%% Load book class
+%\LoadClass{scrbook} % report better for pdf 
+\LoadClass{scrbook} % report better for pdf 
 
 %% Since here we can modify the macros of the loaded class
 %% (with \renewenvironment or \renewcommand!),
 %% load other packets or define new environements (\newenvironment).
 %\RequirePackage{remreset}
+
+%
+% Symbol Footnote without switch forth and back
+%
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
 
 %
 % Margin width
@@ -38,7 +44,7 @@
 %
 % Package for links (ref and cite), no box and blue
 % 
-\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage{hyperref}
 
 % Capital letter for autoref labels
 \def\subsectionautorefname{Subsection}
@@ -143,6 +149,7 @@
     \vspace*{4cm}
     \includegraphics[height=4\baselineskip]{imgs/logo}\\
         \Huge \@title\\
+        \huge \@subtitle\\
         \vspace{0.5cm}
         \normalsize 
         \@author\\
