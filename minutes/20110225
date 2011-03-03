@@ -2,65 +2,44 @@ No.:    01
 Date:   25.02.2011 11:00
 Place:  Dr. O. Biberstein's office
 
-Project Issues:
+Discussed Issues from last time:
 * Deliverables
-** Documentation
-*** Language Specification (Grammar, Type Rules, Evaluation, Translation)
-*** Code Documentation (is javadoc enought?)
-*** Evaluation Document with decisions
-*** Project Management
-**** Journal?
-**** Minutes?
-**** Use Cases?
-**** Rist Management
-**** Rules
-*** Requirement Document
-*** Test Document / Code
-*** Manual?
-** Parser
-** Compiler
-** Type Checker
+	- 3 Documents, one for the secretariat, one for the expert and one for the 
+	  advisor
+	- Should be a single document
+	- Includes the CD with all the project data on it
 
-* Iterations
-** Inception
-** Elaboration
-** Construction
-** Transition
+* Documentation 
+	- Should include some project managment (gantt diagramm), maybe a little
+	  journal
+	- The intro and conclusion are very important
+	- Abstract could be englisch *and* german
+	- It will be important to give good examples of subtyping and subclassing
+	  to distinguish those two concepts
+	- Documentation will also contain a part "Design documentation"
 
-* Steps
-** Invariant Type Systems
-** Subtyping / Inheritance
-** Subclassing / MyType
-** Matching
-** Generics with Matching
+* Expert meeting
+	- Some time during the semester there will be a meeting with the expert to 
+	  show him what we're doing
+	
+* Implementation
+	- It is up to us which languages we use to implement the different parts of
+	  the project, including the target language to compile to. It could also
+	  be possible to mix those languages
 
-* Software Parts
-** Grammar
-** Parser -> AST
-** Type Checking
-** Translation
 
-* Platform
-** Languages?
-*** Haskell? IO?
-*** Java? Antlr?
-** Evaluation depends on grammar tools
+Todo for next meeting
+* Outline of the documentation 
+* Schedule, as good as possible since this is not a usual development project
+* Decision, which kind of syntax style our language will have
 
-* Document Structure
-** Single Document
-** Multiple Documents
-*** incl. complilation
-** javadoc sufficient?
+Issues for next meeting
+* Virtual Methods
+* Multiple inheritance yes or no / interfaces?
 
-* Minutes
-** Only meetings with supervisor / experts or team meetings as well?
 
-* Design Questions
-** Language with immutable objects?
-** Virtual Methods?
-** Multiple Inheritance / Interfaces?
 
 Next meeting:
- Date:  
+ Date:  04.03.2011 11:00
  Place: Dr. O. Biberstein's office
 
