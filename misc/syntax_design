@@ -1,0 +1,36 @@
+// A class which is a subtype of C2 and a subclass of C3, C4,...
+class C1 extends C2 inherits C3, C4, ... {
+  var l1:T1;
+  var l2:T2;
+
+  // Constructor
+  def C1(v1:T1, v2:T2) = {
+    self.v1 = v1;
+    self.v2 = v2;
+  }
+
+  // Set method
+  def setL1(l1:T1):Unit = {
+    self.l1 = l1;
+  }
+
+  // Get method
+  def getL1():T1 = {
+    return self.l1;
+  }
+
+  // Calls inc on l1
+  def inc():Unit = {
+    self.l1.inc();
+  }
+
+  // Calls +(x:T2):T2  on l2
+  def add(l3:T1):Unit = {
+    self.l2.+(l3);
+  }
+
+  // Calls +(x:T2):T2  on l2 as well
+  def add(l3:T1):Unit = {
+    self.l2 + l3;
+  }
+}
