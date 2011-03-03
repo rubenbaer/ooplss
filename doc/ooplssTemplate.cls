@@ -148,10 +148,13 @@
     \begin{flushright}
     \vspace*{4cm}
     \includegraphics[height=4\baselineskip]{imgs/logo}\\
-        \Huge \@title\\
-        \huge \@subtitle\\
+        \sffamily{\bfseries{ \Huge \@title}}\\
+        %\vspace{0.2cm}
+        %\huge \@subtitle}\\
+        \vspace{0.6cm}
+        \normalsize \\
+        A Bachelor Thesis Presented to the Faculty of Engineering and Information Technology of the Bern University of Applied Sciences \\
         \vspace{0.5cm}
-        \normalsize 
         \@author\\
         \@date
         \vspace{0.5cm}
