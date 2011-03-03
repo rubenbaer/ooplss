@@ -3,3 +3,6 @@
 *.out
 *.aux
 *.log
+*.bbl
+*.blg
+imgs/logo.eps

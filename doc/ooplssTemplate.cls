@@ -8,16 +8,16 @@
 % Ruben Bär, Stefan Heinemann
 %**********************************************************************************
 \NeedsTeXFormat{LaTeX2e}\relax
-\ProvidesClass{tstpTemplate}[2010/10/12 Template for TSTP Documentation]
+\ProvidesClass{ooplssTemplate}[2011/03/03 Template for OOPLSS Documentation]
 
 %% Load the book class with the following parameters:
 %% a4 paper, 10pt, two side pages, titlepage
-\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{acrreprt}}
+\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
@@ -31,6 +31,12 @@
 %\RequirePackage{remreset}
 
 %
+% Symbol Footnote without switch forth and back
+%
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+%
 % Margin width
 %
 \usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
@@ -38,7 +44,7 @@
 %
 % Package for links (ref and cite), no box and blue
 % 
-\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage{hyperref}
 
 % Capital letter for autoref labels
 \def\subsectionautorefname{Subsection}
@@ -143,6 +149,7 @@
     \vspace*{4cm}
     \includegraphics[height=4\baselineskip]{imgs/logo}\\
         \Huge \@title\\
+        \huge \@subtitle\\
         \vspace{0.5cm}
         \normalsize 
         \@author\\
