@@ -14,10 +14,11 @@
 \usepackage{mathpartir}
 \usepackage{color}
 \usepackage{listings}
-\usepackage{hyperref}
 \usepackage{subfigure}
 \usepackage{listing}
 \usepackage{fancyvrb}
+\usepackage{gantt}
+\usepackage{lscape}
 
 \lstset{ %
 language=Java,                  % choose the language of the code
@@ -42,11 +43,11 @@ escapeinside={\%}{)}            % if you want to add a comment within your code
 % DOCUMENT CONTENT ------------------------------------------------
 \begin{document}
 
-\title{Bachelor Thesis\\
-Object-Oriented Language with Subtyping and Subclassing}
+\title{Bachelor Thesis}
+\subtitle{Object-Oriented Language with Subtyping and Subclassing}
 
-\author{Ruben Bär\footnote{\url{ruben.baer@codedump.ch}}\\
-Stefan Heinemann\footnote{\url{stefan.heinemann@codedump.ch}}}
+\author{Ruben Bär\symbolfootnote[1]{\href{mailto:ruben.baer@codedump.ch}{ruben.baer@codedump.ch}}\\
+Stefan Heinemann\symbolfootnote[2]{\href{mailto:stefan.heinemann@codedump.ch}{stefan.heinemann@codedump.ch}}}
 
 
 % Bern University of Applied Sciences - Engineering and Information Technology, Quellgasse 21, 2501 Biel, Switzerland
@@ -55,33 +56,33 @@ Stefan Heinemann\footnote{\url{stefan.heinemann@codedump.ch}}}
 
 \maketitle
 
-\input{abstract}
+\include{include/abstract}
 
 \thispagestyle{empty}
 
 \tableofcontents
 
-\include{introduction}
+\include{include/introduction}
+% estimated pages: 3
 
-\part{Project Management}
-\chapter{}
+\include{include/project-managment}
+% estimated page count: 10
 
-\part{Language Specification}
+\include{include/theoretical-background}
+% estimated pages: 7
 
-\part{Implementation}
-\chapter{Design}
-\chapter{Translation}
-\chapter{Algorithms}
-\chapter{Testing}
+\include{include/language-specification}
+% estimated pages: 40
 
-\part{User Guide}
+\include{include/implementation}
+% estimated pages: 38
 
-\appendix
-\part{Appendix}
+\include{include/discussion-and-conclusion}
+% estimated pages: 8
 
-\chapter{Conclusion}
+\include{include/appendix}
+% estimated pages: 
 
-\chapter{Tool Evaluations}
 
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bib/ooplss.bib}
