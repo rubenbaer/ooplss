@@ -1,6 +1,6 @@
 .PHONY: default clean distclean 
 SOURCE := ooplss.tex
-MPOSTSRC := oopls.mp
+MPOSTSRC := ooplss.mp
 TARGET := ooplss.pdf
 VIEWER := evince
 SHELL := /bin/bash
