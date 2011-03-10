@@ -111,9 +111,24 @@ restriction in subtyping this cannot be achieved by overriding the
 method with a more specific argument type. A similar problem is the
 method \emph{Object.equal: Object $\rightarrow$ Boolean} in Java. \\
 
-\section{Shizophrenic self-reference}
+\section{Schizophrenic self-reference}
+
+In objects there has to be some recursion variable that refers to the
+object itself. In some languages this is called \emph{self} or \emph{this}, in
+this explanation, the term self will be used to refer to this variable. \\
+
+This concept provides a problem when deriving the object: it is not
+quite clear to which object the self variable should refer after the derivation.
+In C++ and Java, the self-reference in inherited methods refers to the base
+object that was derived. This means that an object may contain many versions
+of self-references, which is called \emph{schizophrenic self-reference}. Other
+languages like Smalltalk and Eiffel treat the self-reference differently: they
+redirect the self-reference to the derived object. \\
+
+The main difference between the two concepts of subtyping and subclassing is
+\emph{when} the self-reference is fixed: in subtyping it is fixed before 
+combining the objects, in subclassing after the combination.
 
 
-% estimated pages: 4
 \chapter{Matching}
 % estimated pages: 2-3
