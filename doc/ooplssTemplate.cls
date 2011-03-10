@@ -12,18 +12,18 @@
 
 %% Load the book class with the following parameters:
 %% a4 paper, 10pt, two side pages, titlepage
-\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrbook}}
-\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrbook}}
-%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
+\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{acrreprt}}
+\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
-%% Load book class
-%\LoadClass{scrbook} % report better for pdf 
-\LoadClass{scrbook} % report better for pdf 
+%% Load reprt class
+%\LoadClass{scrreprt} % report better for pdf 
+\LoadClass{scrreprt} % report better for pdf 
 
 %% Since here we can modify the macros of the loaded class
 %% (with \renewenvironment or \renewcommand!),
