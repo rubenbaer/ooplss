@@ -148,7 +148,7 @@
     \begin{flushright}
     \vspace*{4cm}
     \includegraphics[height=4\baselineskip]{imgs/logo}\\
-        \sffamily{\bfseries{ \Huge \@title}}\\
+        \sffamily{\bfseries{ \Huge \@title}}%\\
         %\vspace{0.2cm}
         %\huge \@subtitle}\\
         \vspace{0.6cm}
