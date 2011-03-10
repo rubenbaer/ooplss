@@ -1,6 +1,5 @@
 .PHONY: default clean distclean 
-SOURCE := ooplss.tex
-MPOSTSRC := ooplss.mp
+SOURCE := ooplss#.tex
 TARGET := ooplss.pdf
 VIEWER := evince
 SHELL := /bin/bash
@@ -14,10 +13,10 @@ view: build
 build:
 	#if [[ -a "/usr/bin/rubber" ]]; then rubber -d $(SOURCE); else pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; fi 
 	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
-	mpost $(MPOSTSRC)
+	mpost $(SOURCE)
+	bibtex $(SOURCE) > /dev/null
 	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
-	# bibtex $(SOURCE) > /dev/null
-	# pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
+	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
 
 
 # cleans index, logs, temporary files etc. 
