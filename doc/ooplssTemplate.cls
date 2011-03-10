@@ -280,7 +280,7 @@
 \ifx\pdftexversion\undefined
 \usepackage[dvips]{graphicx}
 \else
-\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
 \DeclareGraphicsRule{*}{mps}{*}{}
 \fi
 
