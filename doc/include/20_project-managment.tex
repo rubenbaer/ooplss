@@ -1,24 +1,27 @@
 \part{Project Management}
 
-\chapter{Project Schedule}
 \begin{landscape}
+\chapter{Project Schedule}
 %http://www.martin-kumm.de/tex_gantt_package.php
-  \begin{gantt}{10}{17}
+  \begin{gantt}{12}{16}
     \begin{ganttitle}
-      \numtitle{1}{1}{17}{1}
+      \numtitle{1}{1}{16}{1}
     \end{ganttitle}
     \ganttbar{Kick-Off}{0}{2}
-    \ganttbarcon{Documentation Part I / II}{2}{2}
+    \ganttbarcon{Documentation Part I / II}{2}{3}
     \ganttbar{Grammar / Lexer}{3}{2}
-    \ganttbarcon{Parser}{5}{3}
+    \ganttbarcon{Types}{5}{2}
+    \ganttbar{Parser}{5}{3} % Con
     \ganttbar{Code Translation Definition}{6}{2}
-    \ganttbar{Symbol Table}{8}{3}
-    \ganttbarcon{Type Checker}{11}{4}
+    \ganttbar{Tree Walking}{8}{1}
+    \ganttbarcon{Symbol Table Construction}{9}{1}
+    \ganttbar{Type Checker}{9}{6} % Con
     \ganttbar{Code Translation}{11}{5}
     \ganttbar{Documentation}{0}{16}
     %\ganttcon{4}{4}{4}{6}
+    \ganttcon{5}{3}{5}{5}
+    \ganttcon{9}{7}{9}{9}
   \end{gantt}
 \end{landscape}
-
 
 \chapter{Journal}
