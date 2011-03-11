@@ -13,7 +13,7 @@ view: build
 build:
 	#if [[ -a "/usr/bin/rubber" ]]; then rubber -d $(SOURCE); else pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; pdflatex -interaction=nonstopmode $(SOURCE) >/dev/null; fi 
 	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
-	mpost $(SOURCE)
+	mpost $(SOURCE) > /dev/null
 	bibtex $(SOURCE) > /dev/null
 	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
 	pdflatex -interaction=nonstopmode $(SOURCE) > /dev/null
