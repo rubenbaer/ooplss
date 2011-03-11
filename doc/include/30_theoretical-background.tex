@@ -2,12 +2,18 @@
 \part{Theoretical Background}
 \chapter{Subtyping vs. Subclassing}
 In this chapter we want you to get familiar with the terms subtyping
-and subclassing and their differences.  \\
+and subclassing and their differences. The concept of subtyping is widely
+known through most modern object oriented languages like Java and C++. This
+chapter will first describe the drawbacks of this concept and later introduce
+the concept of subclassing to provide a solution to these problems. \\
 
 \section{Sharing types versus implementation}
-Although we are familiar with the term class in most modern object oriented
-programming languages like C++ and Java, these are actually types in the sense
-of subtyping theory. In these languages, the type hierarchy is directly linked
+Although the term \emph{class} is used in modern object oriented languages
+like Java and C++, the concept behind it is actually the concept of subtypes.
+%Although we are familiar with the term class in most modern object oriented
+%programming languages like C++ and Java, these are actually types in the sense
+%of subtyping theory. 
+In these languages, the type hierarchy is directly linked
 to the implementation hierarchy, in other words, inheritance automatically 
 creates a subtype. Of a theoretical point of view however, inheritance is merely
 a mechanism to reuse code in further specialisations of classes. This leads us
@@ -73,13 +79,14 @@ explained later.
 Another problem of the subtyping concept we nowadays have in most object 
 oriented languages is the problem of contravariance: the arguments of a method
 that is derived from a super type and overwrites the method in the super type
-can only have a wider or same argument type, but not a narrower one: 
+can only have a more general or same argument type, but not a more specific one: 
+
 \begin{figure}[H]
 \center
 \begin{emp}[classdiag](20, 20)
 
-Class.A("A")()("method(arg: T')");
-Class.B("B")()("method(arg: T)");
+Class.A("A")()("+method(arg: T')");
+Class.B("B")()("+method(arg: T)");
 
 B.e = A.w + (-20, 0);
 drawObjects(A, B);
@@ -90,25 +97,39 @@ link(inheritance)(B.e -- A.w);
 \label{fig:contravariance}
 \end{figure}
 
-This restriction makes perfectly sense for the type security in programming
-languages. For certain it leads to \cite{simons_theory_2003-1}
+This restriction makes perfectly sense for the type security in
+programming languages. For certain class constellations it leads to
+further problems though.
+
+Assuming there is a class \emph{Animal} that has the method \emph{mate} that takes 
+an argument of the type \emph{Animal} and returns a type \emph{Animal}. Intuitively,
+all other animal types would be derived from this type, like \emph{Dog} or
+\emph{Cat} which would have more specific arguments that accept only values of
+the type of itself, so that dogs can only mate with dogs and cats only
+with cats \cite{simons_theory_2003-1}. Because of the contravariance
+restriction in subtyping this cannot be achieved by overriding the
+method with a more specific argument type. A similar problem is the
+method \emph{Object.equal: Object $\rightarrow$ Boolean} in Java. \\
+
+\section{Schizophrenic self-reference}
+
+In objects there has to be some recursion variable that refers to the
+object itself. In some languages this is called \emph{self} or \emph{this}, in
+this explanation, the term self will be used to refer to this variable. \\
+
+This concept provides a problem when deriving the object: it is not
+quite clear to which object the self variable should refer after the derivation.
+In C++ and Java, the self-reference in inherited methods refers to the base
+object that was derived. This means that an object may contain many versions
+of self-references, which is called \emph{schizophrenic self-reference}. Other
+languages like Smalltalk and Eiffel treat the self-reference differently: they
+redirect the self-reference to the derived object. \\
+
+The main difference between the two concepts of subtyping and subclassing is
+\emph{when} the self-reference is fixed: in subtyping it is fixed before 
+combining the objects, in subclassing after the combination.
 
 
-
---
-A type is closed in the sense of being complete whereas a class is open ended
-in the sense of being subject to arbitrary subdivision and further 
-specialisation.
-
-class is a type family
-
-Obligations for subtype methods
-
-problem of recursive closure  java example with object.equal
-
-modern oo languages type hierarchy is directly linked to implementation hierarchy
-
-% estimated pages: 4
 \chapter{Matching}
 % estimated pages: 2-3
 Subtyping is one of the most fundamental property in object-oriented languages
