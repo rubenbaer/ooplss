@@ -2,10 +2,14 @@
 \part{Theoretical Background}
 \chapter{Subtyping vs. Subclassing}
 In this chapter we want you to get familiar with the terms subtyping
-and subclassing and their differences. The concept of subtyping is widely
-known through most modern object oriented languages like Java and C++. This
-chapter will first describe the drawbacks of this concept and later introduce
-the concept of subclassing to provide a solution to these problems. \\
+and subclassing and their differences. Both concepts exist in some of
+the widely known object oriented programming languages like Java or C++, but are
+usually mixed up.
+
+%The concept of subtyping is widely
+%known through most modern object oriented languages like Java and C++. This
+%chapter will first describe the drawbacks of this concept and later introduce
+%the concept of subclassing to provide a solution to these problems. \\
 
 \section{Sharing types versus implementation}
 Although the term \emph{class} is used in modern object oriented languages
@@ -65,15 +69,20 @@ link(inheritance)(RectangleR.n -- SquareR.s);
 \label{fig:implementationConflict}
 \end{figure}
 
-The left hierarchy expresses the conceptual family: A Circle is a special
-kind of an Ellipse, so is Square of a Rectangle, and these are all a Shape.
-The hierarchy on the right however shows how one could derive properties and 
-add variables or methods to the type. The Circle on the left, however, does
-not actually ''extend`` the Ellipse, since it does not add properties, instead
-it rather removes the property of having two radii. The right hierarchy in return
-is conceptual nonsense, since a Circle is not a kind of Point. Because of that,
-we want to use extended concepts of classification and typing, which will be
-explained later.
+The left hierarchy expresses the conceptual family: A Circle is a
+special kind of an Ellipse, so is Square of a Rectangle, and these are
+all a Shape.  The hierarchy on the right however shows how one could
+derive properties and add variables or methods to the type. The Circle
+on the left, however, does not actually ''extend`` the Ellipse, since
+it does not add properties, instead it rather removes the property of
+having two radii. The right hierarchy in return is conceptual nonsense,
+since a Circle is not a kind of Point but makes perfectly sense in the point
+of view that code (in this case the x and y fields) are reused. Because of 
+that, inheritance (and reuse) of code and subtyping should be treated 
+differently.
+
+%we want to use extended concepts of classification and typing, which will be
+%explained later.
 
 \section{Problem of recursive closure}
 Another problem of the subtyping concept we nowadays have in most object 
@@ -101,15 +110,27 @@ This restriction makes perfectly sense for the type security in
 programming languages. For certain class constellations it leads to
 further problems though.
 
-Assuming there is a class \emph{Animal} that has the method \emph{mate} that takes 
-an argument of the type \emph{Animal} and returns a type \emph{Animal}. Intuitively,
-all other animal types would be derived from this type, like \emph{Dog} or
-\emph{Cat} which would have more specific arguments that accept only values of
-the type of itself, so that dogs can only mate with dogs and cats only
-with cats \cite{simons_theory_2003-1}. Because of the contravariance
-restriction in subtyping this cannot be achieved by overriding the
-method with a more specific argument type. A similar problem is the
-method \emph{Object.equal: Object $\rightarrow$ Boolean} in Java. \\
+Assuming there is a class \emph{Animal} that has the method \emph{mate}
+that takes an argument of the type \emph{Animal} and returns a
+type \emph{Animal}. Intuitively, all other animal types would be
+derived from this type, like \emph{Dog} or \emph{Cat} which would
+have more specific arguments that accept only values of the type of
+itself, so that dogs can only mate with dogs and cats only with cats
+\cite{simons_theory_2003-1}. Because of the contravariance restriction
+in subtyping this cannot be achieved by overriding the method with
+a more specific argument type. 
+
+A similar problem is the method
+\emph{Object.equals: Object $\rightarrow$ Boolean} in Java. The class
+\emph{Object} has an implementation of the equals method that takes
+an argument of the type \emph{Object}. All objects automatically are
+of the type \emph{Object} in Java.  Because of the constraint of 
+contravariance, it is not possible to override this method with a 
+more specific argument type since it does not make sense to compare
+two objects of different types. Instead, if the programmer wants to implement
+a new version of this method, he has to use instanceof to check whether the
+given object is of the same type. A much more elegant solution would be
+to let the type system of the programming language do the checking.\\
 
 \section{Schizophrenic self-reference}
 
@@ -124,6 +145,70 @@ object that was derived. This means that an object may contain many versions
 of self-references, which is called \emph{schizophrenic self-reference}. Other
 languages like Smalltalk and Eiffel treat the self-reference differently: they
 redirect the self-reference to the derived object. \\
+
+An example of shizophrenic self-reference could be a two dimensional
+vector type \emph{Vec2D} which has two coordinates and the methods
+\emph{identity} and \emph{equals}. The identity method returns the
+reference to the object itself and the equals method compares two objects
+of this type. It therefore takes an argument of the type \emph{Vec2D}. Assuming
+there is a subtype \emph{Vec3D} that inherits all these methods, adds a z
+coordinate and overrides the equals method. Let us further assume that the rule
+of contravariance does not apply here. Clearly the equals method of \emph{Vec3D}
+takes an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing} 
+shows this constellation (in pseudo-code):
+
+\begin{figure}[H]
+\begin{lstlisting}
+class Vec2D {
+	int x,y;
+
+	Vec2D identity() {
+		return self;
+	}
+
+	bool equals(Vec2D vec) {
+		return vec.x == self.x && vec.y == self.y;
+	}
+}
+
+class Vec3D extends Vec2D {
+	int z;
+
+	bool equals(Vec2D vec) {
+		return vec.x == self.x && vec.y == self.y && vec.z == self.z;
+	}
+}
+\end{lstlisting}
+\caption{An example of schizophrenic self-reference}
+\label{fig:schizoListing}
+\end{figure}
+
+In the derived class \emph{Vec3D} the self reference in the equals 
+method refers to a \emph{Vec3D} object while the one in identity
+refers to a \emph{Vec2D} object. This is why an instance of the class
+\emph{Vec3D} would be schizophrenic.
+
+%Figure \ref{fig:schizoReferences} 
+%depicts this constellation.\\
+
+%\begin{figure}[H]
+%\center
+%\begin{emp}[classdiag](20, 20)
+%
+%Class.TwoDim("Vec2D")("x,y: Integer")("identity(): Vec2D", "equals(Vec2D): Boolean");
+%Class.ThreeDim("Vec3D")("x,y, z: Integer")("identity(): Vec2D", "equals(Vec3D): Boolean");
+%
+%ThreeDim.e = TwoDim.w + (-20, 0);
+%
+%drawObjects(TwoDim, ThreeDim);
+%link(inheritance)(ThreeDim.e -- TwoDim.w);
+%
+%\end{emp}
+%\caption{The problem of schizophrenic self-references}
+%\label{fig:schizoReferences}
+%\end{figure}
+%
+
 
 The main difference between the two concepts of subtyping and subclassing is
 \emph{when} the self-reference is fixed: in subtyping it is fixed before 
