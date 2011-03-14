@@ -1,0 +1,32 @@
+No.:    02
+Date:   04.03.2011 11:00
+Place:  Dr. O. Biberstein's office
+
+Discussed Issues from last time:
+* Project Schedule
+  - We should use more time for the formal definition of our language
+  - The same with the type checking algorithms. This task should not be underestimated
+
+* Documentation 
+  - We use a iterative development model without concrete iterations.
+    
+
+* Expert meeting
+  - Meeting before easter break.
+  - Duration will be from 30 minutes up to one hour
+  - Short presentation what we are doing
+  - It's not a defense
+  - Send the current document in front of the meeting
+	
+* Content
+  - Use many examples in different languages (Especially in the theoretical background chapter)
+    - Java, C#, Scala, C++, Haskell...
+
+Todo for next meeting
+* Schedule, as good as possible since this is not a usual development project
+* Decision, which kind of syntax style our language will have
+
+Next meeting:
+ Date:  11.03.2011 11:30
+ Place: Dr. O. Biberstein's office
+
