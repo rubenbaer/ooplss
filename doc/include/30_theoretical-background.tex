@@ -6,23 +6,24 @@ and subclassing and their differences. Both concepts exist in some of
 the widely known object oriented programming languages like Java or C++, but are
 usually mixed up.
 
-%The concept of subtyping is widely
-%known through most modern object oriented languages like Java and C++. This
-%chapter will first describe the drawbacks of this concept and later introduce
-%the concept of subclassing to provide a solution to these problems. \\
-
 \section{Sharing types versus implementation}
-Although the term \emph{class} is used in modern object oriented languages
-like Java and C++, the concept behind it is actually the concept of subtypes.
-%Although we are familiar with the term class in most modern object oriented
-%programming languages like C++ and Java, these are actually types in the sense
-%of subtyping theory. 
-In these languages, the type hierarchy is directly linked
-to the implementation hierarchy, in other words, inheritance automatically 
-creates a subtype. Of a theoretical point of view however, inheritance is merely
-a mechanism to reuse code in further specialisations of classes. This leads us
-to the first conflict: sharing types vs. the implementation. To understand this
-have a look at example \ref{fig:implementationConflict} \cite{simons_theory_2003-4}: % reference to simons?
+\label{sec:sharingTypes}
+
+Although the term \emph{class} is used in modern object oriented
+languages like Java and C++, the concept behind it is actually the
+concept of subtypes.  The word type is in the sense of data type, such
+as integer, boolean etc., but could also be extended types like objects
+in object oriented languages. They determine the way data is stored and
+what operations can be done on them.
+
+In object oriented languages like Java and C++, the type hierarchy
+is directly linked to the implementation hierarchy, in other words,
+inheritance automatically creates a subtype. Of a theoretical point
+of view however, inheritance is merely a mechanism to reuse code in
+further specialisations of classes. This leads us to the first conflict:
+sharing types vs. the implementation. To understand this have a look at
+example \ref{fig:implementationConflict} \cite{simons_theory_2003-4}:
+% reference to simons?
 
 \begin{figure}[H]
 \center
@@ -69,25 +70,21 @@ link(inheritance)(RectangleR.n -- SquareR.s);
 \label{fig:implementationConflict}
 \end{figure}
 
-The left hierarchy expresses the conceptual family: A Circle is a
-special kind of an Ellipse, so is Square of a Rectangle, and these are
-all a Shape.  The hierarchy on the right however shows how one could
-derive properties and add variables or methods to the type. The Circle
-on the left, however, does not actually ''extend`` the Ellipse, since
-it does not add properties, instead it rather removes the property of
-having two radii. The right hierarchy in return is conceptual nonsense,
-since a Circle is not a kind of Point but makes perfectly sense in the point
-of view that code (in this case the x and y fields) are reused. Because of 
-that, inheritance (and reuse) of code and subtyping should be treated 
-differently.
-
-%we want to use extended concepts of classification and typing, which will be
-%explained later.
+The left hierarchy expresses the conceptual family: A \emph{Circle}
+is a special kind of an \emph{Ellipse}, so is \emph{Square} of
+a \emph{Rectangle}. These objects do not actually ''extend`` their
+parents though, instead, they rather remove properties. For instance, the
+\emph{Circle} removes the property of having two radii.  The hierarchy on
+the right on the other hand is conceptual nonsense. It shows, however,
+how one could want to derive and reuse code, in this case the x and
+y coordinates. Because of that, inheritance (and reuse) of code and
+subtyping should be treated differently.
 
 \section{Problem of recursive closure}
+\label{sec:recursiveClosure}
 Another problem of the subtyping concept we nowadays have in most object 
 oriented languages is the problem of contravariance: the arguments of a method
-that is derived from a super type and overwrites the method in the super type
+that is derived  and overwrites the same method in the super type
 can only have a more general or same argument type, but not a more specific one: 
 
 \begin{figure}[H]
@@ -107,55 +104,88 @@ link(inheritance)(B.e -- A.w);
 \end{figure}
 
 This restriction makes perfectly sense for the type security in
-programming languages. For certain class constellations it leads to
+programming languages. For certain class constellations, it leads to
 further problems though.
 
 Assuming there is a class \emph{Animal} that has the method \emph{mate}
-that takes an argument of the type \emph{Animal} and returns a
-type \emph{Animal}. Intuitively, all other animal types would be
-derived from this type, like \emph{Dog} or \emph{Cat} which would
-have more specific arguments that accept only values of the type of
-itself, so that dogs can only mate with dogs and cats only with cats
-\cite{simons_theory_2003-1}. Because of the contravariance restriction
-in subtyping this cannot be achieved by overriding the method with
-a more specific argument type. 
+that takes an argument of the type \emph{Animal} and returns a type
+\emph{Animal}. Intuitively, all other animal types would be derived
+from this type, like \emph{Dog} or \emph{Cat} which would have more
+specific arguments that accept only values of the type of itself,
+so that dogs can only mate with dogs and cats only with cats (figure
+\ref{fig:animalContravariance}) \cite{simons_theory_2003-1}. Because of
+the contravariance restriction in subtyping this cannot be achieved by
+overriding the method with a more specific argument type.
 
-A similar problem is the method
-\emph{Object.equals: Object $\rightarrow$ Boolean} in Java. The class
-\emph{Object} has an implementation of the equals method that takes
-an argument of the type \emph{Object}. All objects automatically are
-of the type \emph{Object} in Java.  Because of the constraint of 
-contravariance, it is not possible to override this method with a 
-more specific argument type since it does not make sense to compare
-two objects of different types. Instead, if the programmer wants to implement
-a new version of this method, he has to use instanceof to check whether the
-given object is of the same type. A much more elegant solution would be
-to let the type system of the programming language do the checking.\\
+\begin{figure}[H]
+\center
+\begin{emp}[classdiag](20, 20)
+
+Class.Animal("Animal")()("mate(Animal): Animal");
+Class.Dog("Dog")()("mate(Dog): Dog");
+Class.Cat("Cat")()("mate(Cat): Cat");
+
+Dog.ne = Animal.s + (-20, -20);
+Cat.nw = Animal.s + (20, -20);
+
+drawObjects(Animal, Dog, Cat);
+link(inheritance)(Dog.n -- Animal.s);
+link(inheritance)(Cat.n -- Animal.s);
+
+\end{emp}
+\caption{The arguments are more specific, which is not allowed because of the contravariance rule}
+\label{fig:animalContravariance}
+\end{figure}
+
+A similar problem arises in the method \emph{Object.equals: Object
+$\rightarrow$ Boolean}\footnote{For those not familiar with this
+notation: Object.equals: Object $\rightarrow$ Boolean means that
+the equals method/function takes an Object and returns a Boolean}
+in Java. The class \emph{Object} has an implementation of the equals
+method that takes an argument of the type \emph{Object}. All objects
+automatically are of the type \emph{Object} in Java.  Because of the
+constraint of contravariance, it is not possible to override this method
+with a more specific argument type which would be reasonable since it does
+not make any sense to compare two objects of different types. Instead,
+if the programmer wants to implement a new version of this method, he
+has to use instanceof to check whether the given object is of the same
+type. A much more elegant solution would be to let the type system of
+the programming language do the checking.\\
 
 \section{Schizophrenic self-reference}
+\label{sec:schizoReferences}
 
 In objects there has to be some recursion variable that refers to the
-object itself. In some languages this is called \emph{self} or \emph{this}, in
+object itself, to be able to call methods or use values on self . 
+In some languages this is called \emph{self} or \emph{this}, in
 this explanation, the term self will be used to refer to this variable. \\
 
-This concept provides a problem when deriving the object: it is not
-quite clear to which object the self variable should refer after the derivation.
-In C++ and Java, the self-reference in inherited methods refers to the base
-object that was derived. This means that an object may contain many versions
-of self-references, which is called \emph{schizophrenic self-reference}. Other
-languages like Smalltalk and Eiffel treat the self-reference differently: they
-redirect the self-reference to the derived object. \\
+There are two main cases when recursion occurs:
+\begin{enumerate}
+\item When a method accesses methods or properties of the self object
+\item When a method has arguments or return values of the same type as the object
+\end{enumerate}
+
+The first case is problematic when objects are derived: it is not quite
+clear to which object the self variable should refer after the derivation.
+In C++ and Java, the self-reference in inherited methods refers to the
+base object that was derived. This means that an object may contain
+many versions of self-references, which is called \emph{schizophrenic
+self-reference}. Other languages like Smalltalk and Eiffel treat the
+self-reference differently: they redirect the self-reference to the
+derived object. \\
 
 An example of shizophrenic self-reference could be a two dimensional
 vector type \emph{Vec2D} which has two coordinates and the methods
 \emph{identity} and \emph{equals}. The identity method returns the
-reference to the object itself and the equals method compares two objects
-of this type. It therefore takes an argument of the type \emph{Vec2D}. Assuming
-there is a subtype \emph{Vec3D} that inherits all these methods, adds a z
-coordinate and overrides the equals method. Let us further assume that the rule
-of contravariance does not apply here. Clearly the equals method of \emph{Vec3D}
-takes an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing} 
-shows this constellation (in pseudo-code):
+reference to the object itself and the equals method compares two
+objects of this type. It therefore takes an argument of the type
+\emph{Vec2D}. Assuming there is a subtype \emph{Vec3D} that inherits
+all these methods, adds a z coordinate and overrides the equals
+method. Let us further assume that the rule of contravariance does not
+apply here. Clearly the equals method of \emph{Vec3D} takes an argument
+of the type \emph{vec3D}. Listing \ref{fig:schizoListing} shows this
+constellation (in pseudo-code):
 
 \begin{figure}[H]
 \begin{lstlisting}
@@ -188,31 +218,30 @@ method refers to a \emph{Vec3D} object while the one in identity
 refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
 
-%Figure \ref{fig:schizoReferences} 
-%depicts this constellation.\\
+This is how the fixation of self-references is done in the subtyping
+concept: before the combination (i.e. inheritance) of the objects. In the
+concept of subclassing however, it is done after the combination.
 
-%\begin{figure}[H]
-%\center
-%\begin{emp}[classdiag](20, 20)
-%
-%Class.TwoDim("Vec2D")("x,y: Integer")("identity(): Vec2D", "equals(Vec2D): Boolean");
-%Class.ThreeDim("Vec3D")("x,y, z: Integer")("identity(): Vec2D", "equals(Vec3D): Boolean");
-%
-%ThreeDim.e = TwoDim.w + (-20, 0);
-%
-%drawObjects(TwoDim, ThreeDim);
-%link(inheritance)(ThreeDim.e -- TwoDim.w);
-%
-%\end{emp}
-%\caption{The problem of schizophrenic self-references}
-%\label{fig:schizoReferences}
-%\end{figure}
-%
+\section{Subclassing}
 
+The goal of the concept of subclassing is now to provide a somewhat
+different kind of inheritance. With this inheritance, the programmer should
+be able to inherit code without automatically creating a subtype. 
+\marginpar{Mention here that our programming language will support both?}
+This solves the problem described in section \ref{sec:sharingTypes}. Since
+subclassing does not create subtypes, the restriction of contravariance, 
+described in section \ref{sec:recursiveClosure}, is of no relevancy
+anymore. And as already mentioned, the fixation of the self
+references and types is done after the inheritance, so there will be no
+schizophrenic self-references as described in case 1 in 
+\ref{sec:schizoReferences}. \\
 
-The main difference between the two concepts of subtyping and subclassing is
-\emph{when} the self-reference is fixed: in subtyping it is fixed before 
-combining the objects, in subclassing after the combination.
+In subclassing however, the question rises: how should return values
+and arguments be typed (see case 2 in \ref{sec:schizoReferences}) when
+defining the methods and fields, since the programmer is not able to know
+of what type the subclass will be. This is why there has to be some sort
+of placeholder for such cases: the \emph{MyType}. The MyType placeholder
+is then substituted with the current type after the inheritance.
 
 
 \chapter{Matching}
@@ -223,3 +252,5 @@ in todays ....
 \section{Matching as F-Bounded Subtyping}
 
 \section{Matching as Higher-Order Subtyping}
+
+
