@@ -4,6 +4,7 @@
   <property name="build" location="build" />
   <property name="dist" location="dist" />
   <property name="grammar" location="grammar" />
+  <property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
   <property name="lib" location="lib"/>
   <property name="antAntlr" location="${lib}/ant-antlr3.jar" />
 
@@ -19,9 +20,11 @@
   </target>
 
   <target name="build-grammar">
-    <echo>${toString:classpath}</echo>
+    <mkdir dir="${antlrOutput}" />
     <ant-antlr3
-      target="${grammar}/ooplss.g">
+      target="${grammar}/ooplss.g"
+      verbose="true"
+      outputdirectory="${antlrOutput}">
       <classpath refid="classpath" />
     </ant-antlr3>
   </target>
