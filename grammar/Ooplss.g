@@ -1,4 +1,4 @@
-grammar ooplss;
+grammar Ooplss;
 
 @header {
 package ch.codedump.ooplss.antlr;
@@ -15,13 +15,13 @@ classDec
 			( 'extends' ID )?
 			( 'inherits' ID (',' ID)* )?
 			'{' classBody '}'
-	;
+		;
 	
 classBody
-	:	
-		
-	;
+		:
+			
+		;
 	
-ID	:	 ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+ID		:	 ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 
