@@ -2,6 +2,7 @@
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -50,11 +51,16 @@
 =======
 =======
 >>>>>>> Ant: Simple build file
+=======
+>>>>>>> Ant: Simple build file
   <property name="src" location="src" />
   <property name="build" location="build" />
   <property name="dist" location="dist" />
   <property name="grammar" location="grammar" />
+<<<<<<< HEAD
   <property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
+=======
+>>>>>>> Ant: Simple build file
   <property name="lib" location="lib"/>
   <property name="antAntlr" location="${lib}/ant-antlr3.jar" />
 
@@ -70,6 +76,7 @@
   </target>
 
   <target name="build-grammar">
+<<<<<<< HEAD
     <mkdir dir="${antlrOutput}" />
     <ant-antlr3
       target="${grammar}/ooplss.g"
@@ -81,6 +88,14 @@
 <<<<<<< HEAD
 >>>>>>> Ant: Simple build file
 =======
+>>>>>>> Ant: Simple build file
+=======
+    <echo>${toString:classpath}</echo>
+    <ant-antlr3
+      target="${grammar}/ooplss.g">
+      <classpath refid="classpath" />
+    </ant-antlr3>
+  </target>
 >>>>>>> Ant: Simple build file
 
 </project>
