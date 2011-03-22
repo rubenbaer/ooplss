@@ -237,11 +237,12 @@ schizophrenic self-references as described in case 1 in
 \ref{sec:schizoReferences}. \\
 
 In subclassing however, the question rises: how should return values
-and arguments be typed (see case 2 in \ref{sec:schizoReferences}) when
-defining the methods and fields, since the programmer is not able to know
-of what type the subclass will be. This is why there has to be some sort
-of placeholder for such cases: the \emph{MyType}. The \emph{MyType} placeholder
-is then substituted with the current type after the inheritance.
+and arguments be typed (see case 2 in \ref{sec:schizoReferences})
+when defining the methods and fields, since the programmer is not able
+to know of what type the subclass will be. This is why there has to
+be some sort of placeholder for such cases: the \emph{MyType}. The
+\emph{MyType} placeholder is then substituted with the current type
+after the inheritance.
 
 
 \chapter{Matching}
@@ -265,10 +266,47 @@ subtyping extends simple subtyping with parametrisation which is as
 \emph{matching} as higher-order subtyping with better properties in
 reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
+
+
+\begin{figure}
+\begin{lstlisting}
+class Max {
+  n:Number;
+
+  max(other:MyType):MyType {
+    if (other.n > self.n)
+      return other;
+    return self;
+  }
+}
+
+class MinMax {
+  n:Number;
+
+  max(other:MyType):MyType {
+    if (other.n > self.n)
+      return other;
+    return self;
+  }
+
+  min(other:MyType):MyType {
+    if (other.n > self.n)
+      return self;
+    return other;
+  }
+}
+\end{lstlisting}
+\caption{Incompatible subtyping with contravariant parameters}
+\label{fig:minmax-example}
+\end{figure}
+
 \section{Protocol}
+
+\section{Type Operators}
 
 \section{Matching as F-Bounded Subtyping}
 
 \section{Matching as Higher-Order Subtyping}
 
+\section{Example with Matching}
 
