@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -47,6 +48,8 @@
 		</ant-antlr3>
 	</target>
 =======
+=======
+>>>>>>> Ant: Simple build file
   <property name="src" location="src" />
   <property name="build" location="build" />
   <property name="dist" location="dist" />
@@ -72,6 +75,9 @@
       <classpath refid="classpath" />
     </ant-antlr3>
   </target>
+<<<<<<< HEAD
+>>>>>>> Ant: Simple build file
+=======
 >>>>>>> Ant: Simple build file
 
 </project>
