@@ -116,7 +116,7 @@
     <mkdir dir="${antlrOutput}" />
 >>>>>>> Ant: ANTLR Output changed
     <ant-antlr3
-      target="${grammar}/ooplss.g"
+      target="${grammar}/Ooplss.g"
       verbose="true"
       outputdirectory="${antlrOutput}">
       <classpath refid="classpath" />
