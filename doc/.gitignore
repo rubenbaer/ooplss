@@ -8,3 +8,5 @@
 *.mp
 *.1
 imgs/logo.eps
+ooplss.*
+!ooplss.tex
