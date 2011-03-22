@@ -5,6 +5,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Src/Grammar: Simple grammar, simple test
 =======
 >>>>>>> Src/Grammar: Simple grammar, simple test
 	<property name="src" location="src" />
@@ -52,6 +55,7 @@
 			<classpath refid="classpath" />
 		</ant-antlr3>
 	</target>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -136,6 +140,8 @@
     </ant-antlr3>
   </target>
 >>>>>>> Ant: Simple build file
+=======
+>>>>>>> Src/Grammar: Simple grammar, simple test
 =======
 >>>>>>> Src/Grammar: Simple grammar, simple test
 
