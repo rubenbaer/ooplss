@@ -63,6 +63,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
 =======
 >>>>>>> Ant: Simple build file
@@ -71,6 +72,9 @@
 >>>>>>> Ant: ANTLR Output changed
 =======
 >>>>>>> Ant: Simple build file
+=======
+  <property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
+>>>>>>> Ant: ANTLR Output changed
   <property name="lib" location="lib"/>
   <property name="antAntlr" location="${lib}/ant-antlr3.jar" />
 
@@ -89,6 +93,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <mkdir dir="${antlrOutput}" />
     <ant-antlr3
       target="${grammar}/ooplss.g"
@@ -116,8 +121,13 @@
 >>>>>>> Ant: Simple build file
 =======
     <echo>${toString:classpath}</echo>
+=======
+    <mkdir dir="${antlrOutput}" />
+>>>>>>> Ant: ANTLR Output changed
     <ant-antlr3
-      target="${grammar}/ooplss.g">
+      target="${grammar}/ooplss.g"
+      verbose="true"
+      outputdirectory="${antlrOutput}">
       <classpath refid="classpath" />
     </ant-antlr3>
   </target>
