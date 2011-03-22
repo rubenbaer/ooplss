@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
-  <property name="src" location="src" />
-  <property name="build" location="build" />
-  <property name="dist" location="dist" />
-  <property name="grammar" location="grammar" />
-  <property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
-  <property name="lib" location="lib"/>
-  <property name="antAntlr" location="${lib}/ant-antlr3.jar" />
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="grammar" location="grammar" />
+	<property name="antlrOutput" location="${src}/ch/codedump/ooplss/antlr" />
+	<property name="lib" location="lib"/>
+	<property name="antAntlr" location="${lib}/ant-antlr3.jar" />
 
-  <taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
-    classpath="${antAntlr}" />
+	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
+		classpath="${antAntlr}" />
 
-  <path id="classpath">
-    <fileset dir="${lib}" includes="**/*.jar" />
-  </path>
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+		<pathelement path="${build}" />
+	</path>
 
-  <target name="build">
-    <antcall target="build-grammar" />
-  </target>
+	<target name="build">
+		<antcall target="build-grammar" />
+		<antcall target="build-src" />
+	</target>
 
-  <target name="build-grammar">
-    <mkdir dir="${antlrOutput}" />
-    <ant-antlr3
-      target="${grammar}/Ooplss.g"
-      verbose="true"
-      outputdirectory="${antlrOutput}">
-      <classpath refid="classpath" />
-    </ant-antlr3>
-  </target>
+	<target name="build-src">
+		<mkdir dir="${build}" />
+		<javac srcdir="src/" destdir="${build}" >
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+
+	<!-- the simple test, do not include it in the overall build -->
+	<target name="simple-test" depends="build-src">
+		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="build-grammar">
+		<mkdir dir="${antlrOutput}" />
+		<ant-antlr3
+			target="${grammar}/Ooplss.g"
+			verbose="true"
+			outputdirectory="${antlrOutput}">
+			<classpath refid="classpath" />
+		</ant-antlr3>
+	</target>
 
 </project>

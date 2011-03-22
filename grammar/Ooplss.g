@@ -8,7 +8,7 @@ package ch.codedump.ooplss.antlr;
 package ch.codedump.ooplss.antlr;
 }
 
-prog	:	 classDec+;
+prog		:	 classDec+;
 
 classDec	
 		:	'class' ID
@@ -22,6 +22,7 @@ classBody
 			
 		;
 	
-ID		:	 ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-
+ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+NEWLINE		:	'\r'? '\n';
+WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 
