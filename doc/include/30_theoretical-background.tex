@@ -240,14 +240,32 @@ In subclassing however, the question rises: how should return values
 and arguments be typed (see case 2 in \ref{sec:schizoReferences}) when
 defining the methods and fields, since the programmer is not able to know
 of what type the subclass will be. This is why there has to be some sort
-of placeholder for such cases: the \emph{MyType}. The MyType placeholder
+of placeholder for such cases: the \emph{MyType}. The \emph{MyType} placeholder
 is then substituted with the current type after the inheritance.
 
 
 \chapter{Matching}
 % estimated pages: 2-3
-Subtyping is one of the most fundamental property in object-oriented languages
-in todays ....
+\begin{quotation}
+"the same as subtyping in the absence of the \emph{MyType}
+construct, but differs in the presence of \emph{MyType}, because
+\emph{MyType} implicitly has different meanings in different types." -
+\cite{bruce_foundations_2002}
+\end{quotation}
+
+Subtyping is one of the most fundamental and most well known relation
+between recursive types in today's programming languages. In languages
+where subclasses not implicitly define subtypes a more general
+relation is needed - \emph{matching} - which is weaker and does
+not support subsumption. Originally \emph{matching} was proposed
+as F-bounded subtyping \cite{canning_f-bounded_1989}. F-bounded
+subtyping extends simple subtyping with parametrisation which is as
+\emph{generics} in well known programming languages like Java or \CS
+\cite{barron-estrada_inheritance_2003}. An other interpretation of
+\emph{matching} as higher-order subtyping with better properties in
+reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
+
+\section{Protocol}
 
 \section{Matching as F-Bounded Subtyping}
 
