@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
+<<<<<<< HEAD
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -45,5 +46,32 @@
 			<classpath refid="classpath" />
 		</ant-antlr3>
 	</target>
+=======
+  <property name="src" location="src" />
+  <property name="build" location="build" />
+  <property name="dist" location="dist" />
+  <property name="grammar" location="grammar" />
+  <property name="lib" location="lib"/>
+  <property name="antAntlr" location="${lib}/ant-antlr3.jar" />
+
+  <taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
+    classpath="${antAntlr}" />
+
+  <path id="classpath">
+    <fileset dir="${lib}" includes="**/*.jar" />
+  </path>
+
+  <target name="build">
+    <antcall target="build-grammar" />
+  </target>
+
+  <target name="build-grammar">
+    <echo>${toString:classpath}</echo>
+    <ant-antlr3
+      target="${grammar}/ooplss.g">
+      <classpath refid="classpath" />
+    </ant-antlr3>
+  </target>
+>>>>>>> Ant: Simple build file
 
 </project>
