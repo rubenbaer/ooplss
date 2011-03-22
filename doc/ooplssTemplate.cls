@@ -280,6 +280,15 @@
 \usepackage{amssymb}
 \usepackage{emp}
 
+% define \mysharp using the arev package
+\usepackage{arev}
+\newsavebox{\sharpbox}
+\sbox{\sharpbox}{$\sharp$}
+\newcommand{\CS}{C\usebox{\sharpbox}}
+
+% switch back to Latin Modern
+\usepackage{lmodern}
+
 % this is apparently used for the metauml stuff
 \ifx\pdftexversion\undefined
 \usepackage[dvips]{graphicx}
