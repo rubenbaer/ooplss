@@ -21,6 +21,7 @@
 \usepackage{lscape}
 \usepackage{tocbasic}
 \usepackage{pdfpages}
+\usepackage{longtable}
 
 \lstset{ %
 language=Java,                  % choose the language of the code
@@ -62,6 +63,8 @@ escapeinside={\%}{)}            % if you want to add a comment within your code
 input metauml;
 \end{empcmds}
 
+\pagenumbering{roman}
+
 \title{Object-Oriented Language with Subtyping and Subclassing}
 \subtitle{Bachelor Thesis 2011}
 
@@ -84,6 +87,9 @@ input metauml;
 
 \tableofcontents
 
+\newpage
+\pagenumbering{arabic}
+
 \include{include/10_introduction}
 % estimated pages: 3
 
@@ -102,12 +108,11 @@ input metauml;
 \include{include/60_discussion-and-conclusion}
 % estimated pages: 8
 
-\include{include/70_appendix}
-% estimated pages: 
-
-
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bib/ooplss,bib/simons}
+
+\include{include/70_appendix}
+% estimated pages: 
 
 \end{empfile}
 \end{document}

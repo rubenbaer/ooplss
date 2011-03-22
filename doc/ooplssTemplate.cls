@@ -101,7 +101,6 @@
 \renewcommand{\nomname}{Glossary}
 \renewcommand{\nomlabel}[1]{\textbf{#1}}
 
-
 %
 % formatting the captions
 %
@@ -153,7 +152,7 @@
         \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
         \normalsize \\
-        A Bachelor Thesis Presented to the Division of Computer Science of the Department of Engineering and Information Technology of the Bern University of Applied Sciences \\
+        A Bachelor Thesis presented to the Division of Computer Science;\\ Department of Engineering and Information Technology, Bern University of Applied Sciences \\
         \vspace{0.1cm}
         Presented by \@author\\
         Supervised by Professor Olivier Biberstein, PhD\symbolfootnote[3]{\href{mailto:olivier.biberstein@bfh.ch}{olivier.biberstein@bfh.ch}}\\
