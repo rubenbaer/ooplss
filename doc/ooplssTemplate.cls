@@ -213,20 +213,8 @@
 %% second level list 1, 2, ...
 \renewcommand{\labelenumii}{\arabic{enumii}.}
 
-%% No number before subsection
-%\renewcommand{\subsection}
-%
-%    % \@startsection{name}{level}{indent}{space before}{space after}{style}
-%    \@startsection{subsection}
-%    {2 }                           % level 6 = no number before
-%    {0mm}                          % indent
-%    {\baselineskip}                % space before title 
-%    {0.75\baselineskip }           % space after title
-%    {\normalfont\large\bfseries }  % normal font, large, bold
-%}
-
 %%--------------------------------------------------------------------------
-%% New environements and commands specific to this template.
+%% New environments and commands specific to this template.
 %%--------------------------------------------------------------------------
 
 %% special list for alternate scenario in usecase *a, *b, ...
