@@ -187,7 +187,7 @@ apply here. Clearly the equals method of \emph{Vec3D} takes an argument
 of the type \emph{vec3D}. Listing \ref{fig:schizoListing} shows this
 constellation (in pseudo-code):
 
-\begin{figure}[H]
+\begin{listing}[H]
 \begin{lstlisting}
 class Vec2D {
 	int x,y;
@@ -211,7 +211,7 @@ class Vec3D extends Vec2D {
 \end{lstlisting}
 \caption{An example of schizophrenic self-reference}
 \label{fig:schizoListing}
-\end{figure}
+\end{listing}
 
 In the derived class \emph{Vec3D} the self reference in the equals 
 method refers to a \emph{Vec3D} object while the one in identity
@@ -268,7 +268,7 @@ reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
 
 
-\begin{figure}
+\begin{listing}
 \begin{lstlisting}
 class Max {
   n:Number;
@@ -298,7 +298,7 @@ class MinMax {
 \end{lstlisting}
 \caption{Incompatible subtyping with contravariant parameters}
 \label{fig:minmax-example}
-\end{figure}
+\end{listing}
 
 \section{Protocol}
 

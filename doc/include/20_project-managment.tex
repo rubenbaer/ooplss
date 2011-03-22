@@ -12,17 +12,32 @@ in major changes in a language. However, a not very strict iterative
 model is chosen.
 
 \section{Iterative and Agile Development}
-This project was build iteratively in the sense of continuous refinement in the definition of the language. The language definition and implementation goes hand in hand and gives direct feedback. This makes it possible to test the definition on a concrete implementation. Further parts from extreme programming are used. Manly the concept of pair programming for critical parts which provide interfaces between the compiler stages.
+This project was build iteratively in the sense of continuous
+refinement in the definition of the language. The language definition and
+implementation goes hand in hand and gives direct feedback. This makes it
+possible to test the definition on a concrete implementation. Further
+parts from extreme programming are used. Manly the concept of pair
+programming for critical parts which provide interfaces between the
+compiler stages.
 
 \section{Test-Driven Development}
-A major goal is to provide a good and robust code basis. To ensure that this claim holds, test-driven development is performed. With the use of unit tests code breaking changes can be easily detected. 
+A major goal is to provide a good and robust code basis. To ensure that
+this claim holds, test-driven development is performed. With the use of
+unit tests code breaking changes can be easily detected.
 
 \section{Regular Meetings}
-The Bern University of Applied Science does not provide a major in topics used in this thesis. To ensure success regular meetings with the supervisors are hold. With this early divergence and loss of target should be prevented. A meeting between the students team and the supervisor should be at least every two weeks.
+The Bern University of Applied Science does not provide a major in
+topics used in this thesis. To ensure success regular meetings with the
+supervisors are hold. With this early divergence and loss of target should
+be prevented. A meeting between the students team and the supervisor
+should be at least every two weeks.
 
 \chapter{Project Schedule}
+\section{Tasks}
+
 \begin{landscape}
-  \begin{gantt}{12}{16}
+\section{Diagram}
+  \begin{gantt}[xunitlength=0.9cm]{12}{16}
     \begin{ganttitle}
       \numtitle{1}{1}{16}{1}
     \end{ganttitle}
@@ -37,7 +52,6 @@ The Bern University of Applied Science does not provide a major in topics used i
     \ganttbar{Type Checker}{9}{6} % Con
     \ganttbar{Code Translation}{11}{5}
     \ganttbar{Documentation}{0}{16}
-    %\ganttcon{4}{4}{4}{6}
     \ganttcon{5}{3}{5}{5}
     \ganttcon{9}{7}{9}{9}
   \end{gantt}
@@ -61,22 +75,22 @@ Coding guidelines
 \chapter{Journal}
 \begin{center}
 \begin{longtable}{|c|p{12cm}|}
-\caption[Journal]{Journal} \label{table:journal} \\
 
 \hline \multicolumn{1}{|c|}{\textbf{Week}} & \multicolumn{1}{c|}{\textbf{Journal Entry}} \\ \hline 
 \endfirsthead
 
-\multicolumn{2}{c}%
-{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
 \hline \multicolumn{1}{|c|}{\textbf{Week}} &
 \multicolumn{1}{c|}{\textbf{Journal Entry}} \\
 \endhead
 
 \hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
+\caption[Journal]{Journal} \label{table:journal} \\
 \endfoot
 
-\hline \hline
+\multicolumn{2}{c}%
+{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
 \endlastfoot
+
 1 & 
 \begin{itemize}
   \item Project structure defined
