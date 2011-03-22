@@ -20,6 +20,7 @@
 \usepackage{gantt}
 \usepackage{lscape}
 \usepackage{tocbasic}
+\usepackage{pdfpages}
 
 \lstset{ %
 language=Java,                  % choose the language of the code
@@ -32,13 +33,26 @@ backgroundcolor=\color{white},  % choose the background color. You must add \use
 showspaces=false,               % show spaces adding particular underscores
 showstringspaces=false,         % underline spaces within strings
 showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,   		            % adds a frame around the code
-tabsize=2,  		                % sets default tabsize to 2 spaces
-captionpos=b,   		            % sets the caption-position to bottom
-breaklines=true,    	          % sets automatic line breaking
+frame=single,                   % adds a frame around the code
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
 breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
 escapeinside={\%}{)}            % if you want to add a comment within your code
 }
+
+\ifpdf
+\pdfinfo{
+   /CreationDate (D:20110617170000)
+   /ModDate (D:20110617170000)
+}
+\fi
+\hypersetup{pdfauthor={Ruben B\344r and Stefan Heinemann},
+            pdftitle={Object-Oriented Language with Subtyping and Subclassing},
+            pdfsubject={Bachelor Thesis},
+            pdfkeywords={Bachelor Thesis;Subclassing;Subtyping;Matching;Object-Oriented Programming Language},
+            pdfproducer={Latex with hyperref},
+            pdfcreator={pdflatex}}
 
 %\includeonly{abstract}
 % DOCUMENT CONTENT ------------------------------------------------
@@ -48,11 +62,12 @@ escapeinside={\%}{)}            % if you want to add a comment within your code
 input metauml;
 \end{empcmds}
 
-\title{Bachelor Thesis}
-\subtitle{Object-Oriented Language with Subtyping and Subclassing}
+\title{Object-Oriented Language with Subtyping and Subclassing}
+\subtitle{Bachelor Thesis 2011}
 
-\author{Ruben Bär\symbolfootnote[1]{\href{mailto:ruben.baer@codedump.ch}{ruben.baer@codedump.ch}}\\
-Stefan Heinemann\symbolfootnote[2]{\href{mailto:stefan.heinemann@codedump.ch}{stefan.heinemann@codedump.ch}}}
+\author{Ruben Bär\symbolfootnote[1]{\href{mailto:ruben.baer@codedump.ch}{ruben.baer@codedump.ch}} and Stefan Heinemann\symbolfootnote[2]{\href{mailto:stefan.heinemann@codedump.ch}{stefan.heinemann@codedump.ch}}}
+
+\date{June 17, 2011}
 
 
 % Bern University of Applied Sciences - Engineering and Information Technology, Quellgasse 21, 2501 Biel, Switzerland
@@ -60,6 +75,8 @@ Stefan Heinemann\symbolfootnote[2]{\href{mailto:stefan.heinemann@codedump.ch}{st
 % project work, 21. february 2011 - 17. june 2011
 
 \maketitle
+
+\includepdf{Erklaerung}
 
 \include{include/00_abstract}
 

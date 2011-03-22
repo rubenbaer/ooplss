@@ -44,7 +44,7 @@
 %
 % Package for links (ref and cite), no box and blue
 % 
-\usepackage{hyperref}
+\usepackage[pdftex]{hyperref}
 
 % Capital letter for autoref labels
 \def\subsectionautorefname{Subsection}
@@ -148,18 +148,16 @@
     \begin{flushright}
     \vspace*{4cm}
     \includegraphics[height=4\baselineskip]{imgs/logo}\\
-        \Huge \@title\\
-        \huge \@subtitle\\
-        \vspace{0.5cm}
-        \normalsize 
-        \sffamily{\bfseries{ \Huge \@title}}%\\
-        %\vspace{0.2cm}
-        %\huge \@subtitle}\\
+        \sffamily{\bfseries{ \Large \@subtitle}}\\
+        \vspace{0.2cm}
+        \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
         \normalsize \\
-        A Bachelor Thesis Presented to the Faculty of Engineering and Information Technology of the Bern University of Applied Sciences \\
-        \vspace{0.5cm}
-        \@author\\
+        A Bachelor Thesis Presented to the Division of Computer Science of the Department of Engineering and Information Technology of the Bern University of Applied Sciences \\
+        \vspace{0.1cm}
+        Presented by \@author\\
+        Supervised by Professor Olivier Biberstein, PhD\symbolfootnote[3]{\href{mailto:olivier.biberstein@bfh.ch}{olivier.biberstein@bfh.ch}}\\
+        \vspace{0.2cm}
         \@date
         \vspace{0.5cm}
     \hrule
