@@ -19,6 +19,7 @@
 		<pathelement path="${build}" />
 	</path>
 
+<<<<<<< HEAD
 	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
 		classpath="${antlr-tasks}" />
 
@@ -27,6 +28,8 @@
 
 	<!-- BUILD -->
 
+=======
+>>>>>>> Ant: Build dependencies added for build-src and gunit
 	<target name="build" depends="build-src">
 	</target>
 
@@ -37,6 +40,7 @@
 		</javac>
 	</target>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	<target name="build-grammar">
 		<mkdir dir="${antlr-outputdir}" />
@@ -116,6 +120,9 @@
 		<run-gunit test-file="grammar/test/ast-class.gunit" />
 =======
 	<target name="gunit" depends="build-src">
+=======
+	<target name="gunit" depends="build">
+>>>>>>> Ant: Build dependencies added for build-src and gunit
 		<antcall target="gunit-simpleClass" />
 	</target>
 
