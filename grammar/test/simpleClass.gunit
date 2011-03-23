@@ -1,0 +1,11 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+classDec:
+"class blubber { }
+" OK
+
+"class blubber extends blah inherits dings, bums { }" OK
