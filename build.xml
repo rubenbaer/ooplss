@@ -12,7 +12,7 @@
 		classpath="${antAntlr}" />
 
 	<path id="classpath">
-		<fileset dir="${lib}" includes="**/*.jar" />
+    <fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
 		<pathelement path="${build}" />
 	</path>
 
@@ -23,7 +23,7 @@
 
 	<target name="build-src">
 		<mkdir dir="${build}" />
-		<javac srcdir="src/" destdir="${build}" >
+		<javac srcdir="src/" destdir="${build}" includeantruntime="false" >
 			<classpath refid="classpath" />
 		</javac>
 	</target>
