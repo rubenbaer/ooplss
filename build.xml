@@ -28,6 +28,16 @@
 		</javac>
 	</target>
 
+	<target name="gunit" depends="build-src">
+		<antcall target="gunit-simpleClass" />
+	</target>
+
+	<target name="gunit-simpleClass">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/simpleClass.gunit" />
+		</java>
+	</target>
 
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build-src">
