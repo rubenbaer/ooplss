@@ -22,18 +22,6 @@ classBody
 			
 		;
 	
-<<<<<<< HEAD
-<<<<<<< HEAD:grammar/Ooplss.g
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 NEWLINE		:	'\r'? '\n';
 WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
-=======
-ID		:	 ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-
->>>>>>> Grammar: Renamed the grammar:grammar/Ooplss.g
-=======
-ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-NEWLINE		:	'\r'? '\n';
-WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
->>>>>>> Src/Grammar: Simple grammar, simple test
-
