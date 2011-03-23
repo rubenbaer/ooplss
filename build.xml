@@ -16,19 +16,17 @@
 		<pathelement path="${build}" />
 	</path>
 
-	<target name="build">
-		<antcall target="build-grammar" />
-		<antcall target="build-src" />
+	<target name="build" depends="build-src">
 	</target>
 
-	<target name="build-src">
+	<target name="build-src" depends="build-grammar">
 		<mkdir dir="${build}" />
 		<javac srcdir="src/" destdir="${build}" includeantruntime="false" >
 			<classpath refid="classpath" />
 		</javac>
 	</target>
 
-	<target name="gunit" depends="build-src">
+	<target name="gunit" depends="build">
 		<antcall target="gunit-simpleClass" />
 	</target>
 
