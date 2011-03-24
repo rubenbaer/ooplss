@@ -29,19 +29,35 @@
 	<target name="gunit" depends="build">
 		<antcall target="gunit-simpleClass" />
 		<antcall target="gunit-simpleMethod" />
+		<antcall target="gunit-statements" />
+		<antcall target="gunit-tokensLiterals" />
 	</target>
 
-	<target name="gunit-simpleClass">
+	<target name="gunit-simpleClass" depends="build">
 		<java classname="org.antlr.gunit.Interp">
 			<classpath refid="classpath" />
 			<arg value="grammar/test/simpleClass.gunit" />
 		</java>
 	</target>
 
-	<target name="gunit-simpleMethod">
+	<target name="gunit-simpleMethod" depends="build">
 		<java classname="org.antlr.gunit.Interp">
 			<classpath refid="classpath" />
 			<arg value="grammar/test/simpleMethod.gunit" />
+		</java>
+	</target>
+
+	<target name="gunit-statements" depends="build">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/statements.gunit" />
+		</java>
+	</target>
+
+	<target name="gunit-tokensLiterals" depends="build">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/tokensLiterals.gunit" />
 		</java>
 	</target>
 
