@@ -338,37 +338,43 @@ prog		:	 classDec+;
 
 classDec	
 		:	'class' ID
-			( 'extends' ID )?
-			( 'inherits' ID (',' ID)* )?
+			( 'subtypeOf' ID )?
+			( 'subclassOf' ID (',' ID)* )?
 			classBody 
 		;
 	
 classBody	:
 			'{'
-			classDecl*
+			classStmt*
 			'}'
 		;
 
-classDecl	:	fieldDef | methodDef ;
+classStmt	:	fieldDef | methodDef ;
 		
 fieldDef	:	'var' ID (
-				explicitVar | implicitVar				
+				// maybe later introduce implicit typing of variables
+				explicitVar /*| implicitVar*/
 			)
 			';'
 		;
 		
-explicitVar	:	':' ID // assigment
+explicitVar	:	':' ID // assignment
 		; 
 
 implicitVar	: 	// demand assignment 
 		;
 		
-methodDef	: 	'def' ID '(' /*argumentList?*/ ')' ':' ID '{'
-			/*methodBody*/
+methodDef	:
+			'def' (	constructorDef	| normalMethodDef ) '{'
+			/* methodBody */
 			'}'
 		;
 		
-argumentList 	: ;
+normalMethodDef	: 	ID argumentList ':' ID;
+		
+constructorDef  :	'__construct' argumentList;
+		
+argumentList 	: 	'(' ')';
 		
 methodBody 	: ;
 
@@ -397,6 +403,12 @@ LINE_COMMENT
 LBRACE		:	'{';
 
 RBRACE		:   	'}';
+
+LPARA		:	'(';
+
+RPARA		: 	')';
+
+CONSTRUCT	: 	'__construct';
     
 CLASS		: 	'class';
 
@@ -404,13 +416,16 @@ VAR		: 	'var';
 
 DEF		: 	'def';
 
-EXTENDS		:	'extends';
+SUBTYPE		:	'subtypeOf';
 
-IMPLEMENTS	:	'implements';
+SUBCLASS	:	'subclassOf';
 	
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 //NEWLINE		:	'\r'? '\n';
 
 WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
+<<<<<<< HEAD
 >>>>>>> Grammar: Tried to make the first gunit test
+=======
+>>>>>>> Grammar: simple classes and methods
