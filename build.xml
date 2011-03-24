@@ -28,12 +28,20 @@
 
 	<target name="gunit" depends="build">
 		<antcall target="gunit-simpleClass" />
+		<antcall target="gunit-simpleMethod" />
 	</target>
 
 	<target name="gunit-simpleClass">
 		<java classname="org.antlr.gunit.Interp">
 			<classpath refid="classpath" />
 			<arg value="grammar/test/simpleClass.gunit" />
+		</java>
+	</target>
+
+	<target name="gunit-simpleMethod">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/simpleMethod.gunit" />
 		</java>
 	</target>
 
