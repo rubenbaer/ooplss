@@ -358,37 +358,59 @@ fieldDef	:	'var' ID (
 			';'
 		;
 		
-explicitVar	:	':' ID // assignment
+explicitVar	:	':' ID // assignment later
 		; 
 
 implicitVar	: 	// demand assignment 
 		;
 		
 methodDef	:
-			'def' (	constructorDef	| normalMethodDef ) '{'
-			/* methodBody */
-			'}'
+			'def' (	constructorDef	| normalMethodDef ) 
+			methodBody
 		;
 		
-normalMethodDef	: 	ID argumentList ':' ID;
+normalMethodDef	: 	ID argumentDeclList ':' ID;
 		
-constructorDef  :	'__construct' argumentList;
+constructorDef  :	'__construct' argumentDeclList;
 		
-argumentList 	: 	'(' ')';
+argumentDeclList 	
+		: 	'(' ')';
 		
-methodBody 	: ;
+methodBody 	:	block ;
+
+block 		: 	'{'
+			/*(blockStatement)**/
+			'}'
+		;
+
+blockStatement	:	;
+
+methodCall 	:	ID '.' ID '(' (argument (',' argument)* )? ')';
+
+argument	:	ID
+		|	literal
+		;
 
 
+literal		:	INTLITERAL
+		|	STRINGLITERAL
+		|	CHARLITERAL
+		// TODO: 
+		;
+
+
+
+
+
+// got that from the java.g example
 COMMENT
-	        @init{
-	        	boolean isJavaDoc = false;
-	       	}
 	    	:   	'/*'
 	        	(options {greedy=false;} : . )* 
 	        	'*/'
 	            	{ skip();   }
 	    	;
 
+// got that from the java.g example
 LINE_COMMENT
 		:   	'//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
 	            	{
@@ -399,6 +421,48 @@ LINE_COMMENT
 	                	skip();
 		        }
 	    	;   
+	    	
+INTLITERAL	: 	'0'..'9'+;  
+
+// got that from the java.g example
+STRINGLITERAL	:   	'"' 
+		        (   EscapeSequence
+		        |   ~( '\\' | '"' | '\r' | '\n' )        
+		        )* 
+		        '"' 
+		;
+		
+// got that from the java.g example		
+CHARLITERAL	:   	'\'' 
+		        (   EscapeSequence 
+	        	|   ~( '\'' | '\\' | '\r' | '\n' )
+	        	) 
+	        	'\''
+    		; 
+	
+// got that from the java.g example	
+fragment
+EscapeSequence  :   	'\\' (
+                 		'b' 
+		             |   't' 
+		             |   'n' 
+		             |   'f' 
+		             |   'r' 
+		             |   '\"' 
+		             |   '\'' 
+		             |   '\\' 
+		             |       
+		                 ('0'..'3') ('0'..'7') ('0'..'7')
+		             |       
+		                 ('0'..'7') ('0'..'7') 
+		             |       
+		                 ('0'..'7')
+		        )          
+		;  
+	    	
+CALLOPERATOR 	:	'.';
+
+STATEMENTEND	:	';';
 
 LBRACE		:	'{';
 

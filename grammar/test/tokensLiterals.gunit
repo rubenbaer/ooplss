@@ -13,8 +13,11 @@ INTLITERAL:
 "3" OK
 "43123123" OK
 "abc3" FAIL
+<<<<<<< HEAD
 "-4" OK
 "-123" OK
+=======
+>>>>>>> Grammar: method calls
 
 STRINGLITERAL:
 "\"blubber\"" OK
@@ -33,7 +36,10 @@ literal:
 "3" OK
 "\"some text\"" OK
 "'c'" OK
+<<<<<<< HEAD
 
 BOOLLITERAL:
 "true" OK
 "false" OK
+=======
+>>>>>>> Grammar: method calls
