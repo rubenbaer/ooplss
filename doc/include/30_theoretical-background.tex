@@ -1,9 +1,10 @@
 
 \part{Theoretical Background}
-\chapter{Binary Methods}
+A introduction is still missing
 \todo{Introduction to typing problems and matching}
 
 \chapter{Subtyping vs. Subclassing}
+\label{cpt:subtypingVsSubclassing}
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
 the widely known object oriented programming languages like Java or C++, but are
@@ -247,7 +248,6 @@ be some sort of placeholder for such cases: the \emph{MyType}. The
 \emph{MyType} placeholder is then substituted with the current type
 after the inheritance.
 
-
 \chapter{Matching}
 % estimated pages: 2-3
 \begin{quotation}
@@ -269,8 +269,65 @@ subtyping extends simple subtyping with parametrisation which is as
 \emph{matching} as higher-order subtyping with better properties in
 reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
+\section{Binary Methods}
+A binary method is a method with parameters of the same type as the
+receiver of the method, i.e., the \emph{self} reference in the method. The
+name has the origins in the fact that such methods are binary relations
+mapping to a codomain, e.g., \emph{equal} of type $X \times X \rightarrow
+Boolean$ or \emph{add} of type $Num \times Num \rightarrow Num$. The
+same behaviour can be observed in homogeneous data structures. Typing
+such function in functional languages are straightforward and does not
+rise difficulties. This looks complete different in statically object-oriented
+languages where subtyping is fundamental \cite{bruce_binary_1995}.
 
+Listing \ref{lst:javaBinary} shows how nominal subtyping would provide
+the possibility to add objects of type \emph{SinglyLinkedNode} in a
+\emph{DoublyLinkedNode} which is definitely incorrect. However, these
+problems does not rise from binary methods them self but in combination
+with subtyping and inheritance since these concepts are associated
+with subsumption.
 
+\begin{listing}
+\begin{lstlisting}
+public class SinglyLinkedNode {
+  private SinglyLinkedNode next;
+  public setNext(SinglyLinkedNode next) {
+    this.next = next;
+  }
+
+  public getNext() SinglyLinkedNode {
+    return this.next;
+  }
+}
+
+public class DoublyLinkedNode extends SinglyLinkedNode {
+  private DoublyLinkedNode prev;
+  public setPrev(DoublyLinkedNode prev) {
+    this.prev = prev;
+    prev.setNext(this);
+  }
+
+  public DoublyLinkedNode getPrev() {
+    return this.prev;
+  }
+}
+\end{lstlisting}
+\caption{Illegal subtyping of binary methods in Java}
+\label{lst:javaBinary}
+\end{listing}
+
+However, \cite{bruce_binary_1995} shows some ways out of such problems
+like avoiding binary methods at all and provide these methods
+as static functions or providing special pair objects providing
+these binary methods. One may argue that it should be possible
+to change the parameters of the objects in a contravariant way,
+i.e., that \emph{setNext} and \emph{getNext} is typed as a method
+with parameters of type \emph{DoublyLinkedNode}. As seen in chapter
+\ref{cpt:subtypingVsSubclassing} this would break the subtyping relation
+between \emph{SinglyLinkedNode} and \emph{SinglyLinkedNode}. In this
+case inheritance provides a subclass without subtype! \todo{f-bounded polymorphism}
+
+\section{Protocol}
 \begin{listing}
 \begin{lstlisting}
 class Max {
@@ -299,11 +356,9 @@ class MinMax {
   }
 }
 \end{lstlisting}
-\caption{Incompatible subtyping with contravariant parameters}
+\caption{Max and MinMax protocol}
 \label{fig:minmax-example}
 \end{listing}
-
-\section{Protocol}
 
 \section{Type Operators}
 
