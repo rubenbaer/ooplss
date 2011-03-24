@@ -8,8 +8,6 @@ package ch.codedump.ooplss.antlr;
  * Test different types of statements
  */
 
-
-
 methodCall:
 "x.y()" OK
 "x.y(blah)" OK
@@ -19,4 +17,67 @@ methodCall:
 "x.y(3, 'd')" OK 
 "x.y(3, \"dddd\")" OK 
 "x.y('3')" OK
+
+// assignments do not have the ';'
+assignment:
+"identifier = 3 + 3" OK
+"blah=\"dings\"" OK
+"foo = 'c'" OK
+"foo=" FAIL
+"foo=bar" OK
+
+atom:
+"abc" OK
+"x.y()" OK
+"(dings + bums)" OK
+
+pointExpr:
+"3*3" OK
+"3 * 1823" OK
+"4 / 1" OK
+"4 * 4 * 12 * 3" OK
+"(1 + 2) * 4" OK
+"3 *" FAIL
+"* 44" FAIL
+"3 * x.y()" OK
+"a.b(\"hallo\") * dings" OK
+
+dashExpr:
+"3+3" OK
+"14 + 28" OK
+"128 + 3 * 4" OK
+"14 - 1111" OK
+"\"foo\" + 3" OK
+"6+" FAIL
+"+18" FAIL
+"x.y() + 13" OK
+
+andExpr:
+"blubb && foo" OK
+"3 && \"haha\"" OK
+"14 && 28" OK
+"3 * 4 + 18 && (17 && 8*2)" OK
+"3 &&" FAIL
+"&& 4" FAIL
+"4 && z.x(id, \"haha\")" OK
+
+orExpr:
+"123 || \"hallo\"" OK
+"ID || abc && dings" OK
+"a.b(id) || x.y(\"haha\", 3)" OK
+
+statement:
+"3 + 4 * 18 && 37 || 28 " OK
+"x.foo(y)" OK
+
+blockStatement:
+"x = 3;" OK
+"x" FAIL
+";" OK
+"x;" OK
+"y.x();" OK
+"a.b(c);" OK
+"3 + 4 * y.x(\"hallo\", welt) && 37;" OK
+"var foo:bar;" OK
+
 
