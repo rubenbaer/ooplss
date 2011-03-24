@@ -1,0 +1,33 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+ID:
+"someIdentifiCation" OK
+"not valid" FAIL
+"3var" FAIL
+
+INTLITERAL:
+"3" OK
+"43123123" OK
+"abc3" FAIL
+
+STRINGLITERAL:
+"\"blubber\"" OK
+"\"even more shit\"" OK
+"'single ticks'" FAIL // not a string -> char
+"\" not closing" FAIL
+"not opened \"" FAIL
+"\"123123123\"" OK
+
+CHARLITERAL:
+"'s'" OK
+"'abc'" FAIL
+"'3'" OK
+
+literal:
+"3" OK
+"\"some text\"" OK
+"'c'" OK

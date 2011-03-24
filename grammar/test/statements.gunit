@@ -1,0 +1,22 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+/**
+ * Test different types of statements
+ */
+
+
+
+methodCall:
+"x.y()" OK
+"x.y(blah)" OK
+"x.y(blah, blubb)" OK
+"x.y(blah blubb)" FAIL
+"x.y(3, dings)" OK
+"x.y(3, 'd')" OK 
+"x.y(3, \"dddd\")" OK 
+"x.y('3')" OK
+
