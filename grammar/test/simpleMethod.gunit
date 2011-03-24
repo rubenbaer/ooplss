@@ -1,0 +1,23 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+/**
+ * some method definition testing
+ * since we do not have a argument list
+ * yet at this point
+ */
+
+methodDef:
+"def method():type { }" OK
+"def method:type { }" FAIL // no argument list
+"def method() { }" FAIL // no return type
+"def method():type" FAIL // no block
+
+// constructors
+"def __construct() {}" OK
+"def __construct():type {}" FAIL // constructors do not have a return type
+"def __construct()" FAIL // missing brackets
+

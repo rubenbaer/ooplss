@@ -4,8 +4,45 @@ gunit Ooplss;
 package ch.codedump.ooplss.antlr;
 }
 
-classDec:
-"class blubber { }
-" OK
+/**
+ * Test some simple class statements 
+ * with some field and method definitions
+ */
 
-"class blubber extends blah inherits dings, bums { }" OK
+classDec:
+"class blubber { } " OK
+
+"class blubber subtypeOf blah subclassOf dings, bums { }" OK
+
+// with multiple subclassOf
+<<
+class blubber subtypeOf blah
+	subclassOf blubber, bums {
+		
+	}
+>> OK
+
+// only one ID on extending
+"class blubber subtypeOf blah dings {}" FAIL
+
+<<
+class blah {
+	var dings:bums;
+
+	def foo():bar {
+		// hello world
+	}
+
+	var blah:blubb;
+
+	def dings():bums {
+
+	}
+}
+>> OK
+
+fieldDef:
+"var identifier:type" FAIL // missing ; 
+"var identifier:type;" OK 
+"var identifier;" FAIL // missing type
+
