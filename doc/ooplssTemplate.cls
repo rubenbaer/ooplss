@@ -39,7 +39,7 @@
 %
 % Margin width
 %
-\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
+%\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
 
 %
 % Package for links (ref and cite), no box and blue
@@ -283,3 +283,30 @@
 \fi
 
 \newtheorem{mydef}{Definition}
+
+\newcommand{\todo}[1]{
+% Add to todo list
+\addcontentsline{tdo}{todo}{\protect{#1}}
+%
+\begin{tikzpicture}[remember picture, baseline=-0.75ex]
+    \node [coordinate] (inText) {};
+\end{tikzpicture}
+%
+% Make the margin par
+\marginpar{
+    \begin{tikzpicture}[remember picture]
+        \definecolor{orange}{rgb}{1,0.5,0}
+ 
+        \draw node[draw=black, fill=orange, text width = 3cm] (inNote)
+                 {#1};
+    \end{tikzpicture}
+}
+%
+\begin{tikzpicture}[remember picture, overlay]
+    \draw[draw = orange, thick]
+        ([yshift=-0.2cm] inText)
+            -| ([xshift=-0.2cm] inNote.west)
+            -| (inNote.west);
+\end{tikzpicture}
+%
+}
