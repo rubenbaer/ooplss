@@ -17,13 +17,14 @@
 \DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 %\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{numbers}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
 %% Load book class
 %\LoadClass{scrbook} % report better for pdf 
-\LoadClass{scrreprt} % report better for pdf 
+\LoadClass[numbers=noenddot]{scrreprt} % report better for pdf 
 
 %% Since here we can modify the macros of the loaded class
 %% (with \renewenvironment or \renewcommand!),
@@ -152,7 +153,7 @@
         \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
         \normalsize \\
-        A Bachelor Thesis presented to the Division of Computer Science;\\ Department of Engineering and Information Technology, Bern University of Applied Sciences \\
+        A Bachelor Thesis presented to the Division of Computer Science\\ Department of Engineering and Information Technology, Bern University of Applied Sciences \\
         \vspace{0.1cm}
         Presented by \@author\\
         Supervised by Professor Olivier Biberstein, PhD\symbolfootnote[3]{\href{mailto:olivier.biberstein@bfh.ch}{olivier.biberstein@bfh.ch}}\\
@@ -175,12 +176,10 @@
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 
 % even pages footer
-\fancyfoot[EL]{\hrule\thepage}
-\fancyfoot[ER]{\hrule}
+\fancyfoot[EC]{\thepage}
 
 % odd pages footer
-\fancyfoot[OL]{\hrule}
-\fancyfoot[OR]{\hrule\thepage}
+\fancyfoot[OC]{\thepage}
 
 % even pages header
 \fancyhead[EC] {
@@ -310,3 +309,7 @@
 \end{tikzpicture}
 %
 }
+
+\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
+  \newcommand\l@todo[2]
+  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
