@@ -1,36 +1,51 @@
 // A class which is a subtype of C2 and a subclass of C3, C4,...
-class C1 extends C2 inherits C3, C4, ... {
+class C1[T <# C3] subtypeOf C2 subclassOf C3, C4, ... {
   var l1:T1;
   var l2:T2;
 
   // Constructor
-  def C1(v1:T1, v2:T2) = {
+  def init(v1:T1, v2:T2) {
     self.v1 = v1;
     self.v2 = v2;
   }
 
+  def clone():MyType {
+    return self;
+  }
+
+  /*
+   * equals method
+   */
+  def eq(o:MyType):Boolean {
+    return C2.equals(o) && C3.equals(o) && C4.equals(o) && o.l1 == self.l1 && o.l2 == self.l2;
+  }
+
+  def foo(t:T):T {
+    return t.move(self.l1);
+  }
+
   // Set method
-  def setL1(l1:T1):Unit = {
+  def setL1(l1:T1):Unit {
     self.l1 = l1;
   }
 
   // Get method
-  def getL1():T1 = {
+  def getL1():T1 {
     return self.l1;
   }
 
   // Calls inc on l1
-  def inc():Unit = {
+  def inc():Unit {
     self.l1.inc();
   }
 
   // Calls +(x:T2):T2  on l2
-  def add(l3:T1):Unit = {
+  def add(l3:T1):Unit {
     self.l2.+(l3);
   }
 
   // Calls +(x:T2):T2  on l2 as well
-  def add(l3:T1):Unit = {
+  def add(l3:T1):Unit {
     self.l2 + l3;
   }
 }
