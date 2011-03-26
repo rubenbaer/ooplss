@@ -280,6 +280,8 @@
 \newsavebox{\sharpbox}
 \sbox{\sharpbox}{$\sharp$}
 \newcommand{\CS}{C\usebox{\sharpbox}}
+\newcommand{\match}{<\#}
+
 
 % switch back to Latin Modern
 \usepackage{lmodern}
