@@ -103,6 +103,8 @@
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
 }
+% autoref fpr line numbers
+\providecommand*{\lstnumberautorefname}{line}
 
 %
 % Nomenclatur
