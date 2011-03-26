@@ -104,10 +104,15 @@
 	stringstyle=\color{red}\ttfamily,
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 % autoref fpr line numbers
 \providecommand*{\lstnumberautorefname}{line}
 =======
 >>>>>>> Doc: Makefile shows error output
+=======
+% autoref fpr line numbers
+\providecommand*{\lstnumberautorefname}{line}
+>>>>>>> Doc: Listing template changed.
 
 %
 % Nomenclatur
