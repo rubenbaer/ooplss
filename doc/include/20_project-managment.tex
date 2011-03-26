@@ -37,6 +37,7 @@ should be at least every two weeks.
 
 \section{Diagram}
 \begin{gantt}[xunitlength=0.7cm]{12}{16}
+<<<<<<< HEAD
 	\begin{ganttitle}
 		\numtitle{1}{1}{16}{1}
 	\end{ganttitle}
@@ -56,6 +57,24 @@ should be at least every two weeks.
 	\ganttcon{8}{5}{8}{6}
 	\ganttcon{8}{5}{8}{6}
 	\ganttcon{9}{6}{9}{8}
+=======
+  \begin{ganttitle}
+    \numtitle{1}{1}{16}{1}
+  \end{ganttitle}
+  \ganttbar{Kick-Off}{0}{2}
+  \ganttbarcon{Documentation Part I / II}{2}{3}
+  \ganttbar{Grammar / Lexer}{3}{2}
+  \ganttbarcon{Types}{5}{2}
+  \ganttbar{Parser}{5}{3} % Con
+  \ganttbar{Code Translation Definition}{6}{2}
+  \ganttbar{Tree Walking}{8}{1}
+  \ganttbarcon{Symbol Table Construction}{9}{1}
+  \ganttbar{Type Checker}{9}{6} % Con
+  \ganttbar{Code Translation}{11}{5}
+  \ganttbar{Documentation}{0}{16}
+  \ganttcon{5}{3}{5}{5}
+  \ganttcon{9}{7}{9}{9}
+>>>>>>> Doc: Gantt shrank to page width
 \end{gantt}
 
 \chapter{Tools and Software}
