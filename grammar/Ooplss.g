@@ -16,10 +16,10 @@ package ch.codedump.ooplss.antlr;
 
 /*
 	TODO:
-	- allow .+ .- etc. method calls
 	- develop an AST
 	- arguments to methods declaration
 	- minus sign before int literals
+	- if,switch,while statements
 */
 
 prog		:	 classDec+;
@@ -28,7 +28,7 @@ classDec
 		:	'class' ID
 			( 'subtypeOf' ID )?
 			( 'subclassOf' ID (',' ID)* )?
-			classBody 
+			classBody
 		;
 	
 classBody	:
@@ -102,7 +102,7 @@ atom		:	literal
 		;
 
 
-methodCall 	:	ID '.' ID '(' (argument (',' argument)* )? ')';
+methodCall 	:	ID '.' (('+' | '-' | '/' | '*') | ID) '(' (argument (',' argument)* )? ')';
 
 argument	:	ID
 		|	literal
@@ -136,7 +136,7 @@ LINE_COMMENT
 		        }
 	    	;   
 	    	
-INTLITERAL	: 	'0'..'9'+;  
+INTLITERAL	: 	('-')? '0'..'9'+;  
 
 // got that from the java.g example
 STRINGLITERAL	:   	'"' 
@@ -170,6 +170,7 @@ EscapeSequence  :   	'\\'
 			|       ('0'..'7')
 		)          
 		;  
+
 EQOPERATOR	
 		: 	'=';
 	    	

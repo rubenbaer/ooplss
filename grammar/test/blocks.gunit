@@ -1,0 +1,61 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+/**
+ * Test some blocks
+ */
+
+block:
+<<
+{
+	var dingsbums:foo;
+}
+>> OK
+
+<<
+{
+	dingsbuns = 137;
+}
+>> OK
+
+<<
+{
+	18 + 37;
+}
+>> OK
+
+<<
+{
+	blah = dingsbums.x("foo", bar);
+}
+>> OK
+
+<<
+{
+	3;
+	18 + 37;
+	var dingsbums:foo;
+
+	dingsbums = 137;
+	var blah:blubb;
+
+	blah = dingsbums.x("foo", bar);
+}
+>> OK
+
+<<
+{
+	var d:c;
+	{
+		var nested:shit;
+
+		blubber = 123123123 + 123123 * (nested.foo("haha"));
+		{
+			13 / 4;
+		}
+	}
+}
+>> OK
