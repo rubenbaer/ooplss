@@ -13,6 +13,8 @@ INTLITERAL:
 "3" OK
 "43123123" OK
 "abc3" FAIL
+"-4" OK
+"-123" OK
 
 STRINGLITERAL:
 "\"blubber\"" OK
