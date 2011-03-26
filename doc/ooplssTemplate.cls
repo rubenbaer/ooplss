@@ -80,24 +80,33 @@
 \usepackage{listings}
 \definecolor{lbcolor}{rgb}{0.90,0.90,0.90}
 \definecolor{commentcolor}{rgb}{0.0,0.80,0.0}
-\lstset{numbers=none,
-	stepnumber=2,
-	numbersep=5pt,
-	numberstyle=\tiny,
-	breaklines=true,
-	breakautoindent=true,
-	postbreak=\space,
-	tabsize=2,
+\lstset{ %
+  language=Java,
+  basicstyle=\footnotesize,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=single,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  escapeinside={\%}{)},
 	basicstyle=\ttfamily\footnotesize,
 	keywordstyle=\color{blue}\bfseries,
 	identifierstyle=\color{black},
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
-	showspaces=false,
-	showstringspaces=false,
-	extendedchars=true,
-	backgroundcolor=\color{lbcolor}}
+}
 
+%
+% Nomenclatur
+%
 \usepackage[intoc,refpage]{nomencl}
 \renewcommand{\nomname}{Glossary}
 \renewcommand{\nomlabel}[1]{\textbf{#1}}
