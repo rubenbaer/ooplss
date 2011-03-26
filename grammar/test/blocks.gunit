@@ -17,6 +17,7 @@ block:
 
 <<
 {
+<<<<<<< HEAD
 	dingsbums = 137;
 }
 >> OK
@@ -24,6 +25,9 @@ block:
 <<
 {
 	dingsbums.foo("bar", 42);
+=======
+	dingsbuns = 137;
+>>>>>>> Grammar: special method calls and block testing
 }
 >> OK
 
@@ -65,6 +69,7 @@ block:
 	}
 }
 >> OK
+<<<<<<< HEAD
 
 <<
 {
@@ -96,3 +101,5 @@ block:
 	}
 }
 >> OK
+=======
+>>>>>>> Grammar: special method calls and block testing
