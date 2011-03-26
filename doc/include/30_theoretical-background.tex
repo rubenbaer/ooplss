@@ -191,8 +191,7 @@ apply here. Clearly the equals method of \emph{Vec3D} takes an argument
 of the type \emph{vec3D}. Listing \ref{fig:schizoListing} shows this
 constellation (in pseudo-code):
 
-\begin{listing}[H]
-\begin{lstlisting}
+\begin{lstlisting}[caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
 class Vec2D {
 	int x,y;
 
@@ -213,9 +212,6 @@ class Vec3D extends Vec2D {
 	}
 }
 \end{lstlisting}
-\caption{An example of schizophrenic self-reference}
-\label{fig:schizoListing}
-\end{listing}
 
 In the derived class \emph{Vec3D} the self reference in the equals 
 method refers to a \emph{Vec3D} object while the one in identity
@@ -280,17 +276,21 @@ such function in functional languages are straightforward and does not
 rise difficulties. This looks complete different in statically object-oriented
 languages where subtyping is fundamental \cite{bruce_binary_1995}.
 
-Listing \ref{lst:javaBinary} shows how nominal subtyping would provide
-the possibility to add objects of type \emph{SinglyLinkedNode} in a
-\emph{DoublyLinkedNode} which is definitely incorrect. However, these
-problems does not rise from binary methods them self but in combination
-with subtyping and inheritance since these concepts are associated
-with subsumption.
+\autoref{lst:javaBinary} shows how subtyping can not prevent the
+possibility to add objects of type \emph{SinglyLinkedNode} in a
+\emph{DoublyLinkedNode} which is definitely incorrect and has to end in a
+runtime exception. In subtyping existing object state variables can not
+be further specialised and the method \emph{setNext} can not specialise
+the argument type. The \autoref{lst:javaBinary1} and \ref{lst:javaBinary2}
+shows how the type system has to be escaped by casts which is unsafe and.
+However, these problems does not rise from binary methods them self but
+in combination with subtyping and inheritance since these concepts are
+associated with subsumption
 
-\begin{listing}
-\begin{lstlisting}
+\begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
   private SinglyLinkedNode next;
+
   public setNext(SinglyLinkedNode next) {
     this.next = next;
   }
@@ -304,32 +304,45 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
   private DoublyLinkedNode prev;
   public setPrev(DoublyLinkedNode prev) {
     this.prev = prev;
-    prev.setNext(this);
+    prev.next = this;
   }
 
   public DoublyLinkedNode getPrev() {
     return this.prev;
   }
+
+  public setNext(SinglyLinkedNode next) {
+    if (next instanceof DoublyLinkedNode) {
+      %\label{lst:javaBinary1})DoublyLinkedNode dNext = (DoublyLinkedNode)next;
+      this.next = dNext;
+      dNext.prev = this;
+    } else {
+      throw new Exception();
+    }
+  }
+
+  // Legal override in the sense of subtyping. Illegal Java;
+  public DoublyLinkedNode getNext() {
+    %\label{lst:javaBinary2})return (DoublyLinkedNode)this.next;
+  }
 }
 \end{lstlisting}
-\caption{Illegal subtyping of binary methods in Java}
-\label{lst:javaBinary}
-\end{listing}
 
-However, \cite{bruce_binary_1995} shows some ways out of such problems
-like avoiding binary methods at all and provide these methods
-as static functions or providing special pair objects providing
-these binary methods. One may argue that it should be possible
-to change the parameters of the objects in a contravariant way,
-i.e., that \emph{setNext} and \emph{getNext} is typed as a method
-with parameters of type \emph{DoublyLinkedNode}. As seen in chapter
-\ref{cpt:subtypingVsSubclassing} this would break the subtyping relation
-between \emph{SinglyLinkedNode} and \emph{SinglyLinkedNode}. In this
-case inheritance provides a subclass without subtype! \todo{f-bounded polymorphism}
+Bruce showed in \cite{bruce_binary_1995} some ways out of such problems
+like avoiding binary methods at all and provide these methods as static
+functions or providing special pair objects providing these binary
+methods. One may argue that it should be possible to change the parameters
+of the objects in a contravariant way, i.e., that \emph{setNext}
+and \emph{getNext} is typed as a method with parameters of type
+\emph{DoublyLinkedNode}. As seen in \autoref{cpt:subtypingVsSubclassing}
+this would break the subtyping relation between \emph{SinglyLinkedNode}
+and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
+which is not a subtype. 
+
+
 
 \section{Protocol}
-\begin{listing}
-\begin{lstlisting}
+\begin{lstlisting}[label={fig:minmax-example},caption={Max and MinMax protocol}]
 class Max {
   n:Number;
 
@@ -356,9 +369,6 @@ class MinMax {
   }
 }
 \end{lstlisting}
-\caption{Max and MinMax protocol}
-\label{fig:minmax-example}
-\end{listing}
 
 \section{Type Operators}
 
