@@ -376,8 +376,12 @@
 
 % journal itemize
 \newenvironment{journal}%
+<<<<<<< HEAD
   {\vspace{-0.4cm}
 >>>>>>> Doc: Journal entry skip removed
+=======
+  {\vspace{-0.45cm}
+>>>>>>> Doc: Journal vspace fixed
     \begin{itemize}%
       \setlength{\itemsep}{0pt}%
       \setlength{\parskip}{0pt}}%
