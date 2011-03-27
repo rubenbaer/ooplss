@@ -1,0 +1,29 @@
+No.:    04
+Date:   18.03.2011 11:00
+Place:  Dr. O. Biberstein's office
+
+We could not perform all the tasks we wanted to do until this friday.
+We detected a problem by combining subclassing and subtyping
+simultanously. This maybe not typeable in both systems.
+
+Documentation Feedback:
+* Programmers want the functionality. But why? We will add this in the first
+  chapter with the theoretical background.
+* Explain Subtyping similarly to Subclassing
+  - Give the definition of Liskov Substitution principle.
+  - What is co/contra/invariance
+
+Decisions:
+* We will use antlr3 since it is more complete then javacc
+
+Discussed our Problem with Subclassing / Subtyping
+* We should not waste too much time with this problem.
+* Make more inputs in the documentation since this has to represent our
+  progress in the thesis. Reading is good but documentation is essential.
+* We may will not solve this problem. Maybe we just drop the simultanously
+* Problem is that a multi-method dispatch can be difficult to understand
+
+Next meeting:
+ Date:  25.03.2011 11:00
+ Place: Dr. O. Biberstein's office
+
