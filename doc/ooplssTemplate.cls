@@ -296,6 +296,9 @@
 
 \newtheorem{mydef}{Definition}
 
+%
+% TODO List
+%
 \newcommand{\todo}[1]{
 % Add to todo list
 \addcontentsline{tdo}{todo}{\protect{#1}}
@@ -308,13 +311,11 @@
 \marginpar{
     \begin{tikzpicture}[remember picture]
         \definecolor{orange}{rgb}{1,0.5,0}
- 
-        \draw node[draw=black, fill=orange, text width = 3cm] (inNote)
-                 {#1};
+        \draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
     \end{tikzpicture}
 }
 %
-\begin{tikzpicture}[remember picture, overlay]
+\begin{tikzpicture}[remember picture, overlay,>=stealth]
     \draw[draw = orange, thick]
         ([yshift=-0.2cm] inText)
             -| ([xshift=-0.2cm] inNote.west)
