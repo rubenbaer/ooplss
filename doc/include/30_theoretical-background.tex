@@ -281,8 +281,11 @@ after the inheritance.
 =======
 \chapter{Making subclassing practical}
 % estimated pages: 2-3
+<<<<<<< HEAD
 
 >>>>>>> Doc: Introduced matching
+=======
+>>>>>>> Doc: Language Principles and Background added
 Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses not implicitly define subtypes a more general
@@ -389,16 +392,15 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 \end{lstlisting}
 
 Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
-the code in \autoref{lst:break} can create a run time exception. As long
-as the parameter is an object of type \emph{SinglyLinkedNode} the code
-runs without any problem. On the other hand if the parameter would be a
-\emph{DoublyLinkedNode} an runtime error would occur since the parameter
-of \emph{setNext} does not provide a \emph{prev} field.
+the code in \autoref{lst:break} can create a run time exception. As
+long as both parameters are objects of the exact same type the code runs
+without any problem. On the other side if the parameter are from different
+types an runtime error would occur since the parameter of \emph{setNext}
+does not provide a \emph{prev} field.
 
 \begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
-pubic void break(SinglyLinkedNode node) {
-  SinglyLinkedNode newNode = new SinglyLinkedNode();
-  node.setNext(newNode);
+pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
+  one.setNext(other);
 }
 \end{lstlisting}
 
@@ -490,21 +492,23 @@ and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
 which is not a subtype.
 =======
 An other solution proposed by Bruce \cite{bruce_binary_1995}\todo{Correct
-reference} is \emph{matching}. Matching is a generalised subtyping
-relation, written as \match, between two types and takes regard to
-a \emph{MyType} in subclasses. An important difference is that the
-matching relation is only between object types and not on method types
-what is in subtyping. As said by Bruce in \cite{bruce_foundations_2002}
-matching does not differ very much from subtyping only that \MyType is
-not substituted by its concrete object type. This makes the relation weaker
-than subtyping where contravariant method parameters are not allowed.
+reference since he proposed the idea earlier} is
+\emph{matching}. Matching is a generalised subtyping relation, written
+as \match, between two types and takes regard to a \emph{MyType} in
+subclasses. An important difference is that the matching relation is only
+between object types and not on method types what is in subtyping. As
+said by Bruce in \cite{bruce_foundations_2002} matching does not differ
+very much from subtyping only that \MyType is not substituted by its
+concrete object type. This makes the relation weaker than subtyping
+where contravariant method parameters are not allowed.
 
-When the subclassing rules are defined they can be formulated type safe
-that subclasses are matching their superclasses. With this assumption
-subclasses and superclasses are matching related and nominal matching
-is possible for type checking. With this definition
-\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} should hold.
- 
+When the subclassing rules are defined they can be formulated
+type safe that subclasses are matching their superclasses. With
+this assumption subclasses and superclasses are matching related and
+nominal matching is possible for type checking. With this definition
+the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
+
+
 
 %\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
 %pubic void break(SinglyLinkedNode node) {
@@ -561,6 +565,18 @@ matches the object type. This is desirable in homogeneous data structures
 but not in heterogeneous. So matching and \MyType together is a good match
 for such structures but lacks on flexibility for many other situations.
 
+<<<<<<< HEAD
+=======
+\section{Match-Bounded Quantification}
+However, the example in \autoref{lst:break} is still not correct
+typeable as long as only is known that the matching relation between
+\emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
+objects to variable is not safe if only is known that the variable's type
+matches the object type. This is desirable in homogeneous data structures
+but not in heterogeneous. So matching and \MyType together is a good match
+for such structures but lacks on flexibility for many other situations.
+
+>>>>>>> Doc: Language Principles and Background added
 To tackle such unwanted inflexibility matching can be extended
 with type parametrisation, called match-bounded quantification
 \cite{abadi_subtyping_1996}. 
