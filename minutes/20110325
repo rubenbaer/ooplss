@@ -1,0 +1,29 @@
+No.:    05
+Date:   25.03.2011 11:00
+Place:  Dr. O. Biberstein's office
+
+Documentation Feedback:
+* See separate sheet
+* Vec2d/Vec3d cite to simons
+* Explain the examples more detailed
+* Explain Listing 8.2
+* Describe subtyping relation formally. What is possible and what not. Which
+  notation will be used?
+
+Problem:
+* We discussed the lookahead option in antlr3. Backtracking is only necessary if
+  the grammar ambiguous.
+* Lookahead of 2 is still okay. Maybe it can be set local.
+* Had some problems with antlr3 and gunit. Now we are using an experimental
+  version.
+
+Meeting with Mr. Spichiger:
+* Is dated for the 31.03.2011
+* Mr. Biberstein can not be there. He has meetings but will call him afterwards.
+
+ToDo: 
+* Give an abstract syntax for the documentation.
+
+Next meeting:
+ Date:  01.04.2011 11:00
+ Place: Dr. O. Biberstein's office
