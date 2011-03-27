@@ -330,7 +330,7 @@
 
 % journal itemize
 \newenvironment{journal}%
-  {\vspace{-0.4cm}
+  {\vspace{-0.45cm}
     \begin{itemize}%
       \setlength{\itemsep}{0pt}%
       \setlength{\parskip}{0pt}}%
