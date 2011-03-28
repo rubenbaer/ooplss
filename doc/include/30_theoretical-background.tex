@@ -15,7 +15,7 @@ but are usually mixed up.
 
 Although the term \emph{class} is used in modern object oriented
 languages like Java and C++, the concept behind it is actually the
-concept of subtypes.  The word type is in the sense of data type, such
+concept of subtypes.	The word type is in the sense of data type, such
 as integer, boolean etc., but could also be extended types like objects
 in object oriented languages. They determine the way data is stored and
 what operations can be done on them.
@@ -78,7 +78,7 @@ The left hierarchy expresses the conceptual family: A \emph{Circle}
 is a special kind of an \emph{Ellipse}, so is \emph{Square} of
 a \emph{Rectangle}. These objects do not actually ''extend`` their
 parents though, instead, they rather remove properties. For instance, the
-\emph{Circle} removes the property of having two radii.  The hierarchy on
+\emph{Circle} removes the property of having two radii.	The hierarchy on
 the right on the other hand is conceptual nonsense. It shows, however,
 how one could want to derive and reuse code, in this case the x and
 y coordinates. Because of that, inheritance (and reuse) of code and
@@ -88,7 +88,7 @@ subtyping should be treated differently.
 \label{sec:recursiveClosure}
 Another problem of the subtyping concept we nowadays have in most object
 oriented languages is the problem of contravariance: the arguments of
-a method that is derived  and overwrites the same method in the super
+a method that is derived	and overwrites the same method in the super
 type can only have a more general or same argument type, but not a more
 specific one:
 
@@ -149,7 +149,7 @@ notation: Object.equals: Object $\rightarrow$ Boolean means that
 the equals method/function takes an Object and returns a Boolean}
 in Java. The class \emph{Object} has an implementation of the equals
 method that takes an argument of the type \emph{Object}. All objects
-automatically are of the type \emph{Object} in Java.  Because of the
+automatically are of the type \emph{Object} in Java.	Because of the
 constraint of contravariance, it is not sound to override this method
 with a more specific argument type which would be reasonable since it does
 not make any sense to compare two objects of different types. Instead,
@@ -278,44 +278,44 @@ possibility to add objects of type \emph{SinglyLinkedNode} in a
 in a runtime exception. In subtyping existing object state variables
 and methods like \emph{setNext} can not be further specialised. The
 \autoref{lst:javaBinary1} shows how the type system has to be escaped
-by casts which is unsafe and.  However, these problems does not rise
+by casts which is unsafe and.	However, these problems does not rise
 from binary methods them self but in combination with subtyping and
 inheritance since these concepts are associated with subsumption.
 
 \begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
-  private SinglyLinkedNode next;
+	private SinglyLinkedNode next;
 
-  public setNext(SinglyLinkedNode next) {
-    this.next = next;
-  }
+	public setNext(SinglyLinkedNode next) {
+		this.next = next;
+	}
 
-  public getNext() SinglyLinkedNode {
-    return this.next;
-  }
+	public getNext() SinglyLinkedNode {
+		return this.next;
+	}
 }
 
 public class DoublyLinkedNode extends SinglyLinkedNode {
-  private DoublyLinkedNode prev;
-  public setPrev(DoublyLinkedNode prev) {
-    this.prev = prev;
-    prev.next = this;
-  }
+	private DoublyLinkedNode prev;
+	public setPrev(DoublyLinkedNode prev) {
+		this.prev = prev;
+		prev.next = this;
+	}
 
-  public DoublyLinkedNode getPrev() {
-    return this.prev;
-  }
-  
-  // Not typeable expression in Java.
-  public setNext(DoublyLinkedNode next) {
-      this.next = next;
-      next.prev = this;
-  }
+	public DoublyLinkedNode getPrev() {
+		return this.prev;
+	}
+	
+	// Not typeable expression in Java.
+	public setNext(DoublyLinkedNode next) {
+			this.next = next;
+			next.prev = this;
+	}
 
-  // Legal override in the sense of subtyping. Illegal Java;
-  public DoublyLinkedNode getNext() {
-    %\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
-  }
+	// Legal override in the sense of subtyping. Illegal Java;
+	public DoublyLinkedNode getNext() {
+		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
+	}
 }
 \end{lstlisting}
 
@@ -328,7 +328,7 @@ does not provide a \emph{prev} field.
 
 \begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
 pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
-  one.setNext(other);
+	one.setNext(other);
 }
 \end{lstlisting}
 
@@ -372,8 +372,8 @@ the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
 %\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
 %pubic void break(SinglyLinkedNode node) {
-%  SinglyLinkedNode newNode = new SinglyLinkedNode();
-%  node.setNext(newNode);
+%	SinglyLinkedNode newNode = new SinglyLinkedNode();
+%	node.setNext(newNode);
 %}
 %\end{lstlisting}
 
