@@ -76,6 +76,9 @@ block:
 }
 >> OK
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Grammar: some extensions
 
 <<
 {
@@ -93,6 +96,7 @@ block:
 	return foo;
 }
 >> OK
+<<<<<<< HEAD
 
 
 <<
@@ -109,3 +113,5 @@ block:
 >> OK
 =======
 >>>>>>> Grammar: special method calls and block testing
+=======
+>>>>>>> Grammar: some extensions

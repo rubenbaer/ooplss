@@ -115,6 +115,19 @@ argument:
 
 >>>>>>> Some changes to the ID
 methodCall:
+"()" OK
+"(blah)" OK
+"(blah, blubb)" OK
+"(blah blubb)" FAIL
+"(3, dings)" OK
+"(3, 'd')" OK 
+"(3, \"dddd\")" OK 
+"('3')" OK
+"(3)" OK
+"(5)" OK
+"(3)" OK
+"(14)" OK
+/*
 "x.y()" OK
 "x.y(blah)" OK
 "x.y(blah, blubb)" OK
@@ -134,7 +147,11 @@ methodCall:
 >>>>>>> Grammar: special method calls and block testing
 =======
 "self.foo(13)" OK
+<<<<<<< HEAD
 >>>>>>> Some changes to the ID
+=======
+*/
+>>>>>>> Grammar: some extensions
 
 // assignments do not have the ';'
 assignmentEntry:
@@ -143,12 +160,17 @@ assignmentEntry:
 "foo = 'c'" OK
 "foo=" FAIL
 "foo=bar" OK
+"x.y() =  3" FAIL
+"x.a = 4" OK
+"x.y().foo.bar().blubb = x.y().retVal.fo0()" OK
+
 
 atom:
 "abc" OK
-"x.y()" OK
 "(dings + bums)" OK
-"self.var" OK
+"x.y()" OK
+"self.var" FAIL // fucking keyword
+"self.blubber" OK
 
 pointExpr:
 "3*3" OK
@@ -190,6 +212,7 @@ orExpr:
 statement:
 "3 + 4 * 18 && 37 || 28 " OK
 "x.foo(y)" OK
+"x.foo(y).blah.shizzle(\"mizzle\").a" OK
 
 blockStatement:
 "x = 3;" OK
