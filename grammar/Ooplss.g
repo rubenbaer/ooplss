@@ -2,8 +2,8 @@ grammar Ooplss;
 
 options {
 	k=2; // because of the method calls in block statement
-	backtrack=true;
 }
+
 
 @header {
 package ch.codedump.ooplss.antlr;
@@ -20,6 +20,8 @@ package ch.codedump.ooplss.antlr;
 	- arguments to methods declaration
 	- minus sign before int literals
 	- if,switch,while statements
+	- self and return keywords
+	- identifiers with self
 */
 
 prog		:	 classDec+;
@@ -79,7 +81,9 @@ blockStatement	:	varDef ';'
 		|	';'
 		;
 		
-assignment	:	ID '=' statement;
+assignmentEntry : 	assignment EOF;
+		
+assignment	:	('self' '.' )? ID '=' statement;
 
 statement	:	
 			expression
@@ -96,15 +100,14 @@ dashExpr	:	pointExpr (('+'|'-') pointExpr)*;
 pointExpr	: 	atom (('*'|'/') atom)*;
 
 atom		:	literal
-		|	ID 
-		|	methodCall
+		|	((ID | 'self') '.')? ID (methodCall)?
 		|	'(' expression ')'
 		;
 
 
-methodCall 	:	ID '.' (('+' | '-' | '/' | '*') | ID) '(' (argument (',' argument)* )? ')';
+methodCall 	:	'(' (argument (',' argument)* )? ')';
 
-argument	:	ID
+argument	:	('self' '.')? ID
 		|	literal
 		;
 
@@ -209,8 +212,10 @@ DEF		: 	'def';
 SUBTYPE		:	'subtypeOf';
 
 SUBCLASS	:	'subclassOf';
+
+SELF		:	'self';
 	
-ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
 //NEWLINE		:	'\r'? '\n';
 
