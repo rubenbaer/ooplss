@@ -65,3 +65,20 @@ block:
 	}
 }
 >> OK
+
+<<
+{
+	return foo;
+}
+>> OK
+
+
+<<
+{
+	{
+		return 3 + 13 * (x.y() * x.y.z());
+	}
+
+	return foo;
+}
+>> OK
