@@ -8,6 +8,13 @@ package ch.codedump.ooplss.antlr;
  * Test different types of statements
  */
 
+argument:
+"BLAH" OK
+"foo" OK
+"3" OK
+"\"dingsbums\"" OK
+"self.blubb" OK
+
 methodCall:
 "x.y()" OK
 "x.y(blah)" OK
@@ -21,9 +28,10 @@ methodCall:
 "x.-(5)" OK
 "x./(3)" OK
 "x.*(14)" OK
+"self.foo(13)" OK
 
 // assignments do not have the ';'
-assignment:
+assignmentEntry:
 "identifier = 3 + 3" OK
 "blah=\"dings\"" OK
 "foo = 'c'" OK
@@ -34,6 +42,7 @@ atom:
 "abc" OK
 "x.y()" OK
 "(dings + bums)" OK
+"self.var" OK
 
 pointExpr:
 "3*3" OK

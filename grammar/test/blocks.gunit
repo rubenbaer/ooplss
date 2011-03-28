@@ -23,6 +23,12 @@ block:
 
 <<
 {
+	dingsbums.foo("bar", 42);
+}
+>> OK
+
+<<
+{
 	18 + 37;
 }
 >> OK
