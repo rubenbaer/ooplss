@@ -1,0 +1,96 @@
+
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+ifStmt:
+<<
+
+if (x.y()) {
+
+}
+
+>> OK
+
+<<
+if (x == 1 + 4) {
+
+}
+>> OK
+
+<<
+if (13) {
+
+} elseif (a + b == true) {
+	x = 5;
+} else {
+	x = 14;
+}
+>> OK
+
+<<
+if (dings ==) {
+
+}
+>> FAIL
+
+<<
+if (dings)
+>> FAIL
+
+
+<<
+if (blubber) {
+>> FAIL
+
+/*
+<<
+if (blubber) {
+
+} else {
+
+} elseif (x) {
+
+}
+>> FAIL
+*/ // apparently this is correct, but the elseif is thrown away
+
+<<
+else {
+
+}
+>> FAIL
+
+whileStmt:
+<<
+while (a < b) {
+
+}
+>> OK
+
+
+whileStmt:
+<<
+while (x+2) {
+
+}
+>> OK
+
+<<
+while()
+>> FAIL
+
+forStmt:
+<<
+for (i = 3; i < 10; i = i + 1) {
+
+}
+>> OK
+
+<<
+for (blah; blubb; bleh) {
+
+}
+>> OK

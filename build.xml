@@ -91,6 +91,14 @@
 		<run-gunit test-file="grammar/test/blocks.gunit" />
 	</target>
 
+	<target name="gunit-conditionals">
+		<run-gunit test-file="grammar/test/conditionals.gunit" />
+	</target>
+
+	<target name="gunit-methodsAndArrays">
+		<run-gunit test-file="grammar/test/methodAndArray.gunit" />
+	</target>
+
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">

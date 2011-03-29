@@ -34,3 +34,6 @@ literal:
 "\"some text\"" OK
 "'c'" OK
 
+BOOLLITERAL:
+"true" OK
+"false" OK
