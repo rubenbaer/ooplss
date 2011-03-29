@@ -47,7 +47,26 @@ available. This helps to keep the language as small.
 % summary of language design
 
 \chapter{Abstract Syntax}
-The language foundation of \ooplss is kept simple
+The language foundation of \ooplss is kept simple and compact. 
+
+\section{Syntax}
+\begin{listing}
+	\begin{tabular}[H]{llrll}
+		\emph{Class}					& C	& $\longrightarrow$ 		& A[B] Subclass Of D[T], E[U] Subtype Of F[V] \{T a; T M;\} \\
+		\emph{Types}					& T & $\longrightarrow$ 		& A \\
+													&   & 									 | & A \match B[A] \\
+		\emph{Method}					& M	& $\longrightarrow$ 		& T m[S](U a, V b) \{e;\} \\
+		\emph{Constructor}		& K	& $\longrightarrow$ 		& c(U a, V b) \{A(a); e;\} \\
+		\emph{Expression}			& e & $\longrightarrow$ 		& x; \\
+													&   & 									 | & x = y; \\
+													&   & 									 | & e.f; \\
+													&   & 									 | & e.m(p); \\
+													&   & 									 | & new C(p); \\
+	\end{tabular}
+\caption{Abstract syntax of \ooplss}
+\label{lst:abstractSyntax}
+\end{listing}
+
 % estimated pages: 10
 
 \chapter{Names and Scopes}
