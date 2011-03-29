@@ -10,6 +10,7 @@ package ch.codedump.ooplss.antlr;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -152,6 +153,9 @@ methodCall:
 =======
 */
 >>>>>>> Grammar: some extensions
+=======
+
+>>>>>>> Grammar: extended the grammar
 
 // assignments do not have the ';'
 assignmentEntry:
@@ -168,9 +172,14 @@ assignmentEntry:
 atom:
 "abc" OK
 "(dings + bums)" OK
+"blah[foo]" OK
+"blah[3]" OK
 "x.y()" OK
 "self.var" FAIL // fucking keyword
 "self.blubber" OK
+"foo[]" FAIL
+"true" OK
+"false" OK
 
 pointExpr:
 "3*3" OK
@@ -195,6 +204,17 @@ dashExpr:
 "3 + -4" OK
 "-13 - -18" OK
 
+equality:
+"3 == 4" OK
+"3 != 2" OK
+"x.y()+14 * (3+2)" OK
+
+inequality:
+"3 > 4" OK
+"3 >= 4" OK
+"123 < x.y()" OK
+"blah <= blubb" OK
+
 andExpr:
 "blubb && foo" OK
 "3 && \"haha\"" OK
@@ -203,6 +223,7 @@ andExpr:
 "3 &&" FAIL
 "&& 4" FAIL
 "4 && z.x(id, \"haha\")" OK
+"4 + 2 == 2 && x.y()" OK
 
 orExpr:
 "123 || \"hallo\"" OK

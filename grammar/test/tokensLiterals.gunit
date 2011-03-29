@@ -51,4 +51,10 @@ BOOLLITERAL:
 >>>>>>> Grammar: method calls
 =======
 
+<<<<<<< HEAD
 >>>>>>> Grammar: statements
+=======
+BOOLLITERAL:
+"true" OK
+"false" OK
+>>>>>>> Grammar: extended the grammar

@@ -147,6 +147,7 @@
 		<run-gunit test-file="grammar/test/conditionals.gunit" />
 	</target>
 
+<<<<<<< HEAD
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 	</target>
@@ -267,6 +268,10 @@
 
 	<target name="gunit-blocks">
 		<run-gunit test-file="grammar/test/blocks.gunit" />
+=======
+	<target name="gunit-methodsAndArrays">
+		<run-gunit test-file="grammar/test/methodAndArray.gunit" />
+>>>>>>> Grammar: extended the grammar
 	</target>
 
 	<!-- the simple test, do not include it in the overall build -->

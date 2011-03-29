@@ -97,6 +97,9 @@ block:
 }
 >> OK
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Grammar: extended the grammar
 
 
 <<
@@ -111,7 +114,10 @@ block:
 	}
 }
 >> OK
+<<<<<<< HEAD
 =======
 >>>>>>> Grammar: special method calls and block testing
 =======
 >>>>>>> Grammar: some extensions
+=======
+>>>>>>> Grammar: extended the grammar
