@@ -1,0 +1,12 @@
+class blubber {
+	var x:foo;
+	var y:bar;
+
+	def func():haha {
+
+		x = 3 + 4;
+		if (x) {
+			x.y();
+		}
+	}
+}
