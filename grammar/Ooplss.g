@@ -1,4 +1,5 @@
 grammar Ooplss;
+<<<<<<< HEAD
 options {
 	k=2; 
 	backtrack=true;
@@ -26,9 +27,20 @@ tokens {
 }
 
 
+=======
+>>>>>>> Grammar: AST and options
 options {
-	k=2; // because of the method calls in block statement
-	backtrack = true;
+	k=2; 
+	backtrack=true;
+	output=AST;
+}
+tokens {
+	VARDEF;
+	CLASSDEF;
+	BLOCK;
+	CLASSBODY;
+	SUPERTYPE;
+	SUPERCLASSES;
 }
 
 
@@ -39,6 +51,7 @@ package ch.codedump.ooplss.antlr;
 package ch.codedump.ooplss.antlr;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 /*
 	TODO:
@@ -336,6 +349,8 @@ ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 =======
 
+=======
+>>>>>>> Grammar: AST and options
 /*
 	TODO:
 	- develop an AST
@@ -350,34 +365,29 @@ WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 
 prog		:	 classDec+;
 
-classDec	
-		:	'class' ID
-			( 'subtypeOf' ID )?
-			( 'subclassOf' ID (',' ID)* )?
-			classBody
+classDec	:	'class'  classname=ID 
+			( 'subtypeOf' supertype=ID )?
+			( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
+			'{'
+				(
+					varDef ';'
+				| 
+					methodDef
+				)*
+			'}'
+			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? varDef? methodDef?)
 		;
 	
-classBody	:
-			'{'
-			classStmt*
-			'}'
-		;
-
-classStmt	:	fieldDef | methodDef ;
-
-fieldDef	:	varDef ';';
 		
-varDef		:	'var' ID (
-				// later introduce implicit typing of variables
-				explicitVar /*| implicitVar*/
-			)
-		;
+varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
 		
+		/*
 explicitVar	:	':' ID // assignment later
 		; 
 
 implicitVar	: 	// demand assignment 
 		;
+		*/
 		
 methodDef	:
 			'def' (	constructorDef	| normalMethodDef ) 
@@ -395,23 +405,42 @@ methodBody 	:	block ;
 
 block 		: 	'{'
 			(blockStatement)*
-			'}'
+			'}' //-> ^(BLOCK blockStatement+)
 		;
 
-blockStatement	:	varDef ';'
-		|	statement ';'	
-		|	assignment ';'
+blockStatement	
+options {
+	k=2;
+	backtrack=true;
+}		:	varDef ';'!
+		|	statement ';'!
+		|	assignment ';'!
 		|	block
-		|	retStmt ';'
+		|	retStmt ';'!
 		|	ifStmt
 		|	whileStmt
 		|	forStmt
-		|	';'
+		|	';'!
 		;
 		
 assignmentEntry : 	assignment EOF;
-		
-assignment	:	('self' '.')? (ID '.' (ID callOrAccess '.')?)* ID '=' statement;
+	 	
+assignment     
+options {
+k=2;
+backtrack=true;
+}		:       ('self' '.')? (ID (callOrAccess)? '.')* ID (arrayAccess)? '=' statement ;
+
+
+//assignment	:	('self' '.')? ID ('.' ID callOrAccess)* '=' statement;
+
+/*
+subAssign
+options {
+k=2;
+backtrack=true;
+}		:	(ID '.'  (ID callOrAccess '.')?)*;
+*/
 
 statement	:	
 			expression
@@ -421,21 +450,21 @@ retStmt		:	'return' statement;
 		
 expression	:	orExpr ;
 
-orExpr		:	andExpr ('||' andExpr)* ;
+orExpr		:	andExpr ('||'^ andExpr)* ;
 
-andExpr		:	equality ('&&' equality)* ;
+andExpr		:	equality ('&&'^ equality)* ;
 
-equality	:	inequality (('=='|'!=') inequality)?;
+equality	:	inequality (('=='|'!=')^ inequality)?;
 
-inequality	:	dashExpr (('<'|'<='|'>'|'>=') dashExpr)?;
+inequality	:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
 		
-dashExpr	:	pointExpr (('+'|'-') pointExpr)*; 
+dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*; 
 
-pointExpr	: 	atom (('*'|'/') atom)*;
+pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
 atom		:	literal
 		|	(ID | 'self') (arrayAccess)? ('.' ID (callOrAccess)?)*
-		|	'(' expression ')'
+		|	'('!  expression ')'! 
 		;
 		
 callOrAccess	:	methodCall
@@ -464,7 +493,14 @@ ifStmt		:	'if' '(' statement ')' block
 			
 whileStmt	: 	'while' '(' statement')' block;
 
-forStmt		:	'for' '(' (statement|assignment) ';' statement ';' (statement|assignment) ')' block;
+forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block;
+	
+stmtOrAssign	
+options {
+	k=2;
+	backtrack=true;
+}
+:	statement|assignment;
 
 
 // got that from the java.g example
@@ -581,7 +617,7 @@ ELIF		:	'elseif';
 ELSE		:	'else';
 
 EQ		: 	'==';
-	
+
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
 //NEWLINE		:	'\r'? '\n';

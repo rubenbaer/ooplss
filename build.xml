@@ -274,6 +274,10 @@
 >>>>>>> Grammar: extended the grammar
 	</target>
 
+	<target name="gunit-ast-statements">
+		<run-gunit test-file="grammar/test/ast-statements.gunit" />
+	</target>
+
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
@@ -293,6 +297,15 @@
 >>>>>>> Build: Build file restructured
 =======
 	</target>
+<<<<<<< HEAD
 >>>>>>> Doc: spaces to tabs
+=======
+
+	<target name="tree-test" depends="build">
+		<java classname="ch.codedump.ooplss.simpletest.TreeTest">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+>>>>>>> Grammar: AST and options
 </project>
 
