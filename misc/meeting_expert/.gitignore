@@ -1,0 +1,14 @@
+*.toc
+*.pdf
+*.out
+*.aux
+*.log
+*.bbl
+*.blg
+*.mp
+*.1
+*.nav
+*.snm
+imgs/logo.eps
+ooplss.*
+!ooplss.tex

@@ -1,0 +1,74 @@
+% $id$
+
+\newcommand{\Hugs}{\texttt{Hugs}\xspace}
+\newcommand{\ghc}{\texttt{ghc}\xspace}
+\newcommand{\ghci}{\texttt{ghci}\xspace}
+
+% New itemize to insert space between items
+% 1st param. optional: options for itemize (e.g. <+->)
+% 2nd size to add between items
+\newenvironment{bigitemize}[2][]%
+{\begin{itemize}[#1]\addtolength{\itemsep}{#2}}%
+{\end{itemize}}
+
+% Sets the default values for listings environment
+\newcommand{\mylstset}{%
+\lstset{%
+basicstyle=\ttfamily\small,%
+language={Haskell},%
+keywordstyle={\color{DarkOrchid}},%
+commentstyle=\color{Grey},%
+showstringspaces=false,%
+numbers=none,%
+identifierstyle=\color{DarkBlue},%
+numberstyle=\tiny,%
+language=Java,%
+backgroundcolor=\color{DarkOrchid!10},%
+columns=[c]fullflexible,%
+keepspaces=true%
+%basewidth={0.5em,0.5em}%
+}%
+}
+
+\newcommand{\textdef}[1]{\textcolor{DarkOrchid}{\textbf{#1}}}
+\newcommand{\textem}[1]{\textcolor{DarkOrchid}{#1}}
+\newcommand{\textcode}[1]{\textcolor{DarkOrchid}{\texttt{#1}}}
+%\renewcommand{\pcrfamily}{\fontencoding{OT1}\fontfamily{pcr}\fontsize{10}{12pt}\upshape\selectfont}
+% \renewcommand{\textpcr}[1]{{\pcrfamily{#1}}}
+% \newcommand{\tcode}[1]{{\textcolor{DarkOrchid}{#1}}}
+% % \newenvironment{cmd}%
+% {\begin{list}{}%
+% {\setlength\leftmargin{5mm}%
+% \setlength\rightmargin{0cm}%
+% \setlength\listparindent{0cm}%
+% \setlength\itemindent{0cm}%
+% \setlength\labelsep{0cm}%
+% \setlength\labelwidth{0cm}}%
+%     \fontencoding{OT1}\fontfamily{pcr}\fontsize{10}{12pt}\upshape\selectfont%
+%   \item[]%
+% }{\end{list}}
+%\renewcommand{\textdef}[1]{\textcolor{RoyalBlue}{#1}}
+% \newcommand{\bk}{\Box}
+% \newcommand{\p}{\mbox{$\cal P$}}
+% \newcommand{\np}{\mbox{$\cal NP$}}
+% \newcommand{\partie}[1]{\mbox{\bf P}(#1)}
+% \newcommand{\NN}{{\bf N}}
+
+
+\newcommand{\lb}{\lambda}
+\newcommand{\lterm}{$\lb$-term\xspace}
+\newcommand{\lterms}{{\lterm}s\xspace}
+\newcommand{\lcalculus}{$\lb$-calculus\xspace}
+\newcommand{\breduction}{$\beta$-reduction\xspace}
+\newcommand{\aequiv}{\equiv_\alpha}
+\newcommand{\bequiv}{\equiv_\beta}
+\newcommand{\aconversion}{$\alpha$-conversion\xspace}
+\newcommand{\econversion}{$\eta$-conversion\xspace}
+\newcommand{\ac}{\rightarrow_\alpha}
+\newcommand{\br}{\rightarrow_\beta}
+\newcommand{\er}{\rightarrow_\eta}
+\newcommand{\FACT}{\text{FACT}}
+\newcommand{\FACTEQN}{\text{FACTEQN}}
+\newcommand{\true}{\text{true}}
+\newcommand{\false}{\text{false}}
+\newcommand{\lbnot}{\text{not}}
