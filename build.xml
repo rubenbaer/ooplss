@@ -99,9 +99,19 @@
 		<run-gunit test-file="grammar/test/methodAndArray.gunit" />
 	</target>
 
+	<target name="gunit-ast-statements">
+		<run-gunit test-file="grammar/test/ast-statements.gunit" />
+	</target>
+
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+
+	<target name="tree-test" depends="build">
+		<java classname="ch.codedump.ooplss.simpletest.TreeTest">
 			<classpath refid="classpath" />
 		</java>
 	</target>

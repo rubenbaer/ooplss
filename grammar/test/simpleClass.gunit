@@ -41,8 +41,8 @@ class blah {
 }
 >> OK
 
-fieldDef:
-"var identifier:type" FAIL // missing ; 
+varDef:
 "var identifier:type;" OK 
 "var identifier;" FAIL // missing type
+
 
