@@ -103,8 +103,11 @@
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
 }
+<<<<<<< HEAD
 % autoref fpr line numbers
 \providecommand*{\lstnumberautorefname}{line}
+=======
+>>>>>>> Doc: Makefile shows error output
 
 %
 % Nomenclatur
