@@ -113,7 +113,14 @@ methodCall:
 "x.y(3, 'd')" OK 
 "x.y(3, \"dddd\")" OK 
 "x.y('3')" OK
+<<<<<<< HEAD
 >>>>>>> Grammar: method calls
+=======
+"x.+(3)" OK
+"x.-(5)" OK
+"x./(3)" OK
+"x.*(14)" OK
+>>>>>>> Grammar: special method calls and block testing
 
 // assignments do not have the ';'
 assignment:
@@ -148,6 +155,8 @@ dashExpr:
 "6+" FAIL
 "+18" FAIL
 "x.y() + 13" OK
+"3 + -4" OK
+"-13 - -18" OK
 
 andExpr:
 "blubb && foo" OK
@@ -176,5 +185,6 @@ blockStatement:
 "a.b(c);" OK
 "3 + 4 * y.x(\"hallo\", welt) && 37;" OK
 "var foo:bar;" OK
+"blubb = x.y();" OK
 
 

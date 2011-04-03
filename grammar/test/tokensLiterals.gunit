@@ -14,10 +14,15 @@ INTLITERAL:
 "43123123" OK
 "abc3" FAIL
 <<<<<<< HEAD
+<<<<<<< HEAD
 "-4" OK
 "-123" OK
 =======
 >>>>>>> Grammar: method calls
+=======
+"-4" OK
+"-123" OK
+>>>>>>> Grammar: special method calls and block testing
 
 STRINGLITERAL:
 "\"blubber\"" OK

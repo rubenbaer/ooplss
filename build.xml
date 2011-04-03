@@ -119,6 +119,7 @@
 		<antcall target="gunit-simpleMethod" />
 		<antcall target="gunit-statements" />
 		<antcall target="gunit-tokensLiterals" />
+		<antcall target="gunit-blocks" />
 	</target>
 
 	<target name="gunit-simpleClass" depends="build">
@@ -147,6 +148,13 @@
 		<java classname="org.antlr.gunit.Interp">
 			<classpath refid="classpath" />
 			<arg value="grammar/test/tokensLiterals.gunit" />
+		</java>
+	</target>
+
+	<target name="gunit-blocks" depends="build">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/blocks.gunit" />
 		</java>
 	</target>
 
