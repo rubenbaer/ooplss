@@ -103,16 +103,8 @@
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 % autoref fpr line numbers
 \providecommand*{\lstnumberautorefname}{line}
-=======
->>>>>>> Doc: Makefile shows error output
-=======
-% autoref fpr line numbers
-\providecommand*{\lstnumberautorefname}{line}
->>>>>>> Doc: Listing template changed.
 
 %
 % Nomenclatur
@@ -304,18 +296,9 @@
 
 \newtheorem{mydef}{Definition}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 %
 % TODO List
 %
-=======
->>>>>>> Doc: Todo command added
-=======
-%
-% TODO List
-%
->>>>>>> Doc: Todo tweaked
 \newcommand{\todo}[1]{
 % Add to todo list
 \addcontentsline{tdo}{todo}{\protect{#1}}
@@ -328,29 +311,11 @@
 \marginpar{
     \begin{tikzpicture}[remember picture]
         \definecolor{orange}{rgb}{1,0.5,0}
-<<<<<<< HEAD
-<<<<<<< HEAD
         \draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
     \end{tikzpicture}
 }
 %
 \begin{tikzpicture}[remember picture, overlay,>=stealth]
-=======
- 
-        \draw node[draw=black, fill=orange, text width = 3cm] (inNote)
-                 {#1};
-    \end{tikzpicture}
-}
-%
-\begin{tikzpicture}[remember picture, overlay]
->>>>>>> Doc: Todo command added
-=======
-        \draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
-    \end{tikzpicture}
-}
-%
-\begin{tikzpicture}[remember picture, overlay,>=stealth]
->>>>>>> Doc: Todo tweaked
     \draw[draw = orange, thick]
         ([yshift=-0.2cm] inText)
             -| ([xshift=-0.2cm] inNote.west)
@@ -358,39 +323,16 @@
 \end{tikzpicture}
 %
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Doc: Numbering
 
 \makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
   \newcommand\l@todo[2]
   {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 % journal itemize
 \newenvironment{journal}%
   {\vspace{-0.45cm}
-=======
-
-% journal itemize
-\newenvironment{journal}%
-<<<<<<< HEAD
-  {\vspace{-0.4cm}
->>>>>>> Doc: Journal entry skip removed
-=======
-  {\vspace{-0.45cm}
->>>>>>> Doc: Journal vspace fixed
     \begin{itemize}%
       \setlength{\itemsep}{0pt}%
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
-<<<<<<< HEAD
-=======
->>>>>>> Doc: Todo command added
-=======
->>>>>>> Doc: Numbering
-=======
->>>>>>> Doc: Journal entry skip removed

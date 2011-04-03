@@ -23,21 +23,12 @@ block:
 
 <<
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Some changes to the ID
 	dingsbums.foo("bar", 42);
 }
 >> OK
 
 <<
 {
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: special method calls and block testing
-=======
->>>>>>> Some changes to the ID
 	18 + 37;
 }
 >> OK
@@ -74,10 +65,6 @@ block:
 	}
 }
 >> OK
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: some extensions
 
 <<
 {
@@ -95,10 +82,6 @@ block:
 	return foo;
 }
 >> OK
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: extended the grammar
 
 
 <<
@@ -113,10 +96,3 @@ block:
 	}
 }
 >> OK
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: special method calls and block testing
-=======
->>>>>>> Grammar: some extensions
-=======
->>>>>>> Grammar: extended the grammar
