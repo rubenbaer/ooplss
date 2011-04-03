@@ -43,6 +43,8 @@ tokens {
 	SUPERCLASSES;
 	METHODDEF;
 	RETURNTYPE;
+	VARACCESS;
+	ARRAYACCESS;
 }
 
 
@@ -417,7 +419,11 @@ assignment
 options {
 k=2;
 backtrack=true;
-}		:       ('self' '.')? (ID (callOrAccess)? '.')* ID (arrayAccess)? '=' statement ;
+}		:       ('self' '.')?  var+=ID (arrayAccess)? '=' statement
+			->  ^('=' ^('.' ^(VARACCESS $var) ^(VARACCESS $var)) statement)
+		;
+
+varAccess	:	(ID -> ^(VARACCESS ID)) ('.' right=ID -> ^('.' $varAccess ^(VARACCESS $right)))*;
 
 
 //assignment	:	('self' '.')? ID ('.' ID callOrAccess)* '=' statement;
