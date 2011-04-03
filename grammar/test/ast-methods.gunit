@@ -1,0 +1,36 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+methodDef:
+<<
+def foo():bar {
+
+}
+>>  -> (METHODDEF foo (RETURNTYPE bar) BLOCK)
+
+<<
+def __construct() {
+
+}
+>> -> (METHODDEF __construct BLOCK)
+
+<<
+def foo():bar {
+	2 + 3;
+	3 * 3;
+}
+>> -> (METHODDEF foo (RETURNTYPE bar) (BLOCK (+ 2 3) (* 3 3)))
+
+
+block:
+<<
+{
+	2 + 3;
+}
+>> -> (BLOCK (+ 2 3))
+
+
+

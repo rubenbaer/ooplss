@@ -11,6 +11,8 @@ tokens {
 	CLASSBODY;
 	SUPERTYPE;
 	SUPERCLASSES;
+	METHODDEF;
+	RETURNTYPE;
 }
 
 
@@ -51,31 +53,17 @@ classDec	:	'class'  classname=ID
 		
 varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
 		
-		/*
-explicitVar	:	':' ID // assignment later
-		; 
-
-implicitVar	: 	// demand assignment 
-		;
-		*/
-		
 methodDef	:
-			'def' (	constructorDef	| normalMethodDef ) 
-			methodBody
+			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
+			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? block)
 		;
-		
-normalMethodDef	: 	ID argumentDeclList ':' ID;
-		
-constructorDef  :	'__construct' argumentDeclList;
 		
 argumentDeclList 	
 		: 	'(' ')';
-		
-methodBody 	:	block ;
 
 block 		: 	'{'
 			(blockStatement)*
-			'}' //-> ^(BLOCK blockStatement+)
+			'}' -> ^(BLOCK blockStatement*)
 		;
 
 blockStatement	
