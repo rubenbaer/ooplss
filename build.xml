@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
+<<<<<<< HEAD
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -9,6 +10,17 @@
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
+=======
+  <property name="src" location="src" />
+  <property name="build" location="build" />
+  <property name="dist" location="dist" />
+  <property name="grammar" location="grammar" />
+  <property name="antlr-outputdir" location="${src}/ch/codedump/ooplss/antlr/" />
+  <property name="lib" location="lib"/>
+  <property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
+  <property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
+  <property name="gunit-testdir" location="${grammar}/test" />
+>>>>>>> Build: Build file restructured
 
 	<path id="classpath">
 <<<<<<< HEAD
@@ -17,8 +29,15 @@
     <fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
 >>>>>>> Antlr: SNAPSHOT Release added
 		<pathelement path="${build}" />
-	</path>
+  </path>
 
+	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
+    classpath="${antlr-tasks}" />
+
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+    classpath="${contrib-tasks}" />
+
+<<<<<<< HEAD
 <<<<<<< HEAD
 	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
 		classpath="${antlr-tasks}" />
@@ -31,6 +50,11 @@
 =======
 >>>>>>> Ant: Build dependencies added for build-src and gunit
 	<target name="build" depends="build-src">
+=======
+  <!-- BUILD -->
+
+  <target name="build" depends="build-src">
+>>>>>>> Build: Build file restructured
 	</target>
 
 	<target name="build-src" depends="build-grammar">
@@ -42,12 +66,16 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Build: Build file restructured
 	<target name="build-grammar">
 		<mkdir dir="${antlr-outputdir}" />
 		<ant-antlr3
 			target="${grammar}/Ooplss.g"
 			verbose="true"
 			outputdirectory="${antlr-outputdir}">
+<<<<<<< HEAD
 			<classpath refid="classpath" />
 		</ant-antlr3>
 	</target>
@@ -129,40 +157,66 @@
 		</java>
 >>>>>>> Grammar: Tried to make the first gunit test
 	</target>
-
-	<target name="gunit-simpleMethod" depends="build">
-		<java classname="org.antlr.gunit.Interp">
+=======
 			<classpath refid="classpath" />
-			<arg value="grammar/test/simpleMethod.gunit" />
-		</java>
+		</ant-antlr3>
+  </target>
+>>>>>>> Build: Build file restructured
+
+  <!-- Testing -->
+
+  <!-- runs every gunit test -->
+  <target name="gunit" depends="build">
+    <foreach param="gunit-file" target="call-gunit">
+      <path>
+        <fileset dir="${gunit-testdir}" includes="**/*.gunit" />
+      </path>
+    </foreach>
+  </target>
+
+  <!-- Wrapper target for macrodef run-gunit -->
+  <target name="call-gunit">
+    <run-gunit test-file="${gunit-file}" />
+  </target>
+
+  <!-- macro to perform a gunit test. the gunit file name is the test-file attribute -->
+  <macrodef name="run-gunit">
+    <attribute name="test-file" />
+    <sequential>
+      <echo message="Running @{test-file}" />
+      <java classname="org.antlr.gunit.Interp">
+        <classpath refid="classpath" />
+        <arg value="@{test-file}" />
+      </java>
+    </sequential>
+  </macrodef>
+
+  <target name="gunit-simpleClass">
+    <run-gunit test-file="grammar/test/simpleClass.gunit" />
 	</target>
 
-	<target name="gunit-statements" depends="build">
-		<java classname="org.antlr.gunit.Interp">
-			<classpath refid="classpath" />
-			<arg value="grammar/test/statements.gunit" />
-		</java>
+  <target name="gunit-simpleMethod">
+    <run-gunit test-file="grammar/test/simpleMethod.gunit" />
 	</target>
 
-	<target name="gunit-tokensLiterals" depends="build">
-		<java classname="org.antlr.gunit.Interp">
-			<classpath refid="classpath" />
-			<arg value="grammar/test/tokensLiterals.gunit" />
-		</java>
+	<target name="gunit-statements">
+    <run-gunit test-file="grammar/test/statements.gunit" />
 	</target>
 
-	<target name="gunit-blocks" depends="build">
-		<java classname="org.antlr.gunit.Interp">
-			<classpath refid="classpath" />
-			<arg value="grammar/test/blocks.gunit" />
-		</java>
+	<target name="gunit-tokensLiterals">
+    <run-gunit test-file="grammar/test/tokensLiterals.gunit" />
 	</target>
+
+	<target name="gunit-blocks">
+    <run-gunit test-file="grammar/test/blocks.gunit" />
+  </target>
 
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
 			<classpath refid="classpath" />
 		</java>
+<<<<<<< HEAD
 	</target>
 
 	<target name="tree-test" depends="build">
@@ -170,5 +224,8 @@
 			<classpath refid="classpath" />
 		</java>
 	</target>
+=======
+  </target>
+>>>>>>> Build: Build file restructured
 </project>
 
