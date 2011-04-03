@@ -86,13 +86,16 @@ class blah {
 }
 >> OK
 
-fieldDef:
-"var identifier:type" FAIL // missing ; 
+varDef:
 "var identifier:type;" OK 
 "var identifier;" FAIL // missing type
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 "class blubber extends blah inherits dings, bums { }" OK
 >>>>>>> Grammar: Tried to make the first gunit test
 =======
 >>>>>>> Grammar: simple classes and methods
+=======
+
+>>>>>>> Grammar: AST and options
