@@ -1,0 +1,30 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+classDec:
+<<
+class blubber {
+
+}
+>> -> (CLASSDEF blubber)
+
+<<
+class blah subtypeOf blubb {
+
+}
+>> -> (CLASSDEF blah (SUPERTYPE blubb))
+
+<<
+class blah subclassOf meh, foo {
+
+}
+>> -> (CLASSDEF blah (SUPERCLASSES meh foo))
+
+<<
+class blah subtypeOf foo subclassOf meh, bar {
+
+}
+>> -> (CLASSDEF blah (SUPERTYPE foo) (SUPERCLASSES meh bar))

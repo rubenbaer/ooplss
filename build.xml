@@ -167,6 +167,7 @@
 		<antcall target="gunit-blocks" />
 	</target>
 
+<<<<<<< HEAD
 	<target name="gunit-simpleClass" depends="build">
 		<java classname="org.antlr.gunit.Interp">
 			<classpath refid="classpath" />
@@ -271,6 +272,16 @@
 	</target>
 
 >>>>>>> Grammar: AST and options
+=======
+	<target name="gunit-ast-classes">
+		<run-gunit test-file="grammar/test/ast-classes.gunit" />
+	</target>
+
+	<target name="gunit-ast-methods">
+		<run-gunit test-file="grammar/test/ast-methods.gunit" />
+	</target>
+
+>>>>>>> Grammar: more AST
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
