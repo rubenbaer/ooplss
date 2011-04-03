@@ -16,6 +16,7 @@ tokens {
 
 options {
 	k=2; // because of the method calls in block statement
+	backtrack = true;
 }
 
 
@@ -307,8 +308,6 @@ WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 	- arguments to methods declaration
 	- minus sign before int literals
 	- if,switch,while statements
-	- self and return keywords
-	- identifiers with self
 */
 
 prog		:	 classDec+;
@@ -365,16 +364,19 @@ blockStatement	:	varDef ';'
 		|	statement ';'	
 		|	assignment ';'
 		|	block
+		|	retStmt ';'
 		|	';'
 		;
 		
 assignmentEntry : 	assignment EOF;
 		
-assignment	:	('self' '.' )? ID '=' statement;
+assignment	:	('self' '.')? (ID '.' (ID methodCall '.')?)* ID '=' statement;
 
 statement	:	
 			expression
 		;
+		
+retStmt		:	'return' statement;
 		
 expression	:	orExpr ;
 
@@ -387,10 +389,9 @@ dashExpr	:	pointExpr (('+'|'-') pointExpr)*;
 pointExpr	: 	atom (('*'|'/') atom)*;
 
 atom		:	literal
-		|	((ID | 'self') '.')? ID (methodCall)?
+		|	(ID | 'self') ('.' ID (methodCall)?)*
 		|	'(' expression ')'
 		;
-
 
 methodCall 	:	'(' (argument (',' argument)* )? ')';
 
@@ -495,6 +496,8 @@ CLASS		: 	'class';
 VAR		: 	'var';
 
 DEF		: 	'def';
+
+RETURNSTMT	:	'return';
 
 SUBTYPE		:	'subtypeOf';
 
