@@ -10,6 +10,7 @@ package ch.codedump.ooplss.antlr;
 
 
 
+<<<<<<< HEAD
 // assignments do not have the ';'
 assignmentEntry:
 "identifier = 3 + 3" OK
@@ -99,4 +100,15 @@ blockStatement:
 "var foo:bar;" OK
 "blubb = x.y();" OK
 
+=======
+methodCall:
+"x.y()" OK
+"x.y(blah)" OK
+"x.y(blah, blubb)" OK
+"x.y(blah blubb)" FAIL
+"x.y(3, dings)" OK
+"x.y(3, 'd')" OK 
+"x.y(3, \"dddd\")" OK 
+"x.y('3')" OK
+>>>>>>> Grammar: method calls
 
