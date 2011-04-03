@@ -1,10 +1,14 @@
 \part{Language Specification}
 \chapter{Design Principles}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Doc: Language Principles and Background added
 The type system used for \ooplss is similar to that of \emph{TooL}
 \cite{gawecki_tool:_1995}. Anyway, many important aspects differ from
 \emph{Tool}. The used principles are these:
 
+<<<<<<< HEAD
 \paragraph{Purely object-oriented}
 \ooplss is in contrast to its target platform Java a purely
 object-oriented language. Every program entity is represented by an
@@ -47,12 +51,28 @@ available. This helps to keep the language as small.
 % estimated pages: 2
 =======
 \cite{gawecki_tool:_1995}
+=======
+>>>>>>> Doc: Language Principles and Background added
 \paragraph{Purely object-oriented}
-\paragraph{Class based}
-\paragraph{Static type system}
-\paragraph{Nominal subtyping}
-\paragraph{Structural matching}
+\ooplss is in contrast to its target platform Java a purely
+object-oriented language. Every program entity is represented by an
+object that can receive messages from other objects. There exists no
+primitive data types which are not objects. Computing is performed only
+by message passing between objects.
 
+\paragraph{Class Based}
+Creating new objects are an essential part in object-oriented
+programming. In \ooplss classes are
+
+\paragraph{Static Type System}
+To reduce the set of possible runtime exceptions \ooplss is statically
+and strongly typed. Every message sent to an object is legal is possible
+and can not create exceptions on runtime. Nonetheless runtime exceptions
+can occur since the type system does not prove that every statement is
+possible, e.g., sending a division by zero message to a number object,
+an appropriate exception will be thrown.
+
+<<<<<<< HEAD
 % paragraph paragraph name (end)
 % estimated pages: 2-3
 >>>>>>> Doc: Binary Methods
@@ -79,6 +99,33 @@ The language foundation of \ooplss is kept simple and compact.
 \label{lst:abstractSyntax}
 \end{listing}
 
+=======
+\paragraph{Safe Type System}
+
+\paragraph{Nominal Type System}
+There are two options how to determine the relation of subtyping
+respectively matching between two types. On one hand is structural
+analysis of the given types in the current context and on the other
+is the analysis of the type hierarchy and restricting subtyping and
+subclassing. Each concept has its assets and drawbacks but both can
+be provided simultaneously \cite{malayeri_integrating_2008}. However,
+\emph{TooL} and \emph{PolyTOIL} use structural subtyping compared to
+Java which uses nominal subtyping. \ooplss has a nominal type system
+for a modular type checking. Once the inheritance relations are checked,
+it is easy to determine whether two types are in relation or not. Since
+\ooplss is translated to Java a similar system is used, i.e., a nominal
+type system is implemented.
+
+\paragraph{No Information Hiding}
+Since nominal subtyping is used, information hiding has not that impact
+compared to structural subtyping since all fields are automatically
+available. This helps to keep the language as small.
+% estimated pages: 2
+% summary of language design
+
+\chapter{Abstract Syntax}
+The language foundation of \ooplss is kept simple
+>>>>>>> Doc: Language Principles and Background added
 % estimated pages: 10
 
 \chapter{Names and Scopes}
