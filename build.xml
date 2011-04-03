@@ -11,7 +11,11 @@
 	<property name="gunit-testdir" location="${grammar}/test" />
 
 	<path id="classpath">
+<<<<<<< HEAD
 		<fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
+=======
+    <fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
+>>>>>>> Antlr: SNAPSHOT Release added
 		<pathelement path="${build}" />
 	</path>
 
