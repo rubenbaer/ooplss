@@ -296,9 +296,12 @@
 
 \newtheorem{mydef}{Definition}
 
+<<<<<<< HEAD
 %
 % TODO List
 %
+=======
+>>>>>>> Doc: Todo command added
 \newcommand{\todo}[1]{
 % Add to todo list
 \addcontentsline{tdo}{todo}{\protect{#1}}
@@ -311,11 +314,21 @@
 \marginpar{
     \begin{tikzpicture}[remember picture]
         \definecolor{orange}{rgb}{1,0.5,0}
+<<<<<<< HEAD
         \draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
     \end{tikzpicture}
 }
 %
 \begin{tikzpicture}[remember picture, overlay,>=stealth]
+=======
+ 
+        \draw node[draw=black, fill=orange, text width = 3cm] (inNote)
+                 {#1};
+    \end{tikzpicture}
+}
+%
+\begin{tikzpicture}[remember picture, overlay]
+>>>>>>> Doc: Todo command added
     \draw[draw = orange, thick]
         ([yshift=-0.2cm] inText)
             -| ([xshift=-0.2cm] inNote.west)
@@ -323,6 +336,7 @@
 \end{tikzpicture}
 %
 }
+<<<<<<< HEAD
 
 \makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
   \newcommand\l@todo[2]
@@ -336,3 +350,5 @@
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
+=======
+>>>>>>> Doc: Todo command added
