@@ -15,7 +15,8 @@ tokens {
 
 
 options {
-	k=1;
+	k=2; // because of the method calls in block statement
+	backtrack=true;
 }
 
 @header {
@@ -300,6 +301,14 @@ ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 =======
 
+/*
+	TODO:
+	- allow .+ .- etc. method calls
+	- develop an AST
+	- arguments to methods declaration
+	- minus sign before int literals
+*/
+
 prog		:	 classDec+;
 
 classDec	
@@ -316,12 +325,13 @@ classBody	:
 		;
 
 classStmt	:	fieldDef | methodDef ;
+
+fieldDef	:	varDef ';';
 		
-fieldDef	:	'var' ID (
+varDef		:	'var' ID (
 				// maybe later introduce implicit typing of variables
 				explicitVar /*| implicitVar*/
 			)
-			';'
 		;
 		
 explicitVar	:	':' ID // assignment later
@@ -345,11 +355,39 @@ argumentDeclList
 methodBody 	:	block ;
 
 block 		: 	'{'
-			/*(blockStatement)**/
+			(blockStatement)*
 			'}'
 		;
 
-blockStatement	:	;
+blockStatement	:	varDef ';'
+		|	statement ';'	
+		|	assignment ';'
+		|	block
+		|	';'
+		;
+		
+assignment	:	ID '=' statement;
+
+statement	:	
+			expression
+		;
+		
+expression	:	orExpr ;
+
+orExpr		:	andExpr ('||' orExpr)* ;
+
+andExpr		:	dashExpr ('&&' dashExpr)* ;
+		
+dashExpr	:	pointExpr (('+'|'-') pointExpr)*; 
+
+pointExpr	: 	atom (('*'|'/') atom)*;
+
+atom		:	literal
+		|	ID 
+		|	methodCall
+		|	'(' expression ')'
+		;
+
 
 methodCall 	:	ID '.' ID '(' (argument (',' argument)* )? ')';
 
@@ -361,11 +399,8 @@ argument	:	ID
 literal		:	INTLITERAL
 		|	STRINGLITERAL
 		|	CHARLITERAL
-		// TODO: 
+		// TODO: more literal types
 		;
-
-
-
 
 
 // got that from the java.g example
@@ -393,7 +428,7 @@ INTLITERAL	: 	'0'..'9'+;
 // got that from the java.g example
 STRINGLITERAL	:   	'"' 
 		        (   EscapeSequence
-		        |   ~( '\\' | '"' | '\r' | '\n' )        
+		|	~( '\\' | '"' | '\r' | '\n' )        
 		        )* 
 		        '"' 
 		;
@@ -401,34 +436,45 @@ STRINGLITERAL	:   	'"'
 // got that from the java.g example		
 CHARLITERAL	:   	'\'' 
 		        (   EscapeSequence 
-	        	|   ~( '\'' | '\\' | '\r' | '\n' )
+	        |   	~( '\'' | '\\' | '\r' | '\n' )
 	        	) 
 	        	'\''
     		; 
 	
 // got that from the java.g example	
 fragment
-EscapeSequence  :   	'\\' (
-                 		'b' 
-		             |   't' 
-		             |   'n' 
-		             |   'f' 
-		             |   'r' 
-		             |   '\"' 
-		             |   '\'' 
-		             |   '\\' 
-		             |       
-		                 ('0'..'3') ('0'..'7') ('0'..'7')
-		             |       
-		                 ('0'..'7') ('0'..'7') 
-		             |       
-		                 ('0'..'7')
-		        )          
+EscapeSequence  :   	'\\' 
+		(		'b' 
+		        |   	't' 
+		        |	'n' 
+		        |       'f' 
+		        |       'r' 
+		        |       '\"' 
+		        |       '\'' 
+		        |       '\\' 
+		        |       ('0'..'3') ('0'..'7') ('0'..'7')
+		        |       ('0'..'7') ('0'..'7') 
+			|       ('0'..'7')
+		)          
 		;  
+EQOPERATOR	
+		: 	'=';
 	    	
 CALLOPERATOR 	:	'.';
 
-STATEMENTEND	:	';';
+SEMICOLON	:	';';
+
+PLUSOPERATOR	:	'+';
+
+MINUSOPERATOR	:	'-';
+
+TIMESOPERATOR	:	'*';
+
+DIVIDEOPERATOR	:	'/';
+
+ANDOPERATOR	:	'&&';
+
+OROPERATOR	: 	'||';
 
 LBRACE		:	'{';
 

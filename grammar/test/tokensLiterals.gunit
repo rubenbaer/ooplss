@@ -37,9 +37,13 @@ literal:
 "\"some text\"" OK
 "'c'" OK
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 BOOLLITERAL:
 "true" OK
 "false" OK
 =======
 >>>>>>> Grammar: method calls
+=======
+
+>>>>>>> Grammar: statements
