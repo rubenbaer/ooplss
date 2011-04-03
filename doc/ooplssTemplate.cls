@@ -337,10 +337,14 @@
 %
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Doc: Numbering
 
 \makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
   \newcommand\l@todo[2]
   {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+<<<<<<< HEAD
 
 % journal itemize
 \newenvironment{journal}%
@@ -352,3 +356,5 @@
 
 =======
 >>>>>>> Doc: Todo command added
+=======
+>>>>>>> Doc: Numbering
