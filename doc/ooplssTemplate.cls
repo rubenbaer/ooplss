@@ -367,16 +367,26 @@
   \newcommand\l@todo[2]
   {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 % journal itemize
 \newenvironment{journal}%
   {\vspace{-0.45cm}
+=======
+
+% journal itemize
+\newenvironment{journal}%
+  {\vspace{-0.4cm}
+>>>>>>> Doc: Journal entry skip removed
     \begin{itemize}%
       \setlength{\itemsep}{0pt}%
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
+<<<<<<< HEAD
 =======
 >>>>>>> Doc: Todo command added
 =======
 >>>>>>> Doc: Numbering
+=======
+>>>>>>> Doc: Journal entry skip removed
