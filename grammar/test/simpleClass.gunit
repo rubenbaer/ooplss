@@ -4,6 +4,7 @@ gunit Ooplss;
 package ch.codedump.ooplss.antlr;
 }
 
+<<<<<<< HEAD
 /**
  * Test some simple class statements 
  * with some field and method definitions
@@ -46,3 +47,10 @@ varDef:
 "var identifier;" FAIL // missing type
 
 
+=======
+classDec:
+"class blubber { }
+" OK
+
+"class blubber extends blah inherits dings, bums { }" OK
+>>>>>>> Grammar: Tried to make the first gunit test

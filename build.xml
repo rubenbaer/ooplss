@@ -33,6 +33,7 @@
 		</javac>
 	</target>
 
+<<<<<<< HEAD
 	<target name="build-grammar">
 		<mkdir dir="${antlr-outputdir}" />
 		<ant-antlr3
@@ -101,6 +102,17 @@
 
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
+=======
+	<target name="gunit" depends="build-src">
+		<antcall target="gunit-simpleClass" />
+	</target>
+
+	<target name="gunit-simpleClass">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/simpleClass.gunit" />
+		</java>
+>>>>>>> Grammar: Tried to make the first gunit test
 	</target>
 
 	<!-- the simple test, do not include it in the overall build -->
