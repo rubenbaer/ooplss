@@ -1,6 +1,7 @@
 
 \part{Theoretical Background}
 <<<<<<< HEAD
+<<<<<<< HEAD
 A introduction is still missing
 =======
 \chapter{Binary Methods}
@@ -9,6 +10,13 @@ A introduction is still missing
 
 \chapter{Subtyping vs. Subclassing}
 \label{chap:subtypingVsSubclassing}
+=======
+A introduction is still missing
+\todo{Introduction to typing problems and matching}
+
+\chapter{Subtyping vs. Subclassing}
+\label{cpt:subtypingVsSubclassing}
+>>>>>>> Doc: Binary Methods
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
 the widely known object oriented programming languages like Java or C++,
@@ -251,7 +259,11 @@ be some sort of placeholder for such cases: the \emph{MyType}. The
 after the inheritance.
 % TODO: Needs further explanations
 
+<<<<<<< HEAD
 \chapter{Making subclassing practical}
+=======
+\chapter{Matching}
+>>>>>>> Doc: Binary Methods
 % estimated pages: 2-3
 Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
@@ -276,6 +288,7 @@ such function in functional languages are straightforward and does not
 rise difficulties. This looks complete different in statically object-oriented
 languages where subtyping is fundamental \cite{bruce_binary_1995}.
 
+<<<<<<< HEAD
 \autoref{lst:javaBinary} shows how subtyping can not prevent the
 possibility to add objects of type \emph{SinglyLinkedNode} in a
 \emph{DoublyLinkedNode} which is definitely incorrect and has to end
@@ -297,6 +310,66 @@ public class SinglyLinkedNode {
 	public getNext() SinglyLinkedNode {
 		return this.next;
 	}
+=======
+Listing \ref{lst:javaBinary} shows how nominal subtyping would provide
+the possibility to add objects of type \emph{SinglyLinkedNode} in a
+\emph{DoublyLinkedNode} which is definitely incorrect. However, these
+problems does not rise from binary methods them self but in combination
+with subtyping and inheritance since these concepts are associated
+with subsumption.
+
+\begin{listing}
+\begin{lstlisting}
+public class SinglyLinkedNode {
+  private SinglyLinkedNode next;
+  public setNext(SinglyLinkedNode next) {
+    this.next = next;
+  }
+
+  public getNext() SinglyLinkedNode {
+    return this.next;
+  }
+}
+
+public class DoublyLinkedNode extends SinglyLinkedNode {
+  private DoublyLinkedNode prev;
+  public setPrev(DoublyLinkedNode prev) {
+    this.prev = prev;
+    prev.setNext(this);
+  }
+
+  public DoublyLinkedNode getPrev() {
+    return this.prev;
+  }
+}
+\end{lstlisting}
+\caption{Illegal subtyping of binary methods in Java}
+\label{lst:javaBinary}
+\end{listing}
+
+However, \cite{bruce_binary_1995} shows some ways out of such problems
+like avoiding binary methods at all and provide these methods
+as static functions or providing special pair objects providing
+these binary methods. One may argue that it should be possible
+to change the parameters of the objects in a contravariant way,
+i.e., that \emph{setNext} and \emph{getNext} is typed as a method
+with parameters of type \emph{DoublyLinkedNode}. As seen in chapter
+\ref{cpt:subtypingVsSubclassing} this would break the subtyping relation
+between \emph{SinglyLinkedNode} and \emph{SinglyLinkedNode}. In this
+case inheritance provides a subclass without subtype! \todo{f-bounded polymorphism}
+
+\section{Protocol}
+\begin{listing}
+\begin{lstlisting}
+class Max {
+  n:Number;
+
+  max(other:MyType):MyType {
+    if (other.n > self.n)
+      return other;
+    return self;
+  }
+>>>>>>> Doc: Binary Methods
 }
 
 public class DoublyLinkedNode extends SinglyLinkedNode {
@@ -322,6 +395,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 	}
 }
 \end{lstlisting}
+<<<<<<< HEAD
 
 Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
 the code in \autoref{lst:break} can create a run time exception. As
@@ -335,6 +409,13 @@ pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 	one.setNext(other);
 }
 \end{lstlisting}
+=======
+\caption{Max and MinMax protocol}
+\label{fig:minmax-example}
+\end{listing}
+
+\section{Type Operators}
+>>>>>>> Doc: Binary Methods
 
 Bruce showed in \cite{bruce_binary_1995} some ways out of such problems
 like avoiding binary methods at all and provide these methods as static
