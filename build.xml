@@ -151,6 +151,7 @@
 		<run-gunit test-file="grammar/test/methodAndArray.gunit" />
 	</target>
 
+<<<<<<< HEAD
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 =======
@@ -261,6 +262,8 @@
 		<run-gunit test-file="grammar/test/blocks.gunit" />
 	</target>
 
+=======
+>>>>>>> Grammar: extended the grammar
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">

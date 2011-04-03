@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> Grammar: extended the grammar
 gunit Ooplss;
 
 @header {
@@ -89,7 +93,11 @@ for (i = 3; i < 10; i = i + 1) {
 >> OK
 
 <<
+<<<<<<< HEAD
 for (x = blah; blubb; bleh) {
+=======
+for (blah; blubb; bleh) {
+>>>>>>> Grammar: extended the grammar
 
 }
 >> OK

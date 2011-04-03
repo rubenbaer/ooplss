@@ -306,8 +306,12 @@ WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
 	TODO:
 	- develop an AST
 	- arguments to methods declaration
-	- minus sign before int literals
-	- if,switch,while statements
+	- true false literals
+	
+	TODO LATER:
+	- switch
+	- assignment and declaration of vars (var foo:bar = 3)
+	- float literals
 */
 
 prog		:	 classDec+;
@@ -330,7 +334,7 @@ classStmt	:	fieldDef | methodDef ;
 fieldDef	:	varDef ';';
 		
 varDef		:	'var' ID (
-				// maybe later introduce implicit typing of variables
+				// later introduce implicit typing of variables
 				explicitVar /*| implicitVar*/
 			)
 		;
@@ -365,12 +369,15 @@ blockStatement	:	varDef ';'
 		|	assignment ';'
 		|	block
 		|	retStmt ';'
+		|	ifStmt
+		|	whileStmt
+		|	forStmt
 		|	';'
 		;
 		
 assignmentEntry : 	assignment EOF;
 		
-assignment	:	('self' '.')? (ID '.' (ID methodCall '.')?)* ID '=' statement;
+assignment	:	('self' '.')? (ID '.' (ID callOrAccess '.')?)* ID '=' statement;
 
 statement	:	
 			expression
@@ -382,18 +389,28 @@ expression	:	orExpr ;
 
 orExpr		:	andExpr ('||' andExpr)* ;
 
-andExpr		:	dashExpr ('&&' dashExpr)* ;
+andExpr		:	equality ('&&' equality)* ;
+
+equality	:	inequality (('=='|'!=') inequality)?;
+
+inequality	:	dashExpr (('<'|'<='|'>'|'>=') dashExpr)?;
 		
 dashExpr	:	pointExpr (('+'|'-') pointExpr)*; 
 
 pointExpr	: 	atom (('*'|'/') atom)*;
 
 atom		:	literal
-		|	(ID | 'self') ('.' ID (methodCall)?)*
+		|	(ID | 'self') (arrayAccess)? ('.' ID (callOrAccess)?)*
 		|	'(' expression ')'
 		;
+		
+callOrAccess	:	methodCall
+		|	arrayAccess
+		;	
 
 methodCall 	:	'(' (argument (',' argument)* )? ')';
+
+arrayAccess	:	'[' statement ']';
 
 argument	:	('self' '.')? ID
 		|	literal
@@ -403,8 +420,17 @@ argument	:	('self' '.')? ID
 literal		:	INTLITERAL
 		|	STRINGLITERAL
 		|	CHARLITERAL
+		|	BOOLLITERAL
 		// TODO: more literal types
 		;
+		
+ifStmt		:	'if' '(' statement ')' block
+			('elseif' '(' statement ')' block)*
+			('else' block)?;
+			
+whileStmt	: 	'while' '(' statement')' block;
+
+forStmt		:	'for' '(' (statement|assignment) ';' statement ';' (statement|assignment) ')' block;
 
 
 // got that from the java.g example
@@ -444,6 +470,7 @@ CHARLITERAL	:   	'\''
 	        	) 
 	        	'\''
     		; 
+BOOLLITERAL	:	'true' | 'false';
 	
 // got that from the java.g example	
 fragment
@@ -489,6 +516,10 @@ LPARA		:	'(';
 
 RPARA		: 	')';
 
+LBRACK		:	'[';
+
+RBRACK		:	']';
+
 CONSTRUCT	: 	'__construct';
     
 CLASS		: 	'class';
@@ -504,6 +535,18 @@ SUBTYPE		:	'subtypeOf';
 SUBCLASS	:	'subclassOf';
 
 SELF		:	'self';
+
+IFSTMT		: 	'if';
+
+WHILESTMT	:	'while';
+
+FORSTMT		:	'for';
+
+ELIF		:	'elseif';
+
+ELSE		:	'else';
+
+EQ		: 	'==';
 	
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
