@@ -24,14 +24,20 @@ block:
 <<
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Some changes to the ID
 	dingsbums.foo("bar", 42);
 }
 >> OK
 
 <<
 {
+<<<<<<< HEAD
 =======
 >>>>>>> Grammar: special method calls and block testing
+=======
+>>>>>>> Some changes to the ID
 	18 + 37;
 }
 >> OK

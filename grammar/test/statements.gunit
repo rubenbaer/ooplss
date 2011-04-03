@@ -9,6 +9,7 @@ package ch.codedump.ooplss.antlr;
  */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -104,6 +105,15 @@ blockStatement:
 =======
 =======
 >>>>>>> Grammar: statements
+=======
+argument:
+"BLAH" OK
+"foo" OK
+"3" OK
+"\"dingsbums\"" OK
+"self.blubb" OK
+
+>>>>>>> Some changes to the ID
 methodCall:
 "x.y()" OK
 "x.y(blah)" OK
@@ -120,10 +130,14 @@ methodCall:
 "x.-(5)" OK
 "x./(3)" OK
 "x.*(14)" OK
+<<<<<<< HEAD
 >>>>>>> Grammar: special method calls and block testing
+=======
+"self.foo(13)" OK
+>>>>>>> Some changes to the ID
 
 // assignments do not have the ';'
-assignment:
+assignmentEntry:
 "identifier = 3 + 3" OK
 "blah=\"dings\"" OK
 "foo = 'c'" OK
@@ -134,6 +148,7 @@ atom:
 "abc" OK
 "x.y()" OK
 "(dings + bums)" OK
+"self.var" OK
 
 pointExpr:
 "3*3" OK
