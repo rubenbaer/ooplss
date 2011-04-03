@@ -15,8 +15,12 @@ A introduction is still missing
 \todo{Introduction to typing problems and matching}
 
 \chapter{Subtyping vs. Subclassing}
+<<<<<<< HEAD
 \label{cpt:subtypingVsSubclassing}
 >>>>>>> Doc: Binary Methods
+=======
+\label{chap:subtypingVsSubclassing}
+>>>>>>> Doc: Introduced matching
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
 the widely known object oriented programming languages like Java or C++,
@@ -100,7 +104,11 @@ subtyping should be treated differently.
 \label{sec:recursiveClosure}
 Another problem of the subtyping concept we nowadays have in most object
 oriented languages is the problem of contravariance: the arguments of
+<<<<<<< HEAD
 a method that is derived	and overwrites the same method in the super
+=======
+a method that is derived  and overwrites the same method in the super
+>>>>>>> Doc: Introduced matching
 type can only have a more general or same argument type, but not a more
 specific one:
 
@@ -161,7 +169,11 @@ notation: Object.equals: Object $\rightarrow$ Boolean means that
 the equals method/function takes an Object and returns a Boolean}
 in Java. The class \emph{Object} has an implementation of the equals
 method that takes an argument of the type \emph{Object}. All objects
+<<<<<<< HEAD
 automatically are of the type \emph{Object} in Java.	Because of the
+=======
+automatically are of the type \emph{Object} in Java.  Because of the
+>>>>>>> Doc: Introduced matching
 constraint of contravariance, it is not sound to override this method
 with a more specific argument type which would be reasonable since it does
 not make any sense to compare two objects of different types. Instead,
@@ -260,11 +272,17 @@ after the inheritance.
 % TODO: Needs further explanations
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 \chapter{Making subclassing practical}
 =======
 \chapter{Matching}
 >>>>>>> Doc: Binary Methods
 % estimated pages: 2-3
+=======
+\chapter{Making subclassing practical}
+% estimated pages: 2-3
+
+>>>>>>> Doc: Introduced matching
 Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses not implicitly define subtypes a more general
@@ -324,14 +342,13 @@ with subsumption.
 =======
 \autoref{lst:javaBinary} shows how subtyping can not prevent the
 possibility to add objects of type \emph{SinglyLinkedNode} in a
-\emph{DoublyLinkedNode} which is definitely incorrect and has to end in a
-runtime exception. In subtyping existing object state variables can not
-be further specialised and the method \emph{setNext} can not specialise
-the argument type. The \autoref{lst:javaBinary1} and \ref{lst:javaBinary2}
-shows how the type system has to be escaped by casts which is unsafe and.
-However, these problems does not rise from binary methods them self but
-in combination with subtyping and inheritance since these concepts are
-associated with subsumption
+\emph{DoublyLinkedNode} which is definitely incorrect and has to end
+in a runtime exception. In subtyping existing object state variables
+and methods like \emph{setNext} can not be further specialised. The
+\autoref{lst:javaBinary1} shows how the type system has to be escaped
+by casts which is unsafe and.  However, these problems does not rise
+from binary methods them self but in combination with subtyping and
+inheritance since these concepts are associated with subsumption.
 
 \begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 >>>>>>> Doc: Code listings adapted. Node example enhanced
@@ -357,21 +374,31 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
   public DoublyLinkedNode getPrev() {
     return this.prev;
   }
-
-  public setNext(SinglyLinkedNode next) {
-    if (next instanceof DoublyLinkedNode) {
-      %\label{lst:javaBinary1})DoublyLinkedNode dNext = (DoublyLinkedNode)next;
-      this.next = dNext;
-      dNext.prev = this;
-    } else {
-      throw new Exception();
-    }
+  
+  // Not typeable expression in Java.
+  public setNext(DoublyLinkedNode next) {
+      this.next = next;
+      next.prev = this;
   }
 
   // Legal override in the sense of subtyping. Illegal Java;
   public DoublyLinkedNode getNext() {
-    %\label{lst:javaBinary2})return (DoublyLinkedNode)this.next;
+    %\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
   }
+}
+\end{lstlisting}
+
+Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
+the code in \autoref{lst:break} can create a run time exception. As long
+as the parameter is an object of type \emph{SinglyLinkedNode} the code
+runs without any problem. On the other hand if the parameter would be a
+\emph{DoublyLinkedNode} an runtime error would occur since the parameter
+of \emph{setNext} does not provide a \emph{prev} field.
+
+\begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
+pubic void break(SinglyLinkedNode node) {
+  SinglyLinkedNode newNode = new SinglyLinkedNode();
+  node.setNext(newNode);
 }
 \end{lstlisting}
 
@@ -381,18 +408,20 @@ functions or providing special pair objects providing these binary
 methods. One may argue that it should be possible to change the parameters
 of the objects in a contravariant way, i.e., that \emph{setNext}
 and \emph{getNext} is typed as a method with parameters of type
-\emph{DoublyLinkedNode}. As seen in \autoref{cpt:subtypingVsSubclassing}
+\emph{DoublyLinkedNode}. As seen in \autoref{chap:subtypingVsSubclassing}
 this would break the subtyping relation between \emph{SinglyLinkedNode}
 and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
-which is not a subtype. 
+which is not a subtype.
 
+\section{Matching}
+\begin{quotation}
+"the same as subtyping in the absence of the \emph{MyType}
+construct, but differs in the presence of \emph{MyType}, because
+\emph{MyType} implicitly has different meanings in different types." -
+\cite{bruce_foundations_2002}
+\end{quotation}
 
-
-\section{Protocol}
-\begin{lstlisting}[label={fig:minmax-example},caption={Max and MinMax protocol}]
-class Max {
-  n:Number;
-
+<<<<<<< HEAD
   max(other:MyType):MyType {
     if (other.n > self.n)
       return other;
@@ -459,6 +488,33 @@ and \emph{getNext} is typed as a method with parameters of type
 this would break the subtyping relation between \emph{SinglyLinkedNode}
 and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
 which is not a subtype.
+=======
+An other solution proposed by Bruce \cite{bruce_binary_1995}\todo{Correct
+reference} is \emph{matching}. Matching is a generalised subtyping
+relation, written as \match, between two types and takes regard to
+a \emph{MyType} in subclasses. An important difference is that the
+matching relation is only between object types and not on method types
+what is in subtyping. As said by Bruce in \cite{bruce_foundations_2002}
+matching does not differ very much from subtyping only that \MyType is
+not substituted by its concrete object type. This makes the relation weaker
+than subtyping where contravariant method parameters are not allowed.
+
+When the subclassing rules are defined they can be formulated type safe
+that subclasses are matching their superclasses. With this assumption
+subclasses and superclasses are matching related and nominal matching
+is possible for type checking. With this definition
+\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} should hold.
+ 
+
+%\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
+%pubic void break(SinglyLinkedNode node) {
+%  SinglyLinkedNode newNode = new SinglyLinkedNode();
+%  node.setNext(newNode);
+%}
+%\end{lstlisting}
+
+
+>>>>>>> Doc: Introduced matching
 
 \section{Matching}
 \begin{quotation}
