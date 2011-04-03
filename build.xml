@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Doc: spaces to tabs
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -10,6 +13,7 @@
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
+<<<<<<< HEAD
 =======
   <property name="src" location="src" />
   <property name="build" location="build" />
@@ -28,15 +32,21 @@
 =======
     <fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
 >>>>>>> Antlr: SNAPSHOT Release added
+=======
+
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
+>>>>>>> Doc: spaces to tabs
 		<pathelement path="${build}" />
-  </path>
+	</path>
 
 	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
-    classpath="${antlr-tasks}" />
+		classpath="${antlr-tasks}" />
 
-  <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-    classpath="${contrib-tasks}" />
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"
+		classpath="${contrib-tasks}" />
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	<taskdef resource="org/apache/tools/ant/antlr/antlib.xml"
@@ -55,6 +65,11 @@
 
   <target name="build" depends="build-src">
 >>>>>>> Build: Build file restructured
+=======
+	<!-- BUILD -->
+
+	<target name="build" depends="build-src">
+>>>>>>> Doc: spaces to tabs
 	</target>
 
 	<target name="build-src" depends="build-grammar">
@@ -160,6 +175,7 @@
 =======
 			<classpath refid="classpath" />
 		</ant-antlr3>
+<<<<<<< HEAD
   </target>
 >>>>>>> Build: Build file restructured
 
@@ -193,29 +209,64 @@
 
   <target name="gunit-simpleClass">
     <run-gunit test-file="grammar/test/simpleClass.gunit" />
+=======
+>>>>>>> Doc: spaces to tabs
 	</target>
 
-  <target name="gunit-simpleMethod">
-    <run-gunit test-file="grammar/test/simpleMethod.gunit" />
+	<!-- Testing -->
+
+	<!-- runs every gunit test -->
+	<target name="gunit" depends="build">
+		<foreach param="gunit-file" target="call-gunit">
+			<path>
+				<fileset dir="${gunit-testdir}" includes="**/*.gunit" />
+			</path>
+		</foreach>
+	</target>
+
+	<!-- Wrapper target for macrodef run-gunit -->
+	<target name="call-gunit">
+		<run-gunit test-file="${gunit-file}" />
+	</target>
+
+	<!-- macro to perform a gunit test. the gunit file name is the test-file attribute -->
+	<macrodef name="run-gunit">
+		<attribute name="test-file" />
+		<sequential>
+			<echo message="Running @{test-file}" />
+			<java classname="org.antlr.gunit.Interp">
+				<classpath refid="classpath" />
+				<arg value="@{test-file}" />
+			</java>
+		</sequential>
+	</macrodef>
+
+	<target name="gunit-simpleClass">
+		<run-gunit test-file="grammar/test/simpleClass.gunit" />
+	</target>
+
+	<target name="gunit-simpleMethod">
+		<run-gunit test-file="grammar/test/simpleMethod.gunit" />
 	</target>
 
 	<target name="gunit-statements">
-    <run-gunit test-file="grammar/test/statements.gunit" />
+		<run-gunit test-file="grammar/test/statements.gunit" />
 	</target>
 
 	<target name="gunit-tokensLiterals">
-    <run-gunit test-file="grammar/test/tokensLiterals.gunit" />
+		<run-gunit test-file="grammar/test/tokensLiterals.gunit" />
 	</target>
 
 	<target name="gunit-blocks">
-    <run-gunit test-file="grammar/test/blocks.gunit" />
-  </target>
+		<run-gunit test-file="grammar/test/blocks.gunit" />
+	</target>
 
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">
 			<classpath refid="classpath" />
 		</java>
+<<<<<<< HEAD
 <<<<<<< HEAD
 	</target>
 
@@ -227,5 +278,8 @@
 =======
   </target>
 >>>>>>> Build: Build file restructured
+=======
+	</target>
+>>>>>>> Doc: spaces to tabs
 </project>
 

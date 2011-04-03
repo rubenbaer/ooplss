@@ -374,7 +374,7 @@ statement	:
 		
 expression	:	orExpr ;
 
-orExpr		:	andExpr ('||' orExpr)* ;
+orExpr		:	andExpr ('||' andExpr)* ;
 
 andExpr		:	dashExpr ('&&' dashExpr)* ;
 		
