@@ -116,6 +116,7 @@
 	<target name="gunit" depends="build">
 >>>>>>> Ant: Build dependencies added for build-src and gunit
 		<antcall target="gunit-simpleClass" />
+		<antcall target="gunit-simpleMethod" />
 	</target>
 
 	<target name="gunit-simpleClass">
@@ -124,6 +125,13 @@
 			<arg value="grammar/test/simpleClass.gunit" />
 		</java>
 >>>>>>> Grammar: Tried to make the first gunit test
+	</target>
+
+	<target name="gunit-simpleMethod">
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="grammar/test/simpleMethod.gunit" />
+		</java>
 	</target>
 
 	<!-- the simple test, do not include it in the overall build -->
