@@ -15,6 +15,8 @@ tokens {
 	RETURNTYPE;
 	VARACCESS;
 	ARRAYACCESS;
+	METHODCALL;
+	METHODARGS;
 }
 
 
@@ -93,7 +95,15 @@ backtrack=true;
 			->  ^('=' ^('.' ^(VARACCESS $var) ^(VARACCESS $var)) statement)
 		;
 
-varAccess	:	(ID -> ^(VARACCESS ID)) ('.' right=ID -> ^('.' $varAccess ^(VARACCESS $right)))*;
+varAccess	:	(ID -> ^(VARACCESS ID))
+			( 
+					'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
+				|
+					'.' id=ID '(' (arg+=argument (',' arg+=argument)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)))
+				
+			)*
+				//| ('.' id=ID methodCall -> ^('.' $varAccess ^(METHODCALL $id methodCall)))
+		;
 
 
 //assignment	:	('self' '.')? ID ('.' ID callOrAccess)* '=' statement;
@@ -135,7 +145,7 @@ callOrAccess	:	methodCall
 		|	arrayAccess
 		;	
 
-methodCall 	:	'(' (argument (',' argument)* )? ')';
+methodCall 	:	'(' (arg+=argument (',' arg+=argument)* )? ')' -> ^(METHODARGS $arg+);
 
 arrayAccess	:	'[' statement ']';
 
