@@ -38,7 +38,6 @@ package ch.codedump.ooplss.antlr;
 
 /*
 	TODO:
-	- develop an AST
 	- arguments to methods declaration
 	- true false literals
 	
