@@ -25,6 +25,7 @@ tokens {
 	SELF;
 	METHODS;
 	FIELDS;
+	RETURN;
 }
 
 
@@ -133,13 +134,11 @@ backtrack=true;
 		)*		
 		;
 
-
+retStmt		:	'return' statement -> ^(RETURN statement); 
 
 statement	:	
 			expression
 		;
-		
-retStmt		:	'return' statement; // stoopid TODO
 		
 expression	:	orExpr;
 
