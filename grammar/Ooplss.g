@@ -17,6 +17,12 @@ tokens {
 	ARRAYACCESS;
 	METHODCALL;
 	METHODARGS;
+	EXPR;
+	INT;
+	STRING;
+	CHAR;
+	BOOL;
+	SELF;
 }
 
 
@@ -89,21 +95,41 @@ assignmentEntry : 	assignment EOF;
 	 	
 assignment     
 options {
+k=*;
+backtrack=true;
+}		:       varAccess '=' statement
+			-> ^('=' varAccess statement)
+
+		;
+		
+varAccessEntry  :	 varAccess EOF;
+
+varAccess	
+/*
+options {
 k=2;
 backtrack=true;
-}		:       ('self' '.')?  var+=ID (arrayAccess)? '=' statement
-			->  ^('=' ^('.' ^(VARACCESS $var) ^(VARACCESS $var)) statement)
-		;
+} */
+:	(
+			ID -> ^(VARACCESS ID)
+		|
+			ID '[' statement ']' -> ^(ARRAYACCESS ID statement)
+		|
+			'self' '.' ID '[' statement ']' -> ^('.' SELF ^(ARRAYACCESS ID statement))
+		|
+			'self' '.' ID -> ^('.' SELF ^(VARACCESS ID))
+	)
+	( 
+			'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
+		|
+			'.' id=ID '[' statement ']' -> ^('.' $varAccess ^(ARRAYACCESS $id statement))
+		|
+			'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
 
-varAccess	:	(ID -> ^(VARACCESS ID))
-			( 
-					'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
-				|
-					'.' id=ID '(' (arg+=argument (',' arg+=argument)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)))
 				
-			)*
+	)*
 				//| ('.' id=ID methodCall -> ^('.' $varAccess ^(METHODCALL $id methodCall)))
-		;
+	;
 
 
 //assignment	:	('self' '.')? ID ('.' ID callOrAccess)* '=' statement;
@@ -120,13 +146,13 @@ statement	:
 			expression
 		;
 		
-retStmt		:	'return' statement;
+retStmt		:	'return' statement; // stoopid TODO
 		
-expression	:	orExpr ;
+expression	:	orExpr;
 
-orExpr		:	andExpr ('||'^ andExpr)* ;
+orExpr		:	andExpr ('||'^ andExpr)? ;
 
-andExpr		:	equality ('&&'^ equality)* ;
+andExpr		:	equality ('&&'^ equality)? ;
 
 equality	:	inequality (('=='|'!=')^ inequality)?;
 
@@ -137,27 +163,31 @@ dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*;
 pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
 atom		:	literal
-		|	(ID | 'self') (arrayAccess)? ('.' ID (callOrAccess)?)*
+		|	varAccess
 		|	'('!  expression ')'! 
 		;
 		
+		/*
 callOrAccess	:	methodCall
 		|	arrayAccess
 		;	
+		*/
 
-methodCall 	:	'(' (arg+=argument (',' arg+=argument)* )? ')' -> ^(METHODARGS $arg+);
+//methodCall 	:	'(' (arg+=argument (',' arg+=argument)* )? ')' -> ^(METHODARGS $arg+);
 
 arrayAccess	:	'[' statement ']';
 
+/*
 argument	:	('self' '.')? ID
 		|	literal
 		;
+		*/
 
 
-literal		:	INTLITERAL
-		|	STRINGLITERAL
-		|	CHARLITERAL
-		|	BOOLLITERAL
+literal		:	i=INTLITERAL  -> ^(INT INTLITERAL)
+		|	STRINGLITERAL -> ^(STRING STRINGLITERAL)
+		|	CHARLITERAL   -> ^(CHAR CHARLITERAL)
+		|	BOOLLITERAL   -> ^(BOOL BOOLLITERAL)
 		// TODO: more literal types
 		;
 		
