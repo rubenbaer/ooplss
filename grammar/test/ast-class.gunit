@@ -11,4 +11,19 @@ class blah {
 		x.y().z;
 	}
 }
->> -> (CLASSDEF blah (METHODDEF foo (RETURNTYPE bar) (BLOCK (. (. (VARACCESS x) (METHODCALL y)) (VARACCESS z)))))
+>> -> (CLASSDEF blah (METHODS (METHODDEF foo (RETURNTYPE bar) (BLOCK (. (. (VARACCESS x) (METHODCALL y)) (VARACCESS z))))))
+
+<<
+class foo {
+	def method():bar {
+
+	}
+
+	def foo():bar {
+	}
+
+	var foo:bar;
+	var a:b;
+	var c:d;
+}
+>> -> (CLASSDEF foo (FIELDS (VARDEF bar foo) (VARDEF b a) (VARDEF d c)) (METHODS (METHODDEF method (RETURNTYPE bar) BLOCK) (METHODDEF foo (RETURNTYPE bar) BLOCK)))
