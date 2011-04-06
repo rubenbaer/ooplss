@@ -53,6 +53,8 @@ tokens {
 	CHAR;
 	BOOL;
 	SELF;
+	METHODS;
+	FIELDS;
 }
 
 
@@ -387,7 +389,7 @@ classDec	:	'class'  classname=ID
 					methodDef
 				)*
 			'}'
-			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? varDef? methodDef?)
+			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)? ^(METHODS methodDef+)?)
 		;
 	
 		
@@ -440,37 +442,28 @@ options {
 k=2;
 backtrack=true;
 } */
-:	(
-			ID -> ^(VARACCESS ID)
-		|
-			ID '[' statement ']' -> ^(ARRAYACCESS ID statement)
-		|
-			'self' '.' ID '[' statement ']' -> ^('.' SELF ^(ARRAYACCESS ID statement))
-		|
-			'self' '.' ID -> ^('.' SELF ^(VARACCESS ID))
-	)
-	( 
-			'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
-		|
-			'.' id=ID '[' statement ']' -> ^('.' $varAccess ^(ARRAYACCESS $id statement))
-		|
-			'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
-
+		:	
+		(
+				ID -> ^(VARACCESS ID)
+			|
+				ID '[' statement ']' -> ^(ARRAYACCESS ID statement)
+			|
+				'self' '.' ID '[' statement ']' -> ^('.' SELF ^(ARRAYACCESS ID statement))
+			|
+				'self' '.' ID -> ^('.' SELF ^(VARACCESS ID))
+		)
+		( 
+				'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
+			|
+				'.' id=ID '[' statement ']' -> ^('.' $varAccess ^(ARRAYACCESS $id statement))
+			|
+				'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
+	
 				
-	)*
-				//| ('.' id=ID methodCall -> ^('.' $varAccess ^(METHODCALL $id methodCall)))
-	;
+		)*		
+		;
 
 
-//assignment	:	('self' '.')? ID ('.' ID callOrAccess)* '=' statement;
-
-/*
-subAssign
-options {
-k=2;
-backtrack=true;
-}		:	(ID '.'  (ID callOrAccess '.')?)*;
-*/
 
 statement	:	
 			expression
@@ -496,22 +489,9 @@ atom		:	literal
 		|	varAccess
 		|	'('!  expression ')'! 
 		;
-		
-		/*
-callOrAccess	:	methodCall
-		|	arrayAccess
-		;	
-		*/
-
-//methodCall 	:	'(' (arg+=argument (',' arg+=argument)* )? ')' -> ^(METHODARGS $arg+);
 
 arrayAccess	:	'[' statement ']';
 
-/*
-argument	:	('self' '.')? ID
-		|	literal
-		;
-		*/
 
 
 literal		:	i=INTLITERAL  -> ^(INT INTLITERAL)
@@ -567,7 +547,7 @@ STRINGLITERAL	:   	'"'
 		        '"' 
 		;
 		
-// got that from the java.g example		
+		// got that from the java.g example		
 CHARLITERAL	:   	'\'' 
 		        (   EscapeSequence 
 	        |   	~( '\'' | '\\' | '\r' | '\n' )

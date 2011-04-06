@@ -1,0 +1,29 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+classDec:
+<<
+class blah {
+	def foo():bar {
+		x.y().z;
+	}
+}
+>> -> (CLASSDEF blah (METHODS (METHODDEF foo (RETURNTYPE bar) (BLOCK (. (. (VARACCESS x) (METHODCALL y)) (VARACCESS z))))))
+
+<<
+class foo {
+	def method():bar {
+
+	}
+
+	def foo():bar {
+	}
+
+	var foo:bar;
+	var a:b;
+	var c:d;
+}
+>> -> (CLASSDEF foo (FIELDS (VARDEF bar foo) (VARDEF b a) (VARDEF d c)) (METHODS (METHODDEF method (RETURNTYPE bar) BLOCK) (METHODDEF foo (RETURNTYPE bar) BLOCK)))
