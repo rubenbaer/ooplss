@@ -95,10 +95,6 @@
 		<run-gunit test-file="grammar/test/conditionals.gunit" />
 	</target>
 
-	<target name="gunit-methodsAndArrays">
-		<run-gunit test-file="grammar/test/methodAndArray.gunit" />
-	</target>
-
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 	</target>
@@ -109,6 +105,10 @@
 
 	<target name="gunit-ast-methods">
 		<run-gunit test-file="grammar/test/ast-methods.gunit" />
+	</target>
+
+	<target name="gunit-ast-class">
+		<run-gunit test-file="grammar/test/ast-class.gunit" />
 	</target>
 
 	<!-- the simple test, do not include it in the overall build -->
