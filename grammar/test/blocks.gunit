@@ -17,21 +17,7 @@ block:
 
 <<
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
 	dingsbums = 137;
-}
->> OK
-
-<<
-{
-	dingsbums.foo("bar", 42);
-=======
-	dingsbuns = 137;
->>>>>>> Grammar: special method calls and block testing
-=======
-	dingsbums = 137;
->>>>>>> Grammar: extended variable access with AST
 }
 >> OK
 
@@ -79,10 +65,6 @@ block:
 	}
 }
 >> OK
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: some extensions
 
 <<
 {
@@ -100,10 +82,6 @@ block:
 	return foo;
 }
 >> OK
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: extended the grammar
 
 
 <<
@@ -118,10 +96,3 @@ block:
 	}
 }
 >> OK
-<<<<<<< HEAD
-=======
->>>>>>> Grammar: special method calls and block testing
-=======
->>>>>>> Grammar: some extensions
-=======
->>>>>>> Grammar: extended the grammar

@@ -1,4 +1,4 @@
-// $ANTLR 3.3.1-SNAPSHOT Mar 23, 2011 24:00:34 /home/sh/gitty/private/ooplss/grammar/Ooplss.g 2011-04-06 15:54:35
+// $ANTLR 3.3.1-SNAPSHOT Mar 23, 2011 24:00:34 /home/sh/gitty/private/ooplss/grammar/Ooplss.g 2011-04-06 16:09:02
 
 package ch.codedump.ooplss.antlr;
 
@@ -247,12 +247,12 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:214:7: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:214:12: '/*' ( options {greedy=false; } : . )* '*/'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:192:7: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:192:12: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:215:11: ( options {greedy=false; } : . )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:193:11: ( options {greedy=false; } : . )*
             loop1:
             do {
                 int alt1=2;
@@ -277,7 +277,7 @@ public class OoplssLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:215:38: .
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:193:38: .
             	    {
             	    matchAny(); 
 
@@ -309,16 +309,16 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:3: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:3: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* )
             int alt5=2;
             alt5 = dfa5.predict(input);
             switch (alt5) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:8: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:8: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' )
                     {
                     match("//"); 
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:13: (~ ( '\\n' | '\\r' ) )*
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:13: (~ ( '\\n' | '\\r' ) )*
                     loop2:
                     do {
                         int alt2=2;
@@ -331,7 +331,7 @@ public class OoplssLexer extends Lexer {
 
                         switch (alt2) {
                     	case 1 :
-                    	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:13: ~ ( '\\n' | '\\r' )
+                    	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:13: ~ ( '\\n' | '\\r' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -351,7 +351,7 @@ public class OoplssLexer extends Lexer {
                         }
                     } while (true);
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:28: ( '\\r\\n' | '\\r' | '\\n' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:28: ( '\\r\\n' | '\\r' | '\\n' )
                     int alt3=3;
                     int LA3_0 = input.LA(1);
 
@@ -375,7 +375,7 @@ public class OoplssLexer extends Lexer {
                     }
                     switch (alt3) {
                         case 1 :
-                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:29: '\\r\\n'
+                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:29: '\\r\\n'
                             {
                             match("\r\n"); 
 
@@ -383,14 +383,14 @@ public class OoplssLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:38: '\\r'
+                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:38: '\\r'
                             {
                             match('\r'); 
 
                             }
                             break;
                         case 3 :
-                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:45: '\\n'
+                            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:45: '\\n'
                             {
                             match('\n'); 
 
@@ -406,11 +406,11 @@ public class OoplssLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:226:5: '//' (~ ( '\\n' | '\\r' ) )*
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:204:5: '//' (~ ( '\\n' | '\\r' ) )*
                     {
                     match("//"); 
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:226:10: (~ ( '\\n' | '\\r' ) )*
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:204:10: (~ ( '\\n' | '\\r' ) )*
                     loop4:
                     do {
                         int alt4=2;
@@ -423,7 +423,7 @@ public class OoplssLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:226:10: ~ ( '\\n' | '\\r' )
+                    	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:204:10: ~ ( '\\n' | '\\r' )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -465,10 +465,10 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = INTLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:12: ( ( '-' )? ( '0' .. '9' )+ )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:15: ( '-' )? ( '0' .. '9' )+
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:12: ( ( '-' )? ( '0' .. '9' )+ )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:15: ( '-' )? ( '0' .. '9' )+
             {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:15: ( '-' )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:15: ( '-' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -477,7 +477,7 @@ public class OoplssLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:16: '-'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:16: '-'
                     {
                     match('-'); 
 
@@ -486,7 +486,7 @@ public class OoplssLexer extends Lexer {
 
             }
 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:22: ( '0' .. '9' )+
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:22: ( '0' .. '9' )+
             int cnt7=0;
             loop7:
             do {
@@ -500,7 +500,7 @@ public class OoplssLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:22: '0' .. '9'
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:210:22: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -533,11 +533,11 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = STRINGLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:235:15: ( '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:235:20: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:213:15: ( '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:213:20: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"'
             {
             match('\"'); 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:236:11: ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:214:11: ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )*
             loop8:
             do {
                 int alt8=3;
@@ -553,14 +553,14 @@ public class OoplssLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:236:15: EscapeSequence
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:214:15: EscapeSequence
             	    {
             	    mEscapeSequence(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:237:5: ~ ( '\\\\' | '\"' | '\\r' | '\\n' )
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:215:5: ~ ( '\\\\' | '\"' | '\\r' | '\\n' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -598,11 +598,11 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = CHARLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:243:13: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) ) '\\'' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:243:18: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) ) '\\''
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:221:13: ( '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) ) '\\'' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:221:18: '\\'' ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) ) '\\''
             {
             match('\''); 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:244:11: ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:11: ( EscapeSequence | ~ ( '\\'' | '\\\\' | '\\r' | '\\n' ) )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -620,14 +620,14 @@ public class OoplssLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:244:15: EscapeSequence
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:222:15: EscapeSequence
                     {
                     mEscapeSequence(); 
 
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:245:15: ~ ( '\\'' | '\\\\' | '\\r' | '\\n' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:223:15: ~ ( '\\'' | '\\\\' | '\\r' | '\\n' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                         input.consume();
@@ -662,7 +662,7 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = BOOLLITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:249:13: ( 'true' | 'false' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:227:13: ( 'true' | 'false' )
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -680,7 +680,7 @@ public class OoplssLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:249:15: 'true'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:227:15: 'true'
                     {
                     match("true"); 
 
@@ -688,7 +688,7 @@ public class OoplssLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:249:24: 'false'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:227:24: 'false'
                     {
                     match("false"); 
 
@@ -709,11 +709,11 @@ public class OoplssLexer extends Lexer {
     // $ANTLR start "EscapeSequence"
     public final void mEscapeSequence() throws RecognitionException {
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:253:17: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ) )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:253:22: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:231:17: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:231:22: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
             {
             match('\\'); 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:254:3: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:3: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
             int alt11=11;
             switch ( input.LA(1) ) {
             case 'b':
@@ -799,80 +799,80 @@ public class OoplssLexer extends Lexer {
 
             switch (alt11) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:254:6: 'b'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:232:6: 'b'
                     {
                     match('b'); 
 
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:255:16: 't'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:233:16: 't'
                     {
                     match('t'); 
 
                     }
                     break;
                 case 3 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:256:13: 'n'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:234:13: 'n'
                     {
                     match('n'); 
 
                     }
                     break;
                 case 4 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:257:19: 'f'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:235:19: 'f'
                     {
                     match('f'); 
 
                     }
                     break;
                 case 5 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:258:19: 'r'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:236:19: 'r'
                     {
                     match('r'); 
 
                     }
                     break;
                 case 6 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:259:19: '\\\"'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:237:19: '\\\"'
                     {
                     match('\"'); 
 
                     }
                     break;
                 case 7 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:260:19: '\\''
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:238:19: '\\''
                     {
                     match('\''); 
 
                     }
                     break;
                 case 8 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:261:19: '\\\\'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:239:19: '\\\\'
                     {
                     match('\\'); 
 
                     }
                     break;
                 case 9 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:19: ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:19: ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
                     {
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:19: ( '0' .. '3' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:20: '0' .. '3'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:19: ( '0' .. '3' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:20: '0' .. '3'
                     {
                     matchRange('0','3'); 
 
                     }
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:30: ( '0' .. '7' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:31: '0' .. '7'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:30: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:31: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
                     }
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:41: ( '0' .. '7' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:262:42: '0' .. '7'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:41: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:240:42: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -882,17 +882,17 @@ public class OoplssLexer extends Lexer {
                     }
                     break;
                 case 10 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:19: ( '0' .. '7' ) ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:241:19: ( '0' .. '7' ) ( '0' .. '7' )
                     {
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:19: ( '0' .. '7' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:20: '0' .. '7'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:241:19: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:241:20: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
                     }
 
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:30: ( '0' .. '7' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:31: '0' .. '7'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:241:30: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:241:31: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -902,10 +902,10 @@ public class OoplssLexer extends Lexer {
                     }
                     break;
                 case 11 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:264:12: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:242:12: ( '0' .. '7' )
                     {
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:264:12: ( '0' .. '7' )
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:264:13: '0' .. '7'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:242:12: ( '0' .. '7' )
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:242:13: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -932,8 +932,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = EQOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:269:3: ( '=' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:269:6: '='
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:247:3: ( '=' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:247:6: '='
             {
             match('='); 
 
@@ -953,8 +953,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = CALLOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:271:15: ( '.' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:271:17: '.'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:249:15: ( '.' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:249:17: '.'
             {
             match('.'); 
 
@@ -974,8 +974,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = SEMICOLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:273:11: ( ';' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:273:13: ';'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:251:11: ( ';' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:251:13: ';'
             {
             match(';'); 
 
@@ -995,8 +995,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = PLUSOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:275:14: ( '+' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:275:16: '+'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:253:14: ( '+' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:253:16: '+'
             {
             match('+'); 
 
@@ -1016,8 +1016,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = MINUSOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:277:15: ( '-' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:277:17: '-'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:255:15: ( '-' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:255:17: '-'
             {
             match('-'); 
 
@@ -1037,8 +1037,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = TIMESOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:279:15: ( '*' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:279:17: '*'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:257:15: ( '*' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:257:17: '*'
             {
             match('*'); 
 
@@ -1058,8 +1058,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = DIVIDEOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:281:16: ( '/' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:281:18: '/'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:259:16: ( '/' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:259:18: '/'
             {
             match('/'); 
 
@@ -1079,8 +1079,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = ANDOPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:283:13: ( '&&' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:283:15: '&&'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:261:13: ( '&&' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:261:15: '&&'
             {
             match("&&"); 
 
@@ -1101,8 +1101,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = OROPERATOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:285:12: ( '||' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:285:15: '||'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:12: ( '||' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:263:15: '||'
             {
             match("||"); 
 
@@ -1123,8 +1123,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:287:9: ( '{' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:287:11: '{'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:265:9: ( '{' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:265:11: '{'
             {
             match('{'); 
 
@@ -1144,8 +1144,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:289:9: ( '}' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:289:14: '}'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:267:9: ( '}' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:267:14: '}'
             {
             match('}'); 
 
@@ -1165,8 +1165,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = LPARA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:291:8: ( '(' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:291:10: '('
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:269:8: ( '(' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:269:10: '('
             {
             match('('); 
 
@@ -1186,8 +1186,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = RPARA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:293:8: ( ')' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:293:11: ')'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:271:8: ( ')' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:271:11: ')'
             {
             match(')'); 
 
@@ -1207,8 +1207,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = LBRACK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:295:9: ( '[' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:295:11: '['
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:273:9: ( '[' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:273:11: '['
             {
             match('['); 
 
@@ -1228,8 +1228,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = RBRACK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:297:9: ( ']' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:297:11: ']'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:275:9: ( ']' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:275:11: ']'
             {
             match(']'); 
 
@@ -1249,8 +1249,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = CONSTRUCT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:299:11: ( '__construct' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:299:14: '__construct'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:277:11: ( '__construct' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:277:14: '__construct'
             {
             match("__construct"); 
 
@@ -1271,8 +1271,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = CLASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:301:8: ( 'class' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:301:11: 'class'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:279:8: ( 'class' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:279:11: 'class'
             {
             match("class"); 
 
@@ -1293,8 +1293,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = VAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:303:6: ( 'var' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:303:9: 'var'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:281:6: ( 'var' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:281:9: 'var'
             {
             match("var"); 
 
@@ -1315,8 +1315,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = DEF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:305:6: ( 'def' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:305:9: 'def'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:283:6: ( 'def' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:283:9: 'def'
             {
             match("def"); 
 
@@ -1337,8 +1337,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = RETURNSTMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:307:12: ( 'return' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:307:14: 'return'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:285:12: ( 'return' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:285:14: 'return'
             {
             match("return"); 
 
@@ -1359,8 +1359,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = SUBTYPE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:309:10: ( 'subtypeOf' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:309:12: 'subtypeOf'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:287:10: ( 'subtypeOf' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:287:12: 'subtypeOf'
             {
             match("subtypeOf"); 
 
@@ -1381,8 +1381,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = SUBCLASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:311:10: ( 'subclassOf' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:311:12: 'subclassOf'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:289:10: ( 'subclassOf' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:289:12: 'subclassOf'
             {
             match("subclassOf"); 
 
@@ -1403,8 +1403,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = SELF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:313:7: ( 'self' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:313:9: 'self'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:291:7: ( 'self' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:291:9: 'self'
             {
             match("self"); 
 
@@ -1425,8 +1425,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = IFSTMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:315:9: ( 'if' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:315:12: 'if'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:293:9: ( 'if' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:293:12: 'if'
             {
             match("if"); 
 
@@ -1447,8 +1447,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = WHILESTMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:317:11: ( 'while' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:317:13: 'while'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:295:11: ( 'while' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:295:13: 'while'
             {
             match("while"); 
 
@@ -1469,8 +1469,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = FORSTMT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:319:10: ( 'for' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:319:12: 'for'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:297:10: ( 'for' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:297:12: 'for'
             {
             match("for"); 
 
@@ -1491,8 +1491,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = ELIF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:321:7: ( 'elseif' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:321:9: 'elseif'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:299:7: ( 'elseif' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:299:9: 'elseif'
             {
             match("elseif"); 
 
@@ -1513,8 +1513,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = ELSE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:323:7: ( 'else' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:323:9: 'else'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:301:7: ( 'else' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:301:9: 'else'
             {
             match("else"); 
 
@@ -1535,8 +1535,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = EQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:325:5: ( '==' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:325:8: '=='
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:303:5: ( '==' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:303:8: '=='
             {
             match("=="); 
 
@@ -1557,8 +1557,8 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:327:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )* )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:327:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:305:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )* )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:305:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -1569,7 +1569,7 @@ public class OoplssLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:327:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:305:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '+' | '-' | '*' | '/' )*
             loop12:
             do {
                 int alt12=2;
@@ -1619,10 +1619,10 @@ public class OoplssLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:331:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:331:7: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:309:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:309:7: ( ' ' | '\\t' | '\\n' | '\\r' )+
             {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:331:7: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:309:7: ( ' ' | '\\t' | '\\n' | '\\r' )+
             int cnt13=0;
             loop13:
             do {
@@ -2045,7 +2045,7 @@ public class OoplssLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "221:1: LINE_COMMENT : ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* );";
+            return "199:1: LINE_COMMENT : ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;

@@ -5,8 +5,6 @@ package ch.codedump.ooplss.antlr;
 }
 
 pointExpr:
-<<<<<<< HEAD
-<<<<<<< HEAD
 "3 * 5"     -> (* (INT 3) (INT 5))
 "3 / 5"     -> (/ (INT 3) (INT 5))
 "3 * 5 * 7" -> (* (* (INT 3) (INT 5)) (INT 7))
@@ -34,40 +32,3 @@ varAccess:
 "x[a]" -> (ARRAYACCESS (VARACCESS x) (VARACCESS a))
 "x.y().z" -> (. (. (VARACCESS x) (METHODCALL y)) z)
 */
-=======
-"3 * 5"     -> (* 3 5)
-"3 / 5"     -> (/ 3 5)
-"3 * 5 * 7" -> (* (* 3 5) 7)
-=======
-"3 * 5"     -> (* (INT 3) (INT 5))
-"3 / 5"     -> (/ (INT 3) (INT 5))
-"3 * 5 * 7" -> (* (* (INT 3) (INT 5)) (INT 7))
->>>>>>> Grammar: extended variable access with AST
-
-dashExpr:
-"3 + 5"      -> (+ (INT 3) (INT 5))
-"3 + 5 + 4"  -> (+ (+ (INT 3) (INT 5)) (INT 4))
-"3 + -5"     -> (+ (INT 3) (INT -5))
-"3 - 5"      -> (- (INT 3) (INT 5))
-"3 * 5 + 4"  -> (+ (* (INT 3) (INT 5)) (INT 4))
-"3 * 5 + -4" -> (+ (* (INT 3) (INT 5)) (INT -4))
-
-inequality:
-"3 <= 4"              -> (<= (INT 3) (INT 4))
-"3 <= 4 * 5"          -> (<= (INT 3) (* (INT 4) (INT 5)))
-"3 + 4 > 13 * 2 + 1"  -> (> (+ (INT 3) (INT 4)) (+ (* (INT 13) (INT 2)) (INT 1)))
-"13 > 4"              -> (> (INT 13) (INT 4))
-
-equality:
-"3 == 4"  -> (== (INT 3) (INT 4))
-"3 == 13 + 3" -> (== (INT 3) (+ (INT 13) (INT 3)))
-
-<<<<<<< HEAD
->>>>>>> Grammar: AST and options
-=======
-/*j
-varAccess:
-"x[a]" -> (ARRAYACCESS (VARACCESS x) (VARACCESS a))
-"x.y().z" -> (. (. (VARACCESS x) (METHODCALL y)) z)
-*/
->>>>>>> Grammar: extended variable access with AST

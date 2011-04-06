@@ -1,4 +1,4 @@
-// $ANTLR 3.3.1-SNAPSHOT Mar 23, 2011 24:00:34 /home/sh/gitty/private/ooplss/grammar/Ooplss.g 2011-04-06 15:54:34
+// $ANTLR 3.3.1-SNAPSHOT Mar 23, 2011 24:00:34 /home/sh/gitty/private/ooplss/grammar/Ooplss.g 2011-04-06 16:09:02
 
 package ch.codedump.ooplss.antlr;
 
@@ -393,7 +393,7 @@ public class OoplssParser extends Parser {
 
 
             // AST REWRITE
-            // elements: methodDef, varDef, classname, subclass, supertype
+            // elements: methodDef, classname, supertype, varDef, subclass
             // token labels: classname, supertype
             // rule labels: retval
             // token list labels: subclass
@@ -567,7 +567,7 @@ public class OoplssParser extends Parser {
 
 
             // AST REWRITE
-            // elements: name, type
+            // elements: type, name
             // token labels: name, type
             // rule labels: retval
             // token list labels: 
@@ -1437,7 +1437,7 @@ public class OoplssParser extends Parser {
 
 
             // AST REWRITE
-            // elements: EQOPERATOR, varAccess, statement
+            // elements: varAccess, statement, EQOPERATOR
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1620,10 +1620,10 @@ public class OoplssParser extends Parser {
         RewriteRuleTokenStream stream_61=new RewriteRuleTokenStream(adaptor,"token 61");
         RewriteRuleSubtreeStream stream_statement=new RewriteRuleSubtreeStream(adaptor,"rule statement");
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:115:1: ( ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) ) ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )* )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:115:3: ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) ) ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:115:3: ( ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) ) ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )* )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:116:3: ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) ) ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )*
             {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:115:3: ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:116:3: ( ID -> ^( VARACCESS ID ) | ID '[' statement ']' -> ^( ARRAYACCESS ID statement ) | 'self' '.' ID '[' statement ']' -> ^( '.' SELF ^( ARRAYACCESS ID statement ) ) | 'self' '.' ID -> ^( '.' SELF ^( VARACCESS ID ) ) )
             int alt9=4;
             int LA9_0 = input.LA(1);
 
@@ -1681,9 +1681,9 @@ public class OoplssParser extends Parser {
             }
             switch (alt9) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:116:4: ID
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:117:5: ID
                     {
-                    ID43=(Token)match(input,ID,FOLLOW_ID_in_varAccess628); if (state.failed) return retval; 
+                    ID43=(Token)match(input,ID,FOLLOW_ID_in_varAccess634); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ID.add(ID43);
 
 
@@ -1700,9 +1700,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 116:7: -> ^( VARACCESS ID )
+                    // 117:8: -> ^( VARACCESS ID )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:116:10: ^( VARACCESS ID )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:117:11: ^( VARACCESS ID )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(VARACCESS, "VARACCESS"), root_1);
@@ -1718,27 +1718,27 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:118:4: ID '[' statement ']'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:119:5: ID '[' statement ']'
                     {
-                    ID44=(Token)match(input,ID,FOLLOW_ID_in_varAccess645); if (state.failed) return retval; 
+                    ID44=(Token)match(input,ID,FOLLOW_ID_in_varAccess653); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ID.add(ID44);
 
-                    char_literal45=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess647); if (state.failed) return retval; 
+                    char_literal45=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess655); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LBRACK.add(char_literal45);
 
-                    pushFollow(FOLLOW_statement_in_varAccess649);
+                    pushFollow(FOLLOW_statement_in_varAccess657);
                     statement46=statement();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_statement.add(statement46.getTree());
-                    char_literal47=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess651); if (state.failed) return retval; 
+                    char_literal47=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess659); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RBRACK.add(char_literal47);
 
 
 
                     // AST REWRITE
-                    // elements: ID, statement
+                    // elements: statement, ID
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1749,9 +1749,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 118:25: -> ^( ARRAYACCESS ID statement )
+                    // 119:26: -> ^( ARRAYACCESS ID statement )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:118:28: ^( ARRAYACCESS ID statement )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:119:29: ^( ARRAYACCESS ID statement )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(ARRAYACCESS, "ARRAYACCESS"), root_1);
@@ -1768,33 +1768,33 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:120:4: 'self' '.' ID '[' statement ']'
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:121:5: 'self' '.' ID '[' statement ']'
                     {
-                    string_literal48=(Token)match(input,SELF,FOLLOW_SELF_in_varAccess670); if (state.failed) return retval; 
+                    string_literal48=(Token)match(input,SELF,FOLLOW_SELF_in_varAccess680); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SELF.add(string_literal48);
 
-                    char_literal49=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess672); if (state.failed) return retval; 
+                    char_literal49=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess682); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CALLOPERATOR.add(char_literal49);
 
-                    ID50=(Token)match(input,ID,FOLLOW_ID_in_varAccess674); if (state.failed) return retval; 
+                    ID50=(Token)match(input,ID,FOLLOW_ID_in_varAccess684); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ID.add(ID50);
 
-                    char_literal51=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess676); if (state.failed) return retval; 
+                    char_literal51=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess686); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LBRACK.add(char_literal51);
 
-                    pushFollow(FOLLOW_statement_in_varAccess678);
+                    pushFollow(FOLLOW_statement_in_varAccess688);
                     statement52=statement();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_statement.add(statement52.getTree());
-                    char_literal53=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess680); if (state.failed) return retval; 
+                    char_literal53=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess690); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RBRACK.add(char_literal53);
 
 
 
                     // AST REWRITE
-                    // elements: ID, CALLOPERATOR, statement
+                    // elements: statement, ID, CALLOPERATOR
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1805,15 +1805,15 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 120:36: -> ^( '.' SELF ^( ARRAYACCESS ID statement ) )
+                    // 121:37: -> ^( '.' SELF ^( ARRAYACCESS ID statement ) )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:120:39: ^( '.' SELF ^( ARRAYACCESS ID statement ) )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:121:40: ^( '.' SELF ^( ARRAYACCESS ID statement ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot(stream_CALLOPERATOR.nextNode(), root_1);
 
                         adaptor.addChild(root_1, (Object)adaptor.create(SELF, "SELF"));
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:120:50: ^( ARRAYACCESS ID statement )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:121:51: ^( ARRAYACCESS ID statement )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(ARRAYACCESS, "ARRAYACCESS"), root_2);
@@ -1833,21 +1833,21 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:122:4: 'self' '.' ID
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:123:5: 'self' '.' ID
                     {
-                    string_literal54=(Token)match(input,SELF,FOLLOW_SELF_in_varAccess705); if (state.failed) return retval; 
+                    string_literal54=(Token)match(input,SELF,FOLLOW_SELF_in_varAccess717); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SELF.add(string_literal54);
 
-                    char_literal55=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess707); if (state.failed) return retval; 
+                    char_literal55=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess719); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CALLOPERATOR.add(char_literal55);
 
-                    ID56=(Token)match(input,ID,FOLLOW_ID_in_varAccess709); if (state.failed) return retval; 
+                    ID56=(Token)match(input,ID,FOLLOW_ID_in_varAccess721); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ID.add(ID56);
 
 
 
                     // AST REWRITE
-                    // elements: ID, CALLOPERATOR
+                    // elements: CALLOPERATOR, ID
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1858,15 +1858,15 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 122:18: -> ^( '.' SELF ^( VARACCESS ID ) )
+                    // 123:19: -> ^( '.' SELF ^( VARACCESS ID ) )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:122:21: ^( '.' SELF ^( VARACCESS ID ) )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:123:22: ^( '.' SELF ^( VARACCESS ID ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot(stream_CALLOPERATOR.nextNode(), root_1);
 
                         adaptor.addChild(root_1, (Object)adaptor.create(SELF, "SELF"));
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:122:32: ^( VARACCESS ID )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:123:33: ^( VARACCESS ID )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(VARACCESS, "VARACCESS"), root_2);
@@ -1887,7 +1887,7 @@ public class OoplssParser extends Parser {
 
             }
 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:124:2: ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:3: ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) ) | '.' id= ID '[' statement ']' -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) ) | '.' id= ID -> ^( '.' $varAccess ^( VARACCESS $id) ) )*
             loop12:
             do {
                 int alt12=4;
@@ -1918,18 +1918,18 @@ public class OoplssParser extends Parser {
 
                 switch (alt12) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:4: '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')'
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:5: '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')'
             	    {
-            	    char_literal57=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess735); if (state.failed) return retval; 
+            	    char_literal57=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess750); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_CALLOPERATOR.add(char_literal57);
 
-            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess739); if (state.failed) return retval; 
+            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess754); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_ID.add(id);
 
-            	    char_literal58=(Token)match(input,LPARA,FOLLOW_LPARA_in_varAccess741); if (state.failed) return retval; 
+            	    char_literal58=(Token)match(input,LPARA,FOLLOW_LPARA_in_varAccess756); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_LPARA.add(char_literal58);
 
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:18: (arg+= statement ( ',' arg+= statement )* )?
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:19: (arg+= statement ( ',' arg+= statement )* )?
             	    int alt11=2;
             	    int LA11_0 = input.LA(1);
 
@@ -1938,9 +1938,9 @@ public class OoplssParser extends Parser {
             	    }
             	    switch (alt11) {
             	        case 1 :
-            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:19: arg+= statement ( ',' arg+= statement )*
+            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:20: arg+= statement ( ',' arg+= statement )*
             	            {
-            	            pushFollow(FOLLOW_statement_in_varAccess746);
+            	            pushFollow(FOLLOW_statement_in_varAccess761);
             	            arg=statement();
 
             	            state._fsp--;
@@ -1949,7 +1949,7 @@ public class OoplssParser extends Parser {
             	            if (list_arg==null) list_arg=new ArrayList();
             	            list_arg.add(arg.getTree());
 
-            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:34: ( ',' arg+= statement )*
+            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:35: ( ',' arg+= statement )*
             	            loop10:
             	            do {
             	                int alt10=2;
@@ -1962,12 +1962,12 @@ public class OoplssParser extends Parser {
 
             	                switch (alt10) {
             	            	case 1 :
-            	            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:35: ',' arg+= statement
+            	            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:36: ',' arg+= statement
             	            	    {
-            	            	    char_literal59=(Token)match(input,61,FOLLOW_61_in_varAccess749); if (state.failed) return retval; 
+            	            	    char_literal59=(Token)match(input,61,FOLLOW_61_in_varAccess764); if (state.failed) return retval; 
             	            	    if ( state.backtracking==0 ) stream_61.add(char_literal59);
 
-            	            	    pushFollow(FOLLOW_statement_in_varAccess753);
+            	            	    pushFollow(FOLLOW_statement_in_varAccess768);
             	            	    arg=statement();
 
             	            	    state._fsp--;
@@ -1991,13 +1991,13 @@ public class OoplssParser extends Parser {
 
             	    }
 
-            	    char_literal60=(Token)match(input,RPARA,FOLLOW_RPARA_in_varAccess760); if (state.failed) return retval; 
+            	    char_literal60=(Token)match(input,RPARA,FOLLOW_RPARA_in_varAccess775); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_RPARA.add(char_literal60);
 
 
 
             	    // AST REWRITE
-            	    // elements: id, varAccess, arg, CALLOPERATOR
+            	    // elements: arg, id, CALLOPERATOR, varAccess
             	    // token labels: id
             	    // rule labels: retval
             	    // token list labels: 
@@ -2009,23 +2009,23 @@ public class OoplssParser extends Parser {
             	    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             	    RewriteRuleSubtreeStream stream_arg=new RewriteRuleSubtreeStream(adaptor,"token arg",list_arg);
             	    root_0 = (Object)adaptor.nil();
-            	    // 125:63: -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) )
+            	    // 126:64: -> ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) )
             	    {
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:66: ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) )
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:67: ^( '.' $varAccess ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? ) )
             	        {
             	        Object root_1 = (Object)adaptor.nil();
             	        root_1 = (Object)adaptor.becomeRoot(stream_CALLOPERATOR.nextNode(), root_1);
 
             	        adaptor.addChild(root_1, stream_retval.nextTree());
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:83: ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? )
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:84: ^( METHODCALL $id ( ^( METHODARGS ( $arg)+ ) )? )
             	        {
             	        Object root_2 = (Object)adaptor.nil();
             	        root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(METHODCALL, "METHODCALL"), root_2);
 
             	        adaptor.addChild(root_2, stream_id.nextNode());
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:100: ( ^( METHODARGS ( $arg)+ ) )?
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:101: ( ^( METHODARGS ( $arg)+ ) )?
             	        if ( stream_arg.hasNext() ) {
-            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:100: ^( METHODARGS ( $arg)+ )
+            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:101: ^( METHODARGS ( $arg)+ )
             	            {
             	            Object root_3 = (Object)adaptor.nil();
             	            root_3 = (Object)adaptor.becomeRoot((Object)adaptor.create(METHODARGS, "METHODARGS"), root_3);
@@ -2057,30 +2057,30 @@ public class OoplssParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:127:4: '.' id= ID '[' statement ']'
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:128:5: '.' id= ID '[' statement ']'
             	    {
-            	    char_literal61=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess794); if (state.failed) return retval; 
+            	    char_literal61=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess811); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_CALLOPERATOR.add(char_literal61);
 
-            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess798); if (state.failed) return retval; 
+            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess815); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_ID.add(id);
 
-            	    char_literal62=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess800); if (state.failed) return retval; 
+            	    char_literal62=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_varAccess817); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_LBRACK.add(char_literal62);
 
-            	    pushFollow(FOLLOW_statement_in_varAccess802);
+            	    pushFollow(FOLLOW_statement_in_varAccess819);
             	    statement63=statement();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_statement.add(statement63.getTree());
-            	    char_literal64=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess804); if (state.failed) return retval; 
+            	    char_literal64=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_varAccess821); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_RBRACK.add(char_literal64);
 
 
 
             	    // AST REWRITE
-            	    // elements: CALLOPERATOR, varAccess, statement, id
+            	    // elements: varAccess, id, CALLOPERATOR, statement
             	    // token labels: id
             	    // rule labels: retval
             	    // token list labels: 
@@ -2092,15 +2092,15 @@ public class OoplssParser extends Parser {
             	    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             	    root_0 = (Object)adaptor.nil();
-            	    // 127:32: -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) )
+            	    // 128:33: -> ^( '.' $varAccess ^( ARRAYACCESS $id statement ) )
             	    {
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:127:35: ^( '.' $varAccess ^( ARRAYACCESS $id statement ) )
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:128:36: ^( '.' $varAccess ^( ARRAYACCESS $id statement ) )
             	        {
             	        Object root_1 = (Object)adaptor.nil();
             	        root_1 = (Object)adaptor.becomeRoot(stream_CALLOPERATOR.nextNode(), root_1);
 
             	        adaptor.addChild(root_1, stream_retval.nextTree());
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:127:52: ^( ARRAYACCESS $id statement )
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:128:53: ^( ARRAYACCESS $id statement )
             	        {
             	        Object root_2 = (Object)adaptor.nil();
             	        root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(ARRAYACCESS, "ARRAYACCESS"), root_2);
@@ -2120,18 +2120,18 @@ public class OoplssParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:129:4: '.' id= ID
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:130:5: '.' id= ID
             	    {
-            	    char_literal65=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess831); if (state.failed) return retval; 
+            	    char_literal65=(Token)match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_varAccess850); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_CALLOPERATOR.add(char_literal65);
 
-            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess835); if (state.failed) return retval; 
+            	    id=(Token)match(input,ID,FOLLOW_ID_in_varAccess854); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_ID.add(id);
 
 
 
             	    // AST REWRITE
-            	    // elements: varAccess, CALLOPERATOR, id
+            	    // elements: id, varAccess, CALLOPERATOR
             	    // token labels: id
             	    // rule labels: retval
             	    // token list labels: 
@@ -2143,15 +2143,15 @@ public class OoplssParser extends Parser {
             	    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             	    root_0 = (Object)adaptor.nil();
-            	    // 129:14: -> ^( '.' $varAccess ^( VARACCESS $id) )
+            	    // 130:15: -> ^( '.' $varAccess ^( VARACCESS $id) )
             	    {
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:129:17: ^( '.' $varAccess ^( VARACCESS $id) )
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:130:18: ^( '.' $varAccess ^( VARACCESS $id) )
             	        {
             	        Object root_1 = (Object)adaptor.nil();
             	        root_1 = (Object)adaptor.becomeRoot(stream_CALLOPERATOR.nextNode(), root_1);
 
             	        adaptor.addChild(root_1, stream_retval.nextTree());
-            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:129:34: ^( VARACCESS $id)
+            	        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:130:35: ^( VARACCESS $id)
             	        {
             	        Object root_2 = (Object)adaptor.nil();
             	        root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(VARACCESS, "VARACCESS"), root_2);
@@ -2205,7 +2205,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "statement"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:147:1: statement : expression ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:138:1: statement : expression ;
     public final OoplssParser.statement_return statement() throws RecognitionException {
         OoplssParser.statement_return retval = new OoplssParser.statement_return();
         retval.start = input.LT(1);
@@ -2217,12 +2217,12 @@ public class OoplssParser extends Parser {
 
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:147:11: ( expression )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:4: expression
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:138:11: ( expression )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:139:4: expression
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_expression_in_statement886);
+            pushFollow(FOLLOW_expression_in_statement901);
             expression66=expression();
 
             state._fsp--;
@@ -2258,7 +2258,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "retStmt"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:151:1: retStmt : 'return' statement ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:142:1: retStmt : 'return' statement ;
     public final OoplssParser.retStmt_return retStmt() throws RecognitionException {
         OoplssParser.retStmt_return retval = new OoplssParser.retStmt_return();
         retval.start = input.LT(1);
@@ -2272,17 +2272,17 @@ public class OoplssParser extends Parser {
         Object string_literal67_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:151:10: ( 'return' statement )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:151:12: 'return' statement
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:142:10: ( 'return' statement )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:142:12: 'return' statement
             {
             root_0 = (Object)adaptor.nil();
 
-            string_literal67=(Token)match(input,RETURNSTMT,FOLLOW_RETURNSTMT_in_retStmt900); if (state.failed) return retval;
+            string_literal67=(Token)match(input,RETURNSTMT,FOLLOW_RETURNSTMT_in_retStmt915); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             string_literal67_tree = (Object)adaptor.create(string_literal67);
             adaptor.addChild(root_0, string_literal67_tree);
             }
-            pushFollow(FOLLOW_statement_in_retStmt902);
+            pushFollow(FOLLOW_statement_in_retStmt917);
             statement68=statement();
 
             state._fsp--;
@@ -2318,7 +2318,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "expression"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:153:1: expression : orExpr ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:144:1: expression : orExpr ;
     public final OoplssParser.expression_return expression() throws RecognitionException {
         OoplssParser.expression_return retval = new OoplssParser.expression_return();
         retval.start = input.LT(1);
@@ -2330,12 +2330,12 @@ public class OoplssParser extends Parser {
 
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:153:12: ( orExpr )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:153:14: orExpr
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:144:12: ( orExpr )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:144:14: orExpr
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_orExpr_in_expression913);
+            pushFollow(FOLLOW_orExpr_in_expression928);
             orExpr69=orExpr();
 
             state._fsp--;
@@ -2371,7 +2371,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "orExpr"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:155:1: orExpr : andExpr ( '||' ^ andExpr )? ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:146:1: orExpr : andExpr ( '||' ^ andExpr )? ;
     public final OoplssParser.orExpr_return orExpr() throws RecognitionException {
         OoplssParser.orExpr_return retval = new OoplssParser.orExpr_return();
         retval.start = input.LT(1);
@@ -2387,18 +2387,18 @@ public class OoplssParser extends Parser {
         Object string_literal71_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:155:9: ( andExpr ( '||' ^ andExpr )? )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:155:11: andExpr ( '||' ^ andExpr )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:146:9: ( andExpr ( '||' ^ andExpr )? )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:146:11: andExpr ( '||' ^ andExpr )?
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_andExpr_in_orExpr922);
+            pushFollow(FOLLOW_andExpr_in_orExpr937);
             andExpr70=andExpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, andExpr70.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:155:19: ( '||' ^ andExpr )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:146:19: ( '||' ^ andExpr )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -2407,14 +2407,14 @@ public class OoplssParser extends Parser {
             }
             switch (alt13) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:155:20: '||' ^ andExpr
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:146:20: '||' ^ andExpr
                     {
-                    string_literal71=(Token)match(input,OROPERATOR,FOLLOW_OROPERATOR_in_orExpr925); if (state.failed) return retval;
+                    string_literal71=(Token)match(input,OROPERATOR,FOLLOW_OROPERATOR_in_orExpr940); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     string_literal71_tree = (Object)adaptor.create(string_literal71);
                     root_0 = (Object)adaptor.becomeRoot(string_literal71_tree, root_0);
                     }
-                    pushFollow(FOLLOW_andExpr_in_orExpr928);
+                    pushFollow(FOLLOW_andExpr_in_orExpr943);
                     andExpr72=andExpr();
 
                     state._fsp--;
@@ -2456,7 +2456,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "andExpr"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:157:1: andExpr : equality ( '&&' ^ equality )? ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:1: andExpr : equality ( '&&' ^ equality )? ;
     public final OoplssParser.andExpr_return andExpr() throws RecognitionException {
         OoplssParser.andExpr_return retval = new OoplssParser.andExpr_return();
         retval.start = input.LT(1);
@@ -2472,18 +2472,18 @@ public class OoplssParser extends Parser {
         Object string_literal74_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:157:10: ( equality ( '&&' ^ equality )? )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:157:12: equality ( '&&' ^ equality )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:10: ( equality ( '&&' ^ equality )? )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:12: equality ( '&&' ^ equality )?
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_equality_in_andExpr940);
+            pushFollow(FOLLOW_equality_in_andExpr955);
             equality73=equality();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, equality73.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:157:21: ( '&&' ^ equality )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:21: ( '&&' ^ equality )?
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -2492,14 +2492,14 @@ public class OoplssParser extends Parser {
             }
             switch (alt14) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:157:22: '&&' ^ equality
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:148:22: '&&' ^ equality
                     {
-                    string_literal74=(Token)match(input,ANDOPERATOR,FOLLOW_ANDOPERATOR_in_andExpr943); if (state.failed) return retval;
+                    string_literal74=(Token)match(input,ANDOPERATOR,FOLLOW_ANDOPERATOR_in_andExpr958); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     string_literal74_tree = (Object)adaptor.create(string_literal74);
                     root_0 = (Object)adaptor.becomeRoot(string_literal74_tree, root_0);
                     }
-                    pushFollow(FOLLOW_equality_in_andExpr946);
+                    pushFollow(FOLLOW_equality_in_andExpr961);
                     equality75=equality();
 
                     state._fsp--;
@@ -2541,7 +2541,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "equality"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:1: equality : inequality ( ( '==' | '!=' ) ^ inequality )? ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:150:1: equality : inequality ( ( '==' | '!=' ) ^ inequality )? ;
     public final OoplssParser.equality_return equality() throws RecognitionException {
         OoplssParser.equality_return retval = new OoplssParser.equality_return();
         retval.start = input.LT(1);
@@ -2557,18 +2557,18 @@ public class OoplssParser extends Parser {
         Object set77_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:10: ( inequality ( ( '==' | '!=' ) ^ inequality )? )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:12: inequality ( ( '==' | '!=' ) ^ inequality )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:150:10: ( inequality ( ( '==' | '!=' ) ^ inequality )? )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:150:12: inequality ( ( '==' | '!=' ) ^ inequality )?
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_inequality_in_equality957);
+            pushFollow(FOLLOW_inequality_in_equality972);
             inequality76=inequality();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, inequality76.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:23: ( ( '==' | '!=' ) ^ inequality )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:150:23: ( ( '==' | '!=' ) ^ inequality )?
             int alt15=2;
             int LA15_0 = input.LA(1);
 
@@ -2577,7 +2577,7 @@ public class OoplssParser extends Parser {
             }
             switch (alt15) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:24: ( '==' | '!=' ) ^ inequality
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:150:24: ( '==' | '!=' ) ^ inequality
                     {
                     set77=(Token)input.LT(1);
                     set77=(Token)input.LT(1);
@@ -2592,7 +2592,7 @@ public class OoplssParser extends Parser {
                         throw mse;
                     }
 
-                    pushFollow(FOLLOW_inequality_in_equality967);
+                    pushFollow(FOLLOW_inequality_in_equality982);
                     inequality78=inequality();
 
                     state._fsp--;
@@ -2634,7 +2634,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "inequality"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:161:1: inequality : dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )? ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:152:1: inequality : dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )? ;
     public final OoplssParser.inequality_return inequality() throws RecognitionException {
         OoplssParser.inequality_return retval = new OoplssParser.inequality_return();
         retval.start = input.LT(1);
@@ -2650,18 +2650,18 @@ public class OoplssParser extends Parser {
         Object set80_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:161:12: ( dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )? )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:161:14: dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:152:12: ( dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )? )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:152:14: dashExpr ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )?
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_dashExpr_in_inequality977);
+            pushFollow(FOLLOW_dashExpr_in_inequality992);
             dashExpr79=dashExpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, dashExpr79.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:161:23: ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:152:23: ( ( '<' | '<=' | '>' | '>=' ) ^ dashExpr )?
             int alt16=2;
             int LA16_0 = input.LA(1);
 
@@ -2670,7 +2670,7 @@ public class OoplssParser extends Parser {
             }
             switch (alt16) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:161:24: ( '<' | '<=' | '>' | '>=' ) ^ dashExpr
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:152:24: ( '<' | '<=' | '>' | '>=' ) ^ dashExpr
                     {
                     set80=(Token)input.LT(1);
                     set80=(Token)input.LT(1);
@@ -2685,7 +2685,7 @@ public class OoplssParser extends Parser {
                         throw mse;
                     }
 
-                    pushFollow(FOLLOW_dashExpr_in_inequality991);
+                    pushFollow(FOLLOW_dashExpr_in_inequality1006);
                     dashExpr81=dashExpr();
 
                     state._fsp--;
@@ -2727,7 +2727,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "dashExpr"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:1: dashExpr : pointExpr ( ( '+' | '-' ) ^ pointExpr )* ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:154:1: dashExpr : pointExpr ( ( '+' | '-' ) ^ pointExpr )* ;
     public final OoplssParser.dashExpr_return dashExpr() throws RecognitionException {
         OoplssParser.dashExpr_return retval = new OoplssParser.dashExpr_return();
         retval.start = input.LT(1);
@@ -2743,18 +2743,18 @@ public class OoplssParser extends Parser {
         Object set83_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:10: ( pointExpr ( ( '+' | '-' ) ^ pointExpr )* )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:12: pointExpr ( ( '+' | '-' ) ^ pointExpr )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:154:10: ( pointExpr ( ( '+' | '-' ) ^ pointExpr )* )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:154:12: pointExpr ( ( '+' | '-' ) ^ pointExpr )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_pointExpr_in_dashExpr1003);
+            pushFollow(FOLLOW_pointExpr_in_dashExpr1018);
             pointExpr82=pointExpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, pointExpr82.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:22: ( ( '+' | '-' ) ^ pointExpr )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:154:22: ( ( '+' | '-' ) ^ pointExpr )*
             loop17:
             do {
                 int alt17=2;
@@ -2767,7 +2767,7 @@ public class OoplssParser extends Parser {
 
                 switch (alt17) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:23: ( '+' | '-' ) ^ pointExpr
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:154:23: ( '+' | '-' ) ^ pointExpr
             	    {
             	    set83=(Token)input.LT(1);
             	    set83=(Token)input.LT(1);
@@ -2782,7 +2782,7 @@ public class OoplssParser extends Parser {
             	        throw mse;
             	    }
 
-            	    pushFollow(FOLLOW_pointExpr_in_dashExpr1013);
+            	    pushFollow(FOLLOW_pointExpr_in_dashExpr1028);
             	    pointExpr84=pointExpr();
 
             	    state._fsp--;
@@ -2827,7 +2827,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "pointExpr"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:1: pointExpr : atom ( ( '*' ^ | '/' ^) atom )* ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:1: pointExpr : atom ( ( '*' ^ | '/' ^) atom )* ;
     public final OoplssParser.pointExpr_return pointExpr() throws RecognitionException {
         OoplssParser.pointExpr_return retval = new OoplssParser.pointExpr_return();
         retval.start = input.LT(1);
@@ -2845,18 +2845,18 @@ public class OoplssParser extends Parser {
         Object char_literal87_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:11: ( atom ( ( '*' ^ | '/' ^) atom )* )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:14: atom ( ( '*' ^ | '/' ^) atom )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:11: ( atom ( ( '*' ^ | '/' ^) atom )* )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:14: atom ( ( '*' ^ | '/' ^) atom )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_atom_in_pointExpr1025);
+            pushFollow(FOLLOW_atom_in_pointExpr1040);
             atom85=atom();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, atom85.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:19: ( ( '*' ^ | '/' ^) atom )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:19: ( ( '*' ^ | '/' ^) atom )*
             loop19:
             do {
                 int alt19=2;
@@ -2869,9 +2869,9 @@ public class OoplssParser extends Parser {
 
                 switch (alt19) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:20: ( '*' ^ | '/' ^) atom
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:20: ( '*' ^ | '/' ^) atom
             	    {
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:20: ( '*' ^ | '/' ^)
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:20: ( '*' ^ | '/' ^)
             	    int alt18=2;
             	    int LA18_0 = input.LA(1);
 
@@ -2890,9 +2890,9 @@ public class OoplssParser extends Parser {
             	    }
             	    switch (alt18) {
             	        case 1 :
-            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:21: '*' ^
+            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:21: '*' ^
             	            {
-            	            char_literal86=(Token)match(input,TIMESOPERATOR,FOLLOW_TIMESOPERATOR_in_pointExpr1029); if (state.failed) return retval;
+            	            char_literal86=(Token)match(input,TIMESOPERATOR,FOLLOW_TIMESOPERATOR_in_pointExpr1044); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            char_literal86_tree = (Object)adaptor.create(char_literal86);
             	            root_0 = (Object)adaptor.becomeRoot(char_literal86_tree, root_0);
@@ -2901,9 +2901,9 @@ public class OoplssParser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:165:26: '/' ^
+            	            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:156:26: '/' ^
             	            {
-            	            char_literal87=(Token)match(input,DIVIDEOPERATOR,FOLLOW_DIVIDEOPERATOR_in_pointExpr1032); if (state.failed) return retval;
+            	            char_literal87=(Token)match(input,DIVIDEOPERATOR,FOLLOW_DIVIDEOPERATOR_in_pointExpr1047); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            char_literal87_tree = (Object)adaptor.create(char_literal87);
             	            root_0 = (Object)adaptor.becomeRoot(char_literal87_tree, root_0);
@@ -2914,7 +2914,7 @@ public class OoplssParser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_atom_in_pointExpr1036);
+            	    pushFollow(FOLLOW_atom_in_pointExpr1051);
             	    atom88=atom();
 
             	    state._fsp--;
@@ -2959,7 +2959,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "atom"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:1: atom : ( literal | varAccess | '(' ! expression ')' !);
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:158:1: atom : ( literal | varAccess | '(' ! expression ')' !);
     public final OoplssParser.atom_return atom() throws RecognitionException {
         OoplssParser.atom_return retval = new OoplssParser.atom_return();
         retval.start = input.LT(1);
@@ -2979,7 +2979,7 @@ public class OoplssParser extends Parser {
         Object char_literal93_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:7: ( literal | varAccess | '(' ! expression ')' !)
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:158:7: ( literal | varAccess | '(' ! expression ')' !)
             int alt20=3;
             switch ( input.LA(1) ) {
             case INTLITERAL:
@@ -3011,11 +3011,11 @@ public class OoplssParser extends Parser {
 
             switch (alt20) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:9: literal
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:158:9: literal
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_literal_in_atom1047);
+                    pushFollow(FOLLOW_literal_in_atom1062);
                     literal89=literal();
 
                     state._fsp--;
@@ -3025,11 +3025,11 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:168:5: varAccess
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:159:5: varAccess
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_varAccess_in_atom1053);
+                    pushFollow(FOLLOW_varAccess_in_atom1068);
                     varAccess90=varAccess();
 
                     state._fsp--;
@@ -3039,18 +3039,18 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:169:5: '(' ! expression ')' !
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:160:5: '(' ! expression ')' !
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    char_literal91=(Token)match(input,LPARA,FOLLOW_LPARA_in_atom1059); if (state.failed) return retval;
-                    pushFollow(FOLLOW_expression_in_atom1063);
+                    char_literal91=(Token)match(input,LPARA,FOLLOW_LPARA_in_atom1074); if (state.failed) return retval;
+                    pushFollow(FOLLOW_expression_in_atom1078);
                     expression92=expression();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, expression92.getTree());
-                    char_literal93=(Token)match(input,RPARA,FOLLOW_RPARA_in_atom1065); if (state.failed) return retval;
+                    char_literal93=(Token)match(input,RPARA,FOLLOW_RPARA_in_atom1080); if (state.failed) return retval;
 
                     }
                     break;
@@ -3083,7 +3083,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "arrayAccess"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:1: arrayAccess : '[' statement ']' ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:1: arrayAccess : '[' statement ']' ;
     public final OoplssParser.arrayAccess_return arrayAccess() throws RecognitionException {
         OoplssParser.arrayAccess_return retval = new OoplssParser.arrayAccess_return();
         retval.start = input.LT(1);
@@ -3099,23 +3099,23 @@ public class OoplssParser extends Parser {
         Object char_literal96_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:13: ( '[' statement ']' )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:15: '[' statement ']'
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:13: ( '[' statement ']' )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:163:15: '[' statement ']'
             {
             root_0 = (Object)adaptor.nil();
 
-            char_literal94=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_arrayAccess1087); if (state.failed) return retval;
+            char_literal94=(Token)match(input,LBRACK,FOLLOW_LBRACK_in_arrayAccess1093); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal94_tree = (Object)adaptor.create(char_literal94);
             adaptor.addChild(root_0, char_literal94_tree);
             }
-            pushFollow(FOLLOW_statement_in_arrayAccess1089);
+            pushFollow(FOLLOW_statement_in_arrayAccess1095);
             statement95=statement();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, statement95.getTree());
-            char_literal96=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_arrayAccess1091); if (state.failed) return retval;
+            char_literal96=(Token)match(input,RBRACK,FOLLOW_RBRACK_in_arrayAccess1097); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal96_tree = (Object)adaptor.create(char_literal96);
             adaptor.addChild(root_0, char_literal96_tree);
@@ -3150,7 +3150,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "literal"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:189:1: literal : (i= INTLITERAL -> ^( INT INTLITERAL ) | STRINGLITERAL -> ^( STRING STRINGLITERAL ) | CHARLITERAL -> ^( CHAR CHARLITERAL ) | BOOLLITERAL -> ^( BOOL BOOLLITERAL ) );
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:1: literal : (i= INTLITERAL -> ^( INT INTLITERAL ) | STRINGLITERAL -> ^( STRING STRINGLITERAL ) | CHARLITERAL -> ^( CHAR CHARLITERAL ) | BOOLLITERAL -> ^( BOOL BOOLLITERAL ) );
     public final OoplssParser.literal_return literal() throws RecognitionException {
         OoplssParser.literal_return retval = new OoplssParser.literal_return();
         retval.start = input.LT(1);
@@ -3172,7 +3172,7 @@ public class OoplssParser extends Parser {
         RewriteRuleTokenStream stream_CHARLITERAL=new RewriteRuleTokenStream(adaptor,"token CHARLITERAL");
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:189:10: (i= INTLITERAL -> ^( INT INTLITERAL ) | STRINGLITERAL -> ^( STRING STRINGLITERAL ) | CHARLITERAL -> ^( CHAR CHARLITERAL ) | BOOLLITERAL -> ^( BOOL BOOLLITERAL ) )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:10: (i= INTLITERAL -> ^( INT INTLITERAL ) | STRINGLITERAL -> ^( STRING STRINGLITERAL ) | CHARLITERAL -> ^( CHAR CHARLITERAL ) | BOOLLITERAL -> ^( BOOL BOOLLITERAL ) )
             int alt21=4;
             switch ( input.LA(1) ) {
             case INTLITERAL:
@@ -3205,9 +3205,9 @@ public class OoplssParser extends Parser {
 
             switch (alt21) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:189:12: i= INTLITERAL
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:12: i= INTLITERAL
                     {
-                    i=(Token)match(input,INTLITERAL,FOLLOW_INTLITERAL_in_literal1106); if (state.failed) return retval; 
+                    i=(Token)match(input,INTLITERAL,FOLLOW_INTLITERAL_in_literal1110); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTLITERAL.add(i);
 
 
@@ -3224,9 +3224,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 189:26: -> ^( INT INTLITERAL )
+                    // 167:26: -> ^( INT INTLITERAL )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:189:29: ^( INT INTLITERAL )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:167:29: ^( INT INTLITERAL )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(INT, "INT"), root_1);
@@ -3242,9 +3242,9 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:190:5: STRINGLITERAL
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:168:5: STRINGLITERAL
                     {
-                    STRINGLITERAL97=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_literal1121); if (state.failed) return retval; 
+                    STRINGLITERAL97=(Token)match(input,STRINGLITERAL,FOLLOW_STRINGLITERAL_in_literal1125); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_STRINGLITERAL.add(STRINGLITERAL97);
 
 
@@ -3261,9 +3261,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 190:19: -> ^( STRING STRINGLITERAL )
+                    // 168:19: -> ^( STRING STRINGLITERAL )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:190:22: ^( STRING STRINGLITERAL )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:168:22: ^( STRING STRINGLITERAL )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(STRING, "STRING"), root_1);
@@ -3279,9 +3279,9 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:191:5: CHARLITERAL
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:169:5: CHARLITERAL
                     {
-                    CHARLITERAL98=(Token)match(input,CHARLITERAL,FOLLOW_CHARLITERAL_in_literal1135); if (state.failed) return retval; 
+                    CHARLITERAL98=(Token)match(input,CHARLITERAL,FOLLOW_CHARLITERAL_in_literal1139); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CHARLITERAL.add(CHARLITERAL98);
 
 
@@ -3298,9 +3298,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 191:19: -> ^( CHAR CHARLITERAL )
+                    // 169:19: -> ^( CHAR CHARLITERAL )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:191:22: ^( CHAR CHARLITERAL )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:169:22: ^( CHAR CHARLITERAL )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CHAR, "CHAR"), root_1);
@@ -3316,9 +3316,9 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:192:5: BOOLLITERAL
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:170:5: BOOLLITERAL
                     {
-                    BOOLLITERAL99=(Token)match(input,BOOLLITERAL,FOLLOW_BOOLLITERAL_in_literal1151); if (state.failed) return retval; 
+                    BOOLLITERAL99=(Token)match(input,BOOLLITERAL,FOLLOW_BOOLLITERAL_in_literal1155); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_BOOLLITERAL.add(BOOLLITERAL99);
 
 
@@ -3335,9 +3335,9 @@ public class OoplssParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (Object)adaptor.nil();
-                    // 192:19: -> ^( BOOL BOOLLITERAL )
+                    // 170:19: -> ^( BOOL BOOLLITERAL )
                     {
-                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:192:22: ^( BOOL BOOLLITERAL )
+                        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:170:22: ^( BOOL BOOLLITERAL )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(BOOL, "BOOL"), root_1);
@@ -3381,7 +3381,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "ifStmt"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:196:1: ifStmt : 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )? ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:174:1: ifStmt : 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )? ;
     public final OoplssParser.ifStmt_return ifStmt() throws RecognitionException {
         OoplssParser.ifStmt_return retval = new OoplssParser.ifStmt_return();
         retval.start = input.LT(1);
@@ -3415,39 +3415,39 @@ public class OoplssParser extends Parser {
         Object string_literal110_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:196:9: ( 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )? )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:196:11: 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:174:9: ( 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )? )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:174:11: 'if' '(' statement ')' block ( 'elseif' '(' statement ')' block )* ( 'else' block )?
             {
             root_0 = (Object)adaptor.nil();
 
-            string_literal100=(Token)match(input,IFSTMT,FOLLOW_IFSTMT_in_ifStmt1178); if (state.failed) return retval;
+            string_literal100=(Token)match(input,IFSTMT,FOLLOW_IFSTMT_in_ifStmt1182); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             string_literal100_tree = (Object)adaptor.create(string_literal100);
             adaptor.addChild(root_0, string_literal100_tree);
             }
-            char_literal101=(Token)match(input,LPARA,FOLLOW_LPARA_in_ifStmt1180); if (state.failed) return retval;
+            char_literal101=(Token)match(input,LPARA,FOLLOW_LPARA_in_ifStmt1184); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal101_tree = (Object)adaptor.create(char_literal101);
             adaptor.addChild(root_0, char_literal101_tree);
             }
-            pushFollow(FOLLOW_statement_in_ifStmt1182);
+            pushFollow(FOLLOW_statement_in_ifStmt1186);
             statement102=statement();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, statement102.getTree());
-            char_literal103=(Token)match(input,RPARA,FOLLOW_RPARA_in_ifStmt1184); if (state.failed) return retval;
+            char_literal103=(Token)match(input,RPARA,FOLLOW_RPARA_in_ifStmt1188); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal103_tree = (Object)adaptor.create(char_literal103);
             adaptor.addChild(root_0, char_literal103_tree);
             }
-            pushFollow(FOLLOW_block_in_ifStmt1186);
+            pushFollow(FOLLOW_block_in_ifStmt1190);
             block104=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, block104.getTree());
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:197:4: ( 'elseif' '(' statement ')' block )*
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:175:4: ( 'elseif' '(' statement ')' block )*
             loop22:
             do {
                 int alt22=2;
@@ -3460,30 +3460,30 @@ public class OoplssParser extends Parser {
 
                 switch (alt22) {
             	case 1 :
-            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:197:5: 'elseif' '(' statement ')' block
+            	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:175:5: 'elseif' '(' statement ')' block
             	    {
-            	    string_literal105=(Token)match(input,ELIF,FOLLOW_ELIF_in_ifStmt1192); if (state.failed) return retval;
+            	    string_literal105=(Token)match(input,ELIF,FOLLOW_ELIF_in_ifStmt1196); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    string_literal105_tree = (Object)adaptor.create(string_literal105);
             	    adaptor.addChild(root_0, string_literal105_tree);
             	    }
-            	    char_literal106=(Token)match(input,LPARA,FOLLOW_LPARA_in_ifStmt1194); if (state.failed) return retval;
+            	    char_literal106=(Token)match(input,LPARA,FOLLOW_LPARA_in_ifStmt1198); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    char_literal106_tree = (Object)adaptor.create(char_literal106);
             	    adaptor.addChild(root_0, char_literal106_tree);
             	    }
-            	    pushFollow(FOLLOW_statement_in_ifStmt1196);
+            	    pushFollow(FOLLOW_statement_in_ifStmt1200);
             	    statement107=statement();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) adaptor.addChild(root_0, statement107.getTree());
-            	    char_literal108=(Token)match(input,RPARA,FOLLOW_RPARA_in_ifStmt1198); if (state.failed) return retval;
+            	    char_literal108=(Token)match(input,RPARA,FOLLOW_RPARA_in_ifStmt1202); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    char_literal108_tree = (Object)adaptor.create(char_literal108);
             	    adaptor.addChild(root_0, char_literal108_tree);
             	    }
-            	    pushFollow(FOLLOW_block_in_ifStmt1200);
+            	    pushFollow(FOLLOW_block_in_ifStmt1204);
             	    block109=block();
 
             	    state._fsp--;
@@ -3498,7 +3498,7 @@ public class OoplssParser extends Parser {
                 }
             } while (true);
 
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:198:4: ( 'else' block )?
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:176:4: ( 'else' block )?
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -3507,14 +3507,14 @@ public class OoplssParser extends Parser {
             }
             switch (alt23) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:198:5: 'else' block
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:176:5: 'else' block
                     {
-                    string_literal110=(Token)match(input,ELSE,FOLLOW_ELSE_in_ifStmt1208); if (state.failed) return retval;
+                    string_literal110=(Token)match(input,ELSE,FOLLOW_ELSE_in_ifStmt1212); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     string_literal110_tree = (Object)adaptor.create(string_literal110);
                     adaptor.addChild(root_0, string_literal110_tree);
                     }
-                    pushFollow(FOLLOW_block_in_ifStmt1210);
+                    pushFollow(FOLLOW_block_in_ifStmt1214);
                     block111=block();
 
                     state._fsp--;
@@ -3556,7 +3556,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "whileStmt"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:1: whileStmt : 'while' '(' statement ')' block ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:178:1: whileStmt : 'while' '(' statement ')' block ;
     public final OoplssParser.whileStmt_return whileStmt() throws RecognitionException {
         OoplssParser.whileStmt_return retval = new OoplssParser.whileStmt_return();
         retval.start = input.LT(1);
@@ -3576,33 +3576,33 @@ public class OoplssParser extends Parser {
         Object char_literal115_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:11: ( 'while' '(' statement ')' block )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:200:14: 'while' '(' statement ')' block
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:178:11: ( 'while' '(' statement ')' block )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:178:14: 'while' '(' statement ')' block
             {
             root_0 = (Object)adaptor.nil();
 
-            string_literal112=(Token)match(input,WHILESTMT,FOLLOW_WHILESTMT_in_whileStmt1224); if (state.failed) return retval;
+            string_literal112=(Token)match(input,WHILESTMT,FOLLOW_WHILESTMT_in_whileStmt1228); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             string_literal112_tree = (Object)adaptor.create(string_literal112);
             adaptor.addChild(root_0, string_literal112_tree);
             }
-            char_literal113=(Token)match(input,LPARA,FOLLOW_LPARA_in_whileStmt1226); if (state.failed) return retval;
+            char_literal113=(Token)match(input,LPARA,FOLLOW_LPARA_in_whileStmt1230); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal113_tree = (Object)adaptor.create(char_literal113);
             adaptor.addChild(root_0, char_literal113_tree);
             }
-            pushFollow(FOLLOW_statement_in_whileStmt1228);
+            pushFollow(FOLLOW_statement_in_whileStmt1232);
             statement114=statement();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, statement114.getTree());
-            char_literal115=(Token)match(input,RPARA,FOLLOW_RPARA_in_whileStmt1229); if (state.failed) return retval;
+            char_literal115=(Token)match(input,RPARA,FOLLOW_RPARA_in_whileStmt1233); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal115_tree = (Object)adaptor.create(char_literal115);
             adaptor.addChild(root_0, char_literal115_tree);
             }
-            pushFollow(FOLLOW_block_in_whileStmt1231);
+            pushFollow(FOLLOW_block_in_whileStmt1235);
             block116=block();
 
             state._fsp--;
@@ -3638,7 +3638,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "forStmt"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:1: forStmt : 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block ;
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:1: forStmt : 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block ;
     public final OoplssParser.forStmt_return forStmt() throws RecognitionException {
         OoplssParser.forStmt_return retval = new OoplssParser.forStmt_return();
         retval.start = input.LT(1);
@@ -3666,25 +3666,25 @@ public class OoplssParser extends Parser {
         Object char_literal124_tree=null;
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:10: ( 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:12: 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:10: ( 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:12: 'for' '(' ( assignment ) ';' statement ';' ( stmtOrAssign ) ')' block
             {
             root_0 = (Object)adaptor.nil();
 
-            string_literal117=(Token)match(input,FORSTMT,FOLLOW_FORSTMT_in_forStmt1240); if (state.failed) return retval;
+            string_literal117=(Token)match(input,FORSTMT,FOLLOW_FORSTMT_in_forStmt1244); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             string_literal117_tree = (Object)adaptor.create(string_literal117);
             adaptor.addChild(root_0, string_literal117_tree);
             }
-            char_literal118=(Token)match(input,LPARA,FOLLOW_LPARA_in_forStmt1242); if (state.failed) return retval;
+            char_literal118=(Token)match(input,LPARA,FOLLOW_LPARA_in_forStmt1246); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal118_tree = (Object)adaptor.create(char_literal118);
             adaptor.addChild(root_0, char_literal118_tree);
             }
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:22: ( assignment )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:23: assignment
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:22: ( assignment )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:23: assignment
             {
-            pushFollow(FOLLOW_assignment_in_forStmt1245);
+            pushFollow(FOLLOW_assignment_in_forStmt1249);
             assignment119=assignment();
 
             state._fsp--;
@@ -3693,26 +3693,26 @@ public class OoplssParser extends Parser {
 
             }
 
-            char_literal120=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_forStmt1248); if (state.failed) return retval;
+            char_literal120=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_forStmt1252); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal120_tree = (Object)adaptor.create(char_literal120);
             adaptor.addChild(root_0, char_literal120_tree);
             }
-            pushFollow(FOLLOW_statement_in_forStmt1250);
+            pushFollow(FOLLOW_statement_in_forStmt1254);
             statement121=statement();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, statement121.getTree());
-            char_literal122=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_forStmt1252); if (state.failed) return retval;
+            char_literal122=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_forStmt1256); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal122_tree = (Object)adaptor.create(char_literal122);
             adaptor.addChild(root_0, char_literal122_tree);
             }
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:53: ( stmtOrAssign )
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:202:54: stmtOrAssign
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:53: ( stmtOrAssign )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:180:54: stmtOrAssign
             {
-            pushFollow(FOLLOW_stmtOrAssign_in_forStmt1255);
+            pushFollow(FOLLOW_stmtOrAssign_in_forStmt1259);
             stmtOrAssign123=stmtOrAssign();
 
             state._fsp--;
@@ -3721,12 +3721,12 @@ public class OoplssParser extends Parser {
 
             }
 
-            char_literal124=(Token)match(input,RPARA,FOLLOW_RPARA_in_forStmt1258); if (state.failed) return retval;
+            char_literal124=(Token)match(input,RPARA,FOLLOW_RPARA_in_forStmt1262); if (state.failed) return retval;
             if ( state.backtracking==0 ) {
             char_literal124_tree = (Object)adaptor.create(char_literal124);
             adaptor.addChild(root_0, char_literal124_tree);
             }
-            pushFollow(FOLLOW_block_in_forStmt1260);
+            pushFollow(FOLLOW_block_in_forStmt1264);
             block125=block();
 
             state._fsp--;
@@ -3762,7 +3762,7 @@ public class OoplssParser extends Parser {
     };
 
     // $ANTLR start "stmtOrAssign"
-    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:204:1: stmtOrAssign options {k=2; backtrack=true; } : ( statement | assignment );
+    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:182:1: stmtOrAssign options {k=2; backtrack=true; } : ( statement | assignment );
     public final OoplssParser.stmtOrAssign_return stmtOrAssign() throws RecognitionException {
         OoplssParser.stmtOrAssign_return retval = new OoplssParser.stmtOrAssign_return();
         retval.start = input.LT(1);
@@ -3776,7 +3776,7 @@ public class OoplssParser extends Parser {
 
 
         try {
-            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:209:1: ( statement | assignment )
+            // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:187:1: ( statement | assignment )
             int alt24=2;
             switch ( input.LA(1) ) {
             case INTLITERAL:
@@ -3901,11 +3901,11 @@ public class OoplssParser extends Parser {
 
             switch (alt24) {
                 case 1 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:209:3: statement
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:187:3: statement
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_statement_in_stmtOrAssign1286);
+                    pushFollow(FOLLOW_statement_in_stmtOrAssign1290);
                     statement126=statement();
 
                     state._fsp--;
@@ -3915,11 +3915,11 @@ public class OoplssParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:209:13: assignment
+                    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:187:13: assignment
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_assignment_in_stmtOrAssign1288);
+                    pushFollow(FOLLOW_assignment_in_stmtOrAssign1292);
                     assignment127=assignment();
 
                     state._fsp--;
@@ -3985,19 +3985,19 @@ public class OoplssParser extends Parser {
 
     // $ANTLR start synpred19_Ooplss
     public final void synpred19_Ooplss_fragment() throws RecognitionException {
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:120:4: ( 'self' '.' ID '[' statement ']' )
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:120:4: 'self' '.' ID '[' statement ']'
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:121:5: ( 'self' '.' ID '[' statement ']' )
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:121:5: 'self' '.' ID '[' statement ']'
         {
-        match(input,SELF,FOLLOW_SELF_in_synpred19_Ooplss670); if (state.failed) return ;
-        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred19_Ooplss672); if (state.failed) return ;
-        match(input,ID,FOLLOW_ID_in_synpred19_Ooplss674); if (state.failed) return ;
-        match(input,LBRACK,FOLLOW_LBRACK_in_synpred19_Ooplss676); if (state.failed) return ;
-        pushFollow(FOLLOW_statement_in_synpred19_Ooplss678);
+        match(input,SELF,FOLLOW_SELF_in_synpred19_Ooplss680); if (state.failed) return ;
+        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred19_Ooplss682); if (state.failed) return ;
+        match(input,ID,FOLLOW_ID_in_synpred19_Ooplss684); if (state.failed) return ;
+        match(input,LBRACK,FOLLOW_LBRACK_in_synpred19_Ooplss686); if (state.failed) return ;
+        pushFollow(FOLLOW_statement_in_synpred19_Ooplss688);
         statement();
 
         state._fsp--;
         if (state.failed) return ;
-        match(input,RBRACK,FOLLOW_RBRACK_in_synpred19_Ooplss680); if (state.failed) return ;
+        match(input,RBRACK,FOLLOW_RBRACK_in_synpred19_Ooplss690); if (state.failed) return ;
 
         }
     }
@@ -4008,13 +4008,13 @@ public class OoplssParser extends Parser {
         Token id=null;
         List list_arg=null;
         RuleReturnScope arg = null;
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:4: ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' )
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:4: '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')'
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:5: ( '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')' )
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:5: '.' id= ID '(' (arg+= statement ( ',' arg+= statement )* )? ')'
         {
-        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred22_Ooplss735); if (state.failed) return ;
-        id=(Token)match(input,ID,FOLLOW_ID_in_synpred22_Ooplss739); if (state.failed) return ;
-        match(input,LPARA,FOLLOW_LPARA_in_synpred22_Ooplss741); if (state.failed) return ;
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:18: (arg+= statement ( ',' arg+= statement )* )?
+        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred22_Ooplss750); if (state.failed) return ;
+        id=(Token)match(input,ID,FOLLOW_ID_in_synpred22_Ooplss754); if (state.failed) return ;
+        match(input,LPARA,FOLLOW_LPARA_in_synpred22_Ooplss756); if (state.failed) return ;
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:19: (arg+= statement ( ',' arg+= statement )* )?
         int alt28=2;
         int LA28_0 = input.LA(1);
 
@@ -4023,9 +4023,9 @@ public class OoplssParser extends Parser {
         }
         switch (alt28) {
             case 1 :
-                // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:19: arg+= statement ( ',' arg+= statement )*
+                // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:20: arg+= statement ( ',' arg+= statement )*
                 {
-                pushFollow(FOLLOW_statement_in_synpred22_Ooplss746);
+                pushFollow(FOLLOW_statement_in_synpred22_Ooplss761);
                 arg=statement();
 
                 state._fsp--;
@@ -4033,7 +4033,7 @@ public class OoplssParser extends Parser {
                 if (list_arg==null) list_arg=new ArrayList();
                 list_arg.add(arg);
 
-                // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:34: ( ',' arg+= statement )*
+                // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:35: ( ',' arg+= statement )*
                 loop27:
                 do {
                     int alt27=2;
@@ -4046,10 +4046,10 @@ public class OoplssParser extends Parser {
 
                     switch (alt27) {
                 	case 1 :
-                	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:125:35: ',' arg+= statement
+                	    // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:126:36: ',' arg+= statement
                 	    {
-                	    match(input,61,FOLLOW_61_in_synpred22_Ooplss749); if (state.failed) return ;
-                	    pushFollow(FOLLOW_statement_in_synpred22_Ooplss753);
+                	    match(input,61,FOLLOW_61_in_synpred22_Ooplss764); if (state.failed) return ;
+                	    pushFollow(FOLLOW_statement_in_synpred22_Ooplss768);
                 	    arg=statement();
 
                 	    state._fsp--;
@@ -4072,7 +4072,7 @@ public class OoplssParser extends Parser {
 
         }
 
-        match(input,RPARA,FOLLOW_RPARA_in_synpred22_Ooplss760); if (state.failed) return ;
+        match(input,RPARA,FOLLOW_RPARA_in_synpred22_Ooplss775); if (state.failed) return ;
 
         }
     }
@@ -4082,18 +4082,18 @@ public class OoplssParser extends Parser {
     public final void synpred23_Ooplss_fragment() throws RecognitionException {
         Token id=null;
 
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:127:4: ( '.' id= ID '[' statement ']' )
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:127:4: '.' id= ID '[' statement ']'
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:128:5: ( '.' id= ID '[' statement ']' )
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:128:5: '.' id= ID '[' statement ']'
         {
-        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred23_Ooplss794); if (state.failed) return ;
-        id=(Token)match(input,ID,FOLLOW_ID_in_synpred23_Ooplss798); if (state.failed) return ;
-        match(input,LBRACK,FOLLOW_LBRACK_in_synpred23_Ooplss800); if (state.failed) return ;
-        pushFollow(FOLLOW_statement_in_synpred23_Ooplss802);
+        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred23_Ooplss811); if (state.failed) return ;
+        id=(Token)match(input,ID,FOLLOW_ID_in_synpred23_Ooplss815); if (state.failed) return ;
+        match(input,LBRACK,FOLLOW_LBRACK_in_synpred23_Ooplss817); if (state.failed) return ;
+        pushFollow(FOLLOW_statement_in_synpred23_Ooplss819);
         statement();
 
         state._fsp--;
         if (state.failed) return ;
-        match(input,RBRACK,FOLLOW_RBRACK_in_synpred23_Ooplss804); if (state.failed) return ;
+        match(input,RBRACK,FOLLOW_RBRACK_in_synpred23_Ooplss821); if (state.failed) return ;
 
         }
     }
@@ -4103,11 +4103,11 @@ public class OoplssParser extends Parser {
     public final void synpred24_Ooplss_fragment() throws RecognitionException {
         Token id=null;
 
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:129:4: ( '.' id= ID )
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:129:4: '.' id= ID
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:130:5: ( '.' id= ID )
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:130:5: '.' id= ID
         {
-        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred24_Ooplss831); if (state.failed) return ;
-        id=(Token)match(input,ID,FOLLOW_ID_in_synpred24_Ooplss835); if (state.failed) return ;
+        match(input,CALLOPERATOR,FOLLOW_CALLOPERATOR_in_synpred24_Ooplss850); if (state.failed) return ;
+        id=(Token)match(input,ID,FOLLOW_ID_in_synpred24_Ooplss854); if (state.failed) return ;
 
         }
     }
@@ -4115,10 +4115,10 @@ public class OoplssParser extends Parser {
 
     // $ANTLR start synpred44_Ooplss
     public final void synpred44_Ooplss_fragment() throws RecognitionException {
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:209:3: ( statement )
-        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:209:3: statement
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:187:3: ( statement )
+        // /home/sh/gitty/private/ooplss/grammar/Ooplss.g:187:3: statement
         {
-        pushFollow(FOLLOW_statement_in_synpred44_Ooplss1286);
+        pushFollow(FOLLOW_statement_in_synpred44_Ooplss1290);
         statement();
 
         state._fsp--;
@@ -4283,121 +4283,121 @@ public class OoplssParser extends Parser {
     public static final BitSet FOLLOW_statement_in_assignment581 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_varAccess_in_varAccessEntry610 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_varAccessEntry612 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_varAccess628 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_ID_in_varAccess645 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_LBRACK_in_varAccess647 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_varAccess649 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_varAccess651 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_SELF_in_varAccess670 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess672 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_varAccess674 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_LBRACK_in_varAccess676 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_varAccess678 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_varAccess680 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_SELF_in_varAccess705 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess707 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_varAccess709 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess735 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_varAccess739 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_varAccess741 = new BitSet(new long[]{0x000018001F200000L});
-    public static final BitSet FOLLOW_statement_in_varAccess746 = new BitSet(new long[]{0x2000100000000000L});
-    public static final BitSet FOLLOW_61_in_varAccess749 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_varAccess753 = new BitSet(new long[]{0x2000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_varAccess760 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess794 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_varAccess798 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_LBRACK_in_varAccess800 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_varAccess802 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_varAccess804 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess831 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_varAccess835 = new BitSet(new long[]{0x0000000200000002L});
-    public static final BitSet FOLLOW_expression_in_statement886 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RETURNSTMT_in_retStmt900 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_retStmt902 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_orExpr_in_expression913 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_andExpr_in_orExpr922 = new BitSet(new long[]{0x0000010000000002L});
-    public static final BitSet FOLLOW_OROPERATOR_in_orExpr925 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_andExpr_in_orExpr928 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_equality_in_andExpr940 = new BitSet(new long[]{0x0000008000000002L});
-    public static final BitSet FOLLOW_ANDOPERATOR_in_andExpr943 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_equality_in_andExpr946 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_inequality_in_equality957 = new BitSet(new long[]{0x8800000000000002L});
-    public static final BitSet FOLLOW_set_in_equality960 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_inequality_in_equality967 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_dashExpr_in_inequality977 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000FL});
-    public static final BitSet FOLLOW_set_in_inequality980 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_dashExpr_in_inequality991 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pointExpr_in_dashExpr1003 = new BitSet(new long[]{0x0000001800000002L});
-    public static final BitSet FOLLOW_set_in_dashExpr1006 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_pointExpr_in_dashExpr1013 = new BitSet(new long[]{0x0000001800000002L});
-    public static final BitSet FOLLOW_atom_in_pointExpr1025 = new BitSet(new long[]{0x0000006000000002L});
-    public static final BitSet FOLLOW_TIMESOPERATOR_in_pointExpr1029 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_DIVIDEOPERATOR_in_pointExpr1032 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_atom_in_pointExpr1036 = new BitSet(new long[]{0x0000006000000002L});
-    public static final BitSet FOLLOW_literal_in_atom1047 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_varAccess_in_atom1053 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPARA_in_atom1059 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_expression_in_atom1063 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_atom1065 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LBRACK_in_arrayAccess1087 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_arrayAccess1089 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_arrayAccess1091 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTLITERAL_in_literal1106 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRINGLITERAL_in_literal1121 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CHARLITERAL_in_literal1135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_BOOLLITERAL_in_literal1151 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IFSTMT_in_ifStmt1178 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_ifStmt1180 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_ifStmt1182 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_ifStmt1184 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_block_in_ifStmt1186 = new BitSet(new long[]{0x0600000000000002L});
-    public static final BitSet FOLLOW_ELIF_in_ifStmt1192 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_ifStmt1194 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_ifStmt1196 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_ifStmt1198 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_block_in_ifStmt1200 = new BitSet(new long[]{0x0600000000000002L});
-    public static final BitSet FOLLOW_ELSE_in_ifStmt1208 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_block_in_ifStmt1210 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_WHILESTMT_in_whileStmt1224 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_whileStmt1226 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_whileStmt1228 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_whileStmt1229 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_block_in_whileStmt1231 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FORSTMT_in_forStmt1240 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_forStmt1242 = new BitSet(new long[]{0x0000000001200000L});
-    public static final BitSet FOLLOW_assignment_in_forStmt1245 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_SEMICOLON_in_forStmt1248 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_forStmt1250 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess634 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_ID_in_varAccess653 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_LBRACK_in_varAccess655 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_varAccess657 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_varAccess659 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_SELF_in_varAccess680 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess682 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess684 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_LBRACK_in_varAccess686 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_varAccess688 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_varAccess690 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_SELF_in_varAccess717 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess719 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess721 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess750 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess754 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_varAccess756 = new BitSet(new long[]{0x000018001F200000L});
+    public static final BitSet FOLLOW_statement_in_varAccess761 = new BitSet(new long[]{0x2000100000000000L});
+    public static final BitSet FOLLOW_61_in_varAccess764 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_varAccess768 = new BitSet(new long[]{0x2000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_varAccess775 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess811 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess815 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_LBRACK_in_varAccess817 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_varAccess819 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_varAccess821 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_varAccess850 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_varAccess854 = new BitSet(new long[]{0x0000000200000002L});
+    public static final BitSet FOLLOW_expression_in_statement901 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RETURNSTMT_in_retStmt915 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_retStmt917 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_orExpr_in_expression928 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_andExpr_in_orExpr937 = new BitSet(new long[]{0x0000010000000002L});
+    public static final BitSet FOLLOW_OROPERATOR_in_orExpr940 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_andExpr_in_orExpr943 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_equality_in_andExpr955 = new BitSet(new long[]{0x0000008000000002L});
+    public static final BitSet FOLLOW_ANDOPERATOR_in_andExpr958 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_equality_in_andExpr961 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_inequality_in_equality972 = new BitSet(new long[]{0x8800000000000002L});
+    public static final BitSet FOLLOW_set_in_equality975 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_inequality_in_equality982 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_dashExpr_in_inequality992 = new BitSet(new long[]{0x0000000000000002L,0x000000000000000FL});
+    public static final BitSet FOLLOW_set_in_inequality995 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_dashExpr_in_inequality1006 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pointExpr_in_dashExpr1018 = new BitSet(new long[]{0x0000001800000002L});
+    public static final BitSet FOLLOW_set_in_dashExpr1021 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_pointExpr_in_dashExpr1028 = new BitSet(new long[]{0x0000001800000002L});
+    public static final BitSet FOLLOW_atom_in_pointExpr1040 = new BitSet(new long[]{0x0000006000000002L});
+    public static final BitSet FOLLOW_TIMESOPERATOR_in_pointExpr1044 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_DIVIDEOPERATOR_in_pointExpr1047 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_atom_in_pointExpr1051 = new BitSet(new long[]{0x0000006000000002L});
+    public static final BitSet FOLLOW_literal_in_atom1062 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_varAccess_in_atom1068 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPARA_in_atom1074 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_expression_in_atom1078 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_atom1080 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LBRACK_in_arrayAccess1093 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_arrayAccess1095 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_arrayAccess1097 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INTLITERAL_in_literal1110 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRINGLITERAL_in_literal1125 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CHARLITERAL_in_literal1139 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_BOOLLITERAL_in_literal1155 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IFSTMT_in_ifStmt1182 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_ifStmt1184 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_ifStmt1186 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_ifStmt1188 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_block_in_ifStmt1190 = new BitSet(new long[]{0x0600000000000002L});
+    public static final BitSet FOLLOW_ELIF_in_ifStmt1196 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_ifStmt1198 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_ifStmt1200 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_ifStmt1202 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_block_in_ifStmt1204 = new BitSet(new long[]{0x0600000000000002L});
+    public static final BitSet FOLLOW_ELSE_in_ifStmt1212 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_block_in_ifStmt1214 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_WHILESTMT_in_whileStmt1228 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_whileStmt1230 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_whileStmt1232 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_whileStmt1233 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_block_in_whileStmt1235 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FORSTMT_in_forStmt1244 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_forStmt1246 = new BitSet(new long[]{0x0000000001200000L});
+    public static final BitSet FOLLOW_assignment_in_forStmt1249 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_SEMICOLON_in_forStmt1252 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_stmtOrAssign_in_forStmt1255 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_forStmt1258 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_block_in_forStmt1260 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_statement_in_stmtOrAssign1286 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assignment_in_stmtOrAssign1288 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_statement_in_forStmt1254 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_SEMICOLON_in_forStmt1256 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_stmtOrAssign_in_forStmt1259 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_forStmt1262 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_block_in_forStmt1264 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_statement_in_stmtOrAssign1290 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assignment_in_stmtOrAssign1292 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_statement_in_synpred10_Ooplss472 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_SEMICOLON_in_synpred10_Ooplss474 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assignment_in_synpred11_Ooplss481 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_SEMICOLON_in_synpred11_Ooplss483 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SELF_in_synpred19_Ooplss670 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred19_Ooplss672 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_synpred19_Ooplss674 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_LBRACK_in_synpred19_Ooplss676 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_synpred19_Ooplss678 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_synpred19_Ooplss680 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred22_Ooplss735 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_synpred22_Ooplss739 = new BitSet(new long[]{0x0000080000000000L});
-    public static final BitSet FOLLOW_LPARA_in_synpred22_Ooplss741 = new BitSet(new long[]{0x000018001F200000L});
-    public static final BitSet FOLLOW_statement_in_synpred22_Ooplss746 = new BitSet(new long[]{0x2000100000000000L});
-    public static final BitSet FOLLOW_61_in_synpred22_Ooplss749 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_synpred22_Ooplss753 = new BitSet(new long[]{0x2000100000000000L});
-    public static final BitSet FOLLOW_RPARA_in_synpred22_Ooplss760 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred23_Ooplss794 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_synpred23_Ooplss798 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_LBRACK_in_synpred23_Ooplss800 = new BitSet(new long[]{0x000008001F200000L});
-    public static final BitSet FOLLOW_statement_in_synpred23_Ooplss802 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_RBRACK_in_synpred23_Ooplss804 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred24_Ooplss831 = new BitSet(new long[]{0x0000000001000000L});
-    public static final BitSet FOLLOW_ID_in_synpred24_Ooplss835 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_statement_in_synpred44_Ooplss1286 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SELF_in_synpred19_Ooplss680 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred19_Ooplss682 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_synpred19_Ooplss684 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_LBRACK_in_synpred19_Ooplss686 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_synpred19_Ooplss688 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_synpred19_Ooplss690 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred22_Ooplss750 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_synpred22_Ooplss754 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_LPARA_in_synpred22_Ooplss756 = new BitSet(new long[]{0x000018001F200000L});
+    public static final BitSet FOLLOW_statement_in_synpred22_Ooplss761 = new BitSet(new long[]{0x2000100000000000L});
+    public static final BitSet FOLLOW_61_in_synpred22_Ooplss764 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_synpred22_Ooplss768 = new BitSet(new long[]{0x2000100000000000L});
+    public static final BitSet FOLLOW_RPARA_in_synpred22_Ooplss775 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred23_Ooplss811 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_synpred23_Ooplss815 = new BitSet(new long[]{0x0000200000000000L});
+    public static final BitSet FOLLOW_LBRACK_in_synpred23_Ooplss817 = new BitSet(new long[]{0x000008001F200000L});
+    public static final BitSet FOLLOW_statement_in_synpred23_Ooplss819 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_RBRACK_in_synpred23_Ooplss821 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CALLOPERATOR_in_synpred24_Ooplss850 = new BitSet(new long[]{0x0000000001000000L});
+    public static final BitSet FOLLOW_ID_in_synpred24_Ooplss854 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_statement_in_synpred44_Ooplss1290 = new BitSet(new long[]{0x0000000000000002L});
 
 }
