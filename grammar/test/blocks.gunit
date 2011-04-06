@@ -18,6 +18,7 @@ block:
 <<
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	dingsbums = 137;
 }
 >> OK
@@ -28,6 +29,9 @@ block:
 =======
 	dingsbuns = 137;
 >>>>>>> Grammar: special method calls and block testing
+=======
+	dingsbums = 137;
+>>>>>>> Grammar: extended variable access with AST
 }
 >> OK
 

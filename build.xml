@@ -148,6 +148,7 @@
 	</target>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 	</target>
@@ -274,6 +275,8 @@
 >>>>>>> Grammar: extended the grammar
 	</target>
 
+=======
+>>>>>>> Grammar: extended variable access with AST
 	<target name="gunit-ast-statements">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 	</target>
@@ -284,6 +287,10 @@
 
 	<target name="gunit-ast-methods">
 		<run-gunit test-file="grammar/test/ast-methods.gunit" />
+	</target>
+
+	<target name="gunit-ast-class">
+		<run-gunit test-file="grammar/test/ast-class.gunit" />
 	</target>
 
 	<!-- the simple test, do not include it in the overall build -->

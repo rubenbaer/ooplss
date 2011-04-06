@@ -23,10 +23,14 @@ def foo():bar {
 	3 * 3;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >> -> (METHODDEF foo (RETURNTYPE bar) (BLOCK (+ (INT 2) (INT 3)) (* (INT 3) (INT 3))))
 =======
 >> -> (METHODDEF foo (RETURNTYPE bar) (BLOCK (+ 2 3) (* 3 3)))
 >>>>>>> Grammar: more AST
+=======
+>> -> (METHODDEF foo (RETURNTYPE bar) (BLOCK (+ (INT 2) (INT 3)) (* (INT 3) (INT 3))))
+>>>>>>> Grammar: extended variable access with AST
 
 
 block:
@@ -35,10 +39,14 @@ block:
 	2 + 3;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >> -> (BLOCK (+ (INT 2) (INT 3)))
 =======
 >> -> (BLOCK (+ 2 3))
 >>>>>>> Grammar: more AST
+=======
+>> -> (BLOCK (+ (INT 2) (INT 3)))
+>>>>>>> Grammar: extended variable access with AST
 
 
 
