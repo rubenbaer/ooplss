@@ -1,0 +1,14 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+classDec:
+<<
+class blah {
+	def foo():bar {
+		x.y().z;
+	}
+}
+>> -> (CLASSDEF blah (METHODDEF foo (RETURNTYPE bar) (BLOCK (. (. (VARACCESS x) (METHODCALL y)) (VARACCESS z)))))
