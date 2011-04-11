@@ -274,13 +274,14 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{emp}
+\usepackage{xspace}
 
 % define \mysharp using the arev package
 \usepackage{arev}
 \newsavebox{\sharpbox}
 \sbox{\sharpbox}{$\sharp$}
-\newcommand{\CS}{C\usebox{\sharpbox}}
-\newcommand{\match}{<\#}
+\newcommand{\CS}{C\usebox{\sharpbox}\xspace}
+\newcommand{\match}{<\#\xspace}
 
 
 % switch back to Latin Modern
