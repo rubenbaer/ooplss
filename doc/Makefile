@@ -11,11 +11,11 @@ view: build
 	$(VIEWER) $(TARGET)
 
 build:
-	pdflatex -interaction=nonstopmode $(SOURCE) 1> /dev/null
+	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
 	mpost $(SOURCE) 1> /dev/null
 	bibtex $(SOURCE) 1> /dev/null
-	pdflatex -interaction=nonstopmode $(SOURCE) 1> /dev/null
-	pdflatex -interaction=nonstopmode $(SOURCE) 1> /dev/null
+	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
+	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
 
 # cleans index, logs, temporary files etc. 
 clean:

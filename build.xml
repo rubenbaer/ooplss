@@ -43,6 +43,19 @@
 		</ant-antlr3>
 	</target>
 
+	<!-- Documentation-->
+
+	<target name="doc" depends="latex,javadoc">
+	</target>
+
+	<target name="latex">
+		<!-- Execute Makefile -->
+		<exec command="make" dir="doc" />
+	</target>
+
+	<target name="javadoc">
+	</target>
+
 	<!-- Testing -->
 
 	<!-- runs every gunit test -->
