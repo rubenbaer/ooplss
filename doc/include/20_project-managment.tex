@@ -34,11 +34,43 @@ should be at least every two weeks.
 
 \chapter{Project Schedule}
 \section{Tasks}
+\paragraph{Kick-Off}
+In this first phase the tasks will be identified and shortly described. Since the prior knowledge of type systems and programming languages uniform some knowledge exchange is to do. Important papers will get reviewed and discussed.
+
+\paragraph{Documentation Part I / II}
+Part I shows the used project management methodology. It has to be evaluated how an iterative model can be adopted to be usable in this subject. Part II shows the current problems within object-oriented languages with subtyping and no subclassing. Further the project idea will get stated and which benefits the language will have. Next to the normal writing work the used tools has to be evaluated
+
+\paragraph{Grammar / Lexer}
+Here an abstract syntax is defined. With the chosen parser generator the lexer part will be defined and be ready for the parser.
+
+\paragraph{Types}
+Parallel to the parser the supported type constructs has to be defined. Detailed type rules are not yet necessary but needed for the translation definition from the source language to the target language.
+
+\paragraph{Parser}
+Based on the used lexer a parser that builds an abstract syntax tree needs to be written. Without this tree no further work is possible.
+
+\paragraph{Tree Walker}
+For the subsequent tasks a tree walker is inevitable. Without this whether a symbol table nor a type checker can be build.
+
+\paragraph{Code Translation Definition}
+Since the target language does not natively support all the type constructs used in \ooplss are available a strategy needs to be found how the source code can be translated to the target language which will compile there.
+
+\paragraph{Symbol Table Construction}
+The symbol table contains the necessary type context information for type checking the environment under investigation.
+
+\paragraph{Type Checker}
+This phase contains two tasks. First the type rules has to be identified and written down. Consequently the rules has to be implemented and tested.
+
+\paragraph{Code Translation}
+After some type checking the code can be translated to the target language.
+
+\paragraph{Documentation}
+All over the project work the documentation will be extended and reflect the work done.
 
 \section{Diagram}
-\begin{gantt}[xunitlength=0.7cm]{12}{16}
+\begin{gantt}[xunitlength=0.6cm]{12}{17}
 	\begin{ganttitle}
-		\numtitle{1}{1}{16}{1}
+		\numtitle{1}{1}{17}{1}
 	\end{ganttitle}
 	\ganttbar{Kick-Off}{0}{2}
 	\ganttbarcon{Documentation Part I / II}{2}{3}
@@ -50,7 +82,7 @@ should be at least every two weeks.
 	\ganttbar{Type Checker}{9}{6} % Con
 	\ganttbar{Code Translation Definition}{6}{2}
 	\ganttbarcon{Code Translation}{11}{5}
-	\ganttbar{Documentation}{0}{16}
+	\ganttbar{Documentation}{0}{17}
 
 	\ganttcon{5}{3}{5}{5}
 	\ganttcon{8}{5}{8}{6}
@@ -60,7 +92,7 @@ should be at least every two weeks.
 
 \chapter{Tools and Software}
 \begin{description}
-	\item[pdf\LaTeX] 
+	\item[\LaTeX] 
 	\item[Subversion]
 	\item[Git]
 	\item[ANTLR3]
