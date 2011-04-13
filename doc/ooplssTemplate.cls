@@ -15,15 +15,16 @@
 \DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-%\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \DeclareOption{numbers}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
+\DeclareOption{todo}{\def \showtodo {showtodo}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 \ExecuteOptions{a4paper,11pt,titlepage}
 \ProcessOptions\relax
 
 %% Load book class
-%\LoadClass{scrbook} % report better for pdf 
+%\LoadClass[numbers=noenddot]{scrbook} % report better for pdf 
 \LoadClass[numbers=noenddot]{scrreprt} % report better for pdf 
 
 %% Since here we can modify the macros of the loaded class
@@ -221,6 +222,7 @@
 %\markboth{#1}{}}
 
 %% second level list 1, 2, ...
+
 \renewcommand{\labelenumii}{\arabic{enumii}.}
 
 %%--------------------------------------------------------------------------
@@ -300,34 +302,40 @@
 %
 % TODO List
 %
-\newcommand{\todo}[1]{
-% Add to todo list
-\addcontentsline{tdo}{todo}{\protect{#1}}
-%
-\begin{tikzpicture}[remember picture, baseline=-0.75ex]
-    \node [coordinate] (inText) {};
-\end{tikzpicture}
-%
-% Make the margin par
-\marginpar{
-    \begin{tikzpicture}[remember picture]
-        \definecolor{orange}{rgb}{1,0.5,0}
-        \draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
-    \end{tikzpicture}
-}
-%
-\begin{tikzpicture}[remember picture, overlay,>=stealth]
-    \draw[draw = orange, thick]
-        ([yshift=-0.2cm] inText)
-            -| ([xshift=-0.2cm] inNote.west)
-            -| (inNote.west);
-\end{tikzpicture}
-%
-}
-
-\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
-  \newcommand\l@todo[2]
-  {\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+\ifx \showtodo \undefined
+  \newcommand{\todo}[1]{}
+	\newcommand{\listoftodos}{}
+\else
+	\newcommand{\todo}[1]{
+	% Add to todo list
+	\addcontentsline{tdo}{todo}{\protect{#1}}
+	%
+	\begin{tikzpicture}[remember picture, baseline=-0.75ex]
+			\node [coordinate] (inText) {};
+	\end{tikzpicture}
+	%
+	% Make the margin par
+	\marginpar{
+			\begin{tikzpicture}[remember picture]
+					\definecolor{orange}{rgb}{1,0.5,0}
+					\draw node[font=\footnotesize, draw=black, fill=orange, text width = 2.2cm] (inNote) {#1};
+			\end{tikzpicture}
+	}
+	%
+	\begin{tikzpicture}[remember picture, overlay,>=stealth]
+			\draw[draw = orange, thick]
+					([yshift=-0.2cm] inText)
+							-| ([xshift=-0.2cm] inNote.west)
+							-| (inNote.west);
+	\end{tikzpicture}
+	%
+	}
+	
+	% TODO List
+	\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
+		\newcommand\l@todo[2]
+		{\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
+\fi
 
 % journal itemize
 \newenvironment{journal}%

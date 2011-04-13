@@ -9,8 +9,10 @@
 % $Id: ooplss.tex 48 2011-01-21 07:37:36Z barbr2 $
 % $Revision: 48 $
 %**********************************************************************************
-\documentclass{ooplssTemplate}
-
+% shows todos in document
+\documentclass[todo]{ooplssTemplate}
+% hides todos in document
+%\documentclass{ooplssTemplate}
 \usepackage{mathpartir}
 \usepackage{color}
 \usepackage{subfigure}
@@ -21,9 +23,11 @@
 \usepackage{pdfpages}
 \usepackage{longtable}
 \usepackage{graphviz}
+\usepackage{rotating}
+\usepackage{ifdraft}
 
-\newcommand{\MyType}{\emph{MyType}}
-\newcommand{\ooplss}{$\mathcal{OOPLSS}$\xspace}
+\def \MyType {\emph{MyType}}
+\def \ooplss {$\mathcal{OOPLSS}$}
 
 \hypersetup{pdfauthor={Ruben B\344r and Stefan Heinemann},
             pdftitle={Object-Oriented Language with Subtyping and Subclassing},
@@ -57,7 +61,6 @@ input metauml;
 \author{Ruben Bär\symbolfootnote[1]{\href{mailto:ruben.baer@codedump.ch}{ruben.baer@codedump.ch}} and Stefan Heinemann\symbolfootnote[2]{\href{mailto:stefan.heinemann@codedump.ch}{stefan.heinemann@codedump.ch}}}
 
 \date{June 17, 2011}
-
 
 % Bern University of Applied Sciences - Engineering and Information Technology, Quellgasse 21, 2501 Biel, Switzerland
 
