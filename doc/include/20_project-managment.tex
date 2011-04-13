@@ -68,27 +68,10 @@ After some type checking the code can be translated to the target language.
 All over the project work the documentation will be extended and reflect the work done.
 
 \section{Diagram}
-\begin{gantt}[xunitlength=0.6cm]{12}{17}
-	\begin{ganttitle}
-		\numtitle{1}{1}{17}{1}
-	\end{ganttitle}
-	\ganttbar{Kick-Off}{0}{2}
-	\ganttbarcon{Documentation Part I / II}{2}{3}
-	\ganttbar{Grammar / Lexer}{3}{2}
-	\ganttbarcon{Types}{5}{2}
-	\ganttbar{Parser}{5}{3} % Con
-	\ganttbar{Tree Walking}{8}{1}
-	\ganttbarcon{Symbol Table Construction}{9}{1}
-	\ganttbar{Type Checker}{9}{6} % Con
-	\ganttbar{Code Translation Definition}{6}{2}
-	\ganttbarcon{Code Translation}{11}{5}
-	\ganttbar{Documentation}{0}{17}
-
-	\ganttcon{5}{3}{5}{5}
-	\ganttcon{8}{5}{8}{6}
-	\ganttcon{8}{5}{8}{6}
-	\ganttcon{9}{6}{9}{8}
-\end{gantt}
+\begin{sideways}
+	\centering
+	\input{include/201_gantt}
+\end{sideways}
 
 \chapter{Tools and Software}
 \begin{description}

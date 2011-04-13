@@ -253,14 +253,18 @@ derived object. This makes recursion different between these two models.
 	\centering
 	\digraph[scale=0.8]{NaiveRecursion}{
 		rankdir=LR;
+		c[label=client,shape=plaintext]
 		a[label=M,shape=Mrecord];
 		b[label=F,shape=Mrecord];
+		c->a;
 		a->b;
 		b->b[tailport=e,headport=s];}\\
 	\digraph[scale=0.8]{MutualRecursion}{
 		rankdir=LR;
+		c[label=client,shape=plaintext]
 		a[label=M,shape=Mrecord];
 		b[label=F,shape=Mrecord];
+		c->a;
 		a->b;
 		b->a[tailport=s,headport=s];}
 	\caption{Naive and mutual recursion}
