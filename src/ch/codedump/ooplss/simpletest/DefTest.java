@@ -2,16 +2,16 @@ package ch.codedump.ooplss.simpletest;
 
 import java.io.IOException;
 
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.Tree;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 
+import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
+import ch.codedump.ooplss.symbolTable.SymbolTable;
 
-public class TreeTest {
-	public static void main(String[] args) throws IOException, RecognitionException  {
+public class DefTest {
+	public static void main(String[] args) throws IOException, RecognitionException {
 		ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
@@ -22,7 +22,11 @@ public class TreeTest {
 		Tree t = (Tree)result.getTree();
 		System.out.println(t.toStringTree());
 		
-		Tree child = t.getChild(0);
-		System.out.println(child.toStringTree());
+		SymbolTable symTab = new SymbolTable();
+		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
+		
+		OoplssDef def = new OoplssDef(nodes, symTab);
+		def.downup(t);
+		System.out.println("globals " + symTab.globals);
 	}
 }

@@ -26,6 +26,7 @@ tokens {
 	METHODS;
 	FIELDS;
 	RETURN;
+	STMT;
 }
 
 
@@ -36,9 +37,22 @@ package ch.codedump.ooplss.antlr;
 package ch.codedump.ooplss.antlr;
 }
 
+@members {
+	static class VarDefNode extends CommonTree {
+		public Token type;
+		public Token name;
+		public VarDefNode(int ttype, Token type, Token name) {
+			token=new CommonToken(ttype, "");
+			this.name = name;
+			this.type = type;
+		}
+	}
+}
+
 /*
 	TODO:
 	- arguments to methods declaration
+	- condition statements AST
 	- true false literals
 	
 	TODO LATER:
@@ -63,7 +77,7 @@ classDec	:	'class'  classname=ID
 		;
 	
 		
-varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
+varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF/*<VarDefNode>[$type, $name]*/ $type $name);
 		
 methodDef	:
 			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
@@ -82,9 +96,9 @@ blockStatement
 options {
 	k=2;
 	backtrack=true;
-}		:	varDef ';'!
-		|	statement ';'!
-		|	assignment ';'!
+}		:	varDef ';' -> ^(STMT varDef)
+		|	statement ';' -> ^(STMT statement)
+		|	assignment ';' -> ^(STMT assignment)
 		|	block
 		|	retStmt ';'!
 		|	ifStmt
