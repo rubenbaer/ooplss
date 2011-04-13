@@ -3,7 +3,7 @@ SOURCE := ooplss#.tex
 TARGET := ooplss.pdf
 VIEWER := evince
 SHELL := /bin/bash
-CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10
+CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,mp,pdf,nlo,tdo,dot
 
 default: build
 
