@@ -1,5 +1,7 @@
 .PHONY: default clean distclean 
-SOURCE := ooplss#.tex
+JOB := ooplss
+FINAL := final
+DRAFT := draft
 TARGET := ooplss.pdf
 VIEWER := evince
 SHELL := /bin/bash
@@ -8,14 +10,23 @@ CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,1
 default: build
 
 view: build
-	$(VIEWER) $(TARGET)
+	$(VIEWER) $(JOB).pdf
 
-build:
-	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
-	mpost $(SOURCE) 1> /dev/null
-	bibtex $(SOURCE) 1> /dev/null
-	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
-	pdflatex -shell-escape -interaction=nonstopmode $(SOURCE) 1> /dev/null
+build: draft
+
+draft:
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+	mpost $(JOB) 1> /dev/null
+	bibtex $(JOB) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+
+final: clean
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
+	mpost $(JOB) 1> /dev/null
+	bibtex $(JOB) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
 
 # cleans index, logs, temporary files etc. 
 clean:
