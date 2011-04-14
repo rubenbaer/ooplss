@@ -39,4 +39,9 @@ public class StdDebugger implements Debugger {
 		}
 	}
 
+	@Override
+	public void reportError(Exception e) {
+		System.out.println("Error:" + e);
+	}
+
 }

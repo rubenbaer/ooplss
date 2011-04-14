@@ -6,8 +6,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	protected Scope superType;
 
-	public ClassSymbol(Debugger debugger, String name, Scope superType) {
-		super(debugger, name,  null);
+	public ClassSymbol(Debugger debugger, String name, Scope enclosingScope, Scope superType) {
+		super(debugger, name,  enclosingScope);
 		
 		this.superType = superType;
 	}
@@ -39,5 +39,16 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	@Override
 	public void registerToDebugger() {
 		this.debugger.registerScope(this);
+	}
+	
+	public String toString() {
+		String str = "CLASS " + this.getName();
+		if (this.enclosingScope != null) {
+			str += "<" + this.enclosingScope.getName() + ">: ";
+		}
+				
+		str += this.members.keySet().toString();
+				
+		return str;
 	}
 }

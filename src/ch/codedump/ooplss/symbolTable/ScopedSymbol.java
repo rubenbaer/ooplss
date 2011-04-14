@@ -27,7 +27,11 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 	}
 
 	@Override
-	public void define(Symbol sym) {
+	public void define(Symbol sym) throws SymbolAlreadyDefinedException {
+		Symbol s = this.members.get(sym.getName());
+		if (s != null) {
+			throw new SymbolAlreadyDefinedException(this, s);
+		}
 		this.members.put(sym.getName(), sym);
 	}
 
@@ -50,5 +54,4 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 		
 		return null;
 	}
-
 }

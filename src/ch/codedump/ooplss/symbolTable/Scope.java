@@ -24,7 +24,7 @@ public interface Scope {
 	 * 
 	 * @param sym
 	 */
-	public void define(Symbol sym);
+	public void define(Symbol sym) throws SymbolAlreadyDefinedException;
 	
 	/**
 	 * Resolve the name in this scope

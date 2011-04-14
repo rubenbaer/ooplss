@@ -21,4 +21,9 @@ public class EmptyDebugger implements Debugger {
 	public void showScopes() {
 	}
 
+	@Override
+	public void reportError(Exception e) {
+	
+	}
+
 }
