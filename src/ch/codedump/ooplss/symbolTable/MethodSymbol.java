@@ -13,11 +13,6 @@ public class MethodSymbol extends ScopedSymbol {
 	}
 
 	@Override
-	public void define(Symbol sym) {
-		this.members.put(sym.getName(), sym);
-	}
-
-	@Override
 	public Scope getParentScope() {
 		return null;
 	}
@@ -26,5 +21,15 @@ public class MethodSymbol extends ScopedSymbol {
 	public void registerToDebugger() {
 		this.debugger.registerScope(this);
 	}
-
+	
+	public String toString() {
+		String str = "METHOD " + this.getName();
+		if (this.enclosingScope != null) {
+			str += "<" + this.enclosingScope.getName() + ">: ";
+		}
+				
+		str += this.members.keySet().toString();
+				
+		return str;
+	}
 }

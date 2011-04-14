@@ -42,10 +42,17 @@ public abstract class BaseScope implements Scope {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.getName() + ": " + this.members.keySet().toString();
+		String str = this.getName();
+		if (this.enclosingScope != null) {
+			str += "<" + this.enclosingScope.getName() + ">: ";
+		}
+				
+		str += this.members.keySet().toString();
+				
+		return str;
 	}
 	
 	@Override

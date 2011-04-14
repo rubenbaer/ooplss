@@ -232,8 +232,8 @@ STRINGLITERAL	:   	'"'
 		
 		// got that from the java.g example		
 CHARLITERAL	:   	'\'' 
-		        (   EscapeSequence 
-	        |   	~( '\'' | '\\' | '\r' | '\n' )
+		(   	EscapeSequence 
+	        	|   	~( '\'' | '\\' | '\r' | '\n' )
 	        	) 
 	        	'\''
     		; 
@@ -241,18 +241,18 @@ BOOLLITERAL	:	'true' | 'false';
 	
 // got that from the java.g example	
 fragment
-EscapeSequence  :   	'\\' 
-		(		'b' 
-		        |   	't' 
-		        |	'n' 
-		        |       'f' 
-		        |       'r' 
-		        |       '\"' 
-		        |       '\'' 
-		        |       '\\' 
-		        |       ('0'..'3') ('0'..'7') ('0'..'7')
-		        |       ('0'..'7') ('0'..'7') 
-			|       ('0'..'7')
+EscapeSequence 	 :   	'\\' 
+		(	'b' 
+	        	|   	't' 
+		|	'n' 
+		|       	'f' 
+		|       	'r' 
+		|       	'\"' 
+		|       	'\'' 
+		|       	'\\' 
+		|       	('0'..'3') ('0'..'7') ('0'..'7')
+		|       	('0'..'7') ('0'..'7') 
+		|	('0'..'7')
 		)          
 		;  
 
@@ -287,7 +287,7 @@ LBRACK		:	'[';
 
 RBRACK		:	']';
 
-CONSTRUCT	: 	'__construct';
+CONSTRUCT		: 	'__construct';
     
 CLASS		: 	'class';
 
@@ -299,13 +299,13 @@ RETURNSTMT	:	'return';
 
 SUBTYPE		:	'subtypeOf';
 
-SUBCLASS	:	'subclassOf';
+SUBCLASS		:	'subclassOf';
 
 SELF		:	'self';
 
 IFSTMT		: 	'if';
 
-WHILESTMT	:	'while';
+WHILESTMT		:	'while';
 
 FORSTMT		:	'for';
 

@@ -30,4 +30,9 @@ public interface Debugger {
 	 * Output all the scopes
 	 */
 	public void showScopes();
+	
+	/**
+	 * Output an error
+	 */
+	public void reportError(Exception e);
 }
