@@ -54,9 +54,21 @@
 	<target name="doc" depends="latex,javadoc">
 	</target>
 
-	<target name="latex">
+	<target name="latex" depends="latex-draft">
+	</target>
+
+	<target name="latex-draft">
 		<!-- Execute Makefile -->
-		<exec command="make" dir="doc" />
+		<exec command="make" dir="doc">
+			<arg value="draft" />
+		</exec>
+	</target>
+
+	<target name="latex-final">
+		<!-- Execute Makefile -->
+		<exec command="make" dir="doc">
+			<arg value="final" />
+		</exec>
 	</target>
 
 	<target name="javadoc">
