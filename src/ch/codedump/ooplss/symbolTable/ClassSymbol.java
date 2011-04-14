@@ -1,11 +1,13 @@
 package ch.codedump.ooplss.symbolTable;
 
+import ch.codedump.ooplss.utils.Debugger;
+
 public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	protected Scope superType;
 
-	public ClassSymbol(String name, Scope superType) {
-		super(name,  null);
+	public ClassSymbol(Debugger debugger, String name, Scope superType) {
+		super(debugger, name,  null);
 		
 		this.superType = superType;
 	}
@@ -32,5 +34,10 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void registerToDebugger() {
+		this.debugger.registerScope(this);
 	}
 }

@@ -33,4 +33,9 @@ public interface Scope {
 	 * @return Symbol if found or null
 	 */
 	public Symbol resolve(String name);
+	
+	/**
+	 * Register the scope to the debugger
+	 */
+	public void registerToDebugger();	
 }

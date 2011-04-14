@@ -9,9 +9,12 @@ import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
+import ch.codedump.ooplss.utils.Debugger;
+import ch.codedump.ooplss.utils.StdDebugger;
 
 public class DefTest {
 	public static void main(String[] args) throws IOException, RecognitionException {
+		Debugger debugger = new StdDebugger(Debugger.BASIC);
 		ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
@@ -20,13 +23,14 @@ public class DefTest {
 		OoplssParser parser = new OoplssParser(tokens);
 		OoplssParser.prog_return result = parser.prog();
 		Tree t = (Tree)result.getTree();
-		System.out.println(t.toStringTree());
 		
-		SymbolTable symTab = new SymbolTable();
+		SymbolTable symTab = new SymbolTable(debugger);
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 		
-		OoplssDef def = new OoplssDef(nodes, symTab);
+
+		
+		OoplssDef def = new OoplssDef(nodes, symTab, debugger);
 		def.downup(t);
-		System.out.println("globals " + symTab.globals);
+		debugger.showScopes();
 	}
 }

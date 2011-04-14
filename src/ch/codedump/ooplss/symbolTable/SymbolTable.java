@@ -2,13 +2,19 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
+import ch.codedump.ooplss.utils.Debugger;
+
 public class SymbolTable {
-	public Scope globals = new GlobalScope();
+	public Scope globals;
 	
 	HashMap<String, Type> types = new HashMap<String, Type>();
 	
-	public SymbolTable() {
+	Debugger debugger;
+	
+	public SymbolTable(Debugger debugger) {
 		this.initBuiltinTypes();
+		this.debugger = debugger;
+		this.globals =  new GlobalScope(debugger);
 	}
 
 	private void initBuiltinTypes() {

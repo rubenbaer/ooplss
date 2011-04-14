@@ -2,6 +2,8 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
+import ch.codedump.ooplss.utils.Debugger;
+
 public abstract class BaseScope implements Scope {
 	protected String name;
 	
@@ -9,11 +11,15 @@ public abstract class BaseScope implements Scope {
 	
 	protected HashMap<String, Symbol> members;
 	
-	public BaseScope(String name, Scope encScope) {
+	Debugger debugger;
+	
+	public BaseScope(Debugger debugger, String name, Scope encScope) {
 		this.name = name;
 		this.enclosingScope = encScope;
 		
 		this.members = new HashMap<String, Symbol>();
+		this.debugger = debugger;
+		this.registerToDebugger();
 	}
 	
 	/**
@@ -42,6 +48,7 @@ public abstract class BaseScope implements Scope {
 		return this.getName() + ": " + this.members.keySet().toString();
 	}
 	
+	@Override
 	public void define(Symbol sym) {
 		this.members.put(sym.getName(), sym);
 	}
@@ -49,10 +56,12 @@ public abstract class BaseScope implements Scope {
 	/**
 	 * These scopes don't have a parent scope
 	 */
+	@Override
 	public Scope getParentScope() {
 		return this.getEnclosingScope();
 	}
 	
+	@Override
 	public Scope getEnclosingScope() {
 		return this.enclosingScope;
 	}
