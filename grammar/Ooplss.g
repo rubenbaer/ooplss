@@ -63,7 +63,7 @@ package ch.codedump.ooplss.antlr;
 
 prog		:	 classDec+;
 
-classDec	:	'class'  classname=ID 
+classDec		:	'class'  classname=ID 
 			( 'subtypeOf' supertype=ID )?
 			( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
 			'{'
@@ -73,13 +73,14 @@ classDec	:	'class'  classname=ID
 					methodDef
 				)*
 			'}'
-			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)? ^(METHODS methodDef+)?)
+			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)? 
+				^(METHODS methodDef+)?)
 		;
 	
 		
 varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF/*<VarDefNode>[$type, $name]*/ $type $name);
 		
-methodDef	:
+methodDef		:
 			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
 			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? block)
 		;
@@ -118,7 +119,7 @@ backtrack=true;
 
 		;
 		
-varAccessEntry  :	 varAccess EOF;
+varAccessEntry  	:	 varAccess EOF;
 
 varAccess	
 /*
@@ -149,23 +150,23 @@ backtrack=true;
 
 retStmt		:	'return' statement -> ^(RETURN statement); 
 
-statement	:	
+statement		:	
 			expression
 		;
 		
-expression	:	orExpr;
+expression		:	orExpr;
 
 orExpr		:	andExpr ('||'^ andExpr)? ;
 
 andExpr		:	equality ('&&'^ equality)? ;
 
-equality	:	inequality (('=='|'!=')^ inequality)?;
+equality		:	inequality (('=='|'!=')^ inequality)?;
 
-inequality	:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
+inequality		:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
 		
-dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*; 
+dashExpr		:	pointExpr (('+'|'-')^ pointExpr)*; 
 
-pointExpr	: 	atom (('*'^|'/'^) atom)*;
+pointExpr		: 	atom (('*'^|'/'^) atom)*;
 
 atom		:	literal
 		|	varAccess
@@ -187,7 +188,7 @@ ifStmt		:	'if' '(' statement ')' block
 			('elseif' '(' statement ')' block)*
 			('else' block)?;
 			
-whileStmt	: 	'while' '(' statement')' block;
+whileStmt		: 	'while' '(' statement')' block;
 
 forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block;
 	

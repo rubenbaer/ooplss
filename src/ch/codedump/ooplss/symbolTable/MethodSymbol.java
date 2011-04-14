@@ -2,14 +2,16 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
-public class MethodSymbol extends ScopedSymbol {
+import ch.codedump.ooplss.utils.Debugger;
 
-	public MethodSymbol(String name, Type retType, Scope encScope ) {
-		super(name, retType, encScope);
-	}
+public class MethodSymbol extends ScopedSymbol {
 
 	HashMap<String, Symbol> members = new HashMap<String, Symbol>();
 	
+	public MethodSymbol(Debugger debugger, String name, Type retType, Scope encScope ) {
+		super(debugger, name, retType, encScope);
+	}
+
 	@Override
 	public void define(Symbol sym) {
 		this.members.put(sym.getName(), sym);
@@ -18,6 +20,11 @@ public class MethodSymbol extends ScopedSymbol {
 	@Override
 	public Scope getParentScope() {
 		return null;
+	}
+
+	@Override
+	public void registerToDebugger() {
+		this.debugger.registerScope(this);
 	}
 
 }

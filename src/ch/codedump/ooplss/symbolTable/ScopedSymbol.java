@@ -2,20 +2,28 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
+import ch.codedump.ooplss.utils.Debugger;
+
 public abstract class ScopedSymbol extends Symbol implements Scope {
 	
 	protected Scope enclosingScope;
 	
 	protected HashMap<String, Symbol> members = new HashMap<String, Symbol>();
 
-	public ScopedSymbol(String name, Type type, Scope enclosingScope) {
+	protected Debugger debugger;
+
+	public ScopedSymbol(Debugger debugger, String name, Type type, Scope enclosingScope) {
 		super(name, type);
 		this.enclosingScope = enclosingScope;
+		this.debugger = debugger;
+		this.registerToDebugger();
 	}
 	
-	public ScopedSymbol(String name, Scope enclosingScope) {
+	public ScopedSymbol(Debugger debugger, String name, Scope enclosingScope) {
 		super(name);
 		this.enclosingScope = enclosingScope;
+		this.debugger = debugger;
+		this.registerToDebugger();
 	}
 
 	@Override
