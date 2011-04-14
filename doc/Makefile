@@ -28,6 +28,9 @@ final: clean
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
 
+once:
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+
 # cleans index, logs, temporary files etc. 
 clean:
 	rm -f *.{$(CLEAN_EXT)} include/*.{$(CLEAN_EXT)}

@@ -159,12 +159,12 @@
     \begin{titlepage}
     \begin{flushright}
     \vspace*{4cm}
-    \includegraphics[height=4\baselineskip]{imgs/logo}\\
+    \includegraphics[height=4\baselineskip]{imgs/logo}\\ \vspace{0.3cm}
         \sffamily{\bfseries{ \Large \@subtitle}}\\
-        \vspace{0.2cm}
+        \vspace{0.3cm}
         \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
-        \normalsize \\
+        \small \\
         A Bachelor Thesis presented to the Division of Computer Science\\ Department of Engineering and Information Technology, Bern University of Applied Sciences \\
         \vspace{0.1cm}
         Presented by \@author\\
