@@ -20,6 +20,26 @@
 
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties"
 		classpath="${contrib-tasks}" />
+	
+	<!-- CLEAN -->
+	<target name="clean" depends="clean-build,clean-antlr,clean-latex">
+	</target>
+	
+	<target name="clean-build">
+		<delete dir="${build}" />
+	</target>
+	
+	<target name="clean-antlr">
+		<delete dir="${antlr-outputdir}" />
+		<delete dir="grammar/output" />
+	</target>
+	
+	<target name="clean-latex">
+		<exec executable="make" dir="doc">
+			<arg value="clean" />
+		</exec>
+	</target>
+	
 
 	<!-- BUILD -->
 
@@ -59,14 +79,14 @@
 
 	<target name="latex-draft">
 		<!-- Execute Makefile -->
-		<exec command="make" dir="doc">
+		<exec executable="make" dir="doc">
 			<arg value="draft" />
 		</exec>
 	</target>
 
 	<target name="latex-final">
 		<!-- Execute Makefile -->
-		<exec command="make" dir="doc">
+		<exec executable="make" dir="doc">
 			<arg value="final" />
 		</exec>
 	</target>
