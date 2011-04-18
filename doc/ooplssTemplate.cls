@@ -174,6 +174,8 @@
         \vspace{0.5cm}
     \hrule
     \end{flushright}
+		\vfill
+    \includegraphics[height=\baselineskip]{imgs/by-nc-sa}\\ \small{\sffamily{Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License}}
     \end{titlepage}
 }
 
