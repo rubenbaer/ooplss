@@ -27,6 +27,7 @@ topdown	:	enterMethod
 	|	enterBlock
 	|	varDef
 	|	enterClass	
+	|	simpleVarAccess
 	;
 	
 bottomup	:	exitBlock
@@ -44,7 +45,7 @@ enterClass	:	^(CLASSDEF classname=ID
 		this.debug.msg(Debugger.EXT, "<Def>Entering a class");
 		ClassSymbol cs = new ClassSymbol(this.debug, $classname.text, this.currentScope,  null);
 		cs.setDef($classname);
-		$classname.symbol = cs;
+		$classname.setSymbol(cs);
 		this.currentScope.define(cs);
 		this.currentScope = cs;
 	}	
@@ -66,7 +67,7 @@ enterMethod
 		this.debug.msg(Debugger.EXT, "<Def>Entering a method");
 		MethodSymbol ms = new MethodSymbol(this.debug, $name.text, this.currentScope);
 		ms.setDef($name);
-		$name.symbol = ms;
+		$name.setSymbol(ms);
 		this.currentScope.define(ms);
 		this.currentScope = ms;
 	}
@@ -104,7 +105,7 @@ varDef	:	^(VARDEF type=ID name=ID)
 			" of type " + $type.text);
 		VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
 		vs.setDef($name);
-		$name.symbol = vs;
+		$name.setSymbol(vs);
 		currentScope.define(vs);
 
 	};
@@ -112,6 +113,13 @@ catch [SymbolAlreadyDefinedException e] {
 	this.debug.reportError(e);
 }
 
-
+simpleVarAccess
+	:	^(VARACCESS ID)
+	{
+		// record the scope in the variable
+		this.debug.msg(Debugger.EXT, "<Def>Recording scope of a variable");
+		$ID.setScope(this.currentScope);;
+	}
+	;
 
 

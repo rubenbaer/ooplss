@@ -2,6 +2,8 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
+import ch.codedump.ooplss.antlr.UnknownDefinitionException;
+import ch.codedump.ooplss.tree.OoplssAST;
 import ch.codedump.ooplss.utils.Debugger;
 
 public class SymbolTable {
@@ -26,5 +28,35 @@ public class SymbolTable {
 		Type t = this.types.get(name);
 		
 		return t;
+	}
+	
+	/**
+	 * Resolve a variable 
+	 * 
+	 * Resolve a simple variable. Check that the 
+	 * variable is not accessed before it's definition.
+	 * @param node
+	 * @return Symbol
+	 * @throws UnknownDefinitionException 
+	 */
+	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
+		Scope scope = node.getScope();
+		Symbol s = scope.resolve(node.getText());
+		if (s == null) {
+			throw new UnknownDefinitionException(node);
+		}
+		if (s.def == null) {
+			return s; // must be predefined
+		}
+		
+		int varLocation = node.token.getTokenIndex();
+		int defLocation = s.def.token.getTokenIndex();
+		if (node.getScope() instanceof BaseScope &&
+				s.getScope() instanceof BaseScope &&
+				varLocation < defLocation) {
+			throw new UnknownDefinitionException(node);
+		}
+		
+		return s;
 	}
 }

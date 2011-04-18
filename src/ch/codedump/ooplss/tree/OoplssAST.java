@@ -11,11 +11,42 @@ import ch.codedump.ooplss.symbolTable.Symbol;
  * the AST
  */
 public class OoplssAST extends CommonTree {
-	public Scope scope;
+	protected Scope scope;
 	
-	public Symbol symbol;
+	protected Symbol symbol;
 	
 	public OoplssAST(Token t) {
 		super(t);
+	}
+	
+	/**
+	 * Return the scope of this AST node
+	 * @return scope
+	 */
+	public Scope getScope() {
+		return this.scope;
+	}
+	
+	/**
+	 * Record the scope of this AST node
+	 * @param s
+	 */
+	public void setScope(Scope s) {
+		this.scope = s;
+	}
+	
+	/**
+	 * Return the symbol reference
+	 * @return
+	 */
+	public Symbol getSymbol() {
+		return this.symbol;
+	}
+	
+	/**
+	 * Record the symbol of this node
+	 */
+	public void setSymbol(Symbol s) {
+		this.symbol = s;
 	}
 }
