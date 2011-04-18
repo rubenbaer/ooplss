@@ -37,4 +37,10 @@ public interface Debugger {
 	 * Output an error
 	 */
 	public void reportError(Exception e);
+	
+	/**
+	 * Set the log level
+	 * @param lvl
+	 */
+	public void setLogLevel(int lvl);
 }

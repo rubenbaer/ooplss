@@ -47,6 +47,12 @@
 			outputdirectory="${antlr-outputdir}">
 			<classpath refid="classpath" />
 		</ant-antlr3>
+		<ant-antlr3
+			target="${grammar}/OoplssRef.g"
+			verbose="true"
+			outputdirectory="${antlr-outputdir}">
+			<classpath refid="classpath" />
+		</ant-antlr3>
 	</target>
 
 	<!-- Documentation-->

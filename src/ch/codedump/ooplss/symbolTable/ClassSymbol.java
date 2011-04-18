@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.Map.Entry;
+
 import ch.codedump.ooplss.utils.Debugger;
 
 public class ClassSymbol extends ScopedSymbol implements Type {
@@ -15,25 +17,6 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	@Override
 	public Scope getParentScope() {
 		return this.superType;
-	}
-	
-	/**
-	 * Look in the super type instead of the enclosing type
-	 * 
-	 * @Todo extend this some time for the use of super classes and types 
-	 */
-	@Override
-	public Symbol resolve(String name) {
-		Symbol s = this.members.get(name);
-		
-		if ( s != null) {
-			return s;
-		}
-		if (this.getParentScope() != null) {
-			return this.getParentScope().resolve(name);
-		}
-		
-		return null;
 	}
 	
 	public Symbol resolveMember(String name) {
@@ -60,7 +43,20 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			str += "<" + this.enclosingScope.getName() + ">: ";
 		}
 				
-		str += this.members.keySet().toString();
+		str += "[";
+		boolean first = true;
+		for (Entry<String, Symbol> s: this.members.entrySet()) {
+			if (first) {
+				first = false;
+			} else {
+				str += ", ";
+			}
+			str += s.getKey();
+			if (s.getValue().getType() != null) {
+				str += ": " + s.getValue().getType().getName();
+			}
+		}
+		str += "]";
 				
 		return str;
 	}

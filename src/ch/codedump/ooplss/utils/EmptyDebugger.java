@@ -26,4 +26,8 @@ public class EmptyDebugger implements Debugger {
 	
 	}
 
+	@Override
+	public void setLogLevel(int lvl) {
+	}
+
 }

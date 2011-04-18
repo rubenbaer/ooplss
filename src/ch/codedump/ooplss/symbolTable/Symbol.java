@@ -59,4 +59,28 @@ public abstract class Symbol {
 	public void setDef(OoplssAST def) {
 		this.def = def;
 	}
+	
+	/**
+	 * Set the type of the symbol
+	 * @param type
+	 */
+	public void setType(Type type) {
+		this.type = type;
+	}
+	
+	/**
+	 * Return the type
+	 * @return type
+	 */
+	public Type getType() {
+		return type;
+	}
+	
+	/**
+	 * Return the scope this symbol is in
+	 * @return Scope
+	 */
+	public Scope getScope() {
+		return this.scope;
+	}
 }

@@ -41,7 +41,7 @@ enterClass	:	^(CLASSDEF classname=ID
 			*/
 			.*)
 	{
-		this.debug.msg(Debugger.EXT, "Entering a class");
+		this.debug.msg(Debugger.EXT, "<Def>Entering a class");
 		ClassSymbol cs = new ClassSymbol(this.debug, $classname.text, this.currentScope,  null);
 		cs.setDef($classname);
 		$classname.symbol = cs;
@@ -55,15 +55,15 @@ catch [SymbolAlreadyDefinedException e] {
 	
 exitClass	:	CLASSDEF
 	{
-		this.debug.msg(Debugger.EXT, "Leaving a class");
+		this.debug.msg(Debugger.EXT, "<Def>Leaving a class");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
 	
 enterMethod 
-	:	^(METHODDEF name=ID /*(^(RETURNTYPE rettype=ID))? */ .*)
+	:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
 	{
-		this.debug.msg(Debugger.EXT, "Entering a method");
+		this.debug.msg(Debugger.EXT, "<Def>Entering a method");
 		MethodSymbol ms = new MethodSymbol(this.debug, $name.text, this.currentScope);
 		ms.setDef($name);
 		$name.symbol = ms;
@@ -78,21 +78,21 @@ catch [SymbolAlreadyDefinedException e] {
 	
 exitMethod	:	METHODDEF
 	{
-		this.debug.msg(Debugger.EXT, "Leaving a method");
+		this.debug.msg(Debugger.EXT, "<Def>Leaving a method");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
 
 enterBlock	:	BLOCK 
 	{
-		this.debug.msg(Debugger.EXT, "Entering a block");
+		this.debug.msg(Debugger.EXT, "<Def>Entering a block");
 		this.currentScope = new LocalScope(this.debug, this.currentScope);
 		
 	}
 	;
 exitBlock	:	BLOCK
 	{
-		this.debug.msg(Debugger.EXT, "Leaving a block");
+		this.debug.msg(Debugger.EXT, "<Def>Leaving a block");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
@@ -100,7 +100,7 @@ exitBlock	:	BLOCK
 
 varDef	:	^(VARDEF type=ID name=ID)
 	{
-		this.debug.msg(Debugger.EXT, "Defining variable " + $name.text + 
+		this.debug.msg(Debugger.EXT, "<Def>Defining variable " + $name.text + 
 			" of type " + $type.text);
 		VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
 		vs.setDef($name);

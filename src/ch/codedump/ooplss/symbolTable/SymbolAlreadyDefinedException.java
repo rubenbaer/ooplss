@@ -11,10 +11,9 @@ public class SymbolAlreadyDefinedException extends Exception {
 	}
 	
 	public String toString() {
-		return "Symbol " + 
+		return this.symbol.def.token.getTokenIndex() + " Symbol " + 
 				this.symbol.getName() + 
-				" is already defined in scope <" + 
-				this.scope.getName() + 
-				">";
+				" is already defined in scope " + 
+				this.scope.getName();
 	}
 }
