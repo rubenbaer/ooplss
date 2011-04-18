@@ -32,8 +32,8 @@ public abstract class BaseScope implements Scope {
 		if (s!= null) {
 			return s;
 		}
-		if (enclosingScope != null) {
-			return enclosingScope.resolve(name);
+		if (this.enclosingScope != null) {
+			return this.enclosingScope.resolve(name);
 		}
 		
 		return null;

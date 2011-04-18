@@ -16,9 +16,9 @@ public class StdDebugger implements Debugger {
 	}
 
 	@Override
-	public void msg(int Loglevel, String msg) {
-		if (this.loglevel <= loglevel) {
-			System.out.println("Debug[" + loglevel +"]:" + msg);
+	public void msg(int lvl, String msg) {
+		if (lvl <= this.loglevel) {
+			System.out.println("Debug[" + lvl +"]:" + msg);
 		}
 	}
 

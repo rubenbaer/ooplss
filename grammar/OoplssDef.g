@@ -1,7 +1,7 @@
 tree grammar OoplssDef;
 options {
 tokenVocab=Ooplss;
-ASTLabelType=CommonTree;
+ASTLabelType=OoplssAST; // use the customised AST node
 filter=true;
 }
 @members{
@@ -20,6 +20,7 @@ package ch.codedump.ooplss.antlr;
 
 import ch.codedump.ooplss.symbolTable.*;
 import ch.codedump.ooplss.utils.*;
+import ch.codedump.ooplss.tree.*;
 }
 
 topdown	:	enterMethod
@@ -40,8 +41,10 @@ enterClass	:	^(CLASSDEF classname=ID
 			*/
 			.*)
 	{
-		this.debug.msg(Debugger.BASIC, "Entering a class");
+		this.debug.msg(Debugger.EXT, "Entering a class");
 		ClassSymbol cs = new ClassSymbol(this.debug, $classname.text, this.currentScope,  null);
+		cs.setDef($classname);
+		$classname.symbol = cs;
 		this.currentScope.define(cs);
 		this.currentScope = cs;
 	}	
@@ -52,7 +55,7 @@ catch [SymbolAlreadyDefinedException e] {
 	
 exitClass	:	CLASSDEF
 	{
-		this.debug.msg(Debugger.BASIC, "Leaving a class");
+		this.debug.msg(Debugger.EXT, "Leaving a class");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
@@ -60,34 +63,36 @@ exitClass	:	CLASSDEF
 enterMethod 
 	:	^(METHODDEF name=ID /*(^(RETURNTYPE rettype=ID))? */ .*)
 	{
-		this.debug.msg(Debugger.BASIC, "Entering a method");
-		MethodSymbol ms = new MethodSymbol(this.debug, $name.text, null, this.currentScope);
+		this.debug.msg(Debugger.EXT, "Entering a method");
+		MethodSymbol ms = new MethodSymbol(this.debug, $name.text, this.currentScope);
+		ms.setDef($name);
+		$name.symbol = ms;
 		this.currentScope.define(ms);
 		this.currentScope = ms;
 	}
 	;
 catch [SymbolAlreadyDefinedException e] {
 	this.debug.reportError(e);
-	recover(input, e);
+	//recover(input, e);
 }
 	
 exitMethod	:	METHODDEF
 	{
-		this.debug.msg(Debugger.BASIC, "Leaving a method");
+		this.debug.msg(Debugger.EXT, "Leaving a method");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
 
 enterBlock	:	BLOCK 
 	{
-		this.debug.msg(Debugger.BASIC, "Entering a block");
+		this.debug.msg(Debugger.EXT, "Entering a block");
 		this.currentScope = new LocalScope(this.debug, this.currentScope);
 		
 	}
 	;
 exitBlock	:	BLOCK
 	{
-		this.debug.msg(Debugger.BASIC, "Leaving a block");
+		this.debug.msg(Debugger.EXT, "Leaving a block");
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
@@ -95,12 +100,18 @@ exitBlock	:	BLOCK
 
 varDef	:	^(VARDEF type=ID name=ID)
 	{
-		this.debug.msg(Debugger.BASIC, "Defining variable " + $name.text + 
+		this.debug.msg(Debugger.EXT, "Defining variable " + $name.text + 
 			" of type " + $type.text);
-		VariableSymbol vs = new VariableSymbol($name.text);
+		VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
+		vs.setDef($name);
+		$name.symbol = vs;
 		currentScope.define(vs);
 
 	};
 catch [SymbolAlreadyDefinedException e] {
 	this.debug.reportError(e);
 }
+
+
+
+

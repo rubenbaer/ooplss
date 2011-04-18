@@ -7,9 +7,14 @@ import ch.codedump.ooplss.utils.Debugger;
 public class MethodSymbol extends ScopedSymbol {
 
 	HashMap<String, Symbol> members = new HashMap<String, Symbol>();
-	
+	/*
 	public MethodSymbol(Debugger debugger, String name, Type retType, Scope encScope ) {
 		super(debugger, name, retType, encScope);
+	}
+	*/
+	
+	public MethodSymbol(Debugger debugger, String name, Scope encScope) {
+		super(debugger, name, encScope);
 	}
 
 	@Override

@@ -4,9 +4,9 @@ import ch.codedump.ooplss.utils.Debugger;
 
 public class ClassSymbol extends ScopedSymbol implements Type {
 	
-	protected Scope superType;
+	protected ClassSymbol superType;
 
-	public ClassSymbol(Debugger debugger, String name, Scope enclosingScope, Scope superType) {
+	public ClassSymbol(Debugger debugger, String name, Scope enclosingScope, ClassSymbol superType) {
 		super(debugger, name,  enclosingScope);
 		
 		this.superType = superType;
@@ -31,6 +31,19 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		if (this.getParentScope() != null) {
 			return this.getParentScope().resolve(name);
+		}
+		
+		return null;
+	}
+	
+	public Symbol resolveMember(String name) {
+		Symbol s = members.get(name);
+		if (s != null) {
+			return s;
+		}
+		
+		if (this.superType != null) {
+			return this.superType.resolveMember(name);
 		}
 		
 		return null;
