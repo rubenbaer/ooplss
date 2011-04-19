@@ -49,18 +49,6 @@ package ch.codedump.ooplss.antlr;
 	}
 }
 
-/*
-	TODO:
-	- arguments to methods declaration
-	- condition statements AST
-	- true false literals
-	
-	TODO LATER:
-	- switch
-	- assignment and declaration of vars (var foo:bar = 3)
-	- float literals
-*/
-
 prog		:	 classDec+;
 
 classDec		:	'class'  classname=ID 
@@ -78,7 +66,7 @@ classDec		:	'class'  classname=ID
 		;
 	
 		
-varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF/*<VarDefNode>[$type, $name]*/ $type $name);
+varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
 		
 methodDef		:
 			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))

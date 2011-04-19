@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.symbolTable;
 
+import org.antlr.runtime.Token;
+
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class UnknownTypeException extends Exception {
@@ -12,7 +14,8 @@ public class UnknownTypeException extends Exception {
 	}
 	
 	public String toString() {
-		return this.symbol.token.getTokenIndex() + 
+		Token token = this.symbol.token;
+		return "line " + token.getLine() + ":" + token.getTokenIndex() + 
 		" the token " + this.symbol.token.getText() 
 		+ " cannot be resolved to a type";
 	}

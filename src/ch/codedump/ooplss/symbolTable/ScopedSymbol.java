@@ -11,16 +11,16 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 	protected HashMap<String, Symbol> members = new HashMap<String, Symbol>();
 
 	protected Debugger debugger;
-
+ /*
 	public ScopedSymbol(Debugger debugger, String name, Type type, Scope enclosingScope) {
 		super(name, type);
 		this.enclosingScope = enclosingScope;
 		this.debugger = debugger;
 		this.registerToDebugger();
-	}
+	}*/
 	
 	public ScopedSymbol(Debugger debugger, String name, Scope enclosingScope) {
-		super(name);
+		super(name, enclosingScope);
 		this.enclosingScope = enclosingScope;
 		this.debugger = debugger;
 		this.registerToDebugger();

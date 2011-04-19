@@ -16,9 +16,9 @@ public class StdDebugger implements Debugger {
 	}
 
 	@Override
-	public void msg(int Loglevel, String msg) {
-		if (this.loglevel <= loglevel) {
-			System.out.println("Debug[" + loglevel +"]:" + msg);
+	public void msg(int lvl, String msg) {
+		if (lvl <= this.loglevel) {
+			System.out.println("Debug[" + lvl +"]:" + msg);
 		}
 	}
 
@@ -39,9 +39,19 @@ public class StdDebugger implements Debugger {
 		}
 	}
 
+	/**
+	 * TODO i think this shouldn't be done here
+	 * this is not error reporting, this is debugging
+	 */
 	@Override
 	public void reportError(Exception e) {
-		System.out.println("Error:" + e);
+		System.err.println(e);
+		// break?
+	}
+
+	@Override
+	public void setLogLevel(int lvl) {
+		this.loglevel = lvl;
 	}
 
 }

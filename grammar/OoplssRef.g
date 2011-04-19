@@ -25,30 +25,43 @@ import ch.codedump.ooplss.tree.*;
 
 topdown	:	enterMethod
 	|	varDef
+	|	simpleVarAccess
  	;
  	
 enterMethod 	
 	:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
 	{
 		this.debug.msg(Debugger.EXT, "<Ref>Entering a Method");
-		Scope s = $name.symbol.getScope();
+		Scope s = $name.getSymbol().getScope();
 		Type t = (Type)s.resolve($rettype.text);
-		$name.symbol.setType(t);
+		$name.getSymbol().setType(t);
 	}
 	;
 	
 varDef	:	^(VARDEF type=ID name=ID)
 	{
 		this.debug.msg(Debugger.EXT, "<Ref>Resolving variable type");
-		Scope s = $name.symbol.getScope();
+		Scope s = $name.getSymbol().getScope();
 		Type t = (Type)s.resolve($type.text);
 		if (t == null) {
 			throw new UnknownTypeException($type);
 		} else {
-			$name.symbol.setType(t);
+			$name.getSymbol().setType(t);
 		}
 	};
 catch [UnknownTypeException e] {
+	this.debug.reportError(e);
+}
+
+simpleVarAccess
+	:	^(VARACCESS ID)
+	{
+		this.debug.msg(Debugger.EXT, "<Ref>Resolving a simple variable");
+		Symbol s = this.symtab.resolveVar($ID);;
+		$ID.setSymbol(s);
+	}
+	;
+catch[UnknownDefinitionException e] {
 	this.debug.reportError(e);
 }
 	
