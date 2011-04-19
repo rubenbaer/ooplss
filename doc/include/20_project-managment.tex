@@ -70,19 +70,22 @@ All over the project work the documentation will be extended and reflect the wor
 \section{Diagram}
 \begin{sideways}
 	\centering
-	\input{include/201_gantt}
+	\input{include/21_gantt}
 \end{sideways}
 
 \chapter{Tools and Software}
 \begin{description}
-	\item[\LaTeX] 
-	\item[Subversion]
-	\item[Git]
-	\item[ANTLR3]
-	\item[Java$^{\textrm{TM}}$]
-	\item[JUnit]
-	\item[Eclipse]
-	\item[ant]
+	\item[ANTLR3] ANTLR\footnote{ANother Tool for Language Recognition} is an advanced LL(*) parser generator with support for AST\footnote{Abstract Syntax Tree} generation and tree walking respectively rewriting.
+	\item[ANTLRWork] Workbench for ANTLR grammers with debug environment.
+	\item[ANTLR IDE] Eclipse plugin for editing ANTLR grammars.
+	\item[Apache Ant] Java tool for automated builds.
+	\item[Eclipse] Open source integrated development environment for Java. Used for writing non-ANTLR parts.
+	\item[Git] Distriputed source control system. Used for the development and as a replacement for Subversion. The project is hosted by \href{https://www.github.com/rubenbaer/ooplss}{GitHub}
+	\item[GUnit] Unit testing framework for ANTLR grammars.
+	\item[Java] Target language of \ooplss and development language of the compiler.
+	\item[JUnit] Unit testing framework for Java source code.
+	\item[\LaTeX] A macro collection for the \TeX system. Used for the documentation. Every thing is written with \LaTeX
+	\item[Subversion] Source control system with linear history. Used in the first weeks.
 \end{description}
 
 \chapter{Standards and Guidelines}
@@ -150,7 +153,7 @@ Coding guidelines
 \\ \hline
 8 & 
 \begin{journal}
-	\item 
+	\item Changed repository from subversion to git
 \end{journal}
 \\ \hline
 9 & 
