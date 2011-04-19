@@ -28,6 +28,11 @@ public class MethodSymbol extends ScopedSymbol {
 		this.debugger.registerScope(this);
 	}
 	
+	/**
+	 * Print all the members of this scope
+	 * 
+	 * @return Scope members
+	 */
 	public String toString() {
 		String str = "METHOD " + this.getName();
 		if (this.enclosingScope != null) {
@@ -42,13 +47,21 @@ public class MethodSymbol extends ScopedSymbol {
 			} else {
 				str += ", ";
 			}
-			str += s.getKey();
-			if (s.getValue().getType() != null) {
-				str += ": " + s.getValue().getType().getName();
-			}
+			str += s.getValue().symbolString();
 		}
 		str += "]";
 				
+		return str;
+	}
+
+	@Override
+	public String symbolString() {
+		String str = "<Method>" + this.getName();
+		
+		if (this.getType() != null) {
+			str += ":" + this.getType().getName(); 
+		}
+		
 		return str;
 	}
 }
