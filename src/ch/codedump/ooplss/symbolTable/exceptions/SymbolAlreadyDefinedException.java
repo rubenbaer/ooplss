@@ -1,6 +1,9 @@
-package ch.codedump.ooplss.symbolTable;
+package ch.codedump.ooplss.symbolTable.exceptions;
 
 import org.antlr.runtime.Token;
+
+import ch.codedump.ooplss.symbolTable.Scope;
+import ch.codedump.ooplss.symbolTable.Symbol;
 
 public class SymbolAlreadyDefinedException extends Exception {
 	private static final long serialVersionUID = -3540336331077789377L;
@@ -13,7 +16,7 @@ public class SymbolAlreadyDefinedException extends Exception {
 	}
 	
 	public String toString() {
-		Token t = this.symbol.def.token;
+		Token t = this.symbol.getDef().token;
 		
 		return "line " + t.getLine() + ":" + t.getTokenIndex() + " symbol " + 
 				this.symbol.getName() + 

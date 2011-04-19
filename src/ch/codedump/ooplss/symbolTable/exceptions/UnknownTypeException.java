@@ -1,4 +1,4 @@
-package ch.codedump.ooplss.symbolTable;
+package ch.codedump.ooplss.symbolTable.exceptions;
 
 import org.antlr.runtime.Token;
 
