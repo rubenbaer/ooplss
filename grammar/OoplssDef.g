@@ -31,12 +31,25 @@ topdown	:	enterMethod
 	|	simpleVarAccess
 	|	arrayAccess
 	|	arrayDef
+	|	//import
 	;
 	
 bottomup	:	exitBlock
 	|	exitClass
 	|	exitMethod
 	;
+
+/*	
+import	:	^('import' ID)
+	{
+		this.debug.msg(Debugger.EXT, "<Def>Importing a type");
+		ClassSymbol cs = new ClassSymbol(this.debug, $ID.text, this.currentScope, null);
+		cs.setDef($ID);
+		$ID.setSymbol(cs);
+		this.currentScope.define(cs);
+	}
+	;
+	*/
 	
 enterClass	:	^(CLASSDEF classname=ID 
 			/*

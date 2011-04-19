@@ -28,6 +28,7 @@ tokens {
 	FIELDS;
 	RETURN;
 	STMT;
+	PROG;
 }
 
 
@@ -50,7 +51,14 @@ package ch.codedump.ooplss.antlr;
 	}
 }
 
-prog		:	 classDec+;
+prog		:	 (classDec
+		|	importStmt)*
+			-> ^(PROG classDec+ importStmt+)
+		;
+		
+importStmt		:	'import' ID ';'
+			-> ^('import' ID)
+		;
 
 classDec		:	'class'  classname=ID 
 			( 'subtypeOf' supertype=ID )?
@@ -307,6 +315,8 @@ ELIF		:	'elseif';
 ELSE		:	'else';
 
 EQ		: 	'==';
+
+IMPORT		:	'import';
 
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
