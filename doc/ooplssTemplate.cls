@@ -159,9 +159,9 @@
     \begin{titlepage}
     \begin{flushright}
     \vspace*{4cm}
-    \includegraphics[height=4\baselineskip]{imgs/logo}\\ \vspace{0.3cm}
+    \includegraphics[height=4\baselineskip]{imgs/logo}\\ \vspace{0.2cm}
         \sffamily{\bfseries{ \Large \@subtitle}}\\
-        \vspace{0.3cm}
+        \vspace{0.2cm}
         \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
         \small \\
