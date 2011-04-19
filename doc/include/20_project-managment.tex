@@ -18,12 +18,17 @@ implementation goes hand in hand and gives direct feedback. This makes it
 possible to test the definition on a concrete implementation. Further
 parts from extreme programming are used. Manly the concept of pair
 programming for critical parts which provide interfaces between the
-compiler stages.
+compiler stages. Further is a small not every feature proposed implemented.
+First of all a core language needs to be fully enrolled which will be refined
+step by step.
 
 \section{Test-Driven Development}
 A major goal is to provide a good and robust code basis. To ensure that
 this claim holds, test-driven development is performed. With the use of
-unit tests code breaking changes can be easily detected.
+unit tests code breaking changes can be easily detected. This is inevitable
+since many parts are highly fragile, e.g., small changes in the grammar can
+cause many changes in the code since the grammar will recognise a complete
+other language.
 
 \section{Regular Meetings}
 The Bern University of Applied Science does not provide a major in
@@ -35,31 +40,49 @@ should be at least every two weeks.
 \chapter{Project Schedule}
 \section{Tasks}
 \paragraph{Kick-Off}
-In this first phase the tasks will be identified and shortly described. Since the prior knowledge of type systems and programming languages uniform some knowledge exchange is to do. Important papers will get reviewed and discussed.
+In this first phase the tasks will be identified and shortly
+described. Since the prior knowledge of type systems and programming
+languages uniform some knowledge exchange is to do. Important papers
+will get reviewed and discussed.
 
 \paragraph{Documentation Part I / II}
-Part I shows the used project management methodology. It has to be evaluated how an iterative model can be adopted to be usable in this subject. Part II shows the current problems within object-oriented languages with subtyping and no subclassing. Further the project idea will get stated and which benefits the language will have. Next to the normal writing work the used tools has to be evaluated
+Part I shows the used project management methodology. It has to be
+evaluated how an iterative model can be adopted to be usable in this
+subject. Part II shows the current problems within object-oriented
+languages with subtyping and no subclassing. Further the project idea
+will get stated and which benefits the language will have. Next to the
+normal writing work the used tools has to be evaluated
 
 \paragraph{Grammar / Lexer}
-Here an abstract syntax is defined. With the chosen parser generator the lexer part will be defined and be ready for the parser.
+Here an abstract syntax is defined. With the chosen parser generator
+the lexer part will be defined and be ready for the parser.
 
 \paragraph{Types}
-Parallel to the parser the supported type constructs has to be defined. Detailed type rules are not yet necessary but needed for the translation definition from the source language to the target language.
+Parallel to the parser the supported type constructs has to be
+defined. Detailed type rules are not yet necessary but needed for the
+translation definition from the source language to the target language.
 
 \paragraph{Parser}
-Based on the used lexer a parser that builds an abstract syntax tree needs to be written. Without this tree no further work is possible.
+Based on the used lexer a parser that builds an abstract syntax tree
+needs to be written. Without this tree no further work is possible.
 
 \paragraph{Tree Walker}
-For the subsequent tasks a tree walker is inevitable. Without this whether a symbol table nor a type checker can be build.
+For the subsequent tasks a tree walker is inevitable. Without this
+whether a symbol table nor a type checker can be build.
 
 \paragraph{Code Translation Definition}
-Since the target language does not natively support all the type constructs used in \ooplss are available a strategy needs to be found how the source code can be translated to the target language which will compile there.
+Since the target language does not natively support all the type
+constructs used in \ooplss are available a strategy needs to be found
+how the source code can be translated to the target language which will
+compile there.
 
 \paragraph{Symbol Table Construction}
-The symbol table contains the necessary type context information for type checking the environment under investigation.
+The symbol table contains the necessary type context information for
+type checking the environment under investigation.
 
 \paragraph{Type Checker}
-This phase contains two tasks. First the type rules has to be identified and written down. Consequently the rules has to be implemented and tested.
+This phase contains two tasks. First the type rules has to be identified
+and written down. Consequently the rules has to be implemented and tested.
 
 \paragraph{Code Translation}
 After some type checking the code can be translated to the target language.

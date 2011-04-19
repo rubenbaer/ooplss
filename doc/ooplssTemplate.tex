@@ -260,12 +260,16 @@
 \usepackage{emp}
 \usepackage{xspace}
 
-% define \mysharp using the arev package
+% 
+% Some shortcuts
+%
 \usepackage{arev}
 \newsavebox{\sharpbox}
 \sbox{\sharpbox}{$\sharp$}
-\newcommand{\CS}{C\usebox{\sharpbox}\xspace}
-\newcommand{\match}{<\#\xspace}
+\def \CS {C\usebox{\sharpbox}\xspace}
+\def \match {<\#\xspace}
+\def \MyType {\emph{MyType}\xspace}
+\def \ooplss {$\mathcal{OOPLSS}$\xspace}
 
 
 % switch back to Latin Modern

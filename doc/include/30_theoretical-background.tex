@@ -25,7 +25,7 @@ or C++, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
 \section{Subtyping}
-Subtyping is a binary relation, denoted with ''<:``, which defines
+Subtyping is a binary relation, denoted with `<:', which defines
 a substitution relation between two types and is one style of type
 polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
 ensures that $A$ has compatible methods and fields to its \emph{supertype}
@@ -76,9 +76,9 @@ terms are introduced in category theory and were adopted to type theory
 
 \subsection{Liskov Substitution Principle}
 \begin{quotation}
-Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
+`Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
 $q(y)$ should be true for objects $y$ of type $S$ where $S$ is a subtype
-of $T$. - Barbara Liskov \cite{liskov_behavioral_1999}
+of $T$.' -- Barbara Liskov \cite{liskov_behavioral_1999}
 \end{quotation}
 
 A formal and strong description of subtyping is given by Barbara
@@ -160,7 +160,7 @@ link(inheritance)(RectangleR.n -- SquareR.s);
 
 The left hierarchy expresses the conceptual family: A \emph{Circle}
 is a special kind of \emph{Ellipse}, so is \emph{Square} of
-\emph{Rectangle}. These objects do not actually ''extend`` their
+\emph{Rectangle}. These objects do not actually `extend' their
 parents though, instead, they rather remove properties. For instance, the
 \emph{Circle} removes the property of having two radii.	The hierarchy on
 the right on the other hand is conceptual nonsense. It shows, however,
@@ -241,7 +241,7 @@ use of type casts is inevitable.
 
 To get rid of this, a language would need to specialise parameters
 covariant. This is possible in Eiffel but this makes the type system
-unsafe.
+unsafe. Later, a type safe alternative will be presented.
 
 \section{Schizophrenic Self-Reference}
 \label{sec:schizoReferences}
@@ -333,46 +333,46 @@ refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
 
 This is how the fixation of self-references is done in the subtyping
-concept: before the combination (i.e. inheritance) of the objects. In the
+concept: before the combination, i.e., inheritance, of the objects. In the
 concept of subclassing however, it is done after the combination.
 
 \section{Subclassing}
 
 The goal of the concept of subclassing is now to provide a somewhat
-different kind of inheritance. With this inheritance, the programmer should
-be able to inherit code without automatically creating a subtype. 
-\todo{Mention here that our programming language will support both?}
+different kind of inheritance. With this inheritance, the programmer
+should be able to inherit code without automatically creating a subtype.
 This solves the problem described in \autoref{sec:sharingTypes}. Since
-subclassing does not create subtypes, the restriction of contravariance, 
+subclassing does not create subtypes, the restriction of contravariance,
 described in \autoref{sec:recursiveClosure}, is of no relevancy
-anymore. And as already mentioned, the fixation of the self
-references and types is done after the inheritance, so there will be no
-schizophrenic self-references as described in case 1 in 
-\autoref{sec:schizoReferences}. \\
+anymore. And as already mentioned, the fixation of the self references
+and types is done after the inheritance, so there will be no schizophrenic
+self-references as described in the first case\todo{are they cases clear
+structured?} in \autoref{sec:schizoReferences}. \\
 
-In subclassing however, the question rises: how should return values
-and arguments be typed (see case 2 in \autoref{sec:schizoReferences})
-when defining the methods and fields, since the programmer is not able
-to know of what type the subclass will be. This is why there has to
-be some sort of placeholder for such cases: the \emph{MyType}. The
-\emph{MyType} placeholder is then substituted with the current type
-after the inheritance.
-% TODO: Needs further explanations
+In subclassing however, the question rises: how should return values and
+arguments be typed (see the second case in \autoref{sec:schizoReferences})
+when defining the methods and fields, since the programmer is not able to
+know of what type the subclass will be. This is why there has to be some
+sort of placeholder for such cases: the \emph{MyType}. The \emph{MyType}
+placeholder is then substituted with the current type after the
+inheritance respectively after the inheritance in a subtyping environment.
+\todo{Some further explanations are necessary}
 
 \chapter{Making Subclassing Practical}
 % estimated pages: 2-3
 Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses not implicitly define subtypes a more general
-relation is needed - \emph{matching} - which is weaker and does
+relation is needed -- \emph{matching} -- which is weaker and does
 not support subsumption. Originally \emph{matching} was proposed
-as F-bounded subtyping \cite{canning_f-bounded_1989}. F-bounded
-subtyping extends simple subtyping with parametrisation which is as
+as function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
+subtyping extends simple subtyping with parametrisation which is popular as
 \emph{generics} in well known programming languages like Java or \CS
 \cite{barron-estrada_inheritance_2003}. An other interpretation of
-\emph{matching} as higher-order subtyping with better properties in
+\emph{matching} as higher-order subtyping with better properties like
 reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
+%% Already coverded above
 %\section{Binary Methods}
 %A binary method is a method with parameters of the same type as the
 %receiver of the method, i.e., the \emph{self} reference in the method. The
@@ -457,22 +457,79 @@ reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
 \section{Matching}
 \begin{quotation}
-"the same as subtyping in the absence of the \emph{MyType}
+`the same as subtyping in the absence of the \emph{MyType}
 construct, but differs in the presence of \emph{MyType}, because
-\emph{MyType} implicitly has different meanings in different types." -
+\emph{MyType} implicitly has different meanings in different types.' --
 \cite{bruce_foundations_2002}
 \end{quotation}
 
-An other solution proposed by Bruce \cite{bruce_binary_1995}\todo{Correct
-reference since he proposed the idea earlier} is
+An other solution proposed by Bruce \cite{bruce_binary_1995} is
 \emph{matching}. Matching is a generalised subtyping relation, written
-as \match, between two types and takes regard to a \emph{MyType} in
+as `\match', between two types and takes regard to a \emph{MyType} in
 subclasses. An important difference is that the matching relation is only
 between object types and not on method types what is in subtyping. As
 said by Bruce in \cite{bruce_foundations_2002} matching does not differ
 very much from subtyping only that \MyType is not substituted by its
 concrete object type. This makes the relation weaker than subtyping
 where contravariant method parameters are not allowed.
+
+\autoref{lst:javaBinary} contains some problems that can not be tackled
+with subtyping. First of all the variable in \autoref{lst:javaBinary0} can
+not be specialised since it is invariant. This entails that even when the 
+method \emph{getNext} can be specialised in the subclass -- which is not possible
+in Java -- an cast operation is necessary to get the correct type in the overridden 
+method on \autoref{lst:javaBinary1}.
+
+The second problem lies in \autoref{lst:javaBinary2}. Since there is a covariant 
+method parameter the method can not be typed. This implies that there are no statically
+checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a 
+\emph{DoublyLinkedNode}.
+
+\begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+public class SinglyLinkedNode {
+	private SinglyLinkedNode next; %\label{lst:javaBinary0})
+
+	public setNext(SinglyLinkedNode next) {
+		this.next = next;
+	}
+
+	public SinglyLinkedNode getNext() {
+		return this.next;
+	}
+}
+
+public class DoublyLinkedNode extends SinglyLinkedNode {
+	private DoublyLinkedNode prev;
+	public setPrev(DoublyLinkedNode prev) {
+		this.prev = prev;
+		prev.next = this;
+	}
+
+	public DoublyLinkedNode getPrev() {
+		return this.prev;
+	}
+	
+	// Not typeable expression in Java.
+	%\label{lst:javaBinary2})public setNext(DoublyLinkedNode next) {
+			this.next = next;
+			next.prev = this;
+	}
+
+	// Legal override in the sense of subtyping. Illegal Java;
+	public DoublyLinkedNode getNext() {
+		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
+	}
+}
+\end{lstlisting}
+
+\autoref{lst:break} illustrates what behaviour would be possible if subtyping 
+would allow covariant parameters.
+
+\begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
+pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
+	one.setNext(other);
+}
+\end{lstlisting}
 
 When the subclassing rules are defined they can be formulated
 type safe that subclasses are matching their superclasses. With
@@ -481,14 +538,18 @@ nominal matching is possible for type checking. With this definition
 the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
 Since matching is a weaker relation then subtyping the assumption of $a:A$
-and $A$ \match $B$ does not imply $a:B$ how subtyping does.
+and $A$ \match $B$ does not imply $a:B$ how subtyping does, i.e., matching
+can not help in situations illustrated in \autoref{lst:matchbreak}.
 
 \begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
-pubic void break(SinglyLinkedNode node) {
+pubic void break(node <# SinglyLinkedNode) {
 	SinglyLinkedNode newNode = new SinglyLinkedNode();
 	node.setNext(newNode);
 }
 \end{lstlisting}
+
+One can see that here is matching too weak. Without subsumption the type system
+can not know that \emph{newNode} is compatible with the object passed as parameter.
 
 \subsection{Match-Bounded Quantification}
 However, the example in \autoref{lst:break} is still not correct
