@@ -34,3 +34,5 @@
 
 % odd pages footer
 \fancyfoot[OR]{\thepage}
+
+\def \clrpage {\cleardoublepage}

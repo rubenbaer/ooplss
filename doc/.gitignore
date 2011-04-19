@@ -12,4 +12,5 @@
 *.tdo
 imgs/logo.eps
 ooplss.*
+ooplss-book.*
 !ooplss.tex
