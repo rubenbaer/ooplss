@@ -21,3 +21,10 @@ methodDef:
 "def __construct():type {}" FAIL // constructors do not have a return type
 "def __construct()" FAIL // missing brackets
 
+// with arguments
+"def method(foo:bar):type {}" OK
+"def __construct(foo:bar) {}" OK
+"def method(foo#bar, foo:bar):tyyype {}" OK
+"def blah(flubber:johnny, depp#mark, wahlberg:maeh):bleh {}" OK
+
+

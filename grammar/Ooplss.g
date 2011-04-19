@@ -29,6 +29,9 @@ tokens {
 	RETURN;
 	STMT;
 	PROG;
+	ARGUMENTLIST;
+	SUBTYPEARG;
+	SUBCLASSARG;
 }
 
 
@@ -83,11 +86,23 @@ arrayDef		:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $typ
 		
 methodDef		:
 			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
-			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? block)
+			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList block)
 		;
 		
 argumentDeclList 	
-		: 	'(' ')';
+		: 	'(' 
+			(
+				argument (',' argument)* 
+			)?
+			 ')'
+			 -> ^(ARGUMENTLIST argument*)
+		;
+
+argument		:	(subTypArg | subClassArg);
+
+subTypArg		:	ID ':' ID -> ^(SUBTYPEARG ID ID);
+
+subClassArg	:	ID '#' ID -> ^(SUBCLASSARG ID ID);
 
 block 		: 	'{'
 			(blockStatement)*
@@ -256,13 +271,16 @@ EscapeSequence 	 :   	'\\'
 		|	('0'..'7')
 		)          
 		;  
+TYPEOF		:	':';
+
+SUBCLASSOF	:	'#';
 
 EQOPERATOR	
 		: 	'=';
 	    	
 CALLOPERATOR 	:	'.';
 
-SEMICOLON	:	';';
+SEMICOLON		:	';';
 
 PLUSOPERATOR	:	'+';
 
