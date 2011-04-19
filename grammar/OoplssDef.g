@@ -19,6 +19,7 @@ public OoplssDef(TreeNodeStream input, SymbolTable symtab, Debugger debug) {
 package ch.codedump.ooplss.antlr;
 
 import ch.codedump.ooplss.symbolTable.*;
+import ch.codedump.ooplss.symbolTable.exceptions.*;
 import ch.codedump.ooplss.utils.*;
 import ch.codedump.ooplss.tree.*;
 }
@@ -28,6 +29,8 @@ topdown	:	enterMethod
 	|	varDef
 	|	enterClass	
 	|	simpleVarAccess
+	|	arrayAccess
+	|	arrayDef
 	;
 	
 bottomup	:	exitBlock
@@ -113,13 +116,33 @@ catch [SymbolAlreadyDefinedException e] {
 	this.debug.reportError(e);
 }
 
+arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
+	{
+		this.debug.msg(Debugger.EXT, "<Def>Defining an array " + $name.text + 
+			" of type " + $type.text + " with size " + $size.text);
+		ArraySymbol as = new ArraySymbol($name.text, this.currentScope);
+		as.setDef($name);
+		$name.setSymbol(as);
+		currentScope.define(as);
+	}
+	;
+catch [SymbolAlreadyDefinedException e] {
+	this.debug.reportError(e);
+}
+
 simpleVarAccess
 	:	^(VARACCESS ID)
 	{
 		// record the scope in the variable
 		this.debug.msg(Debugger.EXT, "<Def>Recording scope of a variable");
-		$ID.setScope(this.currentScope);;
+		$ID.setScope(this.currentScope);
 	}
 	;
 
+arrayAccess	:	^(ARRAYACCESS ID .)
+	{
+		this.debug.msg(Debugger.EXT, "<Def>Recording scope of an array");
+		$ID.setScope(this.currentScope);
+	}
+	;
 

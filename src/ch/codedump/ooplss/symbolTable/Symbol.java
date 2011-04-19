@@ -54,10 +54,18 @@ public abstract class Symbol {
 	
 	/**
 	 * Set the pointer to the AST
-	 * @param def
+	 * @param Pointer to the AST
 	 */
 	public void setDef(OoplssAST def) {
 		this.def = def;
+	}
+	
+	/**
+	 * Return the pointer to the AST
+	 * @return Pointer to the AST
+	 */
+	public OoplssAST getDef() {
+		return this.def;
 	}
 	
 	/**

@@ -43,7 +43,7 @@ public abstract class BaseScope implements Scope {
 	public String getName() {
 		return this.name;
 	}
-
+	
 	@Override
 	public String toString() {
 		String str = this.getName();
