@@ -33,16 +33,6 @@
 %\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
 
 %
-% Package for links (ref and cite), no box and blue
-% 
-\usepackage[pdftex]{hyperref}
-
-% Capital letter for autoref labels
-\def\subsectionautorefname{Subsection}
-\def\sectionautorefname{Section}
-\def\chapterautorefname{Chapter}
-
-%
 % Package for headers
 %
 \usepackage{fancyhdr}
@@ -93,8 +83,12 @@
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
 }
-% autoref fpr line numbers
-\providecommand*{\lstnumberautorefname}{line}
+
+%
+% Package for links (ref and cite), no box and blue
+% 
+\usepackage[pdftex]{hyperref}
+\usepackage{cleveref}
 
 %
 % Nomenclatur

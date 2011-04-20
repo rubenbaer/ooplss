@@ -91,7 +91,7 @@ property the type systems can not proof the correctness and this gives
 the possibility to formulate programs which may go wrong. With the
 strong coupling of subtyping and subclassing in languages like Java,
 \CS or C++ the programmer has to decide between code reuse or proper
-subtyping. \autoref{sec:sharingTypes} gives a deeper insight of this
+subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this
 problem.
 
 \section{Sharing Types Versus Implementation}
@@ -110,7 +110,7 @@ inheritance automatically creates a subtype and there is no escape
 from this. Of a practical point of view however, inheritance is merely
 a mechanism to reuse code in further specialisations of classes. This
 leads us to the first conflict: sharing types vs. the implementation. To
-understand this have a look at \autoref{fig:implementationConflict}
+understand this have a look at \cref{fig:implementationConflict}
 \cite{simons_theory_2003-4}:
 
 \begin{figure}[H]
@@ -341,16 +341,16 @@ concept of subclassing however, it is done after the combination.
 The goal of the concept of subclassing is now to provide a somewhat
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
-This solves the problem described in \autoref{sec:sharingTypes}. Since
+This solves the problem described in \cref{sec:sharingTypes}. Since
 subclassing does not create subtypes, the restriction of contravariance,
-described in \autoref{sec:recursiveClosure}, is of no relevancy
+described in \cref{sec:recursiveClosure}, is of no relevancy
 anymore. And as already mentioned, the fixation of the self references
 and types is done after the inheritance, so there will be no schizophrenic
 self-references as described in the first case\todo{are they cases clear
-structured?} in \autoref{sec:schizoReferences}. \\
+structured?} in \cref{sec:schizoReferences}. \\
 
 In subclassing however, the question rises: how should return values and
-arguments be typed (see the second case in \autoref{sec:schizoReferences})
+arguments be typed (see the second case in \cref{sec:schizoReferences})
 when defining the methods and fields, since the programmer is not able to
 know of what type the subclass will be. This is why there has to be some
 sort of placeholder for such cases: the \emph{MyType}. The \emph{MyType}
@@ -384,12 +384,12 @@ reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 %rise difficulties. This looks complete different in statically object-oriented
 %languages where subtyping is fundamental \cite{bruce_binary_1995}.
 %
-%\autoref{lst:javaBinary} shows how subtyping can not prevent the
+%\cref{lst:javaBinary} shows how subtyping can not prevent the
 %possibility to add objects of type \emph{SinglyLinkedNode} in a
 %\emph{DoublyLinkedNode} which is definitely incorrect and has to end
 %in a runtime exception. In subtyping existing object state variables
 %and methods like \emph{setNext} can not be further specialised. The
-%\autoref{lst:javaBinary1} shows how the type system has to be escaped
+%\cref{lst:javaBinary1} shows how the type system has to be escaped
 %by casts which is unsafe and.	However, these problems does not rise
 %from binary methods them self but in combination with subtyping and
 %inheritance since these concepts are associated with subsumption.
@@ -432,7 +432,7 @@ reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 %\end{lstlisting}
 %
 %Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
-%the code in \autoref{lst:break} can create a run time exception. As
+%the code in \cref{lst:break} can create a run time exception. As
 %long as both parameters are objects of the exact same type the code runs
 %without any problem. On the other side if the parameter are from different
 %types an runtime error would occur since the parameter of \emph{setNext}
@@ -450,7 +450,7 @@ reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 %methods. One may argue that it should be possible to change the parameters
 %of the objects in a contravariant way, i.e., that \emph{setNext}
 %and \emph{getNext} is typed as a method with parameters of type
-%\emph{DoublyLinkedNode}. As seen in \autoref{chap:subtypingVsSubclassing}
+%\emph{DoublyLinkedNode}. As seen in \cref{chap:subtypingVsSubclassing}
 %this would break the subtyping relation between \emph{SinglyLinkedNode}
 %and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
 %which is not a subtype.
@@ -473,14 +473,14 @@ very much from subtyping only that \MyType is not substituted by its
 concrete object type. This makes the relation weaker than subtyping
 where contravariant method parameters are not allowed.
 
-\autoref{lst:javaBinary} contains some problems that can not be tackled
-with subtyping. First of all the variable in \autoref{lst:javaBinary0} can
+Listing \ref{lst:javaBinary} contains some problems that can not be tackled
+with subtyping. First of all the variable in line \ref{lst:javaBinary0} can
 not be specialised since it is invariant. This entails that even when the 
 method \emph{getNext} can be specialised in the subclass -- which is not possible
 in Java -- an cast operation is necessary to get the correct type in the overridden 
-method on \autoref{lst:javaBinary1}.
+method on line \ref{lst:javaBinary1}.
 
-The second problem lies in \autoref{lst:javaBinary2}. Since there is a covariant 
+The second problem is in line \ref{lst:javaBinary2}. Since there is a covariant 
 method parameter the method can not be typed. This implies that there are no statically
 checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a 
 \emph{DoublyLinkedNode}.
@@ -522,7 +522,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 }
 \end{lstlisting}
 
-\autoref{lst:break} illustrates what behaviour would be possible if subtyping 
+Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping 
 would allow covariant parameters.
 
 \begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
@@ -539,7 +539,7 @@ the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
 Since matching is a weaker relation then subtyping the assumption of $a:A$
 and $A$ \match $B$ does not imply $a:B$ how subtyping does, i.e., matching
-can not help in situations illustrated in \autoref{lst:matchbreak}.
+can not help in situations illustrated in listing \ref{lst:matchbreak}.
 
 \begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
 pubic void break(node <# SinglyLinkedNode) {
@@ -552,7 +552,7 @@ One can see that here is matching too weak. Without subsumption the type system
 can not know that \emph{newNode} is compatible with the object passed as parameter.
 
 \subsection{Match-Bounded Quantification}
-However, the example in \autoref{lst:break} is still not correct
+However, the example in listing \ref{lst:break} is still not correct
 typeable as long as only is known that the matching relation between
 \emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
 objects to variable is not safe if only is known that the variable's type
@@ -591,7 +591,7 @@ types. F-bounded subtyping relation is often called \emph{generics}
 and is written as $X$<:$B_{Op}(X)$ and gives the information that $X$
 extends $B$. The use of the bound against the type operator of $B$
 shows the function in the bound. Considering an example in Java in
-\autoref{lst:generics} shows how this concept is implemented in a popular
+listing \ref{lst:generics} shows how this concept is implemented in a popular
 programming language. Since every type that satisfies the f-bound can
 be used to replace the type parameter $X$, the formal type of $A$ is
 $\forall(X $<:$ B(X))A\{X\}$
