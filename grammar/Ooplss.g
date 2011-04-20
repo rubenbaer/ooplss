@@ -56,7 +56,7 @@ package ch.codedump.ooplss.antlr;
 }
 
 prog		:	classDec+
-		;
+			;
 
 /*
 prog		:	 (classDec
@@ -65,159 +65,160 @@ prog		:	 (classDec
 		;
 */
 		
-importStmt		:	'import' ID ';'
-			-> ^('import' ID)
-		;
+importStmt	:	'import' ID ';'
+				-> ^('import' ID)
+			;
 
-classDec		:	'class'  classname=ID 
-			( 'subtypeOf' supertype=ID )?
-			( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
-			'{'
-				(
-					varDef ';'
-				| 
-					methodDef
-				)*
-			'}'
-			-> ^(CLASSDEF $classname ^(SUPERTYPE $supertype)? ^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)? 
-				^(METHODS methodDef+)?)
-		;
+classDec	:	'class' classname=ID 
+				( 'subtypeOf' supertype=ID )?
+				( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
+				'{'
+					(
+						varDef ';'
+					| 
+						methodDef
+					)*
+				'}'
+				->	^(CLASSDEF $classname ^(SUPERTYPE $supertype)? 
+					^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)?  
+					^(METHODS methodDef+)?)
+			;
 	
 		
-varDef		:	normalVarDef | arrayDef;
+varDef		:	normalVarDef | arrayDef
+			;
 
-normalVarDef	:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
+normalVarDef	
+			:	'var' name=ID ':' type=ID 
+				-> ^(VARDEF $type $name)
+			;
 
-arrayDef		:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
+arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
 		
-methodDef   :   'def' (
-                  (name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
-                ) methodBlock 
-			         -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
-		        ;
+methodDef	:	'def' (
+					(name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
+				) methodBlock 
+				-> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
+			;
 		
 argumentDeclList 	
-		: 	'(' 
-			(
-				argument (',' argument)* 
-			)?
-			 ')'
-			 -> ^(ARGUMENTLIST argument*)
-		;
+			: 	'(' ( argument (',' argument)* )? ')'
+				-> ^(ARGUMENTLIST argument*)
+			;
 
-argument		:	(subTypArg | subClassArg);
+argument	:	(subTypArg | subClassArg);
 
-subTypArg		:	ID ':' ID -> ^(SUBTYPEARG ID ID);
+subTypArg	:	ID ':' ID 
+				-> ^(SUBTYPEARG ID ID)
+			;
 
-subClassArg	:	ID '#' ID -> ^(SUBCLASSARG ID ID);
+subClassArg	:	ID '#' ID 
+				-> ^(SUBCLASSARG ID ID)
+			;
 
 
-methodBlock	:   '{'
-			          (blockStatement)*
-			          '}'
-			          -> ^(METHODBLOCK blockStatement*)
-		        ;
+methodBlock	:	'{' (blockStatement)* '}'
+				-> ^(METHODBLOCK blockStatement*)
+			;
 	
-block 		  :   '{'
-			          (blockStatement)*
-			          '}' 
-			          -> ^(BLOCK blockStatement*)
-		        ;
+block 		:	'{' (blockStatement)* '}' 
+				-> ^(BLOCK blockStatement*)
+			;
 
 blockStatement	
 options {
 	k=2;
 	backtrack=true;
-}		:	varDef ';' -> ^(STMT varDef)
-		|	statement ';' -> ^(STMT statement)
-		|	assignment ';' -> ^(STMT assignment)
-		|	block
-		|	retStmt ';'!
-		|	ifStmt
-		|	whileStmt
-		|	forStmt
-		|	';'!
-		;
+}			
+			:	varDef ';'		-> ^(STMT varDef)
+			|	statement ';'	-> ^(STMT statement)
+			|	assignment ';'	-> ^(STMT assignment)
+			|	block
+			|	retStmt ';'!
+			|	ifStmt
+			|	whileStmt
+			|	forStmt
+			|	';'!
+			;
 		
-assignmentEntry : 	assignment EOF;
+assignmentEntry 
+			: 	assignment EOF // helper rule for debugging
+			;
 	 	
-assignment     
+assignment
 options {
 k=*;
 backtrack=true;
-}		:       varAccess '=' statement
-			-> ^('=' varAccess statement)
-
-		;
+}			
+			:	varAccess '=' statement
+				-> ^('=' varAccess statement)
+			;
 		
-varAccessEntry  	:	 varAccess EOF;
-
 varAccess	
 /*
 options {
 k=2;
 backtrack=true;
 } */
-		:	
-		(
-				ID -> ^(VARACCESS ID)
-			|
-				ID '[' statement ']' -> ^(ARRAYACCESS ID statement)
-			|
-				'self' '.' ID '[' statement ']' -> ^('.' SELF ^(ARRAYACCESS ID statement))
-			|
-				'self' '.' ID -> ^('.' SELF ^(VARACCESS ID))
-		)
-		( 
-				'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')' -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
-			|
-				'.' id=ID '[' statement ']' -> ^('.' $varAccess ^(ARRAYACCESS $id statement))
-			|
-				'.' id=ID -> ^('.' $varAccess ^(VARACCESS $id))
-	
-				
-		)*		
-		;
+			:	(
+						ID 
+							-> ^(VARACCESS ID)
+					|	ID '[' statement ']' 
+							-> ^(ARRAYACCESS ID statement)
+					|	'self' '.' ID '[' statement ']' 
+							-> ^('.' SELF ^(ARRAYACCESS ID statement))
+					|	'self' '.' ID 
+							-> ^('.' SELF ^(VARACCESS ID))
+				)
+				( 
+						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
+								-> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
+					|	'.' id=ID '[' statement ']'
+								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))
+					|	'.' id=ID
+								-> ^('.' $varAccess ^(VARACCESS $id))
+				)*
+			;
 
-retStmt		:	'return' statement -> ^(RETURN statement); 
+retStmt		:	'return' statement 
+				-> ^(RETURN statement)
+			; 
 
-statement		:	
-			expression
-		;
+statement	:	expression;
 		
-expression		:	orExpr;
+expression	:	orExpr;
 
 orExpr		:	andExpr ('||'^ andExpr)? ;
 
 andExpr		:	equality ('&&'^ equality)? ;
 
-equality		:	inequality (('=='|'!=')^ inequality)?;
+equality	:	inequality (('=='|'!=')^ inequality)?;
 
-inequality		:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
+inequality	:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
 		
-dashExpr		:	pointExpr (('+'|'-')^ pointExpr)*; 
+dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*; 
 
-pointExpr		: 	atom (('*'^|'/'^) atom)*;
+pointExp	: 	atom (('*'^|'/'^) atom)*;
 
 atom		:	literal
-		|	varAccess
-		|	'('!  expression ')'! 
-		;
+			|	varAccess
+			|	'('! expression ')'! 
+			;
 
 arrayAccess	:	'[' statement ']';
 
 
 
-literal		:	i=INTLITERAL  -> ^(INT INTLITERAL)
-		|	STRINGLITERAL -> ^(STRING STRINGLITERAL)
-		|	CHARLITERAL   -> ^(CHAR CHARLITERAL)
-		|	BOOLLITERAL   -> ^(BOOL BOOLLITERAL)
-		// TODO: more literal types
-		;
+literal		:	INTLITERAL    -> ^(INT INTLITERAL)
+			|	STRINGLITERAL -> ^(STRING STRINGLITERAL)
+			|	CHARLITERAL   -> ^(CHAR CHARLITERAL)
+			|	BOOLLITERAL   -> ^(BOOL BOOLLITERAL)
+			// TODO: more literal types
+			;
 		
 ifStmt		:	'if' '(' statement ')' block
-			('elseif' '(' statement ')' block)*
-			('else' block)?;
+				('elseif' '(' statement ')' block)*
+				('else' block)?;
 			
 whileStmt		: 	'while' '(' statement')' block;
 
@@ -232,78 +233,85 @@ options {
 
 
 // got that from the java.g example
-COMMENT
-	    	:   	'/*'
-	        	(options {greedy=false;} : . )* 
-	        	'*/'
-	            	{ skip();   }
-	    	;
+COMMENT		:	'/*'
+				(options {greedy=false;} : . )* 
+				'*/'
+				{ skip(); }
+			;
 
 // got that from the java.g example
 LINE_COMMENT
-		:   	'//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
-	            	{
-	                	skip();
-	            	}
-		|	'//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
-	            	{
-	                	skip();
-		        }
-	    	;   
-	    	
-INTLITERAL	: 	('-')? '0'..'9'+;  
+			:	'//' ~('\n'|'\r')* ('\r\n' | '\r' | '\n') 
+				{
+					skip();
+				}
+			|	'//' ~('\n'|'\r')* // a line comment could appear at the end of the file without CR/LF
+				{
+					skip();
+				}
+			;
+
+INTLITERAL	: 	('-')? '0'..'9'+;
 
 // got that from the java.g example
-STRINGLITERAL	:   	'"' 
-		        (   EscapeSequence
-		|	~( '\\' | '"' | '\r' | '\n' )        
-		        )* 
-		        '"' 
-		;
+STRINGLITERAL	
+			:	'"' 
+				( EscapeSequence
+				|	~( '\\' | '"' | '\r' | '\n' )
+				)* 
+				'"' 
+			;
 		
 		// got that from the java.g example		
-CHARLITERAL	:   	'\'' 
-		(   	EscapeSequence 
-	        	|   	~( '\'' | '\\' | '\r' | '\n' )
-	        	) 
-	        	'\''
-    		; 
+CHARLITERAL	: 	'\'' 
+				(	EscapeSequence 
+				|	~( '\'' | '\\' | '\r' | '\n' )
+				) 
+				'\''
+			; 
+
 BOOLLITERAL	:	'true' | 'false';
 	
 // got that from the java.g example	
 fragment
-EscapeSequence 	 :   	'\\' 
-		(	'b' 
-	        	|   	't' 
-		|	'n' 
-		|       	'f' 
-		|       	'r' 
-		|       	'\"' 
-		|       	'\'' 
-		|       	'\\' 
-		|       	('0'..'3') ('0'..'7') ('0'..'7')
-		|       	('0'..'7') ('0'..'7') 
-		|	('0'..'7')
-		)          
-		;  
+EscapeSequence 	 
+			:	'\\' 
+				(	'b' 
+				|	't' 
+				|	'n' 
+				| 	'f' 
+				| 	'r' 
+				| 	'\"' 
+				| 	'\'' 
+				| 	'\\' 
+				| 	('0'..'3') ('0'..'7') ('0'..'7')
+				| 	('0'..'7') ('0'..'7') 
+				|	('0'..'7')
+				) 
+			;
 TYPEOF		:	':';
 
 SUBCLASSOF	:	'#';
 
-EQOPERATOR	
-		: 	'=';
-	    	
-CALLOPERATOR 	:	'.';
+EQOPERATOR	: 	'=';
 
-SEMICOLON		:	';';
+CALLOPERATOR 	
+			:	'.';
 
-PLUSOPERATOR	:	'+';
+SEMICOLON		
+			:	';';
 
-MINUSOPERATOR	:	'-';
+PLUSOPERATOR	
+			:	'+';
 
-TIMESOPERATOR	:	'*';
+MINUSOPERATOR	
+			:	'-';
 
-DIVIDEOPERATOR	:	'/';
+TIMESOPERATOR	
+			:	'*';
+
+DIVIDEOPERATOR	
+			:	'/';
 
 ANDOPERATOR	:	'&&';
 
@@ -311,7 +319,7 @@ OROPERATOR	: 	'||';
 
 LBRACE		:	'{';
 
-RBRACE		:   	'}';
+RBRACE		:	'}';
 
 LPARA		:	'(';
 
@@ -321,25 +329,25 @@ LBRACK		:	'[';
 
 RBRACK		:	']';
 
-CONSTRUCT		: 	'__construct';
-    
+CONSTRUCT	: 	'__construct';
+
 CLASS		: 	'class';
 
-VAR		: 	'var';
+VAR			: 	'var';
 
-DEF		: 	'def';
+DEF			: 	'def';
 
 RETURNSTMT	:	'return';
 
 SUBTYPE		:	'subtypeOf';
 
-SUBCLASS		:	'subclassOf';
+SUBCLASS	:	'subclassOf';
 
 SELF		:	'self';
 
 IFSTMT		: 	'if';
 
-WHILESTMT		:	'while';
+WHILESTMT	:	'while';
 
 FORSTMT		:	'for';
 
@@ -347,12 +355,13 @@ ELIF		:	'elseif';
 
 ELSE		:	'else';
 
-EQ		: 	'==';
+EQ			: 	'==';
 
 IMPORT		:	'import';
 
-ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
+ID			:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
 //NEWLINE		:	'\r'? '\n';
 
-WS		:	(' '|'\t'|'\n'|'\r')+ { skip(); };
+WS			:	(' '|'\t'|'\n'|'\r')+ { skip(); };
+
