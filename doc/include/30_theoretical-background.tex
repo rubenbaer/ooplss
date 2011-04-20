@@ -90,7 +90,7 @@ subtyping would include a proof system which is undecidability
 property the type systems can not proof the correctness and this gives
 the possibility to formulate programs which may go wrong. With the
 strong coupling of subtyping and subclassing in languages like Java,
-\CS or C++ the programmer has to decide between code reuse or proper
+\cs or C++ the programmer has to decide between code reuse or proper
 subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this
 problem.
 
@@ -367,7 +367,7 @@ relation is needed -- \emph{matching} -- which is weaker and does
 not support subsumption. Originally \emph{matching} was proposed
 as function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
 subtyping extends simple subtyping with parametrisation which is popular as
-\emph{generics} in well known programming languages like Java or \CS
+\emph{generics} in well known programming languages like Java or \cs
 \cite{barron-estrada_inheritance_2003}. An other interpretation of
 \emph{matching} as higher-order subtyping with better properties like
 reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
@@ -469,7 +469,7 @@ as `\match', between two types and takes regard to a \emph{MyType} in
 subclasses. An important difference is that the matching relation is only
 between object types and not on method types what is in subtyping. As
 said by Bruce in \cite{bruce_foundations_2002} matching does not differ
-very much from subtyping only that \MyType is not substituted by its
+very much from subtyping only that \mytype is not substituted by its
 concrete object type. This makes the relation weaker than subtyping
 where contravariant method parameters are not allowed.
 
@@ -557,7 +557,7 @@ typeable as long as only is known that the matching relation between
 \emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
 objects to variable is not safe if only is known that the variable's type
 matches the object type. This is desirable in homogeneous data structures
-but not in heterogeneous. So matching and \MyType together is a good match
+but not in heterogeneous. So matching and \mytype together is a good match
 for such structures but lacks on flexibility for many other situations.
 
 To tackle such unwanted inflexibility matching can be extended
@@ -604,7 +604,7 @@ public class A<X extends B<X>> {
 }
 \end{lstlisting}
 
-However, this works fine as long as no \MyType is present. If a language contains a \MyType construct matching is inevitable. 
+However, this works fine as long as no \mytype is present. If a language contains a \mytype construct matching is inevitable. 
 
 
 \section{Matching as Higher-Order Subtyping}
