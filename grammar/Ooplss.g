@@ -32,6 +32,7 @@ tokens {
 	ARGUMENTLIST;
 	SUBTYPEARG;
 	SUBCLASSARG;
+	METHODBLOCK;
 }
 
 
@@ -54,10 +55,15 @@ package ch.codedump.ooplss.antlr;
 	}
 }
 
+prog		:	classDec+
+		;
+
+/*
 prog		:	 (classDec
 		|	importStmt)*
 			-> ^(PROG classDec+ importStmt+)
 		;
+*/
 		
 importStmt		:	'import' ID ';'
 			-> ^('import' ID)
@@ -84,10 +90,11 @@ normalVarDef	:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
 
 arrayDef		:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
 		
-methodDef		:
-			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
-			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList block)
-		;
+methodDef   :   'def' (
+                  (name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
+                ) methodBlock 
+			         -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
+		        ;
 		
 argumentDeclList 	
 		: 	'(' 
@@ -104,10 +111,18 @@ subTypArg		:	ID ':' ID -> ^(SUBTYPEARG ID ID);
 
 subClassArg	:	ID '#' ID -> ^(SUBCLASSARG ID ID);
 
-block 		: 	'{'
-			(blockStatement)*
-			'}' -> ^(BLOCK blockStatement*)
-		;
+
+methodBlock	:   '{'
+			          (blockStatement)*
+			          '}'
+			          -> ^(METHODBLOCK blockStatement*)
+		        ;
+	
+block 		  :   '{'
+			          (blockStatement)*
+			          '}' 
+			          -> ^(BLOCK blockStatement*)
+		        ;
 
 blockStatement	
 options {
