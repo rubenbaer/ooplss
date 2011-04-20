@@ -27,12 +27,3 @@
 \LoadClass[numbers=noenddot]{scrreprt} % report better for pdf 
 
 \input{ooplssTemplate}
-
-% even pages footer
-\fancyfoot{}
-\fancyfoot[EC]{\thepage}
-
-% odd pages footer
-\fancyfoot[OC]{\thepage}
-
-\def \clrpage {\clearpage}

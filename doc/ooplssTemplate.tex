@@ -19,6 +19,15 @@
 \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
 
 %
+% Clear page for bibliography
+%
+\if@twoside
+	\def \clrpage {\cleardoublepage}
+\else
+	\def \clrpage {\clearpage}
+\fi
+
+%
 % Margin width
 %
 %\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
@@ -169,30 +178,37 @@
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 
-% even pages footer
-\fancyfoot[EL]{\thepage}
-
-% odd pages footer
-\fancyfoot[OR]{\thepage}
-
-% even pages header
-\fancyhead[EC] {
-    %chapter name
-    \rightmark
-}
-\fancyhead[EL] {
-    \includegraphics[height=2\baselineskip]{imgs/logo}
-}
-
-% even pages header
-\fancyhead[OC] {
-    %chapter name
-    \leftmark
-}
-
-\fancyhead[OR]{
-    \includegraphics[height=2\baselineskip]{imgs/logo}
-}
+\if@twoside
+	% even pages footer
+	\fancyfoot[EL]{\thepage}
+	% odd pages footer
+	\fancyfoot[OR]{\thepage}
+	% even pages header
+	\fancyhead[EC] {
+			%chapter name
+			\rightmark
+	}
+	\fancyhead[EL] {
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+	% odd pages header
+	\fancyhead[OC] {
+			%chapter name
+			\leftmark
+	}
+	\fancyhead[OR]{
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+\else
+	\fancyfoot[C]{\thepage}
+	\fancyhead[C] {
+			%chapter name
+			\rightmark
+	}
+	\fancyhead[R] {
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+\fi
 
 % Table of content not contents
 %\renewcommand\contentsname{Table of Contents}
