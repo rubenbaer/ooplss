@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 
 import ch.codedump.ooplss.antlr.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
 import ch.codedump.ooplss.tree.OoplssAST;
 import ch.codedump.ooplss.utils.Debugger;
 
@@ -55,6 +56,27 @@ public class SymbolTable {
 				s.getScope() instanceof BaseScope &&
 				varLocation < defLocation) {
 			throw new UnknownDefinitionException(node);
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * Resolves an array
+	 * 
+	 * Basically the same as resolving a variable (thus the
+	 * call to resolveVar) but checks if it is of type
+	 * ArraySymbol
+	 * @param node
+	 * @return
+	 * @throws UnknownDefinitionException
+	 * @throws NotAnArrayException 
+	 */
+	public Symbol resolveArray(OoplssAST node) throws UnknownDefinitionException, NotAnArrayException {
+		Symbol s = this.resolveVar(node);
+		
+		if (s instanceof ArraySymbol == false) {
+			throw new NotAnArrayException(node);
 		}
 		
 		return s;

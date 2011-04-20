@@ -4,7 +4,7 @@ import ch.codedump.ooplss.utils.Debugger;
 
 public class LocalScope extends BaseScope {
 	public LocalScope(Debugger debugger, Scope encScope) {
-		super(debugger, "local", encScope);
+		super(debugger, "LOCAL", encScope);
 	}
 
 	@Override

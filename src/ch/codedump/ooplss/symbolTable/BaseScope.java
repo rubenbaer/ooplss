@@ -43,15 +43,15 @@ public abstract class BaseScope implements Scope {
 	public String getName() {
 		return this.name;
 	}
-
+	
 	@Override
 	public String toString() {
 		String str = this.getName();
 		if (this.enclosingScope != null) {
-			str += "<" + this.enclosingScope.getName() + ">: ";
+			str += "<" + this.enclosingScope.getName() + ">";
 		}
 				
-		str += "[";
+		str += ": [";
 		boolean first = true;
 		for (Entry<String, Symbol> s: this.members.entrySet()) {
 			if (first) {
@@ -59,10 +59,7 @@ public abstract class BaseScope implements Scope {
 			} else {
 				str += ", ";
 			}
-			str += s.getKey();
-			if (s.getValue().getType() != null) {
-				str += ": " + s.getValue().getType().getName();
-			}
+			str += s.getValue().symbolString();
 		}
 		str += "]";
 				

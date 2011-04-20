@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.symbolTable;
 
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
+
 public interface Scope {
 	/**
 	 * The name of the scope

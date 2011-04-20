@@ -54,10 +54,18 @@ public abstract class Symbol {
 	
 	/**
 	 * Set the pointer to the AST
-	 * @param def
+	 * @param Pointer to the AST
 	 */
 	public void setDef(OoplssAST def) {
 		this.def = def;
+	}
+	
+	/**
+	 * Return the pointer to the AST
+	 * @return Pointer to the AST
+	 */
+	public OoplssAST getDef() {
+		return this.def;
 	}
 	
 	/**
@@ -83,4 +91,15 @@ public abstract class Symbol {
 	public Scope getScope() {
 		return this.scope;
 	}
+	
+	/**
+	 * String representation of the symbol
+	 * 
+	 * We cannot use toString here because
+	 * some of the symbols also implement the scope 
+	 * interface and they print their members with
+	 * the toString methods
+	 * @return String representation
+	 */
+	public abstract String symbolString();
 }

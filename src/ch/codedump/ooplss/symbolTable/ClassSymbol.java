@@ -37,6 +37,11 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		this.debugger.registerScope(this);
 	}
 	
+	/**
+	 * Print all the members of this scope
+	 * 
+	 * @return Scope members
+	 */
 	public String toString() {
 		String str = "CLASS " + this.getName();
 		if (this.enclosingScope != null) {
@@ -51,13 +56,16 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			} else {
 				str += ", ";
 			}
-			str += s.getKey();
-			if (s.getValue().getType() != null) {
-				str += ": " + s.getValue().getType().getName();
-			}
+			str += s.getValue().symbolString();
 		}
 		str += "]";
 				
+		return str;
+	}
+
+	@Override
+	public String symbolString() {
+		String str = "<Class>" + getName(); 
 		return str;
 	}
 }

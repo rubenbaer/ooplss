@@ -2,6 +2,7 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.utils.Debugger;
 
 public abstract class ScopedSymbol extends Symbol implements Scope {

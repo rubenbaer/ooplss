@@ -6,6 +6,7 @@ options {
 }
 tokens {
 	VARDEF;
+	ARRAYDEF;
 	CLASSDEF;
 	BLOCK;
 	CLASSBODY;
@@ -66,7 +67,11 @@ classDec		:	'class'  classname=ID
 		;
 	
 		
-varDef		:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
+varDef		:	normalVarDef | arrayDef;
+
+normalVarDef	:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
+
+arrayDef		:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
 		
 methodDef		:
 			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))

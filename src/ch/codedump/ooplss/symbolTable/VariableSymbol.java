@@ -14,4 +14,15 @@ public class VariableSymbol extends Symbol {
 		super(name, scope);
 	}
 
+	@Override
+	public String symbolString() {
+		String str = "<Method>" + this.getName();
+		
+		if (this.getType() != null) {
+			str += ":" + this.getType().getName(); 
+		}
+		
+		return str;
+	}
+
 }
