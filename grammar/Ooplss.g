@@ -198,7 +198,7 @@ inequality	:	dashExpr (('<'|'<='|'>'|'>=')^ dashExpr)?;
 		
 dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*; 
 
-pointExp	: 	atom (('*'^|'/'^) atom)*;
+pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
 atom		:	literal
 			|	varAccess
