@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.Set;
+
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 
 public interface Scope {
@@ -37,7 +39,16 @@ public interface Scope {
 	public Symbol resolve(String name);
 	
 	/**
-	 * Register the scope to the debugger
+	 * Adds a new child scope to the current scope
+	 * 
+	 * @param child
 	 */
-	public void registerToDebugger();	
+	public void addChildScope(Scope child);
+	
+	/**
+	 * Returns children scopes
+	 * 
+	 * @return children scopes
+	 */
+	public Set<Scope> getChildren();
 }

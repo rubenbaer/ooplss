@@ -1,23 +1,23 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.logging.Logger;
 
-import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.tree.OoplssAST;
-import ch.codedump.ooplss.utils.Debugger;
 
 public class SymbolTable {
 	public Scope globals;
 	
 	HashMap<String, Type> types = new HashMap<String, Type>();
 	
-	Debugger debugger;
+	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
-	public SymbolTable(Debugger debugger) {
+	public SymbolTable() {
 		this.initBuiltinTypes();
-		this.debugger = debugger;
-		this.globals =  new GlobalScope(debugger);
+		this.globals =  new GlobalScope();
 	}
 
 	private void initBuiltinTypes() {
@@ -80,5 +80,19 @@ public class SymbolTable {
 		}
 		
 		return s;
+	}
+	
+	@Override
+	public String toString() {
+		return scopeToString(this.globals);
+	}
+	
+	protected String scopeToString(Scope scope) {
+		StringBuilder str = new StringBuilder();
+		str.append(scope.toString() + "\n");
+		for (Scope s : scope.getChildren())
+			str.append(scopeToString(s));
+		
+		return str.toString();
 	}
 }
