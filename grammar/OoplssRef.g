@@ -33,7 +33,7 @@ topdown		:	enterMethod
 			;
  	
 enterMethod 	
-			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
+			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? . .)
 			{
 				this.debug.msg(Debugger.EXT, "<Ref>Entering method " + $name.text);
 				Type t = this.symtab.resolveType($name, $rettype);
