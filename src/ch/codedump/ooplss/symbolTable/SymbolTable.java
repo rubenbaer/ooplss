@@ -2,8 +2,9 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
-import ch.codedump.ooplss.antlr.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
 import ch.codedump.ooplss.utils.Debugger;
 
@@ -37,7 +38,7 @@ public class SymbolTable {
 	 * Resolve a simple variable. Check that the 
 	 * variable is not accessed before it's definition.
 	 * @param node
-	 * @return Symbol
+	 * @return Symbol The resolved symbol
 	 * @throws UnknownDefinitionException 
 	 */
 	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
@@ -46,16 +47,15 @@ public class SymbolTable {
 		if (s == null) {
 			throw new UnknownDefinitionException(node);
 		}
-		if (s.def == null) {
-			return s; // must be predefined
-		}
-		
-		int varLocation = node.token.getTokenIndex();
-		int defLocation = s.def.token.getTokenIndex();
-		if (node.getScope() instanceof BaseScope &&
-				s.getScope() instanceof BaseScope &&
-				varLocation < defLocation) {
-			throw new UnknownDefinitionException(node);
+		if (s.def != null) {
+			int varLocation = node.token.getTokenIndex();
+			int defLocation = s.def.token.getTokenIndex();
+			if (node.getScope() instanceof BaseScope &&
+					s.getScope() instanceof BaseScope &&
+					varLocation < defLocation) {
+				throw new UnknownDefinitionException(node);
+			}
+			
 		}
 		
 		return s;
@@ -68,11 +68,12 @@ public class SymbolTable {
 	 * call to resolveVar) but checks if it is of type
 	 * ArraySymbol
 	 * @param node
-	 * @return
+	 * @return Symbol The resolved symbol
 	 * @throws UnknownDefinitionException
-	 * @throws NotAnArrayException 
+	 * @throws NotAnArrayException
 	 */
-	public Symbol resolveArray(OoplssAST node) throws UnknownDefinitionException, NotAnArrayException {
+	public Symbol resolveArray(OoplssAST node) 
+			throws UnknownDefinitionException, NotAnArrayException {
 		Symbol s = this.resolveVar(node);
 		
 		if (s instanceof ArraySymbol == false) {
@@ -80,5 +81,24 @@ public class SymbolTable {
 		}
 		
 		return s;
+	}
+	
+	/**
+	 * Resolve the type of a variable that is declared
+	 * 
+	 * @param node
+	 * @param type
+	 * @return Type The resolved type
+	 * @throws UnknownTypeException 
+	 */
+	public Type resolveType(OoplssAST node, OoplssAST type) 
+			throws UnknownTypeException {
+		Scope s = node.getSymbol().getScope();
+		Type t = (Type)s.resolve(type.getText());
+		if (t == null) {
+			throw new UnknownTypeException(type);
+		} 
+
+		return t;
 	}
 }

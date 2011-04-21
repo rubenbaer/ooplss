@@ -29,43 +29,38 @@ topdown		:	enterMethod
 			|	arrayDef
 			|	simpleVarAccess
 			|	arrayAccess
+			|	subTypeArg
 			;
  	
 enterMethod 	
 			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
 			{
 				this.debug.msg(Debugger.EXT, "<Ref>Entering method " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($rettype.text);
+				Type t = this.symtab.resolveType($name, $rettype);
 				$name.getSymbol().setType(t);
 			}
 			;
+catch [UnknownTypeException e] {
+	this.debug.reportError(e);
+}			
+			
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
 				this.debug.msg(Debugger.EXT, "<Ref>Resolving type of variable " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($type.text);
-				if (t == null) {
-					throw new UnknownTypeException($type);
-				} else {
-					$name.getSymbol().setType(t);
-				}
+				Type t = this.symtab.resolveType($name, $type);
+				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
 	this.debug.reportError(e);
 }
 
+
+
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 			{
 				this.debug.msg(Debugger.EXT, "<Ref>Resolving type of array " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($type.text);
-				if (t == null) {
-					throw new UnknownTypeException($type);
-				} else {
-					$name.getSymbol().setType(t);
-				}
+				this.symtab.resolveType($name, $type);
 			}
 			;
 catch [UnknownTypeException e] {
@@ -83,6 +78,8 @@ simpleVarAccess
 catch[UnknownDefinitionException e] {
 	this.debug.reportError(e);
 }
+
+
 	
 arrayAccess
 			:	^(ARRAYACCESS ID .)
@@ -99,7 +96,22 @@ catch[NotAnArrayException e] {
 	this.debug.reportError(e);
 }
 
-	
+
+
+subTypeArg	:	^(SUBTYPEARG name=ID type=ID)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Resolving a subtype argument");
+				Type t = this.symtab.resolveType($name, $type);
+				$name.getSymbol().setType(t);
+
+			}
+			;
+catch [UnknownTypeException e] {
+	this.debug.reportError(e);
+}
+
+
+
 	/*
 rettype	returns [Type type]
 	:
