@@ -24,7 +24,7 @@ public class DefTest {
 	static Logger logger = Logger.getLogger(DefTest.class.getName());
 	
 	public static void main(String[] args) throws IOException, RecognitionException {
-		String str = "class Foo { def m():Foo{ var x : Foo; { var y : Foo; } var y : Foo; } def n():Foo{} }";
+		String str = "class Foo { def m():Foo{ var x : Foo; { var y : Foo; } var y : Foo; { var z : Foo; { var a : Foo; }} } def n():Foo{ { var x : Foo; } } }";
 		InputStream is = new ByteArrayInputStream(str.getBytes("UTF-8"));
 		ANTLRInputStream input = new ANTLRInputStream(is);
 		//ANTLRInputStream input = new ANTLRInputStream(System.in);

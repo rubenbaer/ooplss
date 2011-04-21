@@ -23,6 +23,10 @@ public abstract class BaseScope implements Scope {
 		this.name = name;
 		this.enclosingScope = encScope;
 		
+		// null if root scope
+		if (encScope != null)
+			encScope.addChildScope(this);
+		
 		this.members = new HashMap<String, Symbol>();
 	}
 	
