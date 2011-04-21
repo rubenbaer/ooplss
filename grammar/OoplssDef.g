@@ -31,7 +31,7 @@ topdown		:	enterMethod
 			|	simpleVarAccess
 			|	arrayAccess
 			|	arrayDef
-			|	subTypeArg
+			|	argument
 			|	//import
 			;
 	
@@ -100,9 +100,9 @@ exitMethod	:	METHODDEF
 			}
 			;
 	
-subTypeArg	:	^(SUBTYPEARG name=ID type=ID)
+argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
-				this.debug.msg(Debugger.EXT, "<Def>Defining a method argument (subtype)");
+				this.debug.msg(Debugger.EXT, "<Def>Defining a method argument");
 				VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
 				vs.setDef($name);
 				$name.setSymbol(vs);
@@ -142,7 +142,7 @@ catch [SymbolAlreadyDefinedException e] {
 	this.debug.reportError(e);
 }
 
-arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
+arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)  
 			{
 				this.debug.msg(Debugger.EXT, "<Def>Defining an array " + $name.text + 
 					" of type " + $type.text + " with size " + $size.text);
