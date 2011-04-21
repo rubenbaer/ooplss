@@ -24,74 +24,74 @@ import ch.codedump.ooplss.utils.*;
 import ch.codedump.ooplss.tree.*;
 }
 
-topdown	:	enterMethod
-	|	varDef
-	|	arrayDef
-	|	simpleVarAccess
-	|	arrayAccess
- 	;
+topdown		:	enterMethod
+			|	varDef
+			|	arrayDef
+			|	simpleVarAccess
+			|	arrayAccess
+			;
  	
 enterMethod 	
-	:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
-	{
-		this.debug.msg(Debugger.EXT, "<Ref>Entering method " + $name.text);
-		Scope s = $name.getSymbol().getScope();
-		Type t = (Type)s.resolve($rettype.text);
-		$name.getSymbol().setType(t);
-	}
-	;
+			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Entering method " + $name.text);
+				Scope s = $name.getSymbol().getScope();
+				Type t = (Type)s.resolve($rettype.text);
+				$name.getSymbol().setType(t);
+			}
+			;
 	
-varDef	:	^(VARDEF type=ID name=ID)
-	{
-		this.debug.msg(Debugger.EXT, "<Ref>Resolving type of variable " + $name.text);                      
-		Scope s = $name.getSymbol().getScope();
-		Type t = (Type)s.resolve($type.text);
-		if (t == null) {
-			throw new UnknownTypeException($type);
-		} else {
-			$name.getSymbol().setType(t);
-		}
-	};
+varDef		:	^(VARDEF type=ID name=ID)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Resolving type of variable " + $name.text);
+				Scope s = $name.getSymbol().getScope();
+				Type t = (Type)s.resolve($type.text);
+				if (t == null) {
+					throw new UnknownTypeException($type);
+				} else {
+					$name.getSymbol().setType(t);
+				}
+			};
 catch [UnknownTypeException e] {
 	this.debug.reportError(e);
 }
 
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
-	{
-		this.debug.msg(Debugger.EXT, "<Ref>Resolving type of array " + $name.text);
-		Scope s = $name.getSymbol().getScope();
-		Type t = (Type)s.resolve($type.text);
-		if (t == null) {
-			throw new UnknownTypeException($type);
-		} else {
-			$name.getSymbol().setType(t);
-		}
-	}
-	;
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Resolving type of array " + $name.text);
+				Scope s = $name.getSymbol().getScope();
+				Type t = (Type)s.resolve($type.text);
+				if (t == null) {
+					throw new UnknownTypeException($type);
+				} else {
+					$name.getSymbol().setType(t);
+				}
+			}
+			;
 catch [UnknownTypeException e] {
 	this.debug.reportError(e);
 }
 
 simpleVarAccess
-	:	^(VARACCESS ID)
-	{
-		this.debug.msg(Debugger.EXT, "<Ref>Resolving a simple variable " + $ID.text);
-		Symbol s = this.symtab.resolveVar($ID);
-		$ID.setSymbol(s);
-	}
-	;
+			:	^(VARACCESS ID)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Resolving a simple variable " + $ID.text);
+				Symbol s = this.symtab.resolveVar($ID);
+				$ID.setSymbol(s);
+			}
+			;
 catch[UnknownDefinitionException e] {
 	this.debug.reportError(e);
 }
 	
 arrayAccess
-	:	^(ARRAYACCESS ID .)
-	{
-		this.debug.msg(Debugger.EXT, "<Ref>Accessing an array " + $ID.text);
-		Symbol s = this.symtab.resolveArray($ID);
-		$ID.setSymbol(s);
-	}	
-	;
+			:	^(ARRAYACCESS ID .)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Accessing an array " + $ID.text);
+				Symbol s = this.symtab.resolveArray($ID);
+				$ID.setSymbol(s);
+			}	
+			;
 catch[UnknownDefinitionException e] {
 	this.debug.reportError(e);
 }	
