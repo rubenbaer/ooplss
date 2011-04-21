@@ -48,7 +48,7 @@
 
 	<target name="build-src" depends="build-grammar">
 		<mkdir dir="${build}" />
-		<javac srcdir="src/" destdir="${build}" includeantruntime="false" >
+		<javac srcdir="src/" destdir="${build}" debug="on" debuglevel="lines,vars,source" includeantruntime="false" >
 			<classpath refid="classpath" />
 		</javac>
 	</target>
