@@ -46,10 +46,15 @@ available. This helps to keep the language as small.
 % estimated pages: 2
 % summary of language design
 
-\chapter{Abstract Syntax}
-The language foundation of \ooplss is kept simple and compact. 
+\chapter{Syntax}
+\ooplss's syntax is kept simple and consistent.
 
-\section{Syntax}
+\section{Abstract Syntax}
+The abstract syntax gives a short overview of \ooplss. This syntax is
+not normalised and does not corresponds with the syntax used in the
+implementation.
+
+% estimated pages: 10
 \begin{listing}
 	\begin{tabular}[H]{llrll}
 		\emph{Class}					& C	& $\longrightarrow$ 		& A[B] Subclass Of D[T], E[U] Subtype Of F[V] \{T a; T M;\} \\
@@ -67,19 +72,54 @@ The language foundation of \ooplss is kept simple and compact.
 \label{lst:abstractSyntax}
 \end{listing}
 
-% estimated pages: 10
+\section{Identifiers}
 
-\chapter{Names and Scopes}
-% estimated pages: 2
+\section{Literals}
+
+\section{Delimiters}
+
+\section{Whitespace and Comments}
+
 
 \chapter{Types}
+\begin{listing}
+	\begin{tabular}[H]{lrl}
+		Types & \lra & Type \{, Type\}* \\
+		Type & \lra & FunctionArgumentTypes \ra Type\\
+				& | & SimpleType \\
+		FunctionArgumentTypes & \lra & `(' SimpleType \{, SimpleType \} `)' \ra SimpleType \\
+		SimpleType & \lra & SimpleType TypeArguments \\
+								& | & TypeIdentifier \\
+								& | & BoundedType \\
+								& | & \mytype \\
+		TypeArguments &\lra & `[' SimpleType \{, SimpleType \}* `]' \\
+		BoundedType & \lra & SimpleType `\match' SimpleType \\
+	\end{tabular}
+\end{listing}
+
 % estimated pages: 14
+
 \section{Basic Types}
-\section{Subtypes}
-\section{Subclasses}
+\section{Type Relations}
+
+\chapter{Names and Scopes}
+Names identify variables, methods, classes and types. These 
+% estimated pages: 2
+
+\section{Declarations and Definitions}
+\subsection{Variable Declaration and Definition}
+\subsection{Type Parameters}
 
 \chapter{Classes}
 % estimated pages: 6
+\section{Subtypes}
+\section{Subclasses}
+
+%Class definition
+\section{Constructors}
+\section{Linearisation}
+
+\chapter{Expression}
 
 \chapter{Syntax and Type Inference}
 % estimated pages:	5

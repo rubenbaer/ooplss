@@ -1,4 +1,4 @@
-\part{Project Management}
+\part{Project Management and Technologies}
 \chapter{Methodologies}
 Many different software development processes have risen since the
 breakthrough of software developing. Two major trends can be recognised;
@@ -18,12 +18,17 @@ implementation goes hand in hand and gives direct feedback. This makes it
 possible to test the definition on a concrete implementation. Further
 parts from extreme programming are used. Manly the concept of pair
 programming for critical parts which provide interfaces between the
-compiler stages.
+compiler stages. Further is a small not every feature proposed implemented.
+First of all a core language needs to be fully enrolled which will be refined
+step by step.
 
 \section{Test-Driven Development}
 A major goal is to provide a good and robust code basis. To ensure that
 this claim holds, test-driven development is performed. With the use of
-unit tests code breaking changes can be easily detected.
+unit tests code breaking changes can be easily detected. This is inevitable
+since many parts are highly fragile, e.g., small changes in the grammar can
+cause many changes in the code since the grammar will recognise a complete
+other language.
 
 \section{Regular Meetings}
 The Bern University of Applied Science does not provide a major in
@@ -35,31 +40,49 @@ should be at least every two weeks.
 \chapter{Project Schedule}
 \section{Tasks}
 \paragraph{Kick-Off}
-In this first phase the tasks will be identified and shortly described. Since the prior knowledge of type systems and programming languages uniform some knowledge exchange is to do. Important papers will get reviewed and discussed.
+In this first phase the tasks will be identified and shortly
+described. Since the prior knowledge of type systems and programming
+languages uniform some knowledge exchange is to do. Important papers
+will get reviewed and discussed.
 
 \paragraph{Documentation Part I / II}
-Part I shows the used project management methodology. It has to be evaluated how an iterative model can be adopted to be usable in this subject. Part II shows the current problems within object-oriented languages with subtyping and no subclassing. Further the project idea will get stated and which benefits the language will have. Next to the normal writing work the used tools has to be evaluated
+Part I shows the used project management methodology. It has to be
+evaluated how an iterative model can be adopted to be usable in this
+subject. Part II shows the current problems within object-oriented
+languages with subtyping and no subclassing. Further the project idea
+will get stated and which benefits the language will have. Next to the
+normal writing work the used tools has to be evaluated
 
 \paragraph{Grammar / Lexer}
-Here an abstract syntax is defined. With the chosen parser generator the lexer part will be defined and be ready for the parser.
+Here an abstract syntax is defined. With the chosen parser generator
+the lexer part will be defined and be ready for the parser.
 
 \paragraph{Types}
-Parallel to the parser the supported type constructs has to be defined. Detailed type rules are not yet necessary but needed for the translation definition from the source language to the target language.
+Parallel to the parser the supported type constructs has to be
+defined. Detailed type rules are not yet necessary but needed for the
+translation definition from the source language to the target language.
 
 \paragraph{Parser}
-Based on the used lexer a parser that builds an abstract syntax tree needs to be written. Without this tree no further work is possible.
+Based on the used lexer a parser that builds an abstract syntax tree
+needs to be written. Without this tree no further work is possible.
 
 \paragraph{Tree Walker}
-For the subsequent tasks a tree walker is inevitable. Without this whether a symbol table nor a type checker can be build.
+For the subsequent tasks a tree walker is inevitable. Without this
+whether a symbol table nor a type checker can be build.
 
 \paragraph{Code Translation Definition}
-Since the target language does not natively support all the type constructs used in \ooplss are available a strategy needs to be found how the source code can be translated to the target language which will compile there.
+Since the target language does not natively support all the type
+constructs used in \ooplss are available a strategy needs to be found
+how the source code can be translated to the target language which will
+compile there.
 
 \paragraph{Symbol Table Construction}
-The symbol table contains the necessary type context information for type checking the environment under investigation.
+The symbol table contains the necessary type context information for
+type checking the environment under investigation.
 
 \paragraph{Type Checker}
-This phase contains two tasks. First the type rules has to be identified and written down. Consequently the rules has to be implemented and tested.
+This phase contains two tasks. First the type rules has to be identified
+and written down. Consequently the rules has to be implemented and tested.
 
 \paragraph{Code Translation}
 After some type checking the code can be translated to the target language.
@@ -70,128 +93,26 @@ All over the project work the documentation will be extended and reflect the wor
 \section{Diagram}
 \begin{sideways}
 	\centering
-	\input{include/201_gantt}
+	\input{include/21_gantt}
 \end{sideways}
 
-\chapter{Tools and Software}
+\chapter{Technologies}
+
+\section{Tools and Software}
 \begin{description}
-	\item[\LaTeX] 
-	\item[Subversion]
-	\item[Git]
-	\item[ANTLR3]
-	\item[Java$^{\textrm{TM}}$]
-	\item[JUnit]
-	\item[Eclipse]
-	\item[ant]
+	\item[ANTLR3] ANTLR\footnote{ANother Tool for Language Recognition} is an advanced LL(*) parser generator with support for AST\footnote{Abstract Syntax Tree} generation and tree walking respectively rewriting.
+	\item[ANTLRWork] Workbench for ANTLR grammers with debug environment.
+	\item[ANTLR IDE] Eclipse plugin for editing ANTLR grammars.
+	\item[Apache Ant] Java tool for automated builds.
+	\item[Eclipse] Open source integrated development environment for Java. Used for writing non-ANTLR parts.
+	\item[Git] Distriputed source control system. Used for the development and as a replacement for Subversion. The project is hosted by \href{https://www.github.com/rubenbaer/ooplss}{GitHub}
+	\item[GUnit] Unit testing framework for ANTLR grammars.
+	\item[Java] Target language of \ooplss and development language of the compiler.
+	\item[JUnit] Unit testing framework for Java source code.
+	\item[\LaTeX] A macro collection for the \TeX system. Used for the documentation. Every thing is written with \LaTeX
+	\item[Subversion] Source control system with linear history. Used in the first weeks.
 \end{description}
 
-\chapter{Standards and Guidelines}
+\section{Standards and Guidelines}
 Coding guidelines
 
-\chapter{Journal}
-\begin{center}
-\begin{longtable}{|c|p{12cm}|}
-
-\hline \multicolumn{1}{|c|}{\textbf{Week}} & \multicolumn{1}{c|}{\textbf{Journal Entry}} \\ \hline 
-\endfirsthead
-
-\hline \multicolumn{1}{|c|}{\textbf{Week}} &
-\multicolumn{1}{c|}{\textbf{Journal Entry}} \\
-\endhead
-
-\hline \multicolumn{2}{|r|}{{Continued on next page}} \\ \hline
-\caption[Journal]{Journal} \label{table:journal} \\
-\endfoot
-
-\multicolumn{2}{c}%
-{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-\endlastfoot
-
-1 & 
-\begin{journal}
-	\item Project structure defined
-	\item Repository installed
-	\item Major task identified
-\end{journal}
-\\ \hline
-2 & 
-\begin{journal}
-	\item Documented the theoretical background
-\end{journal}
-\\ \hline
-3 & 
-\begin{journal}
-	\item Documented the theoretical background
-\end{journal}
-\\ \hline
-4 & 
-\begin{journal}
-	\item Documented the theoretical background
-	\item Defined a basic draft of the language's syntax
-	\item Decision between JavaCC and ANTLR -> ANTLR chosen
-\end{journal}
-\\ \hline
-5 & 
-\begin{journal}
-	\item Started the ANTLR grammar
-	\item Writing gUnit tests for the grammar
-\end{journal}
-\\ \hline
-6 & 
-\begin{journal}
-	\item Extended the ANTLR grammar
-	\item Started to write AST rewrite rules
-\end{journal}
-\\ \hline
-7 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-8 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-9 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-10 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-11 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-12 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-13 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-14 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-15 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-16 & 
-\begin{journal}
-	\item 
-\end{journal}
-\\ \hline
-\end{longtable}
-\end{center}

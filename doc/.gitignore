@@ -8,6 +8,9 @@
 *.mp
 *.1
 *.dot
+*.nlo
+*.tdo
 imgs/logo.eps
 ooplss.*
+ooplss-book.*
 !ooplss.tex

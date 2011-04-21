@@ -1,5 +1,6 @@
 .PHONY: default clean distclean 
 JOB := ooplss
+JOBBOOK := ooplss-book
 FINAL := final
 DRAFT := draft
 TARGET := ooplss.pdf
@@ -21,12 +22,21 @@ draft:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
-final: clean
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
+final: clean final-report final-book
+
+final-report:
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
 	mpost $(JOB) 1> /dev/null
 	bibtex $(JOB) 1> /dev/null
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
+
+final-book:
+	pdflatex -jobname $(JOBBOOK) -shell-escape -interaction=nonstopmode $(FINAL)-book 1> /dev/null
+	mpost $(JOBBOOK) 1> /dev/null
+	bibtex $(JOBBOOK) 1> /dev/null
+	pdflatex -jobname $(JOBBOOK) -shell-escape -interaction=nonstopmode $(FINAL)-book 1> /dev/null
+	pdflatex -jobname $(JOBBOOK) -shell-escape -interaction=nonstopmode $(FINAL)-book 1> /dev/null
 
 once:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null

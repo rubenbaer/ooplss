@@ -1,9 +1,22 @@
-
 \part{Theoretical Background}
-A introduction is still missing
-\todo{Introduction to typing problems and matching}
+\chapter{Introduction}
+In modern object-oriented programming languages is \emph{subtyping}
+the fundamental concept of \emph{subclassing} and inheritance since
+subclassing comes hand in hand with subtyping it self. If a subclass
+is defined a subtype is defined as well. This part shows that it is
+likely as well to have subclasses that are not a subtype of the parent
+class since subtyping does not hold between two object types that are
+not unnaturally in a programmer's daily work. One of the best known
+examples are recursively types with binary methods.
 
-\chapter{Subtyping vs. Subclassing}
+This parts introduces these concepts mentions above and where subtyping
+and where subclassing is wanted and where the difference are. Since
+subtyping is used for polymorphism in object-oriented languages
+subclassing does not. But to make subclassing practical at work an
+additional relation needs to be introduced, \emph{matching}. Matching
+raises the language to function-bounded typing with recursive self types.
+
+\chapter{Subtyping and Subclassing}
 \label{chap:subtypingVsSubclassing}
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
@@ -12,7 +25,7 @@ or C++, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
 \section{Subtyping}
-Subtyping is a binary relation, denoted with ''<:``, which defines
+Subtyping is a binary relation, denoted with `<:', which defines
 a substitution relation between two types and is one style of type
 polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
 ensures that $A$ has compatible methods and fields to its \emph{supertype}
@@ -43,7 +56,9 @@ the parameters are only allowed to change in contravariant way, i.e.,
 change in the hierarchy upwards.
 
 \subsection{Variance}
-Variance classifies the type change within the type hierarchy.
+Variance classifies the type change within the type hierarchy. These
+terms are introduced in category theory and were adopted to type theory
+\cite{pierce_basic_1991}.
 
 \begin{description}
 	\item[Invariance] No type change is allowed.
@@ -61,9 +76,9 @@ Variance classifies the type change within the type hierarchy.
 
 \subsection{Liskov Substitution Principle}
 \begin{quotation}
-Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
+`Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
 $q(y)$ should be true for objects $y$ of type $S$ where $S$ is a subtype
-of $T$. - Barbara Liskov \cite{liskov_behavioral_1999}
+of $T$.' -- Barbara Liskov \cite{liskov_behavioral_1999}
 \end{quotation}
 
 A formal and strong description of subtyping is given by Barbara
@@ -75,11 +90,11 @@ subtyping would include a proof system which is undecidability
 property the type systems can not proof the correctness and this gives
 the possibility to formulate programs which may go wrong. With the
 strong coupling of subtyping and subclassing in languages like Java,
-\CS or C++ the programmer has to decide between code reuse or proper
-subtyping. \autoref{sec:sharingTypes} gives a deeper insight of this
+\cs or C++ the programmer has to decide between code reuse or proper
+subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this
 problem.
 
-\section{Sharing types versus implementation}
+\section{Sharing Types Versus Implementation}
 \label{sec:sharingTypes}
 
 Although the term \emph{class} is used in modern class-based object-oriented
@@ -91,12 +106,12 @@ what operations can be perform on them.
 
 In object-oriented languages like Java and C++, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
-inheritance automatically creates a subtype. Of a practical point
-of view however, inheritance is merely a mechanism to reuse code in
-further specialisations of classes. This leads us to the first conflict:
-sharing types vs. the implementation. To understand this have a look at
-\autoref{fig:implementationConflict} \cite{simons_theory_2003-4}:
-% reference to simons?
+inheritance automatically creates a subtype and there is no escape
+from this. Of a practical point of view however, inheritance is merely
+a mechanism to reuse code in further specialisations of classes. This
+leads us to the first conflict: sharing types vs. the implementation. To
+understand this have a look at \cref{fig:implementationConflict}
+\cite{simons_theory_2003-4}:
 
 \begin{figure}[H]
 \center
@@ -139,13 +154,13 @@ link(inheritance)(SquareR.n -- Point.s);
 link(inheritance)(RectangleR.n -- SquareR.s);
 
 \end{emp}
-\caption{Sharing types vs. implementation}
+\caption{Sharing types vs. the implementation}
 \label{fig:implementationConflict}
 \end{figure}
 
 The left hierarchy expresses the conceptual family: A \emph{Circle}
 is a special kind of \emph{Ellipse}, so is \emph{Square} of
-\emph{Rectangle}. These objects do not actually ''extend`` their
+\emph{Rectangle}. These objects do not actually `extend' their
 parents though, instead, they rather remove properties. For instance, the
 \emph{Circle} removes the property of having two radii.	The hierarchy on
 the right on the other hand is conceptual nonsense. It shows, however,
@@ -153,13 +168,12 @@ how one could want to derive and reuse code, in this case the x and
 y coordinates. Because of that, inheritance (and reuse) of code and
 subtyping should be treated differently.
 
-\section{Problem of recursive closure}
+\section{Binary Methods and the Problem of Recursive Closure}
 \label{sec:recursiveClosure}
-Another problem of the subtyping concept we nowadays have in most object
-oriented languages is the problem of contravariance: the arguments of
-a method that is derived and overwrites the same method in the super
-type can only have a more general or same argument type, but not a more
-specific one:
+Another problem of the subtyping concept in object-oriented languages is
+the problem of contravariance: the arguments of a method that is derived
+and overwrites the same method in the super type can only have a more
+general or same argument type, but not a more specific one:
 
 \begin{figure}[H]
 \center
@@ -173,7 +187,7 @@ drawObjects(A, B);
 link(inheritance)(B.e -- A.w);
 
 \end{emp}
-\caption{Contravariance: the argument type in B is more specific than the one in A}
+\caption{Contravariance: the argument type in \emph{B} is more specific than the one in \emph{A}}
 \label{fig:contravariance}
 \end{figure}
 
@@ -181,7 +195,7 @@ This restriction makes perfectly sense for the type safety in
 programming languages. For certain class constellations, it leads to
 further problems though.
 
-Assuming there is a object \emph{Animal} that has the method
+Assuming there is an object \emph{Animal} that has the method
 \emph{mate} that takes an argument of the type \emph{Animal} and
 returns a type \emph{Animal}. Intuitively, all other animal types
 would be derived from this type, like \emph{Dog} or \emph{Cat} which
@@ -219,13 +233,17 @@ the equals method/function takes an Object and returns a Boolean}
 in Java. The class \emph{Object} has an implementation of the equals
 method that takes an argument of the type \emph{Object}. All objects
 automatically are of the type \emph{Object} in Java.	Because of the
-constraint of contravariance, it is not sound to override this method
+constraint of contravariance, it is unsound to override this method
 with a more specific argument type which would be reasonable since it does
 not make any sense to compare two objects of different types. Instead,
-if the programmer wants to implement a new version of this method, he
-has to use \emph{instanceof} to check whether the given object is of the same.
+if a programmer wants to implement a new version of this method, the
+use of type casts is inevitable.
 
-\section{Schizophrenic self-reference}
+To get rid of this, a language would need to specialise parameters
+covariant. This is possible in Eiffel but this makes the type system
+unsafe. Later, a type safe alternative will be presented.
+
+\section{Schizophrenic Self-Reference}
 \label{sec:schizoReferences}
 
 In objects there has to be some recursion variable that refers to the
@@ -315,76 +333,167 @@ refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
 
 This is how the fixation of self-references is done in the subtyping
-concept: before the combination (i.e. inheritance) of the objects. In the
+concept: before the combination, i.e., inheritance, of the objects. In the
 concept of subclassing however, it is done after the combination.
 
 \section{Subclassing}
 
 The goal of the concept of subclassing is now to provide a somewhat
-different kind of inheritance. With this inheritance, the programmer should
-be able to inherit code without automatically creating a subtype. 
-\todo{Mention here that our programming language will support both?}
-This solves the problem described in \autoref{sec:sharingTypes}. Since
-subclassing does not create subtypes, the restriction of contravariance, 
-described in \autoref{sec:recursiveClosure}, is of no relevancy
-anymore. And as already mentioned, the fixation of the self
-references and types is done after the inheritance, so there will be no
-schizophrenic self-references as described in case 1 in 
-\autoref{sec:schizoReferences}. \\
+different kind of inheritance. With this inheritance, the programmer
+should be able to inherit code without automatically creating a subtype.
+This solves the problem described in \cref{sec:sharingTypes}. Since
+subclassing does not create subtypes, the restriction of contravariance,
+described in \cref{sec:recursiveClosure}, is of no relevancy
+anymore. And as already mentioned, the fixation of the self references
+and types is done after the inheritance, so there will be no schizophrenic
+self-references as described in the first case\todo{are they cases clear
+structured?} in \cref{sec:schizoReferences}. \\
 
-In subclassing however, the question rises: how should return values
-and arguments be typed (see case 2 in \autoref{sec:schizoReferences})
-when defining the methods and fields, since the programmer is not able
-to know of what type the subclass will be. This is why there has to
-be some sort of placeholder for such cases: the \emph{MyType}. The
-\emph{MyType} placeholder is then substituted with the current type
-after the inheritance.
-% TODO: Needs further explanations
+In subclassing however, the question rises: how should return values and
+arguments be typed (see the second case in \cref{sec:schizoReferences})
+when defining the methods and fields, since the programmer is not able to
+know of what type the subclass will be. This is why there has to be some
+sort of placeholder for such cases: the \emph{MyType}. The \emph{MyType}
+placeholder is then substituted with the current type after the
+inheritance respectively after the inheritance in a subtyping environment.
+\todo{Some further explanations are necessary}
 
-\chapter{Making subclassing practical}
+\chapter{Making Subclassing Practical}
 % estimated pages: 2-3
 Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses not implicitly define subtypes a more general
-relation is needed - \emph{matching} - which is weaker and does
+relation is needed -- \emph{matching} -- which is weaker and does
 not support subsumption. Originally \emph{matching} was proposed
-as F-bounded subtyping \cite{canning_f-bounded_1989}. F-bounded
-subtyping extends simple subtyping with parametrisation which is as
-\emph{generics} in well known programming languages like Java or \CS
+as function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
+subtyping extends simple subtyping with parametrisation which is popular as
+\emph{generics} in well known programming languages like Java or \cs
 \cite{barron-estrada_inheritance_2003}. An other interpretation of
-\emph{matching} as higher-order subtyping with better properties in
+\emph{matching} as higher-order subtyping with better properties like
 reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
 
-\section{Binary Methods}
-A binary method is a method with parameters of the same type as the
-receiver of the method, i.e., the \emph{self} reference in the method. The
-name has the origins in the fact that such methods are binary relations
-mapping to a codomain, e.g., \emph{equal} of type $X \times X \rightarrow
-Boolean$ or \emph{add} of type $Num \times Num \rightarrow Num$. The
-same behaviour can be observed in homogeneous data structures. Typing
-such function in functional languages are straightforward and does not
-rise difficulties. This looks complete different in statically object-oriented
-languages where subtyping is fundamental \cite{bruce_binary_1995}.
+%% Already coverded above
+%\section{Binary Methods}
+%A binary method is a method with parameters of the same type as the
+%receiver of the method, i.e., the \emph{self} reference in the method. The
+%name has the origins in the fact that such methods are binary relations
+%mapping to a codomain, e.g., \emph{equal} of type $X \times X \rightarrow
+%Boolean$ or \emph{add} of type $Num \times Num \rightarrow Num$. The
+%same behaviour can be observed in homogeneous data structures. Typing
+%such function in functional languages are straightforward and does not
+%rise difficulties. This looks complete different in statically object-oriented
+%languages where subtyping is fundamental \cite{bruce_binary_1995}.
+%
+%\cref{lst:javaBinary} shows how subtyping can not prevent the
+%possibility to add objects of type \emph{SinglyLinkedNode} in a
+%\emph{DoublyLinkedNode} which is definitely incorrect and has to end
+%in a runtime exception. In subtyping existing object state variables
+%and methods like \emph{setNext} can not be further specialised. The
+%\cref{lst:javaBinary1} shows how the type system has to be escaped
+%by casts which is unsafe and.	However, these problems does not rise
+%from binary methods them self but in combination with subtyping and
+%inheritance since these concepts are associated with subsumption.
+%
+%\begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+%public class SinglyLinkedNode {
+%	private SinglyLinkedNode next;
+%
+%	public setNext(SinglyLinkedNode next) {
+%		this.next = next;
+%	}
+%
+%	public getNext() SinglyLinkedNode {
+%		return this.next;
+%	}
+%}
+%
+%public class DoublyLinkedNode extends SinglyLinkedNode {
+%	private DoublyLinkedNode prev;
+%	public setPrev(DoublyLinkedNode prev) {
+%		this.prev = prev;
+%		prev.next = this;
+%	}
+%
+%	public DoublyLinkedNode getPrev() {
+%		return this.prev;
+%	}
+%	
+%	// Not typeable expression in Java.
+%	public setNext(DoublyLinkedNode next) {
+%			this.next = next;
+%			next.prev = this;
+%	}
+%
+%	// Legal override in the sense of subtyping. Illegal Java;
+%	public DoublyLinkedNode getNext() {
+%		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
+%	}
+%}
+%\end{lstlisting}
+%
+%Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
+%the code in \cref{lst:break} can create a run time exception. As
+%long as both parameters are objects of the exact same type the code runs
+%without any problem. On the other side if the parameter are from different
+%types an runtime error would occur since the parameter of \emph{setNext}
+%does not provide a \emph{prev} field.
+%
+%\begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
+%pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
+%	one.setNext(other);
+%}
+%\end{lstlisting}
+%
+%Bruce showed in \cite{bruce_binary_1995} some ways out of such problems
+%like avoiding binary methods at all and provide these methods as static
+%functions or providing special pair objects providing these binary
+%methods. One may argue that it should be possible to change the parameters
+%of the objects in a contravariant way, i.e., that \emph{setNext}
+%and \emph{getNext} is typed as a method with parameters of type
+%\emph{DoublyLinkedNode}. As seen in \cref{chap:subtypingVsSubclassing}
+%this would break the subtyping relation between \emph{SinglyLinkedNode}
+%and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
+%which is not a subtype.
 
-\autoref{lst:javaBinary} shows how subtyping can not prevent the
-possibility to add objects of type \emph{SinglyLinkedNode} in a
-\emph{DoublyLinkedNode} which is definitely incorrect and has to end
-in a runtime exception. In subtyping existing object state variables
-and methods like \emph{setNext} can not be further specialised. The
-\autoref{lst:javaBinary1} shows how the type system has to be escaped
-by casts which is unsafe and.	However, these problems does not rise
-from binary methods them self but in combination with subtyping and
-inheritance since these concepts are associated with subsumption.
+\section{Matching}
+\begin{quotation}
+`the same as subtyping in the absence of the \emph{MyType}
+construct, but differs in the presence of \emph{MyType}, because
+\emph{MyType} implicitly has different meanings in different types.' --
+\cite{bruce_foundations_2002}
+\end{quotation}
+
+An other solution proposed by Bruce \cite{bruce_binary_1995} is
+\emph{matching}. Matching is a generalised subtyping relation, written
+as `\match', between two types and takes regard to a \emph{MyType} in
+subclasses. An important difference is that the matching relation is only
+between object types and not on method types what is in subtyping. As
+said by Bruce in \cite{bruce_foundations_2002} matching does not differ
+very much from subtyping only that \mytype is not substituted by its
+concrete object type. This makes the relation weaker than subtyping
+where contravariant method parameters are not allowed.
+
+Listing \ref{lst:javaBinary} contains some problems that can not be tackled
+with subtyping. First of all the variable in line \ref{lst:javaBinary0} can
+not be specialised since it is invariant. This entails that even when the 
+method \emph{getNext} can be specialised in the subclass -- which is not possible
+in Java -- an cast operation is necessary to get the correct type in the overridden 
+method on line \ref{lst:javaBinary1}.
+
+The second problem is in line \ref{lst:javaBinary2}. Since there is a covariant 
+method parameter the method can not be typed. This implies that there are no statically
+checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a 
+\emph{DoublyLinkedNode}.
 
 \begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
-	private SinglyLinkedNode next;
+	private SinglyLinkedNode next; %\label{lst:javaBinary0})
 
 	public setNext(SinglyLinkedNode next) {
 		this.next = next;
 	}
 
-	public getNext() SinglyLinkedNode {
+	public SinglyLinkedNode getNext() {
 		return this.next;
 	}
 }
@@ -401,7 +510,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 	}
 	
 	// Not typeable expression in Java.
-	public setNext(DoublyLinkedNode next) {
+	%\label{lst:javaBinary2})public setNext(DoublyLinkedNode next) {
 			this.next = next;
 			next.prev = this;
 	}
@@ -413,48 +522,14 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 }
 \end{lstlisting}
 
-Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
-the code in \autoref{lst:break} can create a run time exception. As
-long as both parameters are objects of the exact same type the code runs
-without any problem. On the other side if the parameter are from different
-types an runtime error would occur since the parameter of \emph{setNext}
-does not provide a \emph{prev} field.
+Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping 
+would allow covariant parameters.
 
 \begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
 pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 	one.setNext(other);
 }
 \end{lstlisting}
-
-Bruce showed in \cite{bruce_binary_1995} some ways out of such problems
-like avoiding binary methods at all and provide these methods as static
-functions or providing special pair objects providing these binary
-methods. One may argue that it should be possible to change the parameters
-of the objects in a contravariant way, i.e., that \emph{setNext}
-and \emph{getNext} is typed as a method with parameters of type
-\emph{DoublyLinkedNode}. As seen in \autoref{chap:subtypingVsSubclassing}
-this would break the subtyping relation between \emph{SinglyLinkedNode}
-and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
-which is not a subtype.
-
-\section{Matching}
-\begin{quotation}
-"the same as subtyping in the absence of the \emph{MyType}
-construct, but differs in the presence of \emph{MyType}, because
-\emph{MyType} implicitly has different meanings in different types." -
-\cite{bruce_foundations_2002}
-\end{quotation}
-
-An other solution proposed by Bruce \cite{bruce_binary_1995}\todo{Correct
-reference since he proposed the idea earlier} is
-\emph{matching}. Matching is a generalised subtyping relation, written
-as \match, between two types and takes regard to a \emph{MyType} in
-subclasses. An important difference is that the matching relation is only
-between object types and not on method types what is in subtyping. As
-said by Bruce in \cite{bruce_foundations_2002} matching does not differ
-very much from subtyping only that \MyType is not substituted by its
-concrete object type. This makes the relation weaker than subtyping
-where contravariant method parameters are not allowed.
 
 When the subclassing rules are defined they can be formulated
 type safe that subclasses are matching their superclasses. With
@@ -463,72 +538,76 @@ nominal matching is possible for type checking. With this definition
 the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
 Since matching is a weaker relation then subtyping the assumption of $a:A$
-and $A$ \match $B$ does not imply $a:B$ how subtyping does.
+and $A$ \match $B$ does not imply $a:B$ how subtyping does, i.e., matching
+can not help in situations illustrated in listing \ref{lst:matchbreak}.
 
-%\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
-%pubic void break(SinglyLinkedNode node) {
-%	SinglyLinkedNode newNode = new SinglyLinkedNode();
-%	node.setNext(newNode);
-%}
-%\end{lstlisting}
+\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
+pubic void break(node <# SinglyLinkedNode) {
+	SinglyLinkedNode newNode = new SinglyLinkedNode();
+	node.setNext(newNode);
+}
+\end{lstlisting}
 
-%\subsection{Match-Bounded Quantification}
-%However, the example in \autoref{lst:break} is still not correct
-%typeable as long as only is known that the matching relation between
-%\emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
-%objects to variable is not safe if only is known that the variable's type
-%matches the object type. This is desirable in homogeneous data structures
-%but not in heterogeneous. So matching and \MyType together is a good match
-%for such structures but lacks on flexibility for many other situations.
-%
-%To tackle such unwanted inflexibility matching can be extended
-%with type parametrisation, called match-bounded quantification
-%\cite{abadi_subtyping_1996}. 
-%
-%\section{Type Operators}
-%A type operator is a function on type level mapping types to types. Type
-%operators are important for the formal specification of matching and
-%understanding of the concepts. In an object-oriented language the object
-%type can be considered as a record type, e.g., an object type with two
-%fields of type \emph{Nat} and \emph{Bool}: \{a:Nat, b:Bool\}. If not
-%every type is fully specified an expression can be typed with a type
-%variable. For this a type operator is a function, the lambda-calculus
-%expression is used, from types to types: \[A_{Op} := \lambda X.A(X)
-%\] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages are
-%recursive since they make heavy use of the self-type. However, since a
-%function in the lambda calculus can not be recursive per se a special
-%construct is needed \cite{gabriel_why_1988}.  To hide the complexity of
-%the recursion theorem the $\mu$-convection is used. A $\mu$-function is
-%to understand similar to a $\lambda$-function with the difference that
-%the parameter will get bound recursively \cite{simons_theory_2002-3}.
-%
-%This can now be used to define the fixpoint of $A$ and is written as \[A^*
-%:= \mu X.A_{Op}(X)\].
-%
-%\section{Matching as F-Bounded Subtyping}
-%F-bounded subtyping\footnote{Short form function-bounded subtyping}
-%is an extension to simple subtyping by adding parametrisation to
-%types. F-bounded subtyping relation is often called \emph{generics}
-%and is written as $X$<:$B_{Op}(X)$ and gives the information that $X$
-%extends $B$. The use of the bound against the type operator of $B$
-%shows the function in the bound. Considering an example in Java in
-%\autoref{lst:generics} shows how this concept is implemented in a popular
-%programming language. Since every type that satisfies the f-bound can
-%be used to replace the type parameter $X$, the formal type of $A$ is
-%$\forall(X $<:$ B(X))A\{X\}$
-%
-%\begin{lstlisting}[caption={Universal quantified f-bound in Java},label={lst:generics}]
-%public class A<X extends B<X>> {
-%	public void m(X x) {
-%		x.someMethodOfB();
-%	}
-%}
-%\end{lstlisting}
-%
-%However, this works fine as long as no \MyType is present. If a language contains a \MyType construct matching is inevitable. 
-%
-%
-%\section{Matching as Higher-Order Subtyping}
-%
-%\section{Example with Matching}
-%
+One can see that here is matching too weak. Without subsumption the type system
+can not know that \emph{newNode} is compatible with the object passed as parameter.
+
+\subsection{Match-Bounded Quantification}
+However, the example in listing \ref{lst:break} is still not correct
+typeable as long as only is known that the matching relation between
+\emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
+objects to variable is not safe if only is known that the variable's type
+matches the object type. This is desirable in homogeneous data structures
+but not in heterogeneous. So matching and \mytype together is a good match
+for such structures but lacks on flexibility for many other situations.
+
+To tackle such unwanted inflexibility matching can be extended
+with type parametrisation, called match-bounded quantification
+\cite{abadi_subtyping_1996}. 
+
+\section{Type Operators}
+A type operator is a function on type level mapping types to types. Type
+operators are important for the formal specification of matching and
+understanding of the concepts. In an object-oriented language the object
+type can be considered as a record type, e.g., an object type with two
+fields of type \emph{Nat} and \emph{Bool}: \{a:Nat, b:Bool\}. If not
+every type is fully specified an expression can be typed with a type
+variable. For this a type operator is a function, the lambda-calculus
+expression is used, from types to types: \[A_{Op} := \lambda X.A(X)
+\] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages are
+recursive since they make heavy use of the self-type. However, since a
+function in the lambda calculus can not be recursive per se a special
+construct is needed \cite{gabriel_why_1988}.  To hide the complexity of
+the recursion theorem the $\mu$-convection is used. A $\mu$-function is
+to understand similar to a $\lambda$-function with the difference that
+the parameter will get bound recursively \cite{simons_theory_2002-3}.
+
+This can now be used to define the fixpoint of $A$ and is written as \[A^*
+:= \mu X.A_{Op}(X)\].
+
+\section{Matching as F-Bounded Subtyping}
+F-bounded subtyping\footnote{Short form function-bounded subtyping}
+is an extension to simple subtyping by adding parametrisation to
+types. F-bounded subtyping relation is often called \emph{generics}
+and is written as $X$<:$B_{Op}(X)$ and gives the information that $X$
+extends $B$. The use of the bound against the type operator of $B$
+shows the function in the bound. Considering an example in Java in
+listing \ref{lst:generics} shows how this concept is implemented in a popular
+programming language. Since every type that satisfies the f-bound can
+be used to replace the type parameter $X$, the formal type of $A$ is
+$\forall(X $<:$ B(X))A\{X\}$
+
+\begin{lstlisting}[caption={Universal quantified f-bound in Java},label={lst:generics}]
+public class A<X extends B<X>> {
+	public void m(X x) {
+		x.someMethodOfB();
+	}
+}
+\end{lstlisting}
+
+However, this works fine as long as no \mytype is present. If a language contains a \mytype construct matching is inevitable. 
+
+
+\section{Matching as Higher-Order Subtyping}
+
+\section{Example with Matching}
+

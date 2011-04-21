@@ -4,9 +4,8 @@
 %             :          Engineering and Information Technology
 %             :......o   Computer Science Division
 %
-% ooplss - Type Systems: Theory and Practice
-% Ruben Bär
-% $Id: ooplss.tex 48 2011-01-21 07:37:36Z barbr2 $
+% ooplss - Object-Oriented Programming Language with Subtyping and Subclassing
+% Ruben Bär and Stefan Heinemann
 %**********************************************************************************
 \usepackage{mathpartir}
 \usepackage{color}
@@ -19,9 +18,6 @@
 \usepackage{longtable}
 \usepackage{graphviz}
 \usepackage{rotating}
-
-\def \MyType {\emph{MyType}}
-\def \ooplss {$\mathcal{OOPLSS}$}
 
 \hypersetup{pdfauthor={Ruben B\344r and Stefan Heinemann},
             pdftitle={Object-Oriented Language with Subtyping and Subclassing},
@@ -64,7 +60,7 @@ input metauml;
 
 \listoftodos
 
-\includepdf{../Erklaerung}
+\includepdf[pagecommand={\thispagestyle{plain}}]{../Erklaerung}
 
 \include{include/00_abstract}
 
@@ -98,6 +94,8 @@ input metauml;
 \include{include/60_discussion-and-conclusion}
 % estimated pages: 8
 
+\clrpage
+\phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bib/ooplss,bib/simons}
 

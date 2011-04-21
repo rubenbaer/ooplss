@@ -4,29 +4,9 @@
 %             :          Engineering and Information Technology
 %             :......o   Computer Science Division
 %
-% TSTP - Type Systems: Theory and Practice
+% OOPLSS - Object-Oriented Programming Language with Subtyping and Subclassing
 % Ruben Bär, Stefan Heinemann
-%**********************************************************************************
-\NeedsTeXFormat{LaTeX2e}\relax
-\ProvidesClass{ooplssTemplate}[2011/03/03 Template for OOPLSS Documentation]
-
-%% Load the book class with the following parameters:
-%% a4 paper, 10pt, two side pages, titlepage
-\DeclareOption{a4paper}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{11pt}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{oneside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{twoside}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{titlepage}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{numbers}{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\DeclareOption{todo}{\def \showtodo {showtodo}}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
-\ExecuteOptions{a4paper,11pt,titlepage}
-\ProcessOptions\relax
-
-%% Load book class
-%\LoadClass[numbers=noenddot]{scrbook} % report better for pdf 
-\LoadClass[numbers=noenddot]{scrreprt} % report better for pdf 
-
+%******************************************************************************
 %% Since here we can modify the macros of the loaded class
 %% (with \renewenvironment or \renewcommand!),
 %% load other packets or define new environements (\newenvironment).
@@ -39,19 +19,18 @@
 \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
 
 %
+% Clear page for bibliography
+%
+\if@twoside
+	\def \clrpage {\cleardoublepage}
+\else
+	\def \clrpage {\clearpage}
+\fi
+
+%
 % Margin width
 %
 %\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
-
-%
-% Package for links (ref and cite), no box and blue
-% 
-\usepackage[pdftex]{hyperref}
-
-% Capital letter for autoref labels
-\def\subsectionautorefname{Subsection}
-\def\sectionautorefname{Section}
-\def\chapterautorefname{Chapter}
 
 %
 % Package for headers
@@ -104,8 +83,12 @@
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
 }
-% autoref fpr line numbers
-\providecommand*{\lstnumberautorefname}{line}
+
+%
+% Package for links (ref and cite), no box and blue
+% 
+\usepackage[pdftex]{hyperref}
+\usepackage{cleveref}
 
 %
 % Nomenclatur
@@ -159,9 +142,9 @@
     \begin{titlepage}
     \begin{flushright}
     \vspace*{4cm}
-    \includegraphics[height=4\baselineskip]{imgs/logo}\\ \vspace{0.3cm}
+    \includegraphics[height=4\baselineskip]{imgs/logo}\\ \vspace{0.2cm}
         \sffamily{\bfseries{ \Large \@subtitle}}\\
-        \vspace{0.3cm}
+        \vspace{0.2cm}
         \sffamily{\bfseries{ \Huge \@title}}
         \vspace{0.6cm}
         \small \\
@@ -174,6 +157,8 @@
         \vspace{0.5cm}
     \hrule
     \end{flushright}
+		\vfill
+    \includegraphics[height=\baselineskip]{imgs/by-nc-sa}\\ \small{\sffamily{Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License}}
     \end{titlepage}
 }
 
@@ -187,30 +172,37 @@
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 
-% even pages footer
-\fancyfoot[EC]{\thepage}
-
-% odd pages footer
-\fancyfoot[OC]{\thepage}
-
-% even pages header
-\fancyhead[EC] {
-    %chapter name
-    \leftmark  
-}
-\fancyhead[EL] {
-    \includegraphics[height=2\baselineskip]{imgs/logo}
-}
-
-% even pages header
-\fancyhead[OC] {
-    %chapter name
-    \leftmark  
-}
-
-\fancyhead[OR]{
-    \includegraphics[height=2\baselineskip]{imgs/logo}
-}
+\if@twoside
+	% even pages footer
+	\fancyfoot[EL]{\thepage}
+	% odd pages footer
+	\fancyfoot[OR]{\thepage}
+	% even pages header
+	\fancyhead[EC] {
+			%chapter name
+			\rightmark
+	}
+	\fancyhead[EL] {
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+	% odd pages header
+	\fancyhead[OC] {
+			%chapter name
+			\leftmark
+	}
+	\fancyhead[OR]{
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+\else
+	\fancyfoot[C]{\thepage}
+	\fancyhead[C] {
+			%chapter name
+			\rightmark
+	}
+	\fancyhead[R] {
+			\includegraphics[height=2\baselineskip]{imgs/logo}
+	}
+\fi
 
 % Table of content not contents
 %\renewcommand\contentsname{Table of Contents}
@@ -278,12 +270,18 @@
 \usepackage{emp}
 \usepackage{xspace}
 
-% define \mysharp using the arev package
+% 
+% Some shortcuts
+%
 \usepackage{arev}
 \newsavebox{\sharpbox}
 \sbox{\sharpbox}{$\sharp$}
-\newcommand{\CS}{C\usebox{\sharpbox}\xspace}
-\newcommand{\match}{<\#\xspace}
+\def \cs {C\usebox{\sharpbox}\xspace}
+\def \match {<\#\xspace}
+\def \mytype {\emph{MyType}\xspace}
+\def \ooplss {$\mathcal{OOPLSS}$\xspace}
+\def \ra {$\rightarrow$\xspace}
+\def \lra {$\longrightarrow$\xspace}
 
 
 % switch back to Latin Modern
