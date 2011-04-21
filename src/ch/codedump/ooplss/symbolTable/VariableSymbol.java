@@ -16,7 +16,7 @@ public class VariableSymbol extends Symbol {
 
 	@Override
 	public String symbolString() {
-		String str = "<Method>" + this.getName();
+		String str = "<Variable>" + this.getName();
 		
 		if (this.getType() != null) {
 			str += ":" + this.getType().getName(); 

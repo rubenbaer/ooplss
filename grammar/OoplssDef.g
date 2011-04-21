@@ -24,19 +24,33 @@ import ch.codedump.ooplss.utils.*;
 import ch.codedump.ooplss.tree.*;
 }
 
-topdown	:	enterMethod
-	|	enterBlock
-	|	varDef
-	|	enterClass	
-	|	simpleVarAccess
-	|	arrayAccess
-	|	arrayDef
-	;
+topdown   :	enterMethod
+	        |	enterBlock
+	        |	varDef
+	        |	enterClass	
+	        |	simpleVarAccess
+	        |	arrayAccess
+	        |	arrayDef
+	        |	subTypeArg
+	        |	//import
+	        ;
 	
 bottomup	:	exitBlock
-	|	exitClass
-	|	exitMethod
+	        |	exitClass
+	        |	exitMethod
+	        ;
+
+/*	
+import	:	^('import' ID)
+	{
+		this.debug.msg(Debugger.EXT, "<Def>Importing a type");
+		ClassSymbol cs = new ClassSymbol(this.debug, $ID.text, this.currentScope, null);
+		cs.setDef($ID);
+		$ID.setSymbol(cs);
+		this.currentScope.define(cs);
+	}
 	;
+	*/
 	
 enterClass	:	^(CLASSDEF classname=ID 
 			/*
@@ -65,7 +79,7 @@ exitClass	:	CLASSDEF
 	;
 	
 enterMethod 
-	:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
+	:	^(METHODDEF name=ID .*)
 	{
 		this.debug.msg(Debugger.EXT, "<Def>Entering a method");
 		MethodSymbol ms = new MethodSymbol(this.debug, $name.text, this.currentScope);
@@ -86,14 +100,28 @@ exitMethod	:	METHODDEF
 		this.currentScope = this.currentScope.getEnclosingScope();
 	}
 	;
+	
+subTypeArg
+	:	^(SUBTYPEARG name=ID type=ID)
+	{
+		this.debug.msg(Debugger.EXT, "<Def>Defining a method argument (subtype)");
+		VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
+		vs.setDef($name);
+		$name.setSymbol(vs);
+		this.currentScope.define(vs);
+	};
+catch [SymbolAlreadyDefinedException e] {
+	this.debug.reportError(e);
+}
 
-enterBlock	:	BLOCK 
+enterBlock	:	BLOCK
 	{
 		this.debug.msg(Debugger.EXT, "<Def>Entering a block");
 		this.currentScope = new LocalScope(this.debug, this.currentScope);
 		
 	}
 	;
+	
 exitBlock	:	BLOCK
 	{
 		this.debug.msg(Debugger.EXT, "<Def>Leaving a block");

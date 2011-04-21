@@ -30,7 +30,8 @@ public class DefTest {
 		
 		SymbolTable symTab = new SymbolTable(debugger);
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
-		
+
+		debugger.setLogLevel(Debugger.EXT);
 		System.out.println("Definition run");
 		OoplssDef def = new OoplssDef(nodes, symTab, debugger);
 		def.downup(t);
@@ -38,7 +39,7 @@ public class DefTest {
 		System.out.println("");
 		
 		System.out.println("Referencing run");
-		//debugger.setLogLevel(Debugger.EXT);
+
 		OoplssRef ref = new OoplssRef(nodes, symTab, debugger);
 		ref.downup(t);
 		debugger.showScopes();

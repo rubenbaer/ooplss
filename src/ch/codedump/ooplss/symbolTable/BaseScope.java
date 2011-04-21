@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.utils.Debugger;
 
 public abstract class BaseScope implements Scope {
@@ -67,7 +68,11 @@ public abstract class BaseScope implements Scope {
 	}
 	
 	@Override
-	public void define(Symbol sym) {
+	public void define(Symbol sym) throws SymbolAlreadyDefinedException {
+		Symbol s = this.members.get(sym.getName());
+		if (s != null) {
+			throw new SymbolAlreadyDefinedException(this, s);
+		}
 		this.members.put(sym.getName(), sym);
 	}
 	

@@ -28,6 +28,11 @@ tokens {
 	FIELDS;
 	RETURN;
 	STMT;
+	PROG;
+	ARGUMENTLIST;
+	SUBTYPEARG;
+	SUBCLASSARG;
+	METHODBLOCK;
 }
 
 
@@ -50,7 +55,19 @@ package ch.codedump.ooplss.antlr;
 	}
 }
 
-prog		:	 classDec+;
+prog		:	classDec+
+		;
+
+/*
+prog		:	 (classDec
+		|	importStmt)*
+			-> ^(PROG classDec+ importStmt+)
+		;
+*/
+		
+importStmt		:	'import' ID ';'
+			-> ^('import' ID)
+		;
 
 classDec		:	'class'  classname=ID 
 			( 'subtypeOf' supertype=ID )?
@@ -73,18 +90,39 @@ normalVarDef	:	'var' name=ID ':' type=ID -> ^(VARDEF $type $name);
 
 arrayDef		:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
 		
-methodDef		:
-			'def' ((name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList))
-			block -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? block)
-		;
+methodDef   :   'def' (
+                  (name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
+                ) methodBlock 
+			         -> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
+		        ;
 		
 argumentDeclList 	
-		: 	'(' ')';
-
-block 		: 	'{'
-			(blockStatement)*
-			'}' -> ^(BLOCK blockStatement*)
+		: 	'(' 
+			(
+				argument (',' argument)* 
+			)?
+			 ')'
+			 -> ^(ARGUMENTLIST argument*)
 		;
+
+argument		:	(subTypArg | subClassArg);
+
+subTypArg		:	ID ':' ID -> ^(SUBTYPEARG ID ID);
+
+subClassArg	:	ID '#' ID -> ^(SUBCLASSARG ID ID);
+
+
+methodBlock	:   '{'
+			          (blockStatement)*
+			          '}'
+			          -> ^(METHODBLOCK blockStatement*)
+		        ;
+	
+block 		  :   '{'
+			          (blockStatement)*
+			          '}' 
+			          -> ^(BLOCK blockStatement*)
+		        ;
 
 blockStatement	
 options {
@@ -248,13 +286,16 @@ EscapeSequence 	 :   	'\\'
 		|	('0'..'7')
 		)          
 		;  
+TYPEOF		:	':';
+
+SUBCLASSOF	:	'#';
 
 EQOPERATOR	
 		: 	'=';
 	    	
 CALLOPERATOR 	:	'.';
 
-SEMICOLON	:	';';
+SEMICOLON		:	';';
 
 PLUSOPERATOR	:	'+';
 
@@ -307,6 +348,8 @@ ELIF		:	'elseif';
 ELSE		:	'else';
 
 EQ		: 	'==';
+
+IMPORT		:	'import';
 
 ID		:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'+'|'-'|'*'|'/')*;
 
