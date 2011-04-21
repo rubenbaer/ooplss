@@ -2,7 +2,7 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
 
-import ch.codedump.ooplss.antlr.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
 import ch.codedump.ooplss.tree.OoplssAST;
 import ch.codedump.ooplss.utils.Debugger;
