@@ -85,6 +85,26 @@
 }
 
 %
+% "define" OOPLSS (Based on scala syntax)
+%
+\lstdefinelanguage{ooplss}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield,MyType,subtypeOf,subclassOf},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]"""
+}
+
+%
 % Package for links (ref and cite), no box and blue
 % 
 \usepackage[pdftex]{hyperref}
@@ -112,7 +132,8 @@
 %
 \usepackage{wrapfig}
 \usepackage{float}
-\usepackage{floatflt}
+% Produces some floating problems within text
+%\usepackage{floatflt}
 
 %
 % font (sans serif)

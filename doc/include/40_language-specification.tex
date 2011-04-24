@@ -70,11 +70,10 @@ implementation.
 %\label{lst:abstractSyntax}
 %\end{listing}
 
-\section{Names and Scopes}
-\subsection{Names}
+\section{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The definition of names can have different origins and depends on the current context of consideration. Currently 
 
-\subsection{Scopes}
+\section{Scopes}
 Names identify variables, methods, classes and types. 
 
 \section{Literals}
@@ -82,9 +81,6 @@ Names identify variables, methods, classes and types.
 \section{Delimiters}
 
 \section{Whitespace and Comments}
-
-\section{Names and Scopes}
-
 % estimated pages: 2
 
 \section{Declarations and Definitions}
@@ -92,13 +88,71 @@ Names identify variables, methods, classes and types.
 \subsection{Type Parameters}
 
 \chapter{Classes}
-% estimated pages: 6
-\section{Subtypes via Extension}
-\section{Subclasses via Inheritance}
+Classes build the foundation of \ooplss and contain one of the differences
+known in today's languages. \ooplss provides to possible mechanisms for
+\emph{inheritance} respectively \emph{extending}. The first one creates
+a subclass and the second a subtype of a given one. For both cases a new
+keyword is introduced. The difference between both is the moment of the
+self-type binding.
 
+\section{Extension as Subtyping}
+The extension mechanism is the same as provided by Java. Instead of
+the \emph{extends} keyword a new is introduced: \emph{subtypeOf} which
+makes a clear distinction to subclass building. Since in subtyping in a
+class the \mytype is first bound and afterwards the classes are combined,
+overriding a method must be specified with parameters conforming to the
+subtype relation. In other words the \mytype construct is here useless
+since \mytype would have different meaning in the different classes. Listing
+\ref{lst:subtypeOf} demonstrates this behaviour.
+
+For a seamless integration into Java and other target systems without multiple
+inheritance, the class can only build one subtype at once.
+
+\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
+class A {
+	// Defines a method with parameter of type A.
+	def m(p : MyType) : RType {
+		%\ldots)
+	}
+}
+
+class B subtypeOf A {
+	// Provides a new method with parameter of type B.
+	def m(p : MyType) : RType {
+		%\ldots)
+	}
+
+	// Overrides the method m of class A.
+	def m(p : A) : RType {
+		%\ldots)
+	}
+}
+\end{lstlisting}
+
+\section{Inheritance as Subclassing}
+Proper inheritance is the second class combination possibility in \ooplss. 
+
+\section{Semantics}
+\begin{figure}
+	\centering
+	\digraph[scale=0.8]{MultipleInheritance}{
+		rankdir=BT;
+		B -> A;
+		C -> A [style=dashed];
+		D -> C [style=dashed];
+		E -> D [style=dashed];
+		E -> B [style=dashed];
+		}
+	\caption{Multiple inheritance hierarchy}
+	\label{fig:multiInherit}
+\end{figure}
+
+\section{Parametrisation}
 %Class definition
 \section{Constructors}
 \section{Linearisation}
+
+
 
 \chapter{Expression}
 
