@@ -370,7 +370,9 @@ subtyping extends simple subtyping with parametrisation which is popular as
 \emph{generics} in well known programming languages like Java or \cs
 \cite{barron-estrada_inheritance_2003}. An other interpretation of
 \emph{matching} as higher-order subtyping with better properties like
-reflexivity and transitivity was shown \cite{abadi_subtyping_1996}.
+reflexivity and transitivity was shown \cite{abadi_subtyping_1996}. However,
+this interpretation is more difficult for the users of the language since
+the semantic does not 
 
 %% Already coverded above
 %\section{Binary Methods}
@@ -594,7 +596,8 @@ shows the function in the bound. Considering an example in Java in
 listing \ref{lst:generics} shows how this concept is implemented in a popular
 programming language. Since every type that satisfies the f-bound can
 be used to replace the type parameter $X$, the formal type of $A$ is
-$\forall(X $<:$ B(X))A\{X\}$
+$\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the 
+type operator!
 
 \begin{lstlisting}[caption={Universal quantified f-bound in Java},label={lst:generics}]
 public class A<X extends B<X>> {
@@ -604,10 +607,22 @@ public class A<X extends B<X>> {
 }
 \end{lstlisting}
 
-However, this works fine as long as no \mytype is present. If a language contains a \mytype construct matching is inevitable. 
+Here, both has to be considered very carefully. In the f-bounded subtype
+relation where the bound is a real function, i.e., type operator,
+the self reference is not yet bound where in generics in Java the self
+reference is already bound. As long as the type operator is not evaluated
+the subtyping relation is easier to hold then afterwards. This enables 
+parametrisation over every extension of an object type and not only over
+every subtype if it.
 
+In this case matching is defined as\cite{abadi_subtyping_1996}
+\begin{align*}
+	A \textnormal{\match} B & := A <: B_{Op}(A) \\
+	\forall (X \textnormal{\match} A)B\{X\} & := \forall (X <: A_{Op}(X))B\{X\}
+\end{align*}
 
-\section{Matching as Higher-Order Subtyping}
-
-\section{Example with Matching}
+%\section{Matching as Higher-Order Subtyping}
+%
+%TODO Ruben: write this section
+%\section{Example with Matching}
 

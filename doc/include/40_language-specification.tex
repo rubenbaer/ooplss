@@ -13,17 +13,16 @@ by message passing between objects.
 
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
-programming. In \ooplss classes are
+programming. In \ooplss classes are the first order constructs. A program is
+a set of classes. Within these classes only methods and fields allowed.
 
-\paragraph{Static Type System}
+\paragraph{Static and Safe Type System}
 To reduce the set of possible runtime exceptions \ooplss is statically
 and strongly typed. Every message sent to an object is legal is possible
 and can not create exceptions on runtime. Nonetheless runtime exceptions
 can occur since the type system does not prove that every statement is
 possible, e.g., sending a division by zero message to a number object,
 an appropriate exception will be thrown.
-
-\paragraph{Safe Type System}
 
 \paragraph{Nominal Type System}
 There are two options how to determine the relation of subtyping
@@ -47,7 +46,6 @@ available. This helps to keep the language as small.
 % summary of language design
 
 \chapter{Syntax}
-\ooplss's syntax is kept simple and consistent.
 
 \section{Abstract Syntax}
 The abstract syntax gives a short overview of \ooplss. This syntax is
@@ -55,24 +53,29 @@ not normalised and does not corresponds with the syntax used in the
 implementation.
 
 % estimated pages: 10
-\begin{listing}
-	\begin{tabular}[H]{llrll}
-		\emph{Class}					& C	& $\longrightarrow$ 		& A[B] Subclass Of D[T], E[U] Subtype Of F[V] \{T a; T M;\} \\
-		\emph{Types}					& T & $\longrightarrow$ 		& A \\
-													&   & 									 | & A \match B[A] \\
-		\emph{Method}					& M	& $\longrightarrow$ 		& T m[S](U a, V b) \{e;\} \\
-		\emph{Constructor}		& K	& $\longrightarrow$ 		& c(U a, V b) \{A(a); e;\} \\
-		\emph{Expression}			& e & $\longrightarrow$ 		& x; \\
-													&   & 									 | & x = y; \\
-													&   & 									 | & e.f; \\
-													&   & 									 | & e.m(p); \\
-													&   & 									 | & new C(p); \\
-	\end{tabular}
-\caption{Abstract syntax of \ooplss}
-\label{lst:abstractSyntax}
-\end{listing}
+%\begin{listing}
+%	\begin{tabular}[H]{llrll}
+%		\emph{Class}					& C	& $\longrightarrow$ 		& A[B] Subclass Of D[T], E[U] Subtype Of F[V] \{T a; T M;\} \\
+%		\emph{Types}					& T & $\longrightarrow$ 		& A \\
+%													&   & 									 | & A \match B[A] \\
+%		\emph{Method}					& M	& $\longrightarrow$ 		& T m[S](U a, V b) \{e;\} \\
+%		\emph{Constructor}		& K	& $\longrightarrow$ 		& c(U a, V b) \{A(a); e;\} \\
+%		\emph{Expression}			& e & $\longrightarrow$ 		& x; \\
+%													&   & 									 | & x = y; \\
+%													&   & 									 | & e.f; \\
+%													&   & 									 | & e.m(p); \\
+%													&   & 									 | & new C(p); \\
+%	\end{tabular}
+%\caption{Abstract syntax of \ooplss}
+%\label{lst:abstractSyntax}
+%\end{listing}
 
-\section{Identifiers}
+\section{Names and Scopes}
+\subsection{Names}
+Names in \ooplss identify variables, methods, classes and types. The definition of names can have different origins and depends on the current context of consideration. Currently 
+
+\subsection{Scopes}
+Names identify variables, methods, classes and types. 
 
 \section{Literals}
 
@@ -80,8 +83,28 @@ implementation.
 
 \section{Whitespace and Comments}
 
+\section{Names and Scopes}
+
+% estimated pages: 2
+
+\section{Declarations and Definitions}
+\subsection{Variable Declaration and Definition}
+\subsection{Type Parameters}
+
+\chapter{Classes}
+% estimated pages: 6
+\section{Subtypes via Extension}
+\section{Subclasses via Inheritance}
+
+%Class definition
+\section{Constructors}
+\section{Linearisation}
+
+\chapter{Expression}
 
 \chapter{Types}
+\ooplss knowns three sorts of types. First of all are
+
 \begin{listing}
 	\begin{tabular}[H]{lrl}
 		Types & \lra & Type \{, Type\}* \\
@@ -98,28 +121,8 @@ implementation.
 \end{listing}
 
 % estimated pages: 14
-
-\section{Basic Types}
 \section{Type Relations}
+\section{Basic Types}
 
-\chapter{Names and Scopes}
-Names identify variables, methods, classes and types. These 
-% estimated pages: 2
-
-\section{Declarations and Definitions}
-\subsection{Variable Declaration and Definition}
-\subsection{Type Parameters}
-
-\chapter{Classes}
-% estimated pages: 6
-\section{Subtypes}
-\section{Subclasses}
-
-%Class definition
-\section{Constructors}
-\section{Linearisation}
-
-\chapter{Expression}
-
-\chapter{Syntax and Type Inference}
+%\chapter{Syntax and Type Inference}
 % estimated pages:	5
