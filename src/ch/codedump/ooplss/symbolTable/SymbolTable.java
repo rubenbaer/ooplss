@@ -1,11 +1,12 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class SymbolTable {
@@ -16,19 +17,16 @@ public class SymbolTable {
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
 	public SymbolTable() {
-		this.initBuiltinTypes();
 		this.globals =  new GlobalScope();
+		try {
+			this.initBuiltinTypes();
+		} catch (Exception e) {}
+		
 	}
 
-	private void initBuiltinTypes() {
-		//global.define()
-		
-	}
-	
-	public Type resolve(String name) {
-		Type t = this.types.get(name);
-		
-		return t;
+	private void initBuiltinTypes() throws SymbolAlreadyDefinedException {
+		this.globals.define(new VoidType(this.globals));
+		this.globals.define(new ConstructorType(this.globals));
 	}
 	
 	/**
@@ -37,7 +35,7 @@ public class SymbolTable {
 	 * Resolve a simple variable. Check that the 
 	 * variable is not accessed before it's definition.
 	 * @param node
-	 * @return Symbol
+	 * @return Symbol The resolved symbol
 	 * @throws UnknownDefinitionException 
 	 */
 	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
@@ -46,16 +44,15 @@ public class SymbolTable {
 		if (s == null) {
 			throw new UnknownDefinitionException(node);
 		}
-		if (s.def == null) {
-			return s; // must be predefined
-		}
-		
-		int varLocation = node.token.getTokenIndex();
-		int defLocation = s.def.token.getTokenIndex();
-		if (node.getScope() instanceof BaseScope &&
-				s.getScope() instanceof BaseScope &&
-				varLocation < defLocation) {
-			throw new UnknownDefinitionException(node);
+		if (s.def != null) {
+			int varLocation = node.token.getTokenIndex();
+			int defLocation = s.def.token.getTokenIndex();
+			if (node.getScope() instanceof BaseScope &&
+					s.getScope() instanceof BaseScope &&
+					varLocation < defLocation) {
+				throw new UnknownDefinitionException(node);
+			}
+			
 		}
 		
 		return s;
@@ -68,11 +65,12 @@ public class SymbolTable {
 	 * call to resolveVar) but checks if it is of type
 	 * ArraySymbol
 	 * @param node
-	 * @return
+	 * @return Symbol The resolved symbol
 	 * @throws UnknownDefinitionException
-	 * @throws NotAnArrayException 
+	 * @throws NotAnArrayException
 	 */
-	public Symbol resolveArray(OoplssAST node) throws UnknownDefinitionException, NotAnArrayException {
+	public Symbol resolveArray(OoplssAST node) 
+			throws UnknownDefinitionException, NotAnArrayException {
 		Symbol s = this.resolveVar(node);
 		
 		if (s instanceof ArraySymbol == false) {
@@ -82,6 +80,38 @@ public class SymbolTable {
 		return s;
 	}
 	
+	/**
+	 * Resolve the type of a variable that is declared
+	 * 
+	 * @param node
+	 * @param type
+	 * @return Type The resolved type
+	 * @throws UnknownTypeException 
+	 */
+	public Type resolveType(OoplssAST node, OoplssAST type) 
+			throws UnknownTypeException {
+		Scope s = node.getSymbol().getScope();
+		Type t = (Type)s.resolve(type.getText());
+		if (t == null) {
+			throw new UnknownTypeException(type);
+		} 
+
+		return t;
+	}
+	
+	/**
+	 * This is merely a function to be able to pull types
+	 * directly from the globals
+	 * @param node
+	 * @param type
+	 * @return
+	 */
+	public Type resolveSpecialType(String type) {
+		Type t = (Type) this.globals.resolve(type);
+
+		return t;
+	}
+
 	@Override
 	public String toString() {
 		return scopeToString(this.globals);

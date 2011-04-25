@@ -21,6 +21,7 @@ public class MethodSymbol extends ScopedSymbol {
 	 * 
 	 * @return Scope members
 	 */
+	@Override
 	public String toString() {
 		String str = "METHOD " + this.getName();
 		if (this.enclosingScope != null) {

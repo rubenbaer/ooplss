@@ -44,6 +44,7 @@ public abstract class Symbol {
 		return this.name;
 	}
 	
+	@Override
 	public String toString() {
 		if (type != null) {
 			return '<' + this.getName() + ":" + this.type + '>';

@@ -13,6 +13,7 @@ public class NotAnArrayException extends Exception {
 		this.node = node;
 	}
 	
+	@Override
 	public String toString() {
 		Token t = this.node.token;
 		

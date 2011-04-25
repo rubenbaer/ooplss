@@ -34,6 +34,7 @@ public abstract class BaseScope implements Scope {
 	 * Resolve hierarchically
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Symbol resolve(String name) {
 		Symbol s = members.get(name);
 		
@@ -47,6 +48,7 @@ public abstract class BaseScope implements Scope {
 		return null;
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
