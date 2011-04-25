@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.test;
 
+import java.util.logging.Logger;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -12,14 +14,17 @@ import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
+import ch.codedump.ooplss.simpletest.DefTest;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
+import ch.codedump.ooplss.utils.CustomLogger;
 import ch.codedump.ooplss.utils.UnitTestDebugger;
 
 
 public class TypeResolving {
-	UnitTestDebugger debugger;
+	
+	static Logger logger = CustomLogger.getLogger(DefTest.class.getName());
 
 	/**
 	 * Create a parser and all the stuff and return
@@ -30,7 +35,6 @@ public class TypeResolving {
 	 * @throws RecognitionException
 	 */
 	private OoplssRef createRef(String code) throws RecognitionException {
-		this.debugger = new UnitTestDebugger();
 		ANTLRStringStream input = new ANTLRStringStream(code);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
@@ -58,7 +62,7 @@ public class TypeResolving {
 						"	def bar():notexist {}" +
 						"}";
 		this.createRef(str);
-		this.debugger.throwException();
+		logger.throwException();
 	}
 	
 	@Test (expected=UnknownTypeException.class)
