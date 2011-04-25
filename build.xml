@@ -43,7 +43,7 @@
 
 	<!-- BUILD -->
 
-	<target name="build" depends="build-src">
+	<target name="build" depends="clean,build-src">
 	</target>
 
 	<target name="build-src" depends="build-grammar">
@@ -53,7 +53,7 @@
 		</javac>
 	</target>
 
-	<target name="build-grammar">
+	<target name="build-grammar" depends="clean-antlr">
 		<mkdir dir="${antlr-outputdir}" />
 		<ant-antlr3
 			target="${grammar}/Ooplss.g"
