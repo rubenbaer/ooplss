@@ -1,17 +1,21 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
-import ch.codedump.ooplss.utils.Debugger;
 
 public abstract class ScopedSymbol extends Symbol implements Scope {
 	
 	protected Scope enclosingScope;
 	
+	protected Set<Scope> children = new HashSet<Scope>();
+	
 	protected HashMap<String, Symbol> members = new HashMap<String, Symbol>();
 
-	protected Debugger debugger;
+	static Logger logger = Logger.getLogger(ScopedSymbol.class.getName());
  /*
 	public ScopedSymbol(Debugger debugger, String name, Type type, Scope enclosingScope) {
 		super(name, type);
@@ -20,11 +24,10 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 		this.registerToDebugger();
 	}*/
 	
-	public ScopedSymbol(Debugger debugger, String name, Scope enclosingScope) {
+	public ScopedSymbol(String name, Scope enclosingScope) {
 		super(name, enclosingScope);
 		this.enclosingScope = enclosingScope;
-		this.debugger = debugger;
-		this.registerToDebugger();
+		enclosingScope.addChildScope(this);
 	}
 
 	@Override
@@ -34,6 +37,8 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 			throw new SymbolAlreadyDefinedException(this, s);
 		}
 		this.members.put(sym.getName(), sym);
+		
+		logger.fine(this.toString());
 	}
 
 	@Override
@@ -54,5 +59,15 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void addChildScope(Scope child) {
+		this.children.add(child);
+	}
+	
+	@Override
+	public Set<Scope> getChildren() {
+		return this.children;
 	}
 }

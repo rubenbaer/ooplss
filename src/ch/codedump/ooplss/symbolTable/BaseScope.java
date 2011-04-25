@@ -1,27 +1,29 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
-import ch.codedump.ooplss.utils.Debugger;
 
 public abstract class BaseScope implements Scope {
 	protected String name;
 	
 	protected Scope enclosingScope;
 	
+	protected Set<Scope> children = new HashSet<Scope>();
+	
 	protected HashMap<String, Symbol> members;
 	
-	Debugger debugger;
+	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
-	public BaseScope(Debugger debugger, String name, Scope encScope) {
+	public BaseScope(String name, Scope encScope) {
 		this.name = name;
 		this.enclosingScope = encScope;
 		
 		this.members = new HashMap<String, Symbol>();
-		this.debugger = debugger;
-		this.registerToDebugger();
 	}
 	
 	/**
@@ -74,6 +76,8 @@ public abstract class BaseScope implements Scope {
 			throw new SymbolAlreadyDefinedException(this, s);
 		}
 		this.members.put(sym.getName(), sym);
+		
+		logger.fine(this.toString());
 	}
 	
 	/**
@@ -87,5 +91,15 @@ public abstract class BaseScope implements Scope {
 	@Override
 	public Scope getEnclosingScope() {
 		return this.enclosingScope;
+	}
+	
+	@Override
+	public void addChildScope(Scope child) {
+		this.children.add(child);
+	}
+	
+	@Override
+	public Set<Scope> getChildren() {
+		return this.children;
 	}
 }

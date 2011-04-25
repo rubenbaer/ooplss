@@ -1,15 +1,13 @@
 package ch.codedump.ooplss.symbolTable;
 
-import ch.codedump.ooplss.utils.Debugger;
+import java.util.logging.Logger;
+
 
 public class GlobalScope extends BaseScope {
-	public GlobalScope(Debugger debugger) {
-		super(debugger, "GLOBAL", null);
+	
+	static Logger logger = Logger.getLogger(GlobalScope.class.getName());
+	
+	public GlobalScope() {
+		super("GLOBAL", null);
 	}
-
-	@Override
-	public void registerToDebugger() {
-		this.debugger.registerScope(this);
-	}
-
 }

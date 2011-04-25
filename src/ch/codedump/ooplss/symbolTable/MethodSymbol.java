@@ -1,22 +1,19 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.Map.Entry;
-
-import ch.codedump.ooplss.utils.Debugger;
+import java.util.logging.Logger;
 
 public class MethodSymbol extends ScopedSymbol {
-	public MethodSymbol(Debugger debugger, String name, Scope encScope) {
-		super(debugger, name, encScope);
+	
+	static Logger logger = Logger.getLogger(MethodSymbol.class.getName());
+	
+	public MethodSymbol(String name, Scope encScope) {
+		super(name, encScope);
 	}
 
 	@Override
 	public Scope getParentScope() {
 		return null;
-	}
-
-	@Override
-	public void registerToDebugger() {
-		this.debugger.registerScope(this);
 	}
 	
 	/**

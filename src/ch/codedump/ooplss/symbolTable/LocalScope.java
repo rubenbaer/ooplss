@@ -1,18 +1,18 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.logging.Logger;
+
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
-import ch.codedump.ooplss.utils.Debugger;
 
 public class LocalScope extends BaseScope {
-	public LocalScope(Debugger debugger, Scope encScope) {
-		super(debugger, "LOCAL", encScope);
-	}
-
-	@Override
-	public void registerToDebugger() {
-		this.debugger.registerScope(this);
+	
+	static Logger logger = Logger.getLogger(LocalScope.class.getName());
+	
+	public LocalScope(Scope encScope) {
+		super("LOCAL", encScope);
 	}
 	
+	@Override
 	public void define(Symbol sym) throws SymbolAlreadyDefinedException {
 		Symbol s = this.resolve(sym.getName());
 		

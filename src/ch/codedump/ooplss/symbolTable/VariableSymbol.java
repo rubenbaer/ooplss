@@ -1,6 +1,10 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.logging.Logger;
+
 public class VariableSymbol extends Symbol {
+	
+	static Logger logger = Logger.getLogger(VariableSymbol.class.getName());
 	/*
 	public VariableSymbol(String name, Type type) throws Exception {
 		super(name, type);

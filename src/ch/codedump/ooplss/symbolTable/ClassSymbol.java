@@ -1,15 +1,16 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.Map.Entry;
-
-import ch.codedump.ooplss.utils.Debugger;
+import java.util.logging.Logger;
 
 public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	protected ClassSymbol superType;
+	
+	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
-	public ClassSymbol(Debugger debugger, String name, Scope enclosingScope, ClassSymbol superType) {
-		super(debugger, name,  enclosingScope);
+	public ClassSymbol(String name, Scope enclosingScope, ClassSymbol superType) {
+		super(name,  enclosingScope);
 		
 		this.superType = superType;
 	}
@@ -30,11 +31,6 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		return null;
-	}
-	
-	@Override
-	public void registerToDebugger() {
-		this.debugger.registerScope(this);
 	}
 	
 	/**
