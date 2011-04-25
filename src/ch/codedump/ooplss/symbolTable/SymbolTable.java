@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
@@ -16,20 +17,18 @@ public class SymbolTable {
 	Debugger debugger;
 	
 	public SymbolTable(Debugger debugger) {
-		this.initBuiltinTypes();
-		this.debugger = debugger;
 		this.globals =  new GlobalScope(debugger);
+		try {
+			this.initBuiltinTypes();
+		} catch (Exception e) {}
+		
+		this.debugger = debugger;
+		
 	}
 
-	private void initBuiltinTypes() {
-		//global.define()
-		
-	}
-	
-	public Type resolve(String name) {
-		Type t = this.types.get(name);
-		
-		return t;
+	private void initBuiltinTypes() throws SymbolAlreadyDefinedException {
+		this.globals.define(new VoidType(this.globals));
+		this.globals.define(new ConstructorType(this.globals));
 	}
 	
 	/**
@@ -98,6 +97,19 @@ public class SymbolTable {
 		if (t == null) {
 			throw new UnknownTypeException(type);
 		} 
+
+		return t;
+	}
+	
+	/**
+	 * This is merely a function to be able to pull types
+	 * directly from the globals
+	 * @param node
+	 * @param type
+	 * @return
+	 */
+	public Type resolveSpecialType(String type) {
+		Type t = (Type) this.globals.resolve(type);
 
 		return t;
 	}

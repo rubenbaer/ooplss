@@ -79,7 +79,7 @@ exitClass	:	CLASSDEF
 			;
 	
 enterMethod 
-			:	^(METHODDEF name=ID .*)
+			:	(^(METHODDEF name=ID .*)|^(METHODDEF name='__construct' .*))
 			{
 				this.debug.msg(Debugger.EXT, "<Def>Entering a method");
 				MethodSymbol ms = new MethodSymbol(this.debug, $name.text, this.currentScope);

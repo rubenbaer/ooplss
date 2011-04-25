@@ -30,6 +30,7 @@ topdown		:	enterMethod
 			|	simpleVarAccess
 			|	arrayAccess
 			|	argument
+			|	enterConstructor
 			;
  	
 enterMethod 	
@@ -43,7 +44,16 @@ enterMethod
 catch [UnknownTypeException e] {
 	this.debug.reportError(e);
 }			
-			
+		
+		
+enterConstructor
+			:	^(METHODDEF name='__construct' .*)
+			{
+				this.debug.msg(Debugger.EXT, "<Ref>Entering a constructor");
+				Type t = this.symtab.resolveSpecialType("construct");
+				$name.getSymbol().setType(t);
+			}
+			;	
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
