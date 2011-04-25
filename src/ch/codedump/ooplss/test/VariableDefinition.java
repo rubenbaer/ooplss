@@ -40,10 +40,10 @@ public class VariableDefinition {
 		prog_return result = parser.prog();
 		Tree t = (Tree)result.getTree();
 		
-		SymbolTable symTab = new SymbolTable(debugger);
+		SymbolTable symTab = new SymbolTable();
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 		
-		OoplssDef def = new OoplssDef(nodes, symTab, debugger);
+		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 
 		return def;
