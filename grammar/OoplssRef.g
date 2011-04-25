@@ -42,14 +42,14 @@ enterMethod
 			}
 			;
 catch [UnknownTypeException e] {
-	this.debug.reportError(e);
+	logger.info(e.toString());
 }			
 		
 		
 enterConstructor
 			:	^(METHODDEF name='__construct' .*)
 			{
-				this.debug.msg(Debugger.EXT, "<Ref>Entering a constructor");
+				logger.fine("<Ref>Entering a constructor");
 				Type t = this.symtab.resolveSpecialType("construct");
 				$name.getSymbol().setType(t);
 			}
@@ -110,14 +110,14 @@ catch[NotAnArrayException e] {
 
 argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
-				this.debug.msg(Debugger.EXT, "<Ref>Resolving an argument");
+				logger.fine("<Ref>Resolving an argument");
 				Type t = this.symtab.resolveType($name, $type);
 				$name.getSymbol().setType(t);
 
 			}
 			;
 catch [UnknownTypeException e] {
-	this.debug.reportError(e);
+	logger.info(e.toString());
 }
 
 

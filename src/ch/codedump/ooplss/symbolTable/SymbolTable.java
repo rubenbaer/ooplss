@@ -23,8 +23,6 @@ public class SymbolTable {
 			this.initBuiltinTypes();
 		} catch (Exception e) {}
 		
-		this.debugger = debugger;
-		
 	}
 
 	private void initBuiltinTypes() throws SymbolAlreadyDefinedException {
