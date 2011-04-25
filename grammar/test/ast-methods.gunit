@@ -9,32 +9,32 @@ methodDef:
 def foo():bar {
 
 }
->>  -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST BLOCK)
+>>  -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST METHODBLOCK)
 
 <<
 def __construct() {
 
 }
->> -> (METHODDEF __construct ARGUMENTLIST BLOCK)
+>> -> (METHODDEF __construct ARGUMENTLIST METHODBLOCK)
 
 <<
 def foo():bar {
 	2 + 3;
 	3 * 3;
 }
->> -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST (BLOCK (STMT (+ (INT 2) (INT 3))) (STMT (* (INT 3) (INT 3)))))
+>> -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST (METHODBLOCK (STMT (+ (INT 2) (INT 3))) (STMT (* (INT 3) (INT 3)))))
 
 <<
 def foo(x:y):bar {
 }
->> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBTYPEARG x y)) BLOCK)
+>> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBTYPEARG x y)) METHODBLOCK)
 
 <<
 def foo(x#y):bar {
 
 }
 
->> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBCLASSARG x y)) BLOCK)
+>> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBCLASSARG x y)) METHODBLOCK)
 
 
 block:

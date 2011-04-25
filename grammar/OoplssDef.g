@@ -8,10 +8,12 @@ filter=true;
 SymbolTable symtab;
 Scope currentScope;
 static Logger logger = Logger.getLogger(OoplssRef.class.getName());
+ErrorHandler error = ErrorHandler.getInstance();
 public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
 	currentScope = symtab.globals;
+	error.setLogger(logger);
 }
 }
 @header {
@@ -20,6 +22,7 @@ package ch.codedump.ooplss.antlr;
 import ch.codedump.ooplss.symbolTable.*;
 import ch.codedump.ooplss.symbolTable.exceptions.*;
 import ch.codedump.ooplss.tree.*;
+import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
 }
@@ -29,7 +32,7 @@ topdown		:	enterMethod
 			|	varDef
 			|	enterClass	
 			|	simpleVarAccess
-			|	arrayAccess
+			/*|	arrayAccess*/
 			|	arrayDef
 			|	argument
 			|	//import
@@ -68,7 +71,8 @@ enterClass	:	^(CLASSDEF classname=ID
 			}	
 			;
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
+	//logger.info(e.toString());
 }
 	
 exitClass	:	CLASSDEF
@@ -90,7 +94,8 @@ enterMethod
 			}
 			;
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
+	//logger.info(e.toString());
 }
 	
 exitMethod	:	METHODDEF
@@ -165,10 +170,11 @@ simpleVarAccess
 			}
 			;
 
+/*
 arrayAccess	:	^(ARRAYACCESS ID .)
 			{
 				logger.fine("<Def>Recording scope of an array");
 				$ID.setScope(this.currentScope);
 			}
 			;
-
+*/

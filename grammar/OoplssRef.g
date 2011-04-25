@@ -26,9 +26,9 @@ import java.util.logging.Logger;
 
 topdown		:	enterMethod
 			|	varDef
-			|	arrayDef
+			/*|	arrayDef*/
 			|	simpleVarAccess
-			|	arrayAccess
+			/*|	arrayAccess*/
 			|	argument
 			|	enterConstructor
 			;
@@ -66,7 +66,7 @@ catch [UnknownTypeException e] {
 }
 
 
-
+/*
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 			{
 				logger.fine("<Ref>Resolving type of array " + $name.text);
@@ -76,6 +76,7 @@ arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 catch [UnknownTypeException e] {
   logger.info(e.toString());
 }
+*/
 
 simpleVarAccess
 			:	^(VARACCESS ID)
@@ -90,7 +91,7 @@ catch[UnknownDefinitionException e] {
 }
 
 
-	
+	/*
 arrayAccess
 			:	^(ARRAYACCESS ID .)
 			{
@@ -105,6 +106,7 @@ catch[UnknownDefinitionException e] {
 catch[NotAnArrayException e] {
 	logger.info(e.toString());
 }
+*/
 
 
 
