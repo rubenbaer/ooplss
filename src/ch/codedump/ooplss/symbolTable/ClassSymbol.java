@@ -38,6 +38,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * 
 	 * @return Scope members
 	 */
+	@Override
 	public String toString() {
 		String str = "CLASS " + this.getName();
 		if (this.enclosingScope != null) {

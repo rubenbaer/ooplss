@@ -1,7 +1,6 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
