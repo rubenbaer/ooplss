@@ -29,43 +29,48 @@ topdown		:	enterMethod
 			|	arrayDef
 			|	simpleVarAccess
 			|	arrayAccess
+			|	argument
+			|	enterConstructor
 			;
  	
 enterMethod 	
-			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? .)
+			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? . .)
 			{
 				logger.fine("<Ref>Entering method " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($rettype.text);
+				Type t = this.symtab.resolveType($name, $rettype);
 				$name.getSymbol().setType(t);
 			}
 			;
+catch [UnknownTypeException e] {
+	logger.info(e.toString());
+}			
+		
+		
+enterConstructor
+			:	^(METHODDEF name='__construct' .*)
+			{
+				logger.fine("<Ref>Entering a constructor");
+				Type t = this.symtab.resolveSpecialType("construct");
+				$name.getSymbol().setType(t);
+			}
+			;	
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
 				logger.fine("<Ref>Resolving type of variable " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($type.text);
-				if (t == null) {
-					throw new UnknownTypeException($type);
-				} else {
-					$name.getSymbol().setType(t);
-				}
+				Type t = this.symtab.resolveType($name, $type);
+				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
   logger.info(e.toString());
 }
 
+
+
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 			{
 				logger.fine("<Ref>Resolving type of array " + $name.text);
-				Scope s = $name.getSymbol().getScope();
-				Type t = (Type)s.resolve($type.text);
-				if (t == null) {
-					throw new UnknownTypeException($type);
-				} else {
-					$name.getSymbol().setType(t);
-				}
+				this.symtab.resolveType($name, $type);
 			}
 			;
 catch [UnknownTypeException e] {
@@ -83,6 +88,8 @@ simpleVarAccess
 catch[UnknownDefinitionException e] {
 	logger.info(e.toString());
 }
+
+
 	
 arrayAccess
 			:	^(ARRAYACCESS ID .)
@@ -99,7 +106,22 @@ catch[NotAnArrayException e] {
 	logger.info(e.toString());
 }
 
-	
+
+
+argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
+			{
+				logger.fine("<Ref>Resolving an argument");
+				Type t = this.symtab.resolveType($name, $type);
+				$name.getSymbol().setType(t);
+
+			}
+			;
+catch [UnknownTypeException e] {
+	logger.info(e.toString());
+}
+
+
+
 	/*
 rettype	returns [Type type]
 	:

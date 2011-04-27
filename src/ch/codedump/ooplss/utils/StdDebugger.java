@@ -6,7 +6,6 @@ import java.util.List;
 import ch.codedump.ooplss.symbolTable.Scope;
 
 public class StdDebugger implements Debugger {
-	
 	int loglevel;
 	
 	List<Scope> scopes = new ArrayList<Scope>();

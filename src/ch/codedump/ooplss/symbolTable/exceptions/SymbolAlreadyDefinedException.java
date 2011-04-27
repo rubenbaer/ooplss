@@ -15,6 +15,7 @@ public class SymbolAlreadyDefinedException extends Exception {
 		this.symbol = s;
 	}
 	
+	@Override
 	public String toString() {
 		Token t = this.symbol.getDef().token;
 		

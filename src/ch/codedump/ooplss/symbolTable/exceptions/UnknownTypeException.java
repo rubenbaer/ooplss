@@ -13,6 +13,7 @@ public class UnknownTypeException extends Exception {
 		this.symbol = s;
 	}
 	
+	@Override
 	public String toString() {
 		Token token = this.symbol.token;
 		return "line " + token.getLine() + ":" + token.getTokenIndex() + 

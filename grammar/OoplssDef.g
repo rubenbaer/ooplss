@@ -31,7 +31,7 @@ topdown		:	enterMethod
 			|	simpleVarAccess
 			|	arrayAccess
 			|	arrayDef
-			|	subTypeArg
+			|	argument
 			|	//import
 			;
 	
@@ -79,7 +79,7 @@ exitClass	:	CLASSDEF
 			;
 	
 enterMethod 
-			:	^(METHODDEF name=ID .*)
+			:	(^(METHODDEF name=ID .*)|^(METHODDEF name='__construct' .*))
 			{
 				logger.fine("<Def>Entering a method");
 				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
@@ -100,7 +100,7 @@ exitMethod	:	METHODDEF
 			}
 			;
 	
-subTypeArg	:	^(SUBTYPEARG name=ID type=ID)
+argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
 				logger.fine("<Def>Defining a method argument (subtype)");
 				VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
@@ -142,7 +142,7 @@ catch [SymbolAlreadyDefinedException e] {
   logger.info(e.toString());
 }
 
-arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
+arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)  
 			{
 				logger.fine("<Def>Defining an array " + $name.text + 
 					" of type " + $type.text + " with size " + $size.text);
