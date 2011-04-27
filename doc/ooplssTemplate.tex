@@ -12,6 +12,8 @@
 %% load other packets or define new environements (\newenvironment).
 %\RequirePackage{remreset}
 
+\usepackage[british]{babel}
+
 %
 % Symbol Footnote without switch forth and back
 %
@@ -100,7 +102,7 @@
   morecomment=[l]{//},
   morecomment=[n]{/*}{*/},
   morestring=[b]",
-  morestring=[b]',
+%  morestring=[b]',
   morestring=[b]"""
 }
 
@@ -109,6 +111,15 @@
 % 
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
+
+%
+% Rename "fig." to figure
+%
+\crefname{figure}{figure}{figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{subfigure}{figure}{figures}
+\Crefname{subfigure}{Figure}{Figures}
+
 
 %
 % Nomenclatur
