@@ -15,7 +15,7 @@ tokens {
 	METHODDEF;
 	RETURNTYPE;
 	VARACCESS;
-	SIMPLEVARACCESS;
+	MEMBERACCESS;
 	/*ARRAYACCESS;*/
 	METHODCALL;
 	METHODARGS;
@@ -163,13 +163,13 @@ backtrack=true;
 } */
 			:	(
 						ID 
-							-> ^(SIMPLEVARACCESS ID)
+							-> ^(VARACCESS ID)
 					/*|	ID '[' statement ']' 
 							-> ^(ARRAYACCESS ID statement)
 					|	'self' '.' ID '[' statement ']' 
 							-> ^('.' SELF ^(ARRAYACCESS ID statement))*/
 					|	'self' '.' ID 
-							-> ^('.' SELF ^(VARACCESS ID))
+							-> ^('.' SELF ^(MEMBERACCESS ID))
 				)
 				( 
 						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
@@ -177,7 +177,7 @@ backtrack=true;
 					/*|	'.' id=ID '[' statement ']'
 								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))*/
 					|	'.' id=ID
-								-> ^('.' $varAccess ^(VARACCESS $id))
+								-> ^('.' $varAccess ^(MEMBERACCESS $id))
 				)*
 			;
 

@@ -161,7 +161,7 @@ catch [SymbolAlreadyDefinedException e] {
 */
 
 simpleVarAccess
-			:	^(SIMPLEVARACCESS ID)
+			:	^(VARACCESS ID)
 			{
 				// record the scope in the variable
 				logger.fine("<Def>Recording scope of a variable");
