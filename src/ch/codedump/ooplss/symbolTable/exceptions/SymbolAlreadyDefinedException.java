@@ -1,27 +1,22 @@
 package ch.codedump.ooplss.symbolTable.exceptions;
 
-import org.antlr.runtime.Token;
-
 import ch.codedump.ooplss.symbolTable.Scope;
 import ch.codedump.ooplss.symbolTable.Symbol;
 
-public class SymbolAlreadyDefinedException extends Exception {
-	private static final long serialVersionUID = -3540336331077789377L;
+public class SymbolAlreadyDefinedException extends OoplssException {
+	private static final long serialVersionUID = -8920199663798645768L;
 	private Scope scope;
 	private Symbol symbol;
 
 	public SymbolAlreadyDefinedException(Scope scope, Symbol s) {
+		super(s.getDef().token);
 		this.scope = scope;
 		this.symbol = s;
-	}
-	
-	@Override
-	public String toString() {
-		Token t = this.symbol.getDef().token;
 		
-		return "line " + t.getLine() + ":" + t.getTokenIndex() + " symbol " + 
-				this.symbol.getName() + 
-				" is already defined in scope " + 
-				this.scope.getName();
+		String str = 	"symbol " + this.symbol.getName() + 
+						" is already defined in scope " + 
+						this.scope.getName();
+		
+		this.setError(str);
 	}
 }
