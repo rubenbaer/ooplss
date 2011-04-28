@@ -268,8 +268,8 @@ derived object. This makes recursion different between these two models.
 
 \begin{figure}
 	\centering
-	\subfigure{
-	\digraph[scale=0.8]{NaiveRecursion}{
+	\subfigure[Naive recursion]{
+	\digraph[scale=0.7]{NaiveRecursion}{
 		rankdir=LR;
 		margin=0;
 		c[label=client,shape=plaintext]
@@ -279,8 +279,8 @@ derived object. This makes recursion different between these two models.
 		a->b;
 		b->b[tailport=e,headport=s];}
 		}
-	\subfigure{
-	\digraph[scale=0.8]{MutualRecursion}{
+	\subfigure[mutual recursion]{
+	\digraph[scale=0.7]{MutualRecursion}{
 		rankdir=LR;
 		margin=0;
 		c[label=client,shape=plaintext]
@@ -290,7 +290,7 @@ derived object. This makes recursion different between these two models.
 		a->b;
 		b->a[tailport=s,headport=s];}
 		}
-	\caption{Naive and mutual recursion}
+	\caption{Naive and mutual recursion where M <: F}
 	\label{fig:schizoRecursion}
 \end{figure}
 

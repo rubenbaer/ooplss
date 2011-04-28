@@ -119,6 +119,8 @@ class B subtypeOf A {
 }
 \end{lstlisting}
 
+\todo{Combination operator}
+
 %The extension mechanism is the same as provided by Java. Instead of
 %the \emph{extends} keyword a new is introduced: \emph{subtypeOf} which
 %makes a clear distinction to subclass building. Since in subtyping in a
@@ -190,14 +192,69 @@ would be introduced. This is illustrated in \cref{fig:inheritHierarchy}.
 			D[label="D'"];
 			} \label{fig:javaHierarchy}
 			}
-	\caption{Subtyping and subclassing hierarchy in \ooplss}
+	\caption{Class relation hierarchy in \ooplss and Java}
 	\label{fig:inheritHierarchy}
 \end{figure}
 
+Following this semantics the translation of \ooplss-code to
+other object-oriented languages can be done as stated in listing
+\ref{lst:subclassOf} and listing \ref{lst:javaTrans}.
 
+\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label=lst:subclassOf]
+class A {
+	var a : A;
 
-\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
-T
+	def m(o : A) Void {
+		%\ldots)
+		m(a); // Recursive call
+		%\ldots)
+	}
+}
+
+class B subclassOf A {
+	def m(o : A) Void {
+		%\ldots)
+		m(a);
+		A.m(a);
+		%\ldots)
+	}
+}
+\end{lstlisting}
+
+The following listing \ref{lst:javaTrans} presents the to Java translated
+code of listing \ref{lst:subclassOf}. It demonstrates the clear cut within 
+the subtyping hierarchy since the whole content of class \emph{A} is modified
+and copied to class \emph{B}.
+
+\begin{lstlisting}[caption=Subtyping in \ooplss,label=lst:javaTrans]
+public class A {
+	public A a;
+
+	public void m(A o) {
+		%\ldots)
+		m(a); // Recursive call
+		%\ldots)
+	}
+}
+
+// Subclass of A
+public class B {
+	public A a;
+
+	private void A$$m(A o) {
+		%\ldots)
+		m(a); // Recursion back to original method
+		%\ldots)
+	}
+
+	// Override A.m()
+	public void m(A o) {
+		%\ldots)
+		m(a); // Direct recursion
+		A$$m(a); // Recursion call over class A
+		%\ldots)
+	}
+}
 \end{lstlisting}
 
 \todo{Combination operator}
