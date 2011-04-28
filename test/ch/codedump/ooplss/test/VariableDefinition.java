@@ -14,12 +14,10 @@ import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
-import ch.codedump.ooplss.utils.UnitTestDebugger;
+import ch.codedump.ooplss.utils.ErrorHandler;
 
 
 public class VariableDefinition {
-	UnitTestDebugger debugger;
-
 	/**
 	 * Create a parser and all the stuff and return
 	 * the resolving object to walk through
@@ -29,7 +27,6 @@ public class VariableDefinition {
 	 * @throws RecognitionException
 	 */
 	private OoplssDef createDef(String code) throws RecognitionException {
-		this.debugger = new UnitTestDebugger();
 		ANTLRStringStream input = new ANTLRStringStream(code);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
@@ -43,6 +40,8 @@ public class VariableDefinition {
 		SymbolTable symTab = new SymbolTable();
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 		
+		ErrorHandler.getInstance().setBreakOnError(false);
+		
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 
@@ -50,11 +49,11 @@ public class VariableDefinition {
 	}
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
-	public void testDubleClasses() throws Exception {
+	public void testDoubleClasses() throws Exception {
 		String str = 	"class foo {}" +
 						"class foo {}";
 		this.createDef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
@@ -64,7 +63,7 @@ public class VariableDefinition {
 						"	var x:foo;" +
 						"}";
 		this.createDef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
@@ -74,7 +73,7 @@ public class VariableDefinition {
 						"	def blah():foo {}" +
 						"}";
 		this.createDef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
@@ -84,10 +83,10 @@ public class VariableDefinition {
 						"	var blah:foo;" +
 						"}";
 		this.createDef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test
+	@Test 
 	public void testNestedSymbols() throws Exception {
 		String str = 	"class foo {" +
 						"	def foo():foo {" +
@@ -95,7 +94,6 @@ public class VariableDefinition {
 						"	}" +
 						"}";
 		this.createDef(str);
-		this.debugger.throwException();
 	}
 }
 

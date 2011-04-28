@@ -15,6 +15,7 @@ tokens {
 	METHODDEF;
 	RETURNTYPE;
 	VARACCESS;
+	SIMPLEVARACCESS;
 	/*ARRAYACCESS;*/
 	METHODCALL;
 	METHODARGS;
@@ -162,7 +163,7 @@ backtrack=true;
 } */
 			:	(
 						ID 
-							-> ^(VARACCESS ID)
+							-> ^(SIMPLEVARACCESS ID)
 					/*|	ID '[' statement ']' 
 							-> ^(ARRAYACCESS ID statement)
 					|	'self' '.' ID '[' statement ']' 

@@ -8,6 +8,7 @@ filter=true;
 @members {
 SymbolTable symtab;
 static Logger logger = Logger.getLogger(OoplssRef.class.getName());
+ErrorHandler error = ErrorHandler.getInstance();
 public OoplssRef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
@@ -20,6 +21,7 @@ package ch.codedump.ooplss.antlr;
 import ch.codedump.ooplss.symbolTable.*;
 import ch.codedump.ooplss.symbolTable.exceptions.*;
 import ch.codedump.ooplss.tree.*;
+import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
 }
@@ -42,7 +44,7 @@ enterMethod
 			}
 			;
 catch [UnknownTypeException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }			
 		
 		
@@ -62,7 +64,7 @@ varDef		:	^(VARDEF type=ID name=ID)
 				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
-  logger.info(e.toString());
+  error.reportError(e);
 }
 
 
@@ -87,7 +89,7 @@ simpleVarAccess
 			}
 			;
 catch[UnknownDefinitionException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 
@@ -119,7 +121,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			}
 			;
 catch [UnknownTypeException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 

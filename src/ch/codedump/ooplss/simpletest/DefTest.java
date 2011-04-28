@@ -3,6 +3,7 @@ package ch.codedump.ooplss.simpletest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -26,8 +27,8 @@ public class DefTest {
 	public static void main(String[] args) throws IOException, RecognitionException {
 		String str = "class Foo { def m():Foo{ var x : Foo; { var y : Foo; } var y : Foo; { var z : Foo; { var a : Foo; }} } def n():Foo{ { var x : Foo; } } }";
 		InputStream is = new ByteArrayInputStream(str.getBytes("UTF-8"));
-		ANTLRInputStream input = new ANTLRInputStream(is);
-		//ANTLRInputStream input = new ANTLRInputStream(System.in);
+		//ANTLRInputStream input = new ANTLRInputStream(is);
+		ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
 		
@@ -40,6 +41,7 @@ public class DefTest {
 		SymbolTable symTab = new SymbolTable();
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 
+		logger.setLevel(Level.FINE);
 		logger.fine("Definition run");
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);

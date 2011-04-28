@@ -1,7 +1,5 @@
 package ch.codedump.ooplss.test;
 
-import java.util.logging.Logger;
-
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -14,17 +12,13 @@ import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
-import ch.codedump.ooplss.simpletest.DefTest;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
-import ch.codedump.ooplss.utils.CustomLogger;
-import ch.codedump.ooplss.utils.UnitTestDebugger;
+import ch.codedump.ooplss.utils.ErrorHandler;
 
 
 public class TypeResolving {
-	
-	static Logger logger = CustomLogger.getLogger(DefTest.class.getName());
 
 	/**
 	 * Create a parser and all the stuff and return
@@ -48,6 +42,8 @@ public class TypeResolving {
 		SymbolTable symTab = new SymbolTable();
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 		
+		ErrorHandler.getInstance().setBreakOnError(false);
+		
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 		
@@ -62,7 +58,7 @@ public class TypeResolving {
 						"	def bar():notexist {}" +
 						"}";
 		this.createRef(str);
-		logger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=UnknownTypeException.class)
@@ -71,7 +67,7 @@ public class TypeResolving {
 						"	var x:notexist;" +
 						"}";
 		this.createRef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=UnknownTypeException.class)
@@ -82,7 +78,7 @@ public class TypeResolving {
 						"	}" +
 						"}";
 		this.createRef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test (expected=UnknownTypeException.class)
@@ -91,6 +87,6 @@ public class TypeResolving {
 						"	def bar(x:notexist):foo {}" +
 						"}";
 		this.createRef(str);
-		this.debugger.throwException();
+		ErrorHandler.getInstance().throwException();
 	}
 }

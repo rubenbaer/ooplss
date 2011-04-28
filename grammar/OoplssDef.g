@@ -13,7 +13,6 @@ public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
 	currentScope = symtab.globals;
-	error.setLogger(logger);
 }
 }
 @header {
@@ -32,8 +31,9 @@ topdown		:	enterMethod
 			|	varDef
 			|	enterClass	
 			|	simpleVarAccess
+			|	selfVarAccess
 			/*|	arrayAccess*/
-			|	arrayDef
+			/*|	arrayDef*/
 			|	argument
 			|	//import
 			;
@@ -72,7 +72,6 @@ enterClass	:	^(CLASSDEF classname=ID
 			;
 catch [SymbolAlreadyDefinedException e] {
 	error.reportError(e);
-	//logger.info(e.toString());
 }
 	
 exitClass	:	CLASSDEF
@@ -95,7 +94,6 @@ enterMethod
 			;
 catch [SymbolAlreadyDefinedException e] {
 	error.reportError(e);
-	//logger.info(e.toString());
 }
 	
 exitMethod	:	METHODDEF
@@ -114,7 +112,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				this.currentScope.define(vs);
 			};
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 enterBlock	:	BLOCK
@@ -144,9 +142,9 @@ varDef		:	^(VARDEF type=ID name=ID)
 
 			};
 catch [SymbolAlreadyDefinedException e] {
-  logger.info(e.toString());
+  error.reportError(e);
 }
-
+/*
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)  
 			{
 				logger.fine("<Def>Defining an array " + $name.text + 
@@ -160,13 +158,22 @@ arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 catch [SymbolAlreadyDefinedException e] {
 	logger.info(e.toString());
 }
+*/
 
 simpleVarAccess
-			:	^(VARACCESS ID)
+			:	^(SIMPLEVARACCESS ID)
 			{
 				// record the scope in the variable
 				logger.fine("<Def>Recording scope of a variable");
 				$ID.setScope(this.currentScope);
+			}
+			;
+			
+selfVarAccess
+			:	^('.' SELF .)
+			{
+				logger.fine("<Def>Recording scope of a self reference");
+				$SELF.setScope(this.currentScope);
 			}
 			;
 
