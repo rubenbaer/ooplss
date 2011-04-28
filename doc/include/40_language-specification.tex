@@ -260,20 +260,24 @@ public class B {
 \todo{Combination operator}
 
 \section{Introducing \mytype}
+With subclassing an other sort of class combination is introduced. By observing
+the listings above one may see something rather strange. While class \emph{A}
+has a recursive object type it is not the case for class \emph{B}. Since these
+two classes are completely decoupled but the type of the classes' type is not changed
+from \emph{A} to \emph{B} the expression in listing \ref{lst:breakThis} can not be typed.
 
+\begin{lstlisting}[language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:subclassOf]
+def m(o : A) Void {
+	%\ldots)
+	m(self); // Breaks in subclass!
+	%\ldots)
+}
+\end{lstlisting}
 
-\section{Type Relations}
-\ooplss knows two different type relations. On one hand there exists
-subtyping which is well known in typed object-oriented programming
-languages denoted with <: respectively as a straight line in diagrams. On
-the other hand there is a matching relation which is used to restrict type
-parameters to a given protocol and is denoted with \match respectively
-with a dashed line in diagrams. \Cref{fig:hierarchy} shows an example of
-a type hierarchy in \ooplss. Only one subtype relation between type \emph{A}
-and \emph{B} exists. Between the other types exists a matching relation; \emph{E}
-\match \emph{D} \match \emph{C} \match \emph{A} and \emph{E} \match \emph{B}.
-
-\todo{Some explanations}
+This code is illegal because \emph{self} is of type \emph{B} and subclassing does not 
+provide subsumption, i.e., \emph{B} $\nless$: \emph{A}. To overcome with this problem
+a special type variable is introduced which is called \mytype. Wherever a \mytype is used
+it will get bound with the type that is generated.
 
 \begin{figure}[h]
 	\centering
@@ -289,6 +293,20 @@ and \emph{B} exists. Between the other types exists a matching relation; \emph{E
 	\caption{Subclassing and subtyping hierarchy}
 	\label{fig:hierarchy}
 \end{figure}
+
+\section{Type Relations}
+%\ooplss knows two different type relations. On one hand there exists
+%subtyping which is well known in typed object-oriented programming
+%languages denoted with <: respectively as a straight line in diagrams. On
+%the other hand there is a matching relation which is used to restrict type
+%parameters to a given protocol and is denoted with \match respectively
+%with a dashed line in diagrams. \Cref{fig:hierarchy} shows an example of
+%a type hierarchy in \ooplss. Only one subtype relation between type \emph{A}
+%and \emph{B} exists. Between the other types exists a matching relation; \emph{E}
+%\match \emph{D} \match \emph{C} \match \emph{A} and \emph{E} \match \emph{B}.
+
+\todo{Some explanations}
+
 
 %\section{Gaining Type Safety with \#-Types}
 
