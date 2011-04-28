@@ -268,22 +268,28 @@ derived object. This makes recursion different between these two models.
 
 \begin{figure}
 	\centering
+	\subfigure{
 	\digraph[scale=0.8]{NaiveRecursion}{
 		rankdir=LR;
+		margin=0;
 		c[label=client,shape=plaintext]
 		a[label=M,shape=Mrecord];
 		b[label=F,shape=Mrecord];
 		c->a;
 		a->b;
-		b->b[tailport=e,headport=s];}\\
+		b->b[tailport=e,headport=s];}
+		}
+	\subfigure{
 	\digraph[scale=0.8]{MutualRecursion}{
 		rankdir=LR;
+		margin=0;
 		c[label=client,shape=plaintext]
 		a[label=M,shape=Mrecord];
 		b[label=F,shape=Mrecord];
 		c->a;
 		a->b;
 		b->a[tailport=s,headport=s];}
+		}
 	\caption{Naive and mutual recursion}
 	\label{fig:schizoRecursion}
 \end{figure}

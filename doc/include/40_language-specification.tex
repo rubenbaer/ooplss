@@ -169,21 +169,12 @@ combines classes without holding the subsumption property. This gives \ooplss
 the possibility to have a class hierarchy where in Java complete new classes
 would be introduced. This is illustrated in \cref{fig:inheritHierarchy}.
 
-%Inheritance is the second class combination possibility in \ooplss. Class
-%combination via inheritance breaks the subtype hierarchy and does
-%only provide the possibility of code reuse. Different to other
-%combination possibilities binds subclassing \mytype after the
-%combination. This enables the possibility to specialise binary
-%methods. 
-%
-%\Cref{fig:inheritHierarchy}
-
-
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\subfigure[\ooplss hierarchy]{
 		\digraph[scale=0.8]{OoplssHierarchy}{
 			rankdir=BT;
+			margin=0;
 			B -> A;
 			C -> A [style=dashed];
 			D -> C [style=dashed];
@@ -193,6 +184,7 @@ would be introduced. This is illustrated in \cref{fig:inheritHierarchy}.
 		\subfigure[Java hierarchy]{
 		\digraph[scale=0.8]{JavaHierarchy}{
 			rankdir=BT;
+			margin=0;
 			B -> A;
 			C[label="C'"];
 			D[label="D'"];
@@ -202,7 +194,16 @@ would be introduced. This is illustrated in \cref{fig:inheritHierarchy}.
 	\label{fig:inheritHierarchy}
 \end{figure}
 
+
+
+\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
+T
+\end{lstlisting}
+
+\todo{Combination operator}
+
 \section{Introducing \mytype}
+
 
 \section{Type Relations}
 \ooplss knows two different type relations. On one hand there exists
@@ -221,6 +222,7 @@ and \emph{B} exists. Between the other types exists a matching relation; \emph{E
 	\centering
 	\digraph[scale=0.8]{SubclassingSubtyping}{
 		rankdir=BT;
+		margin=0;
 		B -> A;
 		C -> A [style=dashed];
 		D -> C [style=dashed];
@@ -231,7 +233,7 @@ and \emph{B} exists. Between the other types exists a matching relation; \emph{E
 	\label{fig:hierarchy}
 \end{figure}
 
-\section{Gaining Type Safety with \#-Types}
+%\section{Gaining Type Safety with \#-Types}
 
 
 \section{Parametrisation}
