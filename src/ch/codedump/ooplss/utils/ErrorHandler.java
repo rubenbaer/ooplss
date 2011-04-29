@@ -49,4 +49,11 @@ public class ErrorHandler {
 			throw this.ex;	
 		}
 	}
+	
+	/**
+	 * Reset the exception handler 
+	 */
+	public void reset() {
+		this.ex = null;
+	}
 }

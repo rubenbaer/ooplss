@@ -27,6 +27,7 @@ public class VariableDefinition {
 	 * @throws RecognitionException
 	 */
 	private OoplssDef createDef(String code) throws RecognitionException {
+		ErrorHandler.getInstance().reset();
 		ANTLRStringStream input = new ANTLRStringStream(code);
 		
 		OoplssLexer lexer = new OoplssLexer(input);
