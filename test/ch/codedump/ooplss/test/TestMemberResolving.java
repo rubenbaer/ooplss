@@ -18,7 +18,7 @@ import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
-public class MemberResolving {
+public class TestMemberResolving {
 	/**
 	 * Create a parser and all the stuff and return
 	 * the resolving object to walk through
