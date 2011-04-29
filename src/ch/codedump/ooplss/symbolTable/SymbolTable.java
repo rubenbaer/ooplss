@@ -109,6 +109,31 @@ public class SymbolTable {
 		
 		return s;
 	}
+	
+	/**
+	 * Resolve the 'self' keyword
+	 * 
+	 * @param  node
+	 * @return The enclosing class
+	 * @todo   Change this for subclassing i guess
+	 * @throws IllegalMemberAccessException 
+	 */
+	public ClassSymbol resolveSelf(OoplssAST node) throws Exception {
+		Scope scope = node.getScope();
+		
+		do {
+			if (scope instanceof ClassSymbol) {
+				return (ClassSymbol)scope;
+			}
+			scope = scope.getEnclosingScope();
+		}
+		while (scope != null);
+		
+		// this should actually never happen, because it is grammatically
+		// not allowed to use the self keyword outside of a class, so
+		// this should always find a class
+		throw new Exception("No enclosing class found");
+	}
 
 	@Override
 	public String toString() {

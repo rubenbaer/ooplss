@@ -91,7 +91,6 @@ varAccess	returns [Type type]
 				}
 				logger.fine("<Ref>Resolving a simple variable " + $ID.text);
 				Symbol s = this.symtab.resolveVar($ID);
-				s.setDef($ID);
 				$ID.setSymbol(s);
 				type = s.getType();
 			}
@@ -100,8 +99,21 @@ catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
 
+selfAccess	returns [Type type]
+			: 	SELF
+			{
+				logger.fine("<Ref>Accessing the self-type");
+				ClassSymbol s = this.symtab.resolveSelf($SELF);
+				$SELF.setSymbol(s);
+				type = s;
+			}
+			;
+catch[Exception e] {
+	error.reportError(e);
+}		
+
 memberAccess 	returns [Type type]
-			:	^('.' (left=memberAccess|left=varAccess) ^(MEMBERACCESS var=ID))
+			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess) ^(MEMBERACCESS var=ID))
 			{
 				logger.fine("<Ref>Accessing a member " + $ID.text);
 				Type lefttype = $left.type;
@@ -147,7 +159,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 catch [UnknownTypeException e] {
 	error.reportError(e);
 }
-
+ 
 
 
 	/*

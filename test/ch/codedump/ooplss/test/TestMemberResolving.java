@@ -93,6 +93,18 @@ public class TestMemberResolving {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testSelfAccess() throws Exception {
+		String str = 	"class foo{" +
+						"	var x:foo;" +
+						"	def __construct() {" +
+						"		self.x;" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 
