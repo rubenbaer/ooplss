@@ -3,7 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import ch.codedump.ooplss.symbolTable.exceptions.NotAnArrayException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
@@ -59,28 +59,6 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * Resolves an array
-	 * 
-	 * Basically the same as resolving a variable (thus the
-	 * call to resolveVar) but checks if it is of type
-	 * ArraySymbol
-	 * @param node
-	 * @return Symbol The resolved symbol
-	 * @throws UnknownDefinitionException
-	 * @throws NotAnArrayException
-	 */
-	public Symbol resolveArray(OoplssAST node) 
-			throws UnknownDefinitionException, NotAnArrayException {
-		Symbol s = this.resolveVar(node);
-		
-		if (s instanceof ArraySymbol == false) {
-			throw new NotAnArrayException(node);
-		}
-		
-		return s;
-	}
-	
-	/**
 	 * Resolve the type of a variable that is declared
 	 * 
 	 * @param node
@@ -110,6 +88,26 @@ public class SymbolTable {
 		Type t = (Type) this.globals.resolve(type);
 
 		return t;
+	}
+	
+	/**
+	 * Resolve a member symbol
+	 * 
+	 * Resolve a member symbol. A member symbol
+	 * is of the type x.y or x.y().
+	 * @param node
+	 * @return The type
+	 * @throws IllegalMemberAccessException 
+	 */
+	public Symbol resolveMember(OoplssAST node) throws IllegalMemberAccessException {
+		ClassSymbol scope = (ClassSymbol) node.getScope();
+		
+		Symbol s =  scope.resolveMember(node.getText());
+		if (s == null) {
+			throw new IllegalMemberAccessException(node);
+		}
+		
+		return s;
 	}
 
 	@Override
