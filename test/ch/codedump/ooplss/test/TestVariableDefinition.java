@@ -10,16 +10,14 @@ import org.junit.Test;
 import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
-import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
-import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
+import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
-public class TypeResolving {
-
+public class TestVariableDefinition {
 	/**
 	 * Create a parser and all the stuff and return
 	 * the resolving object to walk through
@@ -28,7 +26,7 @@ public class TypeResolving {
 	 * @return
 	 * @throws RecognitionException
 	 */
-	private OoplssRef createRef(String code) throws RecognitionException {
+	private OoplssDef createDef(String code) throws RecognitionException {
 		ErrorHandler.getInstance().reset();
 		ANTLRStringStream input = new ANTLRStringStream(code);
 		
@@ -47,47 +45,70 @@ public class TypeResolving {
 		
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
-		
-		OoplssRef ref = new OoplssRef(nodes, symTab);
-		ref.downup(t);
-		return ref;
+
+		return def;
 	}
 	
-	@Test (expected=UnknownTypeException.class)
-	public void testReturnType() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():notexist {}" +
-						"}";
-		this.createRef(str);
+	@Test (expected=SymbolAlreadyDefinedException.class)
+	public void testDoubleClasses() throws Exception {
+		String str = 	"class foo {}" +
+						"class foo {}";
+		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=UnknownTypeException.class)
-	public void testVarType() throws Exception {
+	@Test (expected=SymbolAlreadyDefinedException.class)
+	public void testDoubleVariables() throws Exception {
 		String str = 	"class foo {" +
-						"	var x:notexist;" +
+						"	var x:foo;" +
+						"	var x:foo;" +
 						"}";
-		this.createRef(str);
+		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=UnknownTypeException.class)
-	public void testLocalVarType() throws Exception {
-		String str =	"class foo {" +
-						"	def __construct() {" +
-						"		var x:notexist;" +
+	@Test (expected=SymbolAlreadyDefinedException.class)
+	public void testDoubleMethods() throws Exception {
+		String str = 	"class foo {" +
+						"	def blah():foo {}" +
+						"	def blah():foo {}" +
+						"}";
+		this.createDef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=SymbolAlreadyDefinedException.class)
+	public void testMethodAndVars() throws Exception {
+		String str = 	"class foo {" +
+						"	def blah():foo {}" +
+						"	var blah:foo;" +
+						"}";
+		this.createDef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testNestedSymbols() throws Exception {
+		String str = 	"class foo {" +
+						"	def foo():foo {" +
+						"		var foo:foo;" +
 						"	}" +
 						"}";
-		this.createRef(str);
-		ErrorHandler.getInstance().throwException();
-	}
-	
-	@Test (expected=UnknownTypeException.class)
-	public void testSubtypeArgType()throws Exception {
-		String str = 	"class foo {" +
-						"	def bar(x:notexist):foo {}" +
-						"}";
-		this.createRef(str);
-		ErrorHandler.getInstance().throwException();
+		this.createDef(str);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
