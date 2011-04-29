@@ -272,9 +272,9 @@ derived object. This makes recursion different between these two models.
 	\digraph[scale=0.7]{NaiveRecursion}{
 		rankdir=LR;
 		margin=0;
-		c[label=client,shape=plaintext]
-		a[label=M,shape=Mrecord];
-		b[label=F,shape=Mrecord];
+		c[fontname=LMRoman10,label=client,shape=plaintext]
+		a[fontname=LMRoman10,label=M,shape=Mrecord];
+		b[fontname=LMRoman10,label=F,shape=Mrecord];
 		c->a;
 		a->b;
 		b->b[tailport=e,headport=s];}
@@ -283,9 +283,9 @@ derived object. This makes recursion different between these two models.
 	\digraph[scale=0.7]{MutualRecursion}{
 		rankdir=LR;
 		margin=0;
-		c[label=client,shape=plaintext]
-		a[label=M,shape=Mrecord];
-		b[label=F,shape=Mrecord];
+		c[fontname=LMRoman10,label=client,shape=plaintext]
+		a[fontname=LMRoman10,label=M,shape=Mrecord];
+		b[fontname=LMRoman10,label=F,shape=Mrecord];
 		c->a;
 		a->b;
 		b->a[tailport=s,headport=s];}
