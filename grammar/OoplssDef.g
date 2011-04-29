@@ -8,6 +8,7 @@ filter=true;
 SymbolTable symtab;
 Scope currentScope;
 static Logger logger = Logger.getLogger(OoplssRef.class.getName());
+ErrorHandler error = ErrorHandler.getInstance();
 public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
@@ -20,6 +21,7 @@ package ch.codedump.ooplss.antlr;
 import ch.codedump.ooplss.symbolTable.*;
 import ch.codedump.ooplss.symbolTable.exceptions.*;
 import ch.codedump.ooplss.tree.*;
+import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
 }
@@ -29,8 +31,9 @@ topdown		:	enterMethod
 			|	varDef
 			|	enterClass	
 			|	simpleVarAccess
-			|	arrayAccess
-			|	arrayDef
+			|	selfVarAccess
+			/*|	arrayAccess*/
+			/*|	arrayDef*/
 			|	argument
 			|	//import
 			;
@@ -68,7 +71,7 @@ enterClass	:	^(CLASSDEF classname=ID
 			}	
 			;
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 	
 exitClass	:	CLASSDEF
@@ -90,7 +93,7 @@ enterMethod
 			}
 			;
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 	
 exitMethod	:	METHODDEF
@@ -109,7 +112,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				this.currentScope.define(vs);
 			};
 catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 enterBlock	:	BLOCK
@@ -139,9 +142,9 @@ varDef		:	^(VARDEF type=ID name=ID)
 
 			};
 catch [SymbolAlreadyDefinedException e] {
-  logger.info(e.toString());
+  error.reportError(e);
 }
-
+/*
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)  
 			{
 				logger.fine("<Def>Defining an array " + $name.text + 
@@ -155,6 +158,7 @@ arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 catch [SymbolAlreadyDefinedException e] {
 	logger.info(e.toString());
 }
+*/
 
 simpleVarAccess
 			:	^(VARACCESS ID)
@@ -164,11 +168,20 @@ simpleVarAccess
 				$ID.setScope(this.currentScope);
 			}
 			;
+			
+selfVarAccess
+			:	^('.' SELF .)
+			{
+				logger.fine("<Def>Recording scope of a self reference");
+				$SELF.setScope(this.currentScope);
+			}
+			;
 
+/*
 arrayAccess	:	^(ARRAYACCESS ID .)
 			{
 				logger.fine("<Def>Recording scope of an array");
 				$ID.setScope(this.currentScope);
 			}
 			;
-
+*/

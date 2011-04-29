@@ -8,6 +8,7 @@ filter=true;
 @members {
 SymbolTable symtab;
 static Logger logger = Logger.getLogger(OoplssRef.class.getName());
+ErrorHandler error = ErrorHandler.getInstance();
 public OoplssRef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
@@ -20,15 +21,16 @@ package ch.codedump.ooplss.antlr;
 import ch.codedump.ooplss.symbolTable.*;
 import ch.codedump.ooplss.symbolTable.exceptions.*;
 import ch.codedump.ooplss.tree.*;
+import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
 }
 
 topdown		:	enterMethod
 			|	varDef
-			|	arrayDef
+			/*|	arrayDef*/
 			|	simpleVarAccess
-			|	arrayAccess
+			/*|	arrayAccess*/
 			|	argument
 			|	enterConstructor
 			;
@@ -42,7 +44,7 @@ enterMethod
 			}
 			;
 catch [UnknownTypeException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }			
 		
 		
@@ -62,11 +64,11 @@ varDef		:	^(VARDEF type=ID name=ID)
 				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
-  logger.info(e.toString());
+  error.reportError(e);
 }
 
 
-
+/*
 arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 			{
 				logger.fine("<Ref>Resolving type of array " + $name.text);
@@ -76,6 +78,7 @@ arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
 catch [UnknownTypeException e] {
   logger.info(e.toString());
 }
+*/
 
 simpleVarAccess
 			:	^(VARACCESS ID)
@@ -86,11 +89,11 @@ simpleVarAccess
 			}
 			;
 catch[UnknownDefinitionException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 
-	
+	/*
 arrayAccess
 			:	^(ARRAYACCESS ID .)
 			{
@@ -105,6 +108,7 @@ catch[UnknownDefinitionException e] {
 catch[NotAnArrayException e] {
 	logger.info(e.toString());
 }
+*/
 
 
 
@@ -117,7 +121,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			}
 			;
 catch [UnknownTypeException e] {
-	logger.info(e.toString());
+	error.reportError(e);
 }
 
 

@@ -6,7 +6,7 @@ options {
 }
 tokens {
 	VARDEF;
-	ARRAYDEF;
+	/*ARRAYDEF;*/
 	CLASSDEF;
 	BLOCK;
 	CLASSBODY;
@@ -15,7 +15,8 @@ tokens {
 	METHODDEF;
 	RETURNTYPE;
 	VARACCESS;
-	ARRAYACCESS;
+	MEMBERACCESS;
+	/*ARRAYACCESS;*/
 	METHODCALL;
 	METHODARGS;
 	EXPR;
@@ -85,7 +86,7 @@ classDec	:	'class' classname=ID
 			;
 	
 		
-varDef		:	normalVarDef | arrayDef
+varDef		:	normalVarDef /*| arrayDef*/
 			;
 
 normalVarDef	
@@ -93,7 +94,7 @@ normalVarDef
 				-> ^(VARDEF $type $name)
 			;
 
-arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);
+/*arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);*/
 		
 methodDef	:	'def' (
 					(name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
@@ -163,20 +164,20 @@ backtrack=true;
 			:	(
 						ID 
 							-> ^(VARACCESS ID)
-					|	ID '[' statement ']' 
+					/*|	ID '[' statement ']' 
 							-> ^(ARRAYACCESS ID statement)
 					|	'self' '.' ID '[' statement ']' 
-							-> ^('.' SELF ^(ARRAYACCESS ID statement))
+							-> ^('.' SELF ^(ARRAYACCESS ID statement))*/
 					|	'self' '.' ID 
-							-> ^('.' SELF ^(VARACCESS ID))
+							-> ^('.' SELF ^(MEMBERACCESS ID))
 				)
 				( 
 						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
 								-> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
-					|	'.' id=ID '[' statement ']'
-								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))
+					/*|	'.' id=ID '[' statement ']'
+								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))*/
 					|	'.' id=ID
-								-> ^('.' $varAccess ^(VARACCESS $id))
+								-> ^('.' $varAccess ^(MEMBERACCESS $id))
 				)*
 			;
 
@@ -205,7 +206,7 @@ atom		:	literal
 			|	'('! expression ')'! 
 			;
 
-arrayAccess	:	'[' statement ']';
+/*arrayAccess	:	'[' statement ']';*/
 
 
 

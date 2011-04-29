@@ -25,12 +25,12 @@ assignmentEntry:
 atom:
 "abc" OK
 "(dings + bums)" OK
-"blah[foo]" OK
-"blah[3]" OK
+//"blah[foo]" OK
+//"blah[3]" OK
 "x.y()" OK
 "self.var" FAIL // fucking keyword
 "self.blubber" OK
-"foo[]" FAIL
+//"foo[]" FAIL
 "true" OK
 "false" OK
 
