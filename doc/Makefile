@@ -43,7 +43,7 @@ once:
 
 # cleans index, logs, temporary files etc. 
 clean:
-	rm -f *.{$(CLEAN_EXT)} include/*.{$(CLEAN_EXT)}
+	rm -f *{$(CLEAN_EXT)} include/*{$(CLEAN_EXT)}
 
 # also removes output documents
 distclean: clean
