@@ -30,7 +30,7 @@ topdown		:	enterMethod
 			|	enterBlock
 			|	varDef
 			|	enterClass	
-			|	simpleVarAccess
+			|	varAccess
 			|	selfVarAccess
 			/*|	arrayAccess*/
 			/*|	arrayDef*/
@@ -160,8 +160,7 @@ catch [SymbolAlreadyDefinedException e] {
 }
 */
 
-simpleVarAccess
-			:	^(VARACCESS ID)
+varAccess	:	^(VARACCESS ID)
 			{
 				// record the scope in the variable
 				logger.fine("<Def>Recording scope of a variable");
@@ -176,6 +175,15 @@ selfVarAccess
 				$SELF.setScope(this.currentScope);
 			}
 			;
+/*			
+memberAccess
+			:	^('.' left=(varAccess|memberAccess) ^(MEMBERACCESS ID))
+			{
+				logger.fine("<Def>Recording scope of a member");
+				$ID.setScope($left.getSymbol());
+			}
+			;
+*/
 
 /*
 arrayAccess	:	^(ARRAYACCESS ID .)

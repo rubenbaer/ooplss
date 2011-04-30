@@ -28,9 +28,11 @@ import java.util.logging.Logger;
 
 topdown		:	enterMethod
 			|	varDef
-			/*|	arrayDef*/
-			|	simpleVarAccess
-			/*|	arrayAccess*/
+			|
+				(	varAccess
+				|	memberAccess
+				)
+
 			|	argument
 			|	enterConstructor
 			;
@@ -59,7 +61,7 @@ enterConstructor
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
-				logger.fine("<Ref>Resolving type of variable " + $name.text);
+				logger.fine("<Ref>Resolving type of variable declaration " + $name.text);
 				Type t = this.symtab.resolveType($name, $type);
 				$name.getSymbol().setType(t);
 			};
@@ -80,18 +82,40 @@ catch [UnknownTypeException e] {
 }
 */
 
-simpleVarAccess
+varAccess	returns [Type type]
 			:	^(VARACCESS ID)
 			{
+				if ($ID.getSymbol() != null) {
+					// we have already visited this node
+					return $ID.getSymbol().getType();
+				}
 				logger.fine("<Ref>Resolving a simple variable " + $ID.text);
 				Symbol s = this.symtab.resolveVar($ID);
+				s.setDef($ID);
 				$ID.setSymbol(s);
+				type = s.getType();
 			}
 			;
 catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
 
+memberAccess 	returns [Type type]
+			:	^('.' (left=memberAccess|left=varAccess) ^(MEMBERACCESS var=ID))
+			{
+				logger.fine("<Ref>Accessing a member " + $ID.text);
+				Type lefttype = $left.type;
+				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
+				$var.setScope((ClassSymbol)lefttype);
+				Symbol s = this.symtab.resolveMember($var);
+				$var.setSymbol(s);
+				s.setDef($var);
+				type = s.getType();
+			}
+			;
+catch[IllegalMemberAccessException e] {
+	error.reportError(e);
+}			
 
 	/*
 arrayAccess
