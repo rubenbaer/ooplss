@@ -41,9 +41,7 @@ type system is implemented.
 \paragraph{No Information Hiding}
 Since nominal subtyping is used, information hiding has not that impact
 compared to structural subtyping since all fields are automatically
-available. This helps to keep the language as small.
-% estimated pages: 2
-% summary of language design
+available. This helps to keep the language small.
 
 \chapter{Syntax}
 
@@ -52,26 +50,61 @@ The abstract syntax gives a short overview of \ooplss. This syntax is
 not normalised and does not corresponds with the syntax used in the
 implementation.
 
-% estimated pages: 10
-%\begin{listing}
-%	\begin{tabular}[H]{llrll}
-%		\emph{Class}					& C	& $\longrightarrow$ 		& A[B] Subclass Of D[T], E[U] Subtype Of F[V] \{T a; T M;\} \\
-%		\emph{Types}					& T & $\longrightarrow$ 		& A \\
-%													&   & 									 | & A \match B[A] \\
-%		\emph{Method}					& M	& $\longrightarrow$ 		& T m[S](U a, V b) \{e;\} \\
-%		\emph{Constructor}		& K	& $\longrightarrow$ 		& c(U a, V b) \{A(a); e;\} \\
-%		\emph{Expression}			& e & $\longrightarrow$ 		& x; \\
-%													&   & 									 | & x = y; \\
-%													&   & 									 | & e.f; \\
-%													&   & 									 | & e.m(p); \\
-%													&   & 									 | & new C(p); \\
-%	\end{tabular}
-%\caption{Abstract syntax of \ooplss}
-%\label{lst:abstractSyntax}
-%\end{listing}
+\begin{listing}
+	\begin{tabular}[H]{lrll}
+		PROG & \lra & CLASS+ \\
+		CLASSES & \lra & CLASS+ \\
+		CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINATORS \\
+		& & ~~~~`\{' VAR* METHOD* CONSTRUCTOR* `\}' \\
+		CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
+		CLASSPARAM & \lra & TYPE \\
+		 & | & TYPEVAR \match TYPE \\
+		COMBINATORS & \lra & SUBTYPEOF? SUBCLASSOF? \\
+		SUBTYPEOF & \lra & `subtypeOf' TYPE \\
+		SUBCLASSOF & \lra & `subclassOf' TYPE \\
+		TYPE & \lra & \\
+		VAR & \lra & \\
+		METHOD & \lra & \\
+		CONSTRUCTOR & \lra & \\
+%
+%		\emph{Program} & PROG & \lra & CLASS+ \\
+%		\emph{Classes} & CLASSES & \lra & CLASS+ \\
+%		\emph{Class} & CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINATORS \\
+%		& & & `\{' VAR* METHOD* CONSTRUCTOR* `\}' \\
+%		\emph{Class parameters} & CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
+%		\emph{Class parameter} & CLASSPARAM & \lra & TYPE \\
+%		& & | & TYPEVAR \match TYPE \\
+%		\emph{Class combinators} & COMBINATORS & \lra & SUBTYPEOF? SUBCLASSOF? \\
+%		\emph{Subtype combinator} & SUBTYPEOF & \lra & `subtypeOf' TYPE \\
+%		\emph{Subclass combinator} & SUBCLASSOF & \lra & `subclassOf' TYPE \\
+%		\emph{Type} & TYPE & \lra & \\
+%		\emph{Variable} & VAR & \lra & \\
+%		\emph{Method} & METHOD & \lra & \\
+%		\emph{Constrcutor} & CONSTRUCTOR & \lra & \\
+%
+
+
+%		\emph{Class}					& C	& $\lra $	& A[T] E[V] subtypeOf F[W], subclassOf D[U] {, D'[U']}* \{T a; T M;\} \\
+%		\emph{Types}					& T & $\lra $	& A \\
+%													&   & 		 | & A \match B[A] \\
+%		\emph{Method}					& M	& $\lra $	& T m[S](U a, V b) \{e;\} \\
+%		\emph{Constructor}		& K	& $\lra $	& c(U a, V b) \{A(a); e;\} \\
+%		\emph{Expression}			& e & $\lra $	& x; \\
+%													&   & 		 | & x = y; \\
+%													&   & 		 | & e.f; \\
+%													&   & 		 | & e.m(p); \\
+%													&   & 		 | & new C(p); \\
+	\end{tabular}
+	\caption{Abstract syntax of \ooplss}
+	\label{lst:abstractSyntax}
+\end{listing}
 
 \section{Names and Identifiers}
-Names in \ooplss identify variables, methods, classes and types. The definition of names can have different origins and depends on the current context of consideration. Currently 
+Names in \ooplss identify variables, methods, classes and types. The
+definition of names can have different origins and depends on the current
+context of consideration. Currently
+
+\todo{Method overloading!}
 
 \section{Scopes}
 
@@ -270,11 +303,12 @@ public class B {
 \todo{Combination operator}
 
 \section{Introducing \mytype}
-With subclassing an other sort of class combination is introduced. By observing
-the listings above one may see something rather strange. While class \emph{A}
-has a recursive object type it is not the case for class \emph{B}. Since these
-two classes are completely decoupled but the type of the classes' type is not changed
-from \emph{A} to \emph{B} the expression in listing \ref{lst:breakThis} can not be typed.
+With subclassing an other sort of class combination is introduced. By
+observing the listings above one may see something rather strange. While
+class \emph{A} has a recursive object type it is not the case for
+class \emph{B}. Since these two classes are completely decoupled but
+the type of the classes' type is not changed from \emph{A} to \emph{B}
+the expression in listing \ref{lst:breakThis} can not be typed.
 
 \begin{lstlisting}[language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:subclassOf]
 def m(o : A) Void {
@@ -284,14 +318,15 @@ def m(o : A) Void {
 }
 \end{lstlisting}
 
-This code is illegal because \emph{self} is of type \emph{B} and subclassing does not 
-provide subsumption, i.e., \emph{B} $\nless$: \emph{A}. To overcome with this problem
-a special type variable is introduced which is called \mytype. Wherever a \mytype is used
-it will get bound with the type that is generated.
+This code is illegal because \emph{self} is of type \emph{B} and
+subclassing does not provide subsumption, i.e., \emph{B} $\nless$:
+\emph{A}. To overcome with this problem a special type variable is
+introduced which is called \mytype. Wherever a \mytype is used it will
+get bound with the type that is generated.
 
 \begin{figure}[h]
 	\centering
-	\digraph[scale=0.8]{SubclassingSubtyping}{
+	\digraph[scale=0.8]{FixedSubclassingSubtyping}{
 		rankdir=BT;
 		margin=0;
 		A[fontname=LMRoman10];
@@ -309,6 +344,47 @@ it will get bound with the type that is generated.
 	\label{fig:hierarchy}
 \end{figure}
 
+\section{Resolving Extension Ambiguity}
+\label{sec:resolveAmbiguity}
+Lets consider the extension and inheritance hierarchy in \cref{fig:hierarchy}
+again. A special remark is given in the left side of this graph. It is clear
+that \emph{C} inherits \emph{B}. But what about the extension of \emph{A} 
+with \emph{B}? As seen before, inheritance breaks the hierarchy and does only
+provide a possibility of class combination. This rises the question how the 
+relation between \emph{A} and \emph{B} is considered. If the self type in 
+\emph{A} would be bound before the record combination to \emph{E} would be
+performed unsafe type constructs could be possible since a method expecting 
+type \emph{A} would not make any sense in class \emph{E}. From this point of 
+consideration the extension mechanism has two faces. In a pure subtyping 
+hierarchy it is subtyping and in a subclassing hierarchy the extension
+mechanism is inheritance as well.
+
+Knowing this fact generates the following hierarchy in \cref{fig:fixedHierarchy}
+for the type \emph{E}. This fact makes it impossible to use a explicit recursive
+self reference for classes since they are not subclass compatible anymore, i.e.,
+the \mytype is used wherever possible. 
+
+\begin{figure}[h]
+	\centering
+	\digraph[scale=0.8]{SubclassingSubtyping}{
+		rankdir=BT;
+		margin=0;
+		A[fontname=LMRoman10];
+		B[fontname=LMRoman10];
+		C[fontname=LMRoman10];
+		D[fontname=LMRoman10];
+		E[fontname=LMRoman10];
+		B -> A [style=dashed];
+		C -> A [style=dashed];
+		D -> C [style=dashed];
+		E -> D [style=dashed];
+		E -> B [style=dashed];
+		}
+	\caption{Subclassing hierarchy for class \emph{E}}
+	\label{fig:fixedHierarchy}
+\end{figure}
+
+
 \section{Type Relations}
 %\ooplss knows two different type relations. On one hand there exists
 %subtyping which is well known in typed object-oriented programming
@@ -319,6 +395,16 @@ it will get bound with the type that is generated.
 %a type hierarchy in \ooplss. Only one subtype relation between type \emph{A}
 %and \emph{B} exists. Between the other types exists a matching relation; \emph{E}
 %\match \emph{D} \match \emph{C} \match \emph{A} and \emph{E} \match \emph{B}.
+%
+
+From this and \cref{sec:resolveAmbiguity} follows directly that these relations
+in \cref{fig:fixedHierarchy} are true:
+\begin{align*}
+B <: A \\
+B \nless\!\#~A \\
+E <\!\!\#~A \\
+E <\!\!\#~B \\
+\end{align*}
 
 \todo{Some explanations}
 
