@@ -61,7 +61,7 @@ implementation.\\
 		 & | & TYPEVAR \match TYPE \\
 		COMBINATORS & \lra & SUBTYPEOF? SUBCLASSOF? \\
 		SUBTYPEOF & \lra & `subtypeOf' TYPE \\
-		SUBCLASSOF & \lra & `subclassOf' TYPE \\
+		SUBCLASSOF & \lra & `subclassOf' TYPE $\langle$`,' TYPE $\rangle$* \\
 		TYPE & \lra & TYPENAME \\
 		& | & TYPEVAR \\
 		TYPENAME & \lra & ID \\

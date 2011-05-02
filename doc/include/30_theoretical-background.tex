@@ -115,47 +115,47 @@ understand this have a look at \cref{fig:implementationConflict}
 \cite{simons_theory_2003-4}:
 
 \begin{figure}[H]
-\center
-\begin{emp}[classdiag](20, 20)
-Class.Shape("Shapes")()("+move(x, y):Integer", "+drawOn(c: Canvas)");
-Class.Ellipse("Ellipse")("f1, f2: Point", "r, s: Integer")();
-Class.Rectangle("Rectangle")("o: Point", "w, h: Integer")();
-Class.Circle("Circle")("{f1 = f2, r = s}")();
-Class.Square("Square")("{w = h}")();
+	\centering
+	\begin{emp}[classdiag](20, 20)
+		Class.Shape("Shapes")()("+move(x, y):Integer", "+drawOn(c: Canvas)");
+		Class.Ellipse("Ellipse")("f1, f2: Point", "r, s: Integer")();
+		Class.Rectangle("Rectangle")("o: Point", "w, h: Integer")();
+		Class.Circle("Circle")("{f1 = f2, r = s}")();
+		Class.Square("Square")("{w = h}")();
 
-Ellipse.ne = Shape.s + (-10, -20);
-Rectangle.nw = Shape.s + (10, -20);
-Circle.n = Ellipse.s + (0, -20);
-Square.n = Rectangle.s + (0, -20);
+		Ellipse.ne = Shape.s + (-10, -20);
+		Rectangle.nw = Shape.s + (10, -20);
+		Circle.n = Ellipse.s + (0, -20);
+		Square.n = Rectangle.s + (0, -20);
 
-drawObjects(Shape, Ellipse, Rectangle, Circle, Square);
-link(inheritance)(Ellipse.n -- Shape.s);
-link(inheritance)(Rectangle.n -- Shape.s);
-link(inheritance)(Circle.n -- Ellipse.s);
-link(inheritance)(Square.n -- Rectangle.s);
+		drawObjects(Shape, Ellipse, Rectangle, Circle, Square);
+		link(inheritance)(Ellipse.n -- Shape.s);
+		link(inheritance)(Rectangle.n -- Shape.s);
+		link(inheritance)(Circle.n -- Ellipse.s);
+		link(inheritance)(Square.n -- Rectangle.s);
 
-Class.Point("Point")("x, y: Integer")();
+		Class.Point("Point")("x, y: Integer")();
 
-Point.w = Shape.e + (100, 5);
-Class.CircleR("Circle")("r: Integer")();
-Class.SquareR("Square")("w: Integer")();
-Class.EllipseR("Ellipse")("p, q: Integer", "s: Integer")();
-Class.RectangleR("Rectangle")("h: Integer")();
+		Point.w = Shape.e + (100, 5);
+		Class.CircleR("Circle")("r: Integer")();
+		Class.SquareR("Square")("w: Integer")();
+		Class.EllipseR("Ellipse")("p, q: Integer", "s: Integer")();
+		Class.RectangleR("Rectangle")("h: Integer")();
 
-CircleR.ne = Point.s + (-10, -20);
-EllipseR.n = CircleR.s + (0, -20);
-SquareR.nw = Point.s + (10, -20);
-RectangleR.n = SquareR.s + (0, -20);
+		CircleR.ne = Point.s + (-10, -20);
+		EllipseR.n = CircleR.s + (0, -20);
+		SquareR.nw = Point.s + (10, -20);
+		RectangleR.n = SquareR.s + (0, -20);
 
-drawObjects(Point, CircleR, SquareR, EllipseR, RectangleR);
-link(inheritance)(CircleR.n -- Point.s);
-link(inheritance)(EllipseR.n -- CircleR.s);
-link(inheritance)(SquareR.n -- Point.s);
-link(inheritance)(RectangleR.n -- SquareR.s);
+		drawObjects(Point, CircleR, SquareR, EllipseR, RectangleR);
+		link(inheritance)(CircleR.n -- Point.s);
+		link(inheritance)(EllipseR.n -- CircleR.s);
+		link(inheritance)(SquareR.n -- Point.s);
+		link(inheritance)(RectangleR.n -- SquareR.s);
 
-\end{emp}
-\caption{Sharing types vs. the implementation}
-\label{fig:implementationConflict}
+	\end{emp}
+	\caption{Sharing types vs. the implementation}
+	\label{fig:implementationConflict}
 \end{figure}
 
 The left hierarchy expresses the conceptual family: A \emph{Circle}
@@ -177,19 +177,19 @@ general or same argument type, but not a more specific one:
 \todo{Redundancy?}
 
 \begin{figure}[H]
-\center
-\begin{emp}[classdiag](20, 20)
+	\centering
+	\begin{emp}[classdiag](20, 20)
 
-Class.A("A")()("+method(arg: T')");
-Class.B("B")()("+method(arg: T)");
+		Class.A("A")()("+method(arg: T')");
+		Class.B("B")()("+method(arg: T)");
 
-B.e = A.w + (-20, 0);
-drawObjects(A, B);
-link(inheritance)(B.e -- A.w);
+		B.e = A.w + (-20, 0);
+		drawObjects(A, B);
+		link(inheritance)(B.e -- A.w);
 
-\end{emp}
-\caption{Contravariance: the argument type in \emph{B} is more specific than the one in \emph{A}}
-\label{fig:contravariance}
+	\end{emp}
+	\caption{Contravariance: the argument type in \emph{B} is more specific than the one in \emph{A}}
+	\label{fig:contravariance}
 \end{figure}
 
 This restriction makes perfectly sense for the type safety in
@@ -208,37 +208,34 @@ in subtyping this cannot be achieved by overriding the method with a
 more specific argument type.
 
 \begin{figure}[H]
-\center
-\begin{emp}[classdiag](20, 20)
+	\centering
+	\begin{emp}[classdiag](20, 20)
 
-Class.Animal("Animal")()("mate(Animal): Animal");
-Class.Dog("Dog")()("mate(Dog): Dog");
-Class.Cat("Cat")()("mate(Cat): Cat");
+		Class.Animal("Animal")()("mate(Animal): Animal");
+		Class.Dog("Dog")()("mate(Dog): Dog");
+		Class.Cat("Cat")()("mate(Cat): Cat");
 
-Dog.ne = Animal.s + (-10, -25);
-Cat.nw = Animal.s + (10, -25);
+		Dog.ne = Animal.s + (-10, -25);
+		Cat.nw = Animal.s + (10, -25);
 
-drawObjects(Animal, Dog, Cat);
-link(inheritance)(Dog.n -- Animal.s);
-link(inheritance)(Cat.n -- Animal.s);
+		drawObjects(Animal, Dog, Cat);
+		link(inheritance)(Dog.n -- Animal.s);
+		link(inheritance)(Cat.n -- Animal.s);
 
-\end{emp}
-\caption{The arguments are more specific, which is not allowed because of the contravariance rule}
-\label{fig:animalContravariance}
+	\end{emp}
+	\caption{The arguments are more specific, which is not allowed because of the contravariance rule}
+	\label{fig:animalContravariance}
 \end{figure}
 
 A similar problem arises in the method \emph{Object.equals: Object
-$\rightarrow$ Boolean}\footnote{For those not familiar with this
-notation: Object.equals: Object $\rightarrow$ Boolean means that
-the equals method/function takes an Object and returns a Boolean\todo{Also introduced before}}
-in Java. The class \emph{Object} has an implementation of the equals
-method that takes an argument of the type \emph{Object}. All objects
-automatically are of the type \emph{Object} in Java.	Because of the
-constraint of contravariance, it is unsound to override this method
-with a more specific argument type which would be reasonable since it does
-not make any sense to compare two objects of different types. Instead,
-if a programmer wants to implement a new version of this method, the
-use of type casts is inevitable.
+$\rightarrow$ Boolean} in Java. The class \emph{Object} has an
+implementation of the equals method that takes an argument of the type
+\emph{Object}. All objects automatically are of the type \emph{Object}
+in Java.    Because of the constraint of contravariance, it is unsound
+to override this method with a more specific argument type which would
+be reasonable since it does not make any sense to compare two objects
+of different types. Instead, if a programmer wants to implement a new
+version of this method, the use of type casts is inevitable.
 
 To get rid of this, a language would need to specialise parameters
 covariant. This is possible in Eiffel but this makes the type system
@@ -254,8 +251,8 @@ the term \emph{self} will be used to refer to this variable. \\
 
 There are two main cases when recursion occurs:
 \begin{enumerate}
-\item When a method accesses methods or properties of the self object
-\item When a method has arguments or return values of the same type as the object
+	\item When a method accesses methods or properties of the self object
+	\item When a method has arguments or return values of the same type as the object
 \end{enumerate}
 
 The first case is problematic when objects are derived: it is not quite
@@ -352,8 +349,8 @@ subclassing does not create subtypes, the restriction of contravariance,
 described in \cref{sec:recursiveClosure}, is of no relevancy
 anymore. And as already mentioned, the fixation of the self references
 and types is done after the inheritance, so there will be no schizophrenic
-self-references as described in the first case\todo{are they cases clear
-structured?} in \cref{sec:schizoReferences}. \\
+self-references as described in the first case in \cref{sec:schizoReferences}.  
+\todo{are they cases clear structured?}\\
 
 In subclassing however, the question rises: how should return values and
 arguments be typed (see the second case in \cref{sec:schizoReferences})
@@ -466,10 +463,10 @@ the semantic does not
 
 \section{Matching}
 \begin{quotation}
-`the same as subtyping in the absence of the \emph{MyType}
-construct, but differs in the presence of \emph{MyType}, because
-\emph{MyType} implicitly has different meanings in different types.' --
-\cite{bruce_foundations_2002}
+	`the same as subtyping in the absence of the \emph{MyType}
+	construct, but differs in the presence of \emph{MyType}, because
+	\emph{MyType} implicitly has different meanings in different types.' --
+	\cite{bruce_foundations_2002}
 \end{quotation}
 
 An other solution proposed by Bruce \cite{bruce_binary_1995} is
