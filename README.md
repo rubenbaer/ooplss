@@ -18,11 +18,11 @@ Directory Structure
 
     ./articles  -- A bunch of articles used for the project 2 and the thesis
               /tstp    -- Articles used in the project 2
-                    (Type Systems: Theory and Practice)
+                          (Type Systems: Theory and Practice)
               /beo1    -- Articles received from beo1 for the project 2
               /thesis  -- Some new articles for the thesis
               /simons  -- A serie of articles written by Anthony J.H. Simons
-                    for the Journal of Object Technology
+                          for the Journal of Object Technology
     ./doc       -- Documentation
     ./minutes   -- Minutes from our meetings
     ./src       -- Source code
@@ -33,18 +33,21 @@ Directory Structure
 
 A Very Short Introduction to Git
 --------------------------------
-0. Create a local clone of the repository (Do only once)
+
+1. Create a local clone of the repository (Do only once)
 
     $ git clone git://github.com/rubenbaer/ooplss.git
 
-1. Update project directory (ooplss/)
+2. Update project directory (ooplss/)
 
     $ git pull
 
 
 Installation
 ------------
+
 ### Pre-Required Ubuntu packages
+
 * git*
 * texlive-*
 * graphviz
