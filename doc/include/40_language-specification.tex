@@ -411,62 +411,56 @@ the \mytype is used wherever possible.
 	\label{fig:fixedHierarchy}
 \end{figure}
 
-
 \section{Type Relations}
-%\ooplss knows two different type relations. On one hand there exists
-%subtyping which is well known in typed object-oriented programming
-%languages denoted with <: respectively as a straight line in diagrams. On
-%the other hand there is a matching relation which is used to restrict type
-%parameters to a given protocol and is denoted with \match respectively
-%with a dashed line in diagrams. \Cref{fig:hierarchy} shows an example of
-%a type hierarchy in \ooplss. Only one subtype relation between type \emph{A}
+\ooplss knows two different type relations. On one hand there exists
+subtyping which is well known in typed object-oriented programming
+languages denoted with <: respectively as a straight line in diagrams. On
+the other hand there is a matching relation which is used to restrict type
+parameters to a given protocol and is denoted with \match respectively
+with a dashed line in diagrams. \Cref{fig:hierarchy} shows an example
+of a type hierarchy in \ooplss.
+%Only one subtype relation between type \emph{A}
 %and \emph{B} exists. Between the other types exists a matching relation; \emph{E}
 %\match \emph{D} \match \emph{C} \match \emph{A} and \emph{E} \match \emph{B}.
-%
 
-From this and \cref{sec:resolveAmbiguity} follows directly that these relations
-in \cref{fig:fixedHierarchy} are true:
+From this and \cref{sec:resolveAmbiguity} follows directly that these
+relations in \cref{fig:fixedHierarchy} are true:
 \begin{align*}
 B <: A \\
-B \nless\!\#~A \\
+B \nless\!\!\#~A \\
 E <\!\!\#~A \\
 E <\!\!\#~B \\
 \end{align*}
 
-\todo{Some explanations}
+Since \ooplss uses a nominal type system and not a structural one,
+matching does only apply on type within the same hierarchy as under
+consideration even if other object types would match types of other
+hierarchies.
 
+\section{Class Parametrisation}
+So far the introduction of a \mytype and proper inheritance gives not a
+enormous advantage compared to other languages only that some work can
+be reduced by reusing existing code in new classes. At a first glance
+all this looks like not very useful since even generics like that from
+Java does not fit into this model very well. Further more the matching
+relation is not used by method parameters and does not appear yet. As
+seen in \cref{ctr:makingSubclassingPractical} matching is used in object
+parametrisation and does replaces generics respectively is the foundation
+of Java's or \cs's generics.
 
-%\section{Gaining Type Safety with \#-Types}
+These generics does only allow f-bounds with subtypes but not with
+subclasses like in \ooplss. 
 
+\subsection{No \#-Types in \ooplss}
+\cite{bruce_foundations_2002}
 
-\section{Parametrisation}
+\section{Class Combinators}
+
 %Class definition
 %\section{Constructors}
 %\section{Linearisation}
-%
-%\chapter{Expression}
-%
-%\chapter{Types}
-%\ooplss knowns three sorts of types. First of all are
-%
-%\begin{listing}
-%	\begin{tabular}[H]{lrl}
-%		Types & \lra & Type \{, Type\}* \\
-%		Type & \lra & FunctionArgumentTypes \ra Type\\
-%				& | & SimpleType \\
-%		FunctionArgumentTypes & \lra & `(' SimpleType \{, SimpleType \} `)' \ra SimpleType \\
-%		SimpleType & \lra & SimpleType TypeArguments \\
-%								& | & TypeIdentifier \\
-%								& | & BoundedType \\
-%								& | & \mytype \\
-%		TypeArguments &\lra & `[' SimpleType \{, SimpleType \}* `]' \\
-%		BoundedType & \lra & SimpleType `\match' SimpleType \\
-%	\end{tabular}
-%\end{listing}
-%
-%% estimated pages: 14
-%\section{Type Relations}
-%\section{Basic Types}
+\section{Basic Types}
+Some build in types within the basic framework\ldots
 
 %\chapter{Syntax and Type Inference}
 % estimated pages:	5
