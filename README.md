@@ -21,10 +21,10 @@ Directory Structure
                           (Type Systems: Theory and Practice)
               /beo1    -- Articles received from beo1 for the project 2
               /thesis  -- Some new articles for the thesis
-              /simons  -- A serie of articles written by Anthony J.H. Simons
+              /simons  -- A series of articles written by Anthony J.H. Simons
                           for the Journal of Object Technology
     ./doc       -- Documentation
-    ./minutes   -- Minutes from our meetings
+    ./minutes   -- Minutes of our meetings
     ./src       -- Source code
     ./test      -- JUnit test code
     ./build     -- Temporary build output directory

@@ -1,41 +1,41 @@
 \part{Language Specification}
 \chapter{Design Principles}
 The type system used for \ooplss is similar to that of \emph{TooL}
-\cite{gawecki_tool:_1995}. Anyway, many important aspects differ from
-\emph{Tool}. The used principles are these:
+\cite{gawecki_tool:_1995}. Many important aspects differ from
+\emph{TooL}. The used principles are these:
 
 \paragraph{Purely object-oriented}
 \ooplss is in contrast to its target platform Java a purely
 object-oriented language. Every program entity is represented by an
-object that can receive messages from other objects. There exists no
-primitive data types which are not objects. Computing is performed only
+object that can receive messages from other objects. There are no
+primitive data types that are not objects. Computing is performed only
 by message passing between objects.
 
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
-programming. In \ooplss classes are the first order constructs. A program is
-a set of classes. Within these classes only methods and fields allowed.
+programming. In \ooplss, classes are the first order constructs. A program is
+a set of classes. Within these classes only methods and fields are allowed.
 
 \paragraph{Static and Safe Type System}
 To reduce the set of possible runtime exceptions \ooplss is statically
-and strongly typed. Every message sent to an object is legal is possible
+and strongly typed. Every message sent to an object is legal is possible \todo{sense?}
 and can not create exceptions on runtime. Nonetheless runtime exceptions
 can occur since the type system does not prove that every statement is
-possible, e.g., sending a division by zero message to a number object,
-an appropriate exception will be thrown.
+possible, e.g., sending a division by zero message to a number object.
+In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 There are two options how to determine the relation of subtyping
-respectively matching between two types. On one hand is structural
-analysis of the given types in the current context and on the other
+respectively matching between two types. On one hand there is the structural
+analysis of the given types in the current context and on the other there
 is the analysis of the type hierarchy and restricting subtyping and
 subclassing. Each concept has its assets and drawbacks but both can
 be provided simultaneously \cite{malayeri_integrating_2008}. However,
-\emph{TooL} and \emph{PolyTOIL} use structural subtyping compared to
+\emph{TooL} and \emph{PolyTOIL} use structural subtyping, contrary to
 Java which uses nominal subtyping. \ooplss has a nominal type system
 for a modular type checking. Once the inheritance relations are checked,
 it is easy to determine whether two types are in relation or not. Since
-\ooplss is translated to Java a similar system is used, i.e., a nominal
+\ooplss is translated to Java, a similar system is used, i.e., a nominal
 type system is implemented.
 
 \paragraph{No Information Hiding}
@@ -98,9 +98,9 @@ context of consideration. Currently
 \section{Scopes}
 \ooplss uses lexical scoping to define the validity of expressions and 
 variables which is similar to that of Java. Generally there exists a global
-scope where the class definitions are in. Within each class is a class-scope
+scope wherein the class definitions are. Within each class is a class-scope
 that contains all fields, which includes the definition of superclasses and
-supertypes. Local scopes exists within methods and can be nested arbitrary.
+supertypes. Local scopes exist within methods and can be nested arbitrary.
 Nested local scopes can not shadow already bound variables, i.e., definitions
 like that in listing \ref{lst:illegalNesting} are not allowed.
 
@@ -132,19 +132,20 @@ class A {
 Whitespace characters and comments separate single tokens in \ooplss. A
 whitespace can either be a blank, a tab or a newline character.
 
-Two kind of comments are possible. The C-style multi-line comments which
+Two kinds of comments are possible. The C-style multi-line comments which
 starts with `/*' and ends with `*/'. Everything between these two delimiters
-is ignored by the parser. One special thing is, that these kind of comment
+is ignored by the parser. One specialty to note is, that these kind of comment
 can not be nested. The second kind comes in the C++-style and is a single-
 line comment which starts with `//'. The character sequence behind this token
-until to the next newline is ignored as well.
+until to the next newline is ignored.
 
 %\section{Declarations and Definitions}
 %\subsection{Type Parameters}
 
 \chapter{Language Semantics}
 Classes build the foundation of \ooplss and contain one of the
-differences known in today's languages. \ooplss provides to possible
+differences known in today's languages\todo{which one?}
+. \ooplss provides two possible
 mechanisms for \emph{inheritance} respectively \emph{extending}. The
 first one creates a subclass and the second a subtype of a given
 one. For both cases a new keyword is introduced, \emph{subclassOf}
@@ -155,11 +156,11 @@ unordered record \cite{simons_theory_2002-1}.
 \section{Extension as Subtyping}
 Extension is one sort of class combination in \ooplss. With extension the concept
 of nominal subtyping is implemented which is the same as \emph{extends} in Java.
-Since \ooplss knows two sorts of combinators a clear distinguishable keyword is
+Since \ooplss knows two sorts of combinators, a clear distinguishable keyword is
 introduced: \emph{subtypeOf}. Subtyping can be represented as a record combinator
 where the recursive type binding is performed before the records are combined.
-However, the combinator does not only combine records it overrides old
-fields which are shadowed by the new record as well and renames parent
+However, the combinator does not only combine records, it also overrides old
+fields which are shadowed by the new record and renames parent
 fields \cite{simons_theory_2003-2}.
 
 This record extension is semantically equivalent with that of Java. This
@@ -219,14 +220,14 @@ class B subtypeOf A {
 Inheritance is the second possibility of class combination in \ooplss. It
 is postulated by Simons' Theory of Classification \cite{simons_theory_2004-2}.
 This combination is not only a sort of class extension with code reuse where
-the new class needs to follow subtyping rules and does avoid the problem of
+the new class needs to follow subtyping rules and avoids the problem of
 schizophrenic self-reference since the self-variable binding is performed after
 the class combination and follows the notion of inheritance in the
 classical sense. \ooplss integrates this second form of combination within
 the nominal subtyping model which is used as well. This dual possibility is
 unseen in current programming languages.
 
-Semantically is a subclass a break in the subtyping hierarchy, i.e., inheritance
+Semantically a subclass is a break in the subtyping hierarchy, i.e., inheritance
 combines classes without holding the subsumption property. This gives \ooplss
 the possibility to have a class hierarchy where in Java complete new classes
 would be introduced. This is illustrated in \cref{fig:inheritHierarchy}. In figure
@@ -265,6 +266,8 @@ defined in \ooplss.
 	\caption{Class relation hierarchy in \ooplss and Java}
 	\label{fig:inheritHierarchy}
 \end{figure}
+
+\todo{Add legend to explain the arrows}
 
 Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in listing
@@ -331,7 +334,7 @@ public class B {
 
 \section{Introducing \mytype}
 With subclassing an other sort of class combination is introduced. By
-observing the listings above one may see something rather strange. While
+observing the listings \todo{reference} one may see something rather strange. While
 class \emph{A} has a recursive object type it is not the case for
 class \emph{B}. Since these two classes are completely decoupled but
 the type of the classes' type is not changed from \emph{A} to \emph{B}
@@ -347,7 +350,7 @@ def m(o : A) Void {
 
 This code is illegal because \emph{self} is of type \emph{B} and
 subclassing does not provide subsumption, i.e., \emph{B} $\nless$:
-\emph{A}. To overcome with this problem a special type variable is
+\emph{A}. To overcome this problem, a special type variable is
 introduced which is called \mytype. Wherever a \mytype is used it will
 get bound with the type that is generated.
 
