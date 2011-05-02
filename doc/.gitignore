@@ -13,5 +13,7 @@
 imgs/logo.eps
 ooplss.*
 ooplss-book.*
+ooplss-print.*
+ooplss-web.*
 !metauml_class.mp
 !ooplss.tex
