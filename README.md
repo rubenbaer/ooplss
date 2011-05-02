@@ -38,8 +38,9 @@ A Very Short Introduction to Git
 
     $ git clone git://github.com/rubenbaer/ooplss.git
 
-### Update project directory (ooplss/)
+### Update project directory (ooplss)
 
+    $ cd ooplss
     $ git pull
 
 
