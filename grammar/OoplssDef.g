@@ -56,14 +56,10 @@ import	:	^('import' ID)
 	*/
 	
 enterClass	:	^(CLASSDEF classname=ID 
-			/*
-			(^(SUPERTYPE supertype=ID))? 
-			(^(SUPERCLASSES subclass+=ID))? 
-			*/
-			.*)
+				.*)
 			{
 				logger.fine("<Def>Entering a class");
-				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope,  null);
+				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope);
 				cs.setDef($classname);
 				$classname.setSymbol(cs);
 				this.currentScope.define(cs);

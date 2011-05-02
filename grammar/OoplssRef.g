@@ -35,6 +35,26 @@ topdown		:	enterMethod
 
 			|	argument
 			|	enterConstructor
+			|	subType
+			;
+			
+subType		: 	^(CLASSDEF classname=ID 
+				^(SUPERTYPE supertype=ID)
+				.*)
+			{
+				logger.fine("<Ref>Resolving a supertype");
+				Scope s = $classname.getSymbol().getScope();
+				ClassSymbol t = (ClassSymbol)s.resolve($supertype.text);
+				((ClassSymbol)($classname.getSymbol())).setSuperType(t);
+				
+			}
+			;
+			
+superClasses	returns [Type t]
+			:	(^(SUPERCLASSES subclass+=ID))
+			{
+				logger.fine("<Ref>Resolve superclasses");
+			}
 			;
  	
 enterMethod 	

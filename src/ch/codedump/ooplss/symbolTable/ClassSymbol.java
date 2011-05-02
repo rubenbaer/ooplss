@@ -9,10 +9,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
-	public ClassSymbol(String name, Scope enclosingScope, ClassSymbol superType) {
+	public ClassSymbol(String name, Scope enclosingScope) {
 		super(name,  enclosingScope);
-		
-		this.superType = superType;
 	}
 
 	@Override
@@ -20,6 +18,32 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		return this.superType;
 	}
 	
+	@Override
+	public Symbol resolve(String name) {
+		Symbol s = super.resolve(name);
+		
+		if (s != null) {
+			return s;
+		}
+		
+		if (this.superType != null) {
+			s = this.superType.resolve(name);
+			
+			if (s != null) {
+				return s;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Resolve a member 
+	 * 
+	 * Resolve a symbol that belongs to this class
+	 * @param name
+	 * @return resolved symbol
+	 */
 	public Symbol resolveMember(String name) {
 		Symbol s = members.get(name);
 		if (s != null) {
@@ -64,5 +88,13 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	public String symbolString() {
 		String str = "<Class>" + getName(); 
 		return str;
+	}
+	
+	/**
+	 * Set the super type of this class
+	 * @param superType
+	 */
+	public void setSuperType(ClassSymbol superType) {
+		this.superType = superType;
 	}
 }

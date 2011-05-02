@@ -105,6 +105,20 @@ public class TestMemberResolving {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testSuperTypes() throws Exception {
+		String str = 	"class a {" + 
+						"	var x:a;" + 
+						"}" +
+						"class b subtypeOf a {" +
+						"	def __construct() {" +
+						"		x;" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 
