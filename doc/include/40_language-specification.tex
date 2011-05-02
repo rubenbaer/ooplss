@@ -95,7 +95,37 @@ context of consideration. Currently
 \todo{Method overloading!}
 
 \section{Scopes}
+\ooplss uses lexical scoping to define the validity of expressions and 
+variables which is similar to that of Java. Generally there exists a global
+scope where the class definitions are in. Within each class is a class-scope
+that contains all fields, which includes the definition of superclasses and
+supertypes. Local scopes exists within methods and can be nested arbitrary.
+Nested local scopes can not shadow already bound variables, i.e., definitions
+like that in listing \ref{lst:illegalNesting} are not allowed.
 
+\begin{lstlisting}[language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
+class A {
+	var x : B;
+
+	def m(x : C) : Void {
+		var x : D; // Illegal variable definition. Shadows the local parameter.
+	}
+
+	def f() : Void {
+		var x : A; 
+		{
+			var x : B; // Illegal variable definition. Shadows local variable.
+		}
+	}
+
+	def g() : Void {
+		{
+			var x: A;
+		}
+		var x : B; // Legal variable definition since x : A is not valid here.
+	}
+}
+\end{lstlisting}
 
 \section{Literals, Delimiters, Whitespace and Comments}
 
@@ -296,9 +326,9 @@ observing the listings above one may see something rather strange. While
 class \emph{A} has a recursive object type it is not the case for
 class \emph{B}. Since these two classes are completely decoupled but
 the type of the classes' type is not changed from \emph{A} to \emph{B}
-the expression in listing \ref{lst:breakThis} can not be typed.
+the expression in listing \ref{lst:breakSelf} can not be typed.
 
-\begin{lstlisting}[language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:subclassOf]
+\begin{lstlisting}[language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:breakSelf]
 def m(o : A) Void {
 	%\ldots)
 	m(self); // Breaks in subclass!
