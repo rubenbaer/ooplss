@@ -104,7 +104,7 @@ supertypes. Local scopes exists within methods and can be nested arbitrary.
 Nested local scopes can not shadow already bound variables, i.e., definitions
 like that in listing \ref{lst:illegalNesting} are not allowed.
 
-\begin{lstlisting}[language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
+\begin{lstlisting}[float,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
 class A {
 	var x : B;
 
@@ -167,7 +167,7 @@ makes a straightforward implementation possible and easy to use for
 current Java programmers. Listing \ref{lst:subtypeOf} gives a example
 of subtyping in \ooplss.
 
-\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
+\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
 class A {
 	// Defines a method with parameter of type A.
 	def m(p : A) : ReturnType { &\ldots) }
@@ -193,7 +193,7 @@ class B subtypeOf A {
 %For a seamless integration into Java and other target systems without multiple
 %inheritance, the class can only build one subtype at once.
 %
-%\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
+%\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
 %class A {
 %	// Defines a method with parameter of type A.
 %	def m(p : MyType) : RType {
@@ -270,7 +270,7 @@ Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in listing
 \ref{lst:subclassOf} and listing \ref{lst:javaTrans}.
 
-\begin{lstlisting}[language=ooplss,caption=Subtyping in \ooplss,label=lst:subclassOf]
+\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subclassOf]
 class A {
 	var a : A;
 
@@ -296,7 +296,7 @@ code of listing \ref{lst:subclassOf}. It demonstrates the clear cut within
 the subtyping hierarchy since the whole content of class \emph{A} is modified
 and copied to class \emph{B}.
 
-\begin{lstlisting}[caption=Subtyping in \ooplss,label=lst:javaTrans]
+\begin{lstlisting}[float,caption=Subtyping translated in Java,label=lst:javaTrans]
 public class A {
 	public A a;
 
@@ -337,7 +337,7 @@ class \emph{B}. Since these two classes are completely decoupled but
 the type of the classes' type is not changed from \emph{A} to \emph{B}
 the expression in listing \ref{lst:breakSelf} can not be typed.
 
-\begin{lstlisting}[language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:breakSelf]
+\begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:breakSelf]
 def m(o : A) Void {
 	%\ldots)
 	m(self); // Breaks in subclass!

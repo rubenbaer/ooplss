@@ -306,7 +306,7 @@ does not apply here. Clearly the equals method of \emph{Vec3D} takes
 an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing}
 shows this constellation (in pseudo-code):
 
-\begin{lstlisting}[caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
+\begin{lstlisting}[float,caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
 class Vec2D {
 	int x,y;
 
@@ -401,7 +401,7 @@ the semantic does not
 %from binary methods them self but in combination with subtyping and
 %inheritance since these concepts are associated with subsumption.
 %
-%\begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+%\begin{lstlisting}[float,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 %public class SinglyLinkedNode {
 %	private SinglyLinkedNode next;
 %
@@ -445,7 +445,7 @@ the semantic does not
 %types an runtime error would occur since the parameter of \emph{setNext}
 %does not provide a \emph{prev} field.
 %
-%\begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
+%\begin{lstlisting}[float,label={lst:break},caption={Breaking a doubly linked node}]
 %pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 %	one.setNext(other);
 %}
@@ -492,7 +492,7 @@ method parameter the method can not be typed. This implies that there are no sta
 checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a 
 \emph{DoublyLinkedNode}.
 
-\begin{lstlisting}[caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+\begin{lstlisting}[float,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
 	private SinglyLinkedNode next; %\label{lst:javaBinary0})
 
@@ -532,7 +532,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping 
 would allow covariant parameters.
 
-\begin{lstlisting}[label={lst:break},caption={Breaking a doubly linked node}]
+\begin{lstlisting}[float,label={lst:break},caption={Breaking a doubly linked node}]
 pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 	one.setNext(other);
 }
@@ -548,7 +548,7 @@ Since matching is a weaker relation then subtyping the assumption of $a:A$
 and $A$ \match $B$ does not imply $a:B$ how subtyping does, i.e., matching
 can not help in situations illustrated in listing \ref{lst:matchbreak}.
 
-\begin{lstlisting}[label={lst:matchbreak},caption={Matching relation in the break method}]
+\begin{lstlisting}[float,label={lst:matchbreak},caption={Matching relation in the break method}]
 pubic void break(node <# SinglyLinkedNode) {
 	SinglyLinkedNode newNode = new SinglyLinkedNode();
 	node.setNext(newNode);
@@ -604,7 +604,7 @@ be used to replace the type parameter $X$, the formal type of $A$ is
 $\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the 
 type operator!
 
-\begin{lstlisting}[caption={Universal quantified f-bound in Java},label={lst:generics}]
+\begin{lstlisting}[float,caption={Universal quantified f-bound in Java},label={lst:generics}]
 public class A<X extends B<X>> {
 	public void m(X x) {
 		x.someMethodOfB();
