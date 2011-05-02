@@ -109,7 +109,7 @@ class A {
 	var x : B;
 
 	def m(x : C) : Void {
-		var x : D; // Illegal variable definition. Shadows the local parameter.
+		var x : D; // Illegal variable definition. Shadows local parameter.
 	}
 
 	def f() : Void {
@@ -123,7 +123,8 @@ class A {
 		{
 			var x: A;
 		}
-		var x : B; // Legal variable definition since x : A is not valid here.
+		var x : B; // Legal variable definition since x : A is not 
+							 // valid anymore.
 	}
 }
 \end{lstlisting}
@@ -171,16 +172,17 @@ of subtyping in \ooplss.
 \begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
 class A {
 	// Defines a method with parameter of type A.
-	def m(p : A) : ReturnType { &\ldots) }
+	def m(p : A) : ReturnType { %\ldots) }
 }
 
 class B subtypeOf A {
 	// Overrides the parent's method m(p) where A' <: A
-	def m(p : A') : ReturnType { &\ldots) }
+	def m(p : A') : ReturnType { %\ldots) }
 }
 \end{lstlisting}
 
-\todo{Combination operator}
+\subsection{Extension Class Combinator}
+\todo{Combination operator (No method overloading)}
 
 %The extension mechanism is the same as provided by Java. Instead of
 %the \emph{extends} keyword a new is introduced: \emph{subtypeOf} which
@@ -273,7 +275,7 @@ Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in listing
 \ref{lst:subclassOf} and listing \ref{lst:javaTrans}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subclassOf]
+\begin{lstlisting}[float,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
 class A {
 	var a : A;
 
@@ -330,6 +332,7 @@ public class B {
 }
 \end{lstlisting}
 
+\subsection{Inheritance Class Combinator}
 \todo{Combination operator}
 
 \section{Introducing \mytype}
@@ -430,10 +433,14 @@ From this and \cref{sec:resolveAmbiguity} follows directly that these
 relations in \cref{fig:fixedHierarchy} are true:
 \begin{align*}
 B <: A \\
-B \nless\!\!\#~A \\
+%B \nless\!\!\#~A \\
 E <\!\!\#~A \\
 E <\!\!\#~B \\
 \end{align*}
+
+A special consideration of the relation between \emph{B} and \emph{A}
+is needed. It is not automatically clear whether $B \nless\!\!\#~A$
+or \emph{B} \match \emph{A} is true.
 
 Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
@@ -452,13 +459,13 @@ parametrisation and does replaces generics respectively is the foundation
 of Java's or \cs's generics.
 
 These generics does only allow f-bounds with subtypes but not with
-subclasses like in \ooplss. 
+subclasses what is different in \ooplss because of the matching relation
+between two subclasses.
 
 \subsection{No \#-Types in \ooplss}
 \cite{bruce_foundations_2002}
 
-\section{Class Combinators}
-
+%\section{Class Combinators}
 %Class definition
 %\section{Constructors}
 %\section{Linearisation}
