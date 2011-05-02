@@ -73,6 +73,7 @@ implementation.\\
 		EXPR & \lra & VARDEF \\
 		& | & BLOCK \\
 		& | & ID = EXPR `;' \\
+		& | & VARDEF = EXPR `;' \\
 		& | & `if (' EXPR `)' EXPR $\langle$ `else' EXPR $\rangle$?  \\
 		& | & `while (' EXPR `)' EXPR \\
 		& | & `for (' EXPR `;' EXPR `;' EXPR `)' EXPR \\
@@ -126,12 +127,20 @@ class A {
 	}
 }
 \end{lstlisting}
+%Literals, Delimiters, 
+\section{Whitespace and Comments}
+Whitespace characters and comments separate single tokens in \ooplss. A
+whitespace can either be a blank, a tab or a newline character.
 
-\section{Literals, Delimiters, Whitespace and Comments}
+Two kind of comments are possible. The C-style multi-line comments which
+starts with `/*' and ends with `*/'. Everything between these two delimiters
+is ignored by the parser. One special thing is, that these kind of comment
+can not be nested. The second kind comes in the C++-style and is a single-
+line comment which starts with `//'. The character sequence behind this token
+until to the next newline is ignored as well.
 
-\section{Declarations and Definitions}
-\subsection{Variable Declaration and Definition}
-\subsection{Type Parameters}
+%\section{Declarations and Definitions}
+%\subsection{Type Parameters}
 
 \chapter{Language Semantics}
 Classes build the foundation of \ooplss and contain one of the
