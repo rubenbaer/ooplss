@@ -12,6 +12,8 @@
 %% load other packets or define new environements (\newenvironment).
 %\RequirePackage{remreset}
 
+\usepackage[british]{babel}
+
 %
 % Symbol Footnote without switch forth and back
 %
@@ -82,6 +84,28 @@
 	identifierstyle=\color{black},
 	commentstyle=\color{commentcolor},
 	stringstyle=\color{red}\ttfamily,
+	float
+}
+
+%
+% "define" OOPLSS (Based on scala syntax)
+%
+\lstdefinelanguage{ooplss}{
+	float,
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield,MyType,subtypeOf,subclassOf},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+%  morestring=[b]',
+  morestring=[b]"""
 }
 
 %
@@ -89,6 +113,15 @@
 % 
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
+
+%
+% Rename "fig." to figure
+%
+\crefname{figure}{figure}{figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{subfigure}{figure}{figures}
+\Crefname{subfigure}{Figure}{Figures}
+
 
 %
 % Nomenclatur
@@ -112,7 +145,8 @@
 %
 \usepackage{wrapfig}
 \usepackage{float}
-\usepackage{floatflt}
+% Produces some floating problems within text
+%\usepackage{floatflt}
 
 %
 % font (sans serif)
@@ -158,7 +192,7 @@
     \hrule
     \end{flushright}
 		\vfill
-    \includegraphics[height=\baselineskip]{imgs/by-nc-sa}\\ \small{\sffamily{Licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License}}
+    \includegraphics[height=\baselineskip]{imgs/by-sa}\\ \small{\sffamily{Licensed under the Creative Commons Attribution-ShareAlike 3.0 License}}
     \end{titlepage}
 }
 

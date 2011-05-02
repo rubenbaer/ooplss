@@ -3,10 +3,9 @@ JOB := ooplss
 JOBBOOK := ooplss-book
 FINAL := final
 DRAFT := draft
-TARGET := ooplss.pdf
 VIEWER := evince
 SHELL := /bin/bash
-CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,mp,pdf,nlo,tdo,dot
+CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dot,dvi
 
 default: build
 
@@ -15,21 +14,29 @@ view: build
 
 build: draft
 
-draft:
+draft: clean
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	mpost $(JOB) 1> /dev/null
 	bibtex $(JOB) 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
-final: clean final-report final-book
+final: clean final-report-web final-report-print final-book
+	rm -f ooplss.pdf
 
-final-report:
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
-	mpost $(JOB) 1> /dev/null
-	bibtex $(JOB) 1> /dev/null
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
-	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(FINAL)-report 1> /dev/null
+final-report-web:
+	pdflatex -jobname $(JOB)-web -shell-escape -interaction=nonstopmode $(FINAL)-report-web 1> /dev/null
+	mpost $(JOB)-web 1> /dev/null
+	bibtex $(JOB)-web 1> /dev/null
+	pdflatex -jobname $(JOB)-web -shell-escape -interaction=nonstopmode $(FINAL)-report-web 1> /dev/null
+	pdflatex -jobname $(JOB)-web -shell-escape -interaction=nonstopmode $(FINAL)-report-web 1> /dev/null
+
+final-report-print:
+	pdflatex -jobname $(JOB)-print -shell-escape -interaction=nonstopmode $(FINAL)-report-print 1> /dev/null
+	mpost $(JOB)-print 1> /dev/null
+	bibtex $(JOB)-print 1> /dev/null
+	pdflatex -jobname $(JOB)-print -shell-escape -interaction=nonstopmode $(FINAL)-report-print 1> /dev/null
+	pdflatex -jobname $(JOB)-print -shell-escape -interaction=nonstopmode $(FINAL)-report-print 1> /dev/null
 
 final-book:
 	pdflatex -jobname $(JOBBOOK) -shell-escape -interaction=nonstopmode $(FINAL)-book 1> /dev/null
@@ -43,8 +50,10 @@ once:
 
 # cleans index, logs, temporary files etc. 
 clean:
-	rm -f *.{$(CLEAN_EXT)} include/*.{$(CLEAN_EXT)}
+	rm -f *{$(CLEAN_EXT)}
+	rm -f include/*{$(CLEAN_EXT)}
+	rm -f [^ooplss]*.pdf
 
 # also removes output documents
 distclean: clean
-	rm -f *.{pdf,dvi}
+	rm -f *.pdf

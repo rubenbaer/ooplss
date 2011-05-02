@@ -108,6 +108,9 @@
 	</target>
 
 	<!-- Testing -->
+	<target name="run-tests" depends="gunit,junit">
+	</target>
+
 	<!-- JUnit Testing -->
 	<target name="junit" depends="build-test">
 		<mkdir dir="${reports}" />
