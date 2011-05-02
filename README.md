@@ -34,11 +34,11 @@ Directory Structure
 A Very Short Introduction to Git
 --------------------------------
 
-1. Create a local clone of the repository (Do only once)
+### Create a local clone of the repository (Do only once)
 
     $ git clone git://github.com/rubenbaer/ooplss.git
 
-2. Update project directory (ooplss/)
+### Update project directory (ooplss/)
 
     $ git pull
 
