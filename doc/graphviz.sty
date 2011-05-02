@@ -36,7 +36,7 @@
   \immediate\openout\dotfile=#2.dot 
   \immediate\write\dotfile{digraph #2 {\string#3}} 
   \immediate\closeout\dotfile
-  \immediate\write18{bash -c "dot -Tpdf #2.dot > #2.pdf"}  
+  \immediate\write18{dot -Tpdf #2.dot > #2.pdf}  
   \IfFileExists{#2.pdf}
   % the pdf exists: include it 
   { \includegraphics[#1]{#2} } 
@@ -53,7 +53,7 @@
 }
 
 \newcommand{\includedot}[2][scale=1]{ %
-  \immediate\write18{bash -c "dot -Tpdf #2.dot > #2.pdf"}
+  \immediate\write18{dot -Tpdf #2.dot > #2.pdf}
   \IfFileExists{#2.pdf}
   % the pdf exists: include it
   { \includegraphics[#1]{#2} }
