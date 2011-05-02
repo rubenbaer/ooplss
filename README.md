@@ -36,11 +36,11 @@ A Very Short Introduction to Git
 
 ### Create a local clone of the repository (Do only once)
 
-    '$ git clone git://github.com/rubenbaer/ooplss.git'
+    $ git clone git://github.com/rubenbaer/ooplss.git
 
 ### Update project directory (ooplss/)
 
-    '$ git pull'
+    $ git pull
 
 
 Installation
