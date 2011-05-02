@@ -12,7 +12,7 @@ public class UnknownTypeException extends OoplssException {
 		this.symbol = s;
 		
 		String str = 	"the token " + this.symbol.token.getText() + 
-						"cannot be resolved to a type";
+						" cannot be resolved to a type";
 		this.setError(str);
 	}
 }
