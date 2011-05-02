@@ -13,3 +13,7 @@ Directory Structure
 ./src         Source code
 ./test        JUnit test code
 ./build       Temporary build output directory
+
+LaTeX packages on ubuntu
+texlive-*
+graphviz
