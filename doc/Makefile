@@ -14,7 +14,7 @@ view: build
 
 build: draft
 
-draft: clean
+draft:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	mpost $(JOB) 1> /dev/null
 	bibtex $(JOB) 1> /dev/null
