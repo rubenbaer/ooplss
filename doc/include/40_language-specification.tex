@@ -48,52 +48,40 @@ available. This helps to keep the language small.
 \section{Abstract Syntax}
 The abstract syntax gives a short overview of \ooplss. This syntax is
 not normalised and does not corresponds with the syntax used in the
-implementation.
+implementation.\\
 
 \begin{listing}
 	\begin{tabular}[H]{lrll}
-		PROG & \lra & CLASS+ \\
+		PROG & \lra & CLASSES \\
 		CLASSES & \lra & CLASS+ \\
 		CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINATORS \\
-		& & ~~~~`\{' VAR* METHOD* CONSTRUCTOR* `\}' \\
+		& & ~~~~`\{' VARDEF* METHODDEF* CONSTRUCTOR* `\}' \\
 		CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
 		CLASSPARAM & \lra & TYPE \\
 		 & | & TYPEVAR \match TYPE \\
 		COMBINATORS & \lra & SUBTYPEOF? SUBCLASSOF? \\
 		SUBTYPEOF & \lra & `subtypeOf' TYPE \\
 		SUBCLASSOF & \lra & `subclassOf' TYPE \\
-		TYPE & \lra & \\
-		VAR & \lra & \\
-		METHOD & \lra & \\
-		CONSTRUCTOR & \lra & \\
-%
-%		\emph{Program} & PROG & \lra & CLASS+ \\
-%		\emph{Classes} & CLASSES & \lra & CLASS+ \\
-%		\emph{Class} & CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINATORS \\
-%		& & & `\{' VAR* METHOD* CONSTRUCTOR* `\}' \\
-%		\emph{Class parameters} & CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
-%		\emph{Class parameter} & CLASSPARAM & \lra & TYPE \\
-%		& & | & TYPEVAR \match TYPE \\
-%		\emph{Class combinators} & COMBINATORS & \lra & SUBTYPEOF? SUBCLASSOF? \\
-%		\emph{Subtype combinator} & SUBTYPEOF & \lra & `subtypeOf' TYPE \\
-%		\emph{Subclass combinator} & SUBCLASSOF & \lra & `subclassOf' TYPE \\
-%		\emph{Type} & TYPE & \lra & \\
-%		\emph{Variable} & VAR & \lra & \\
-%		\emph{Method} & METHOD & \lra & \\
-%		\emph{Constrcutor} & CONSTRUCTOR & \lra & \\
-%
-
-
-%		\emph{Class}					& C	& $\lra $	& A[T] E[V] subtypeOf F[W], subclassOf D[U] {, D'[U']}* \{T a; T M;\} \\
-%		\emph{Types}					& T & $\lra $	& A \\
-%													&   & 		 | & A \match B[A] \\
-%		\emph{Method}					& M	& $\lra $	& T m[S](U a, V b) \{e;\} \\
-%		\emph{Constructor}		& K	& $\lra $	& c(U a, V b) \{A(a); e;\} \\
-%		\emph{Expression}			& e & $\lra $	& x; \\
-%													&   & 		 | & x = y; \\
-%													&   & 		 | & e.f; \\
-%													&   & 		 | & e.m(p); \\
-%													&   & 		 | & new C(p); \\
+		TYPE & \lra & TYPENAME \\
+		& | & TYPEVAR \\
+		TYPENAME & \lra & ID \\
+		TYPEVAR & \lra & ID \\
+		& | & \mytype \\
+		VARDEF & \lra & `var' ID `:' TYPE `;' \\
+		METHODDEF & \lra & `def' ID `(' PARAMS? `) :' TYPE `\{' EXPR* `\}'  \\
+		CONSTRUCTOR & \lra & `def \_\_construct (' PARAMS? `) \{' EXPR* `\}' \\
+		EXPR & \lra & VARDEF \\
+		& | & BLOCK \\
+		& | & ID = EXPR `;' \\
+		& | & `if (' EXPR `)' EXPR $\langle$ `else' EXPR $\rangle$?  \\
+		& | & `while (' EXPR `)' EXPR \\
+		& | & `for (' EXPR `;' EXPR `;' EXPR `)' EXPR \\
+		& | & EXPR `.' EXPR \\
+		& | & EXPR `(' METHODPARAMS? `)' \\
+		METHODPARAMS & \lra & EXPR $\langle$ `,' EXPR $\rangle$* \\
+		BLOCK & \lra & `\{' EXPR* `\}' \\
+		PARAMS & \lra & ID `:' TYPE $\langle$ `,' ID `:' TYPE $\rangle$ \\
+		ID & \lra & $\langle$ a-z, A-Z, \_ $\rangle~\langle$ a-z, A-Z, 0-9, \_ $\rangle$* \\
 	\end{tabular}
 	\caption{Abstract syntax of \ooplss}
 	\label{lst:abstractSyntax}
