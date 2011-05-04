@@ -97,4 +97,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	public void setSuperType(ClassSymbol superType) {
 		this.superType = superType;
 	}
+
+	@Override
+	public int getTypeIndex() {
+		return SymbolTable.tOBJECT;
+	}
 }

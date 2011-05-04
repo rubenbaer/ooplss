@@ -215,7 +215,7 @@ literal		:	INTLITERAL
 			|	STRINGLITERAL 
 			|	CHARLITERAL   
 			|	BOOLLITERAL   
-			// TODO: more literal types
+			|	FLOATLITERAL
 			;
 		
 ifStmt		:	'if' '(' statement ')' block
@@ -254,6 +254,9 @@ LINE_COMMENT
 			;
 
 INTLITERAL	: 	('-')? '0'..'9'+;
+
+FLOATLITERAL
+			:	('-')? '0'..'9'+ '.' '0'..'9'+;
 
 // got that from the java.g example
 STRINGLITERAL	

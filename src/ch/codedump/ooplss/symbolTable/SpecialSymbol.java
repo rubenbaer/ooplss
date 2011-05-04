@@ -11,4 +11,9 @@ public class SpecialSymbol extends Symbol implements Type {
 		return this.getName();
 	}
 
+	@Override
+	public int getTypeIndex() {
+		return 0;
+	}
+
 }

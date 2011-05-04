@@ -4,29 +4,87 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
+import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class SymbolTable {
-	public Scope globals;
+	public static final Scope GLOBAL = new GlobalScope();
 	
 	HashMap<String, Type> types = new HashMap<String, Type>();
 	
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
 	public SymbolTable() {
-		this.globals =  new GlobalScope();
 		try {
-			this.initBuiltinTypes();
+			this.initSpecialTypes();
 		} catch (Exception e) {}
 		
 	}
+	
+	/**
+	 * The arithmetic result typing
+	 */
+	public static final int tOBJECT = 0;
+	public static final int tINT    = 1;
+	public static final int tFLOAT  = 2;
+	public static final int tSTRING = 3;
+	public static final int tCHAR	= 4;
+	public static final int tBOOL 	= 5;
+	public static final int tVOID   = 6;
+	
+	/**
+	 * The Built in symbols
+	 */
+	public static final BuiltInTypeSymbol _int    = new BuiltInTypeSymbol("Int",    GLOBAL, tINT);
+	public static final BuiltInTypeSymbol _string = new BuiltInTypeSymbol("String", GLOBAL, tSTRING);
+	public static final BuiltInTypeSymbol _float  = new BuiltInTypeSymbol("Float",  GLOBAL, tFLOAT);
+	public static final BuiltInTypeSymbol _char   = new BuiltInTypeSymbol("Char",   GLOBAL, tCHAR);
+	public static final BuiltInTypeSymbol _bool   = new BuiltInTypeSymbol("Bool",   GLOBAL, tBOOL);
+	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);;
+	
+	/**
+	 * The mappings of arithmetic operations 
+	 */
+	protected final Type[][] arithmeticResultType = new Type[][] {
+		/*				object	int		float	string	 char	  bool	  void */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
+		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void},
+		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void},
+		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void},
+		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+	};
 
-	private void initBuiltinTypes() throws SymbolAlreadyDefinedException {
-		this.globals.define(new VoidType(this.globals));
-		this.globals.define(new ConstructorType(this.globals));
+	/**
+	 * Initialise the special types
+	 * @throws SymbolAlreadyDefinedException
+	 */
+	private void initSpecialTypes() throws SymbolAlreadyDefinedException {
+		SymbolTable.GLOBAL.define(new ConstructorType(SymbolTable.GLOBAL));
+	}
+
+	
+	/**
+	 * Return the type of an arithmetic expression
+	 * @param left Type of the left side of the expression
+	 * @param right Type of the right side of the expression
+	 * @return Type
+	 * @throws InvalidExpressionException 
+	 */
+	public Type arithmeticType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		Type t = this.arithmeticResultType
+				 [left.getTypeIndex()]
+				 [right.getTypeIndex()];
+		if (t == SymbolTable._void) {
+			throw new InvalidExpressionException(left, right, op);
+		}
+		
+		return t;
 	}
 	
 	/**
@@ -89,7 +147,7 @@ public class SymbolTable {
 	 * @return
 	 */
 	public Type resolveSpecialType(String type) {
-		Type t = (Type) this.globals.resolve(type);
+		Type t = (Type) SymbolTable.GLOBAL.resolve(type);
 
 		return t;
 	}
@@ -141,9 +199,14 @@ public class SymbolTable {
 
 	@Override
 	public String toString() {
-		return scopeToString(this.globals);
+		return scopeToString(SymbolTable.GLOBAL);
 	}
 	
+	/**
+	 * Returns a format string of the scope
+	 * @param scope
+	 * @return Scope string
+	 */
 	protected String scopeToString(Scope scope) {
 		StringBuilder str = new StringBuilder();
 		str.append(scope.toString() + "\n");

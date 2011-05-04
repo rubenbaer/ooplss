@@ -37,3 +37,7 @@ literal:
 BOOLLITERAL:
 "true" OK
 "false" OK
+
+FLOATLITERAL:
+"3.2" OK
+"123.123" OK
