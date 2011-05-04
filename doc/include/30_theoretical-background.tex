@@ -33,16 +33,29 @@ $B$. This implies that wherever type $B$ is expected type $A$ can be used.
 
 To ensure this type compatibility between $A$ and $B$ subtyping has the
 following properties:
-\begin{description}
-	\item[Reflexivity] $A$ <: $A$
-	\item[Transitivity] $A$ <: $B$ and $B$ <: $C$ implies $A$ <: $C$
-\end{description}
+
+\begin{defn}[Subtype reflexivity]
+	\label{def:subtypeReflexivity}
+	$A <: A$
+\end{defn}
+\begin{defn}[Subtype transitivity]
+	\label{def:subtypeTransitivity}
+	$A <: B$ and $B <: C$ implies $A <: C$
+\end{defn}
 
 Type safe subtyping is defined for objects and fields. Subtyping for objects is
 quite easy. If $A$ <: $B$ then $A$ needs at least as many fields as $B$
 which are in subtype relation. Further $A$ can contain other fields
-which does not have any correspondence in $B$. The relation for fields
-differs for methods and state variables.
+which does not have any correspondence in $B$. Since objects are often considered
+as records -- which are ordered -- in subtyping permutations of those are defined
+as equal. 
+\begin{defn}[Object subtyping]
+	\label{def:subtypeObject}
+	$\{l_b : Y_b\} <: \{l_a : X_a\}$ if $A$ contains $a \in \mathbb{N}$ fields, $B$ contains
+	$b \geq a$ fields and for each $i$ it is true that $Y_i <: x_i$.
+\end{defn}
+
+The relation for fields differs for methods and object variables.
 
 Variables needs to be type invariant in a subtyping context since
 subtyping is not symmetric, i.e. $A$ <: $B$ does not imply $B$ <: $A$
@@ -54,6 +67,11 @@ and return values have to be considered separately. On one hand the return
 type can change covariantly with the type hierarchy and on the other hand
 the parameters are only allowed to change in a contravariant way, i.e.,
 change in the hierarchy upwards.
+
+\begin{defn}[Method subtyping]
+\label{def:methodSubtyping}
+if $X <: A$ and $B <: Y$ then $A \rightarrow B <: X \rightarrow Y$
+\end{defn}
 
 \subsection{Variance}
 Variance classifies the type change within the type hierarchy. These
@@ -462,12 +480,13 @@ the semantic does not
 %which is not a subtype.
 
 \section{Matching}
-\begin{quotation}
-	`the same as subtyping in the absence of the \emph{MyType}
-	construct, but differs in the presence of \emph{MyType}, because
-	\emph{MyType} implicitly has different meanings in different types.' --
-	\cite{bruce_foundations_2002}
-\end{quotation}
+\begin{prop}[Matching]
+	\label{prop:matching}
+	Bruce defines matching as `the same as subtyping in the absence
+	of the \emph{MyType} construct, but differs in the presence of
+	\emph{MyType}, because \emph{MyType} implicitly has different
+	meanings in different types.' -- \cite{bruce_foundations_2002}
+\end{prop}
 
 An other solution proposed by Bruce \cite{bruce_binary_1995} is
 \emph{matching}. Matching is a generalised subtyping relation, written
@@ -478,6 +497,11 @@ said by Bruce in \cite{bruce_foundations_2002} matching does not differ
 very much from subtyping except that \mytype is not substituted by its
 concrete object type. This makes the relation weaker than subtyping
 where contravariant method parameters are not allowed.
+
+\begin{defn}[Matching]
+	\label{defn:matching}
+	\todo{give formal definition}
+\end{defn}
 
 Listing \ref{lst:javaBinary} contains some problems that can not be tackled
 with subtyping. First of all the variable in line \ref{lst:javaBinary0} can
@@ -624,10 +648,11 @@ parametrisation over every extension of an object type and not only over
 every subtype if it.
 
 In this case matching is defined as\cite{abadi_subtyping_1996}
-\begin{align*}
-	A \textnormal{\match} B & := A <: B_{Op}(A) \\
-	\forall (X \textnormal{\match} A)B\{X\} & := \forall (X <: A_{Op}(X))B\{X\}
-\end{align*}
+\begin{defn}[Matching as F-Bounded Subtyping]
+	\label{def:matchingAsBound}
+	$A \textnormal{\match} B := A <: B_{Op}(A)$\\
+	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}$
+\end{defn}
 
 %\section{Matching as Higher-Order Subtyping}
 %

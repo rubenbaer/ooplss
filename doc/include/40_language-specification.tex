@@ -13,16 +13,19 @@ by message passing between objects.
 
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
-programming. In \ooplss, classes are the first order constructs. A program is
-a set of classes. Within these classes only methods and fields are allowed.
+programming. \ooplss provides classes as templates for object
+creation. The programmer can specify classes of objects and create
+instance of them and not directly objects. Classes are considered as
+first order constructs. Furthermore a program is a set of classes. Within
+classes only methods and fields are allowed.
 
 \paragraph{Static and Safe Type System}
 To reduce the set of possible runtime exceptions \ooplss is statically
-and strongly typed. Every message sent to an object is legal is possible \todo{sense?}
-and can not create exceptions on runtime. Nonetheless runtime exceptions
-can occur since the type system does not prove that every statement is
-possible, e.g., sending a division by zero message to a number object.
-In this case, an appropriate exception will be thrown.
+and strongly typed. Every message sent to an object that is legal within
+the type system can not create exceptions on runtime. Nonetheless runtime
+exceptions can occur since the type system does not prove that every
+statement is possible, e.g., sending a division by zero message to a
+number object.  In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 There are two options how to determine the relation of subtyping
@@ -44,7 +47,6 @@ compared to structural subtyping since all fields are automatically
 available. This helps to keep the language small.
 
 \chapter{Syntax}
-
 \section{Abstract Syntax}
 The abstract syntax gives a short overview of \ooplss. This syntax is
 not normalised and does not corresponds with the syntax used in the
@@ -91,7 +93,7 @@ implementation.\\
 \section{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The
 definition of names can have different origins and depends on the current
-context of consideration. Currently
+context of consideration which is given by its scope.
 
 \todo{Method overloading!}
 
@@ -431,16 +433,40 @@ of a type hierarchy in \ooplss.
 
 From this and \cref{sec:resolveAmbiguity} follows directly that these
 relations in \cref{fig:fixedHierarchy} are true:
-\begin{align*}
+\begin{align}
 B <: A \\
-%B \nless\!\!\#~A \\
+B \nless\!\!\#~A \label{alg:match} \\
 E <\!\!\#~A \\
 E <\!\!\#~B \\
-\end{align*}
+\end{align}
 
-A special consideration of the relation between \emph{B} and \emph{A}
-is needed. It is not automatically clear whether $B \nless\!\!\#~A$
-or \emph{B} \match \emph{A} is true.
+\ref{alg:match} makes problems
+
+%\subsection{Matching is Compatible with Subtyping}
+
+Now, after some considerations about matching, lets take a look at
+proposition \ref{prop:matching}. Bruce is stated that `matching is the same as
+subtyping in the absence of the MyType construct.'
+
+\begin{thm}[Matching as subtyping]
+	\label{thm:matchinIsSubtyping}
+	if $B <: A \rightarrow B$ \match $A$
+\end{thm}
+
+\begin{proof}
+	For this one may recall how subtyping is to understand.\footnote{See
+	definitions \ref{def:subtypeObject} - \ref{def:methodSubtyping}}.
+
+	Let $B <: A$, $X := \mu MyType.\{m :
+	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Class combinators}
+
+	\begin{enumerate}
+%		\item From definition \ref{def:subtypeObject}
+%		follows directly that $Y <: X$.
+
+		\item 
+	\end{enumerate}
+\end{proof}
 
 Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
