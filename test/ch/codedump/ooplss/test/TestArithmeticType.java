@@ -33,4 +33,16 @@ public class TestArithmeticType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testIntVarWithInt() throws Exception {
+		String str = 	"class foo {\n" +
+						"	var x:Int;" +
+						"	def __construct() {" +
+						"		x + 3;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

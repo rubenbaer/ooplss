@@ -26,18 +26,18 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
-topdown		:	varAccess
+topdown		:	
 			/*|	memberAccess*/
-			| 	arithmeticOperator
+			 	arithmeticOperator
 			;
 			
 
-varAccess		returns [Type t]
+varAccess		returns [Type type]
 			:	^(VARACCESS ID) 
 			{
 				logger.fine("<Type>Determining expression type of varaccess");
-				t = $ID.getSymbol().getType();
-				$VARACCESS.setEvalType(t);
+				type = $ID.getSymbol().getType();
+				$VARACCESS.setEvalType(type);
 			}
 			;
 			
@@ -66,6 +66,10 @@ atom			returns [Type type]
 				type = $expr.type;
 			}
 			|	expr=arithmeticOperator
+			{
+				type = $expr.type;
+			}
+			|	expr=varAccess
 			{
 				type = $expr.type;
 			}
