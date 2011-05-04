@@ -11,13 +11,14 @@ import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class SymbolTable {
-	public static final Scope GLOBAL = new GlobalScope();
+	public static Scope GLOBAL;
 	
 	HashMap<String, Type> types = new HashMap<String, Type>();
 	
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
 	public SymbolTable() {
+		SymbolTable.GLOBAL = new GlobalScope();
 		try {
 			this.initSpecialTypes();
 		} catch (Exception e) {}
