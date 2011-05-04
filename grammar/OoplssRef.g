@@ -51,9 +51,9 @@ subType		: 	^(CLASSDEF classname=ID
 			;
 			
 superClasses	returns [Type t]
-			:	(^(SUPERCLASSES subclass+=ID))
+			:	(^(SUPERCLASS subclass+=ID))
 			{
-				logger.fine("<Ref>Resolve superclasses");
+				logger.fine("<Ref>Resolve superclass");
 			}
 			;
  	
