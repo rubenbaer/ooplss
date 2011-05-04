@@ -2,12 +2,8 @@ package ch.codedump.ooplss.test;
 
 import java.util.logging.Logger;
 
-import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 
-import ch.codedump.ooplss.antlr.OoplssDef;
-import ch.codedump.ooplss.antlr.OoplssRef;
-import ch.codedump.ooplss.antlr.OoplssTypes;
 import ch.codedump.ooplss.simpletest.DefTest;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.utils.ErrorHandler;
@@ -15,29 +11,6 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 
 public class TestArithmeticType extends OoplssTest {
 	static Logger logger = Logger.getLogger(DefTest.class.getName());
-	
-	/**
-	 * Create the typer and run it
-	 * 
-	 * @param code The input for the code
-	 * @return
-	 * @throws RecognitionException
-	 */
-	private OoplssTypes createTyper(String code) throws RecognitionException {
-		this.createParser(code);
-		
-		OoplssDef def = new OoplssDef(nodes, symTab);
-		def.downup(t);
-		
-		OoplssRef ref = new OoplssRef(nodes, symTab);
-		ref.downup(t);
-		
-		logger.info("Running the typer now\n\n");
-		OoplssTypes types = new OoplssTypes(nodes, symTab);
-		types.downup(t);
-		
-		return types;
-	}
 	
 	@Test
 	public void testFloatPromotion() throws Exception {

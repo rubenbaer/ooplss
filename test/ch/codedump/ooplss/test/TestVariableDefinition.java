@@ -1,30 +1,12 @@
 package ch.codedump.ooplss.test;
 
-import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 
-import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
-public class TestVariableDefinition extends OoplssTest {
-	/**
-	 * Create the definition walker and run it
-	 * 
-	 * @param code The input for the code
-	 * @return
-	 * @throws RecognitionException
-	 */
-	private OoplssDef createDef(String code) throws RecognitionException {
-		this.createParser(code);
-		
-		OoplssDef def = new OoplssDef(nodes, symTab);
-		def.downup(t);
-
-		return def;
-	}
-	
+public class TestVariableDefinition extends OoplssTest {	
 	@Test (expected=SymbolAlreadyDefinedException.class)
 	public void testDoubleClasses() throws Exception {
 		String str = 	"class foo {}" +
