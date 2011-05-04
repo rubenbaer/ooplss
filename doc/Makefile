@@ -48,6 +48,9 @@ final-book:
 once:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
+debug:
+	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
+
 # cleans index, logs, temporary files etc. 
 clean:
 	rm -f *{$(CLEAN_EXT)}
