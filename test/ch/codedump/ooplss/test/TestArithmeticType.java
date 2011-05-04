@@ -13,7 +13,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
-public class ArithmeticTypeTest extends OoplssTest {
+public class TestArithmeticType extends OoplssTest {
 	static Logger logger = Logger.getLogger(DefTest.class.getName());
 	
 	/**
