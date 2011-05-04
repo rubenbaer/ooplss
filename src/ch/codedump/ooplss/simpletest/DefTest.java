@@ -1,8 +1,6 @@
 package ch.codedump.ooplss.simpletest;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +15,7 @@ import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
 import ch.codedump.ooplss.antlr.OoplssRef;
+import ch.codedump.ooplss.antlr.OoplssTypes;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 
@@ -25,8 +24,8 @@ public class DefTest {
 	static Logger logger = Logger.getLogger(DefTest.class.getName());
 	
 	public static void main(String[] args) throws IOException, RecognitionException {
-		String str = "class Foo { def m():Foo{ var x : Foo; { var y : Foo; } var y : Foo; { var z : Foo; { var a : Foo; }} } def n():Foo{ { var x : Foo; } } }";
-		InputStream is = new ByteArrayInputStream(str.getBytes("UTF-8"));
+		//String str = "class Foo { def m():Foo{ var x : Foo; { var y : Foo; } var y : Foo; { var z : Foo; { var a : Foo; }} } def n():Foo{ { var x : Foo; } } }";
+		//InputStream is = new ByteArrayInputStream(str.getBytes("UTF-8"));
 		//ANTLRInputStream input = new ANTLRInputStream(is);
 		ANTLRInputStream input = new ANTLRInputStream(System.in);
 		
@@ -51,5 +50,9 @@ public class DefTest {
 		ref.downup(t);
 		
 		logger.fine("Symbol Table: \n" + symTab.toString());
+		
+		logger.info("Type checking");
+		OoplssTypes types = new OoplssTypes(nodes, symTab);
+		types.downup(t);
 	}
 }

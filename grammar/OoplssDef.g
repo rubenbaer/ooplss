@@ -12,7 +12,7 @@ ErrorHandler error = ErrorHandler.getInstance();
 public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
-	currentScope = symtab.globals;
+	currentScope = SymbolTable.GLOBAL;
 }
 }
 @header {

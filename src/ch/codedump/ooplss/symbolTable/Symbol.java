@@ -28,13 +28,6 @@ public abstract class Symbol {
 		this.scope = scope;
 	}
 	
-	/*
-	public Symbol(String name, Type type) {
-		this(name);
-		this.type = type;
-	}
-	*/
-	
 	/**
 	 * Return the symbol's name
 	 * 
