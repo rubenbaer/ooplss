@@ -31,8 +31,8 @@
 
 \ProvidesPackage{graphviz}
 
+\newwrite\dotfile 
 \newcommand{\digraph}[3][scale=1]{ 
-  \newwrite\dotfile 
   \immediate\openout\dotfile=#2.dot 
   \immediate\write\dotfile{digraph #2 {\string#3}} 
   \immediate\closeout\dotfile
