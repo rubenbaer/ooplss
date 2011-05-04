@@ -28,7 +28,12 @@ import java.util.logging.Logger;
 
 topdown		:	
 			/*|	memberAccess*/
-			 	arithmeticOperator
+			 	statement
+			;
+			
+statement		
+			:
+				^(STMT (varAccess|methodCall|arithmeticOperator))
 			;
 			
 
@@ -38,6 +43,15 @@ varAccess		returns [Type type]
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
 				$VARACCESS.setEvalType(type);
+			}
+			;
+			
+methodCall		returns [Type type]
+			:	^(METHODCALL ID .*)
+			{
+				logger.fine("<Type>Determining expression type of method call");
+				type = $ID.getSymbol().getType();
+				$METHODCALL.setEvalType(type);
 			}
 			;
 			
@@ -61,18 +75,10 @@ catch [InvalidExpressionException e] {
 }
 
 atom			returns [Type type]
-			:	expr=literal
-			{
-				type = $expr.type;
-			}
-			|	expr=arithmeticOperator
-			{
-				type = $expr.type;
-			}
-			|	expr=varAccess
-			{
-				type = $expr.type;
-			}
+			:	expr=literal            { type = $expr.type; }
+			|	expr=arithmeticOperator { type = $expr.type; }
+			|	expr=varAccess          { type = $expr.type; }
+			|   expr=methodCall         { type = $expr.type; }
 			;			
 
 literal			returns [Type type]

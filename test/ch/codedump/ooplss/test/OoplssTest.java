@@ -60,7 +60,7 @@ public abstract class OoplssTest {
 	protected OoplssDef createDef(String code) throws RecognitionException {
 		this.createParser(code);
 		
-		logger.info("Running the definition walker");
+		logger.info("\n\nRunning the definition walker");
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 		
@@ -70,7 +70,7 @@ public abstract class OoplssTest {
 	protected OoplssRef createRef(String code) throws RecognitionException {
 		this.createDef(code);
 		
-		logger.info("Running the reference walker");
+		logger.info("\n\nRunning the reference walker");
 		OoplssRef ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
@@ -80,7 +80,7 @@ public abstract class OoplssTest {
 	protected OoplssTypes createTyper(String code) throws RecognitionException {
 		this.createRef(code);
 		
-		logger.info("Running the type walker");
+		logger.info("\n\nRunning the type walker");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
 		

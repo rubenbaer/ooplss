@@ -45,4 +45,32 @@ public class TestArithmeticType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testMethodReturnInt() throws Exception {
+		String str = 	"class foo {" +
+						"	def bar():Int {" +
+						"		return 3;" +
+						"	}" +
+						"	def __construct() {" +
+						"		bar() + 3;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test(expected=InvalidExpressionException.class)
+	public void tesInvalidMethodReturn() throws Exception {
+		String str = 	"class foo {" +
+						"	def bar():String {" +
+						"		return \"abc\";" +
+						"	}" +
+						"	def __construct() {" +
+						"		self.bar() + 3;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

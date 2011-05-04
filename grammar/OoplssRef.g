@@ -31,6 +31,7 @@ topdown		:	enterMethod
 			|
 				(	varAccess
 				|	memberAccess
+				| 	methodCall
 				)
 
 			|	argument
@@ -103,21 +104,42 @@ catch [UnknownTypeException e] {
 */
 
 varAccess	returns [Type type]
-			:	^(VARACCESS ID)
+			:	^(VARACCESS name=ID)
 			{
-				if ($ID.getSymbol() != null) {
+				if ($name.getSymbol() != null) {
 					// we have already visited this node
-					return $ID.getSymbol().getType();
+					return $name.getSymbol().getType();
 				}
-				logger.fine("<Ref>Resolving a simple variable " + $ID.text);
-				Symbol s = this.symtab.resolveVar($ID);
-				$ID.setSymbol(s);
+				logger.fine("<Ref>Resolving a simple variable " + $name.text);
+				Symbol s = this.symtab.resolveVar($name);
+				$name.setSymbol(s);
 				type = s.getType();
 			}
 			;
 catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
+
+methodCall		returns [Type type]
+			:	^(METHODCALL name=ID .*)
+			{
+				if ($name.getSymbol() != null) {
+					// we have already visited this node
+					return $name.getSymbol().getType();
+				}
+				logger.fine("<Ref>Resolving a method call " + $name.text);
+				Symbol s = this.symtab.resolveMethod($name);
+				$name.setSymbol(s);
+				type = s.getType();
+			}
+			;
+catch[UnknownDefinitionException e] {
+	error.reportError(e);
+}
+catch[NotCallableException e] {
+	error.reportError(e);
+}
+
 
 selfAccess	returns [Type type]
 			: 	SELF
@@ -133,7 +155,8 @@ catch[Exception e] {
 }		
 
 memberAccess 	returns [Type type]
-			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess) ^(MEMBERACCESS var=ID))
+			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) ^(MEMBERACCESS var=ID))
+				// probably give the possibility to call a method here too?
 			{
 				logger.fine("<Ref>Accessing a member " + $ID.text);
 				Type lefttype = $left.type;
@@ -147,7 +170,19 @@ memberAccess 	returns [Type type]
 			;
 catch[IllegalMemberAccessException e] {
 	error.reportError(e);
-}			
+}		
+/*
+methodCall		returns [Type type]
+			:	^(METHODCALL ID .*)
+			{
+				logger.fine("<Ref>Resolving type of method call");
+				if ($ID.getSymbol() != null) {
+					// we have already visited this node
+					return $ID.getSymbol().getType();
+				}
+			}
+			;	
+			*/	
 
 	/*
 arrayAccess

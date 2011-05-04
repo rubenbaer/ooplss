@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
+import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
@@ -103,15 +104,13 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * Resolve a variable 
+	 * Resolve a name
 	 * 
-	 * Resolve a simple variable. Check that the 
-	 * variable is not accessed before it's definition.
 	 * @param node
-	 * @return Symbol The resolved symbol
-	 * @throws UnknownDefinitionException 
+	 * @return
+	 * @throws UnknownDefinitionException
 	 */
-	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
+	protected Symbol resolveName(OoplssAST node) throws UnknownDefinitionException {
 		Scope scope = node.getScope();
 		Symbol s = scope.resolve(node.getText());
 		if (s == null) {
@@ -128,8 +127,40 @@ public class SymbolTable {
 			
 		}
 		
+		return s;
+	}
+	
+	/**
+	 * Resolve a variable 
+	 * 
+	 * Resolve a simple variable. Check that the 
+	 * variable is not accessed before it's definition.
+	 * @param node
+	 * @return  The resolved symbol
+	 * @throws UnknownDefinitionException 
+	 */
+	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
+		Symbol s = this.resolveName(node);
+		
 		if (!(s instanceof VariableSymbol)) {
 			throw new UnknownDefinitionException(node);
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * Resolve a method call
+	 * @param node
+	 * @return The resolved symbol
+	 * @throws UnknownDefinitionException
+	 * @throws NotCallableException
+	 */
+	public Symbol resolveMethod(OoplssAST node) throws UnknownDefinitionException, NotCallableException {
+		Symbol s = this.resolveName(node);
+		
+		if (!(s instanceof MethodSymbol)) {
+			throw new NotCallableException(node);
 		}
 		
 		return s;
