@@ -22,7 +22,7 @@ def foo():bar {
 	2 + 3;
 	3 * 3;
 }
->> -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST (METHODBLOCK (STMT (+ (INT 2) (INT 3))) (STMT (* (INT 3) (INT 3)))))
+>> -> (METHODDEF foo (RETURNTYPE bar) ARGUMENTLIST (METHODBLOCK (STMT (+ 2 3)) (STMT (* 3 3))))
 
 <<
 def foo(x:y):bar {
@@ -42,7 +42,7 @@ block:
 {
 	2 + 3;
 }
->> -> (BLOCK (STMT (+ (INT 2) (INT 3))))
+>> -> (BLOCK (STMT (+ 2 3)))
 
 
 
