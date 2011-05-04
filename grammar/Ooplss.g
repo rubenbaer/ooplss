@@ -171,6 +171,12 @@ backtrack=true;
 							-> ^('.' SELF ^(ARRAYACCESS ID statement))*/
 					|	'self' '.' ID 
 							-> ^('.' SELF ^(MEMBERACCESS ID))
+					|
+						'self' '.' ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
+							-> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
+					|
+						ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
+							-> ^(METHODCALL ID ^(METHODARGS $arg+)?)
 				)
 				( 
 						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
