@@ -1,5 +1,7 @@
 package ch.codedump.ooplss.test;
 
+import java.util.logging.Logger;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -12,6 +14,7 @@ import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
 import ch.codedump.ooplss.antlr.OoplssTypes;
+import ch.codedump.ooplss.symbolTable.BaseScope;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
@@ -22,6 +25,8 @@ public abstract class OoplssTest {
 	SymbolTable symTab;
 	
 	Tree t;
+	
+	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
 	/**
 	 * Create the parser and lexer for code
@@ -55,6 +60,7 @@ public abstract class OoplssTest {
 	protected OoplssDef createDef(String code) throws RecognitionException {
 		this.createParser(code);
 		
+		logger.info("Running the definition walker");
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 		
@@ -64,6 +70,7 @@ public abstract class OoplssTest {
 	protected OoplssRef createRef(String code) throws RecognitionException {
 		this.createDef(code);
 		
+		logger.info("Running the reference walker");
 		OoplssRef ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
@@ -73,6 +80,7 @@ public abstract class OoplssTest {
 	protected OoplssTypes createTyper(String code) throws RecognitionException {
 		this.createRef(code);
 		
+		logger.info("Running the type walker");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
 		

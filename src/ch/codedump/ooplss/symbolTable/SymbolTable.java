@@ -21,7 +21,9 @@ public class SymbolTable {
 		SymbolTable.GLOBAL = new GlobalScope();
 		try {
 			this.initSpecialTypes();
+			this.registerBuiltInTypes();
 		} catch (Exception e) {}
+		
 		
 	}
 	
@@ -68,6 +70,18 @@ public class SymbolTable {
 		SymbolTable.GLOBAL.define(new ConstructorType(SymbolTable.GLOBAL));
 	}
 
+	/**
+	 * Register the built in types in the global scope to be able to resolve them
+	 * @throws SymbolAlreadyDefinedException
+	 */
+	private void registerBuiltInTypes() throws SymbolAlreadyDefinedException {
+		SymbolTable.GLOBAL.define(SymbolTable._bool);
+		SymbolTable.GLOBAL.define(SymbolTable._int);
+		SymbolTable.GLOBAL.define(SymbolTable._void);
+		SymbolTable.GLOBAL.define(SymbolTable._string);
+		SymbolTable.GLOBAL.define(SymbolTable._char);
+		SymbolTable.GLOBAL.define(SymbolTable._float);
+	}
 	
 	/**
 	 * Return the type of an arithmetic expression
