@@ -357,7 +357,7 @@ def m(o : A) Void {
 }
 \end{lstlisting}
 
-This code is illegal because \emph{self} is of type \B and
+This code is illegal because \self is of type \B and
 subclassing does not provide subsumption, i.e., \B $\nless$:
 \A. To overcome this problem, a special type variable is
 introduced which is called \mytype. Wherever a \mytype is used it will
