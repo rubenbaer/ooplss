@@ -12,15 +12,19 @@ package ch.codedump.ooplss.antlr;
 classDec:
 "class blubber { } " OK
 
-"class blubber subtypeOf blah subclassOf dings, bums { }" OK
+//"class blubber subtypeOf blah subclassOf dings, bums { }" OK
+"class blubber subtypeOf blah subclassOf dings { } " OK
 
 // with multiple subclassOf
+/*
 <<
 class blubber subtypeOf blah
 	subclassOf blubber, bums {
 		
 	}
 >> OK
+currently not supported
+*/
 
 // only one ID on extending
 "class blubber subtypeOf blah dings {}" FAIL

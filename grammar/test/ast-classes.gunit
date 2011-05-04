@@ -17,14 +17,25 @@ class blah subtypeOf blubb {
 }
 >> -> (CLASSDEF blah (SUPERTYPE blubb))
 
+/*
 <<
 class blah subclassOf meh, foo {
 
 }
 >> -> (CLASSDEF blah (SUPERCLASSES meh foo))
+*/
 
+/*
 <<
 class blah subtypeOf foo subclassOf meh, bar {
 
 }
 >> -> (CLASSDEF blah (SUPERTYPE foo) (SUPERCLASSES meh bar))
+*/
+
+
+<<
+class blah subtypeOf foo subclassOf meh {
+
+}
+>> -> (CLASSDEF blah (SUPERTYPE foo) (SUPERCLASS meh))

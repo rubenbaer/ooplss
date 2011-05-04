@@ -11,7 +11,7 @@ tokens {
 	BLOCK;
 	CLASSBODY;
 	SUPERTYPE;
-	SUPERCLASSES;
+	SUPERCLASS;
 	METHODDEF;
 	RETURNTYPE;
 	VARACCESS;
@@ -72,7 +72,8 @@ importStmt	:	'import' ID ';'
 
 classDec	:	'class' classname=ID 
 				( 'subtypeOf' supertype=ID )?
-				( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
+				//( 'subclassOf' subclass+=ID (',' subclass+=ID)* )?
+				( 'subclassOf' subclass+=ID ) ?
 				'{'
 					(
 						varDef ';'
@@ -81,7 +82,7 @@ classDec	:	'class' classname=ID
 					)*
 				'}'
 				->	^(CLASSDEF $classname ^(SUPERTYPE $supertype)? 
-					^(SUPERCLASSES $subclass+)? ^(FIELDS varDef+)?  
+					^(SUPERCLASS $subclass+)? ^(FIELDS varDef+)?  
 					^(METHODS methodDef+)?)
 			;
 	
