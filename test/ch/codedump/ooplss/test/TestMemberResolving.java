@@ -1,34 +1,14 @@
 package ch.codedump.ooplss.test;
 
-import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 
-import ch.codedump.ooplss.antlr.OoplssDef;
-import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
 public class TestMemberResolving extends OoplssTest {
-	/**
-	 * Create the referencer and run it
-	 * 
-	 * @param code The input for the code
-	 * @return
-	 * @throws RecognitionException
-	 */
-	private OoplssRef createRef(String code) throws RecognitionException {
-		this.createParser(code);
-		
-		OoplssDef def = new OoplssDef(nodes, symTab);
-		def.downup(t);
-		
-		OoplssRef ref = new OoplssRef(nodes, symTab);
-		ref.downup(t);
-		
-		return ref;
-	}
+
 	
 	@Test (expected=IllegalMemberAccessException.class) 
 	public void testUndefinedMemberAccess() throws Exception {

@@ -6,9 +6,12 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
 
+import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
+import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
+import ch.codedump.ooplss.antlr.OoplssTypes;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
@@ -41,5 +44,38 @@ public abstract class OoplssTest {
 		this.nodes = new CommonTreeNodeStream(t);
 		
 		ErrorHandler.getInstance().setBreakOnError(false);
+	}
+	
+	/**
+	 * 
+	 * @param code
+	 * @return
+	 * @throws RecognitionException 
+	 */
+	protected OoplssDef createDef(String code) throws RecognitionException {
+		this.createParser(code);
+		
+		OoplssDef def = new OoplssDef(nodes, symTab);
+		def.downup(t);
+		
+		return def;
+	}
+	
+	protected OoplssRef createRef(String code) throws RecognitionException {
+		this.createDef(code);
+		
+		OoplssRef ref = new OoplssRef(nodes, symTab);
+		ref.downup(t);
+		
+		return ref;
+	}
+	
+	protected OoplssTypes createTyper(String code) throws RecognitionException {
+		this.createRef(code);
+		
+		OoplssTypes types = new OoplssTypes(nodes, symTab);
+		types.downup(t);
+		
+		return types;
 	}
 }
