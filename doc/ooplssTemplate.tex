@@ -13,6 +13,9 @@
 %\RequirePackage{remreset}
 
 \usepackage[british]{babel}
+\usepackage{etex}
+\usepackage{tocbasic}
+\pdfminorversion=5
 
 %
 % Symbol Footnote without switch forth and back
@@ -52,7 +55,7 @@
 \usepackage{array}
 \usepackage{tabularx}
 
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{url}
 \usepackage{lastpage}
 
@@ -242,7 +245,7 @@
 %\renewcommand\contentsname{Table of Contents}
 
 %\addtolength{\headheight}{2\baselineskip}
-%\addtolength{\headheight}{0.3pt}
+\addtolength{\headheight}{32pt}
 
 %\renewcommand{\chaptermark}[1]{%
 %\markboth{#1}{}}
@@ -334,6 +337,9 @@
 \def \match {<\#\xspace}
 \def \mytype {\emph{MyType}\xspace}
 \def \self {\emph{self}\xspace}
+\def \base {\emph{base}\xspace}
+\def \Self {\emph{Self}\xspace}
+\def \Base {\emph{Base}\xspace}
 \def \A {\emph{A}\xspace}
 \def \B {\emph{B}\xspace}
 \def \C {\emph{C}\xspace}
@@ -342,6 +348,8 @@
 \def \X {\emph{X}\xspace}
 \def \Y {\emph{Y}\xspace}
 \def \Z {\emph{Z}\xspace}
+\def \subclassOf {\emph{subclassOf}\xspace}
+\def \subtypeOf {\emph{subtypeOf}\xspace}
 \def \ooplss {$\mathcal{OOPLSS}$\xspace}
 \def \ra {$\rightarrow$\xspace}
 \def \lra {$\longrightarrow$\xspace}

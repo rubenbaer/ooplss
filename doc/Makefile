@@ -51,6 +51,13 @@ once:
 debug:
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
+full-debug: clean
+	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
+	mpost $(JOB) 1> /dev/null
+	bibtex $(JOB) 1> /dev/null
+	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
+	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
+
 # cleans index, logs, temporary files etc. 
 clean:
 	rm -f *{$(CLEAN_EXT)}
