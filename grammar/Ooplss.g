@@ -211,10 +211,10 @@ atom		:	literal
 
 
 
-literal		:	INTLITERAL    -> ^(INT INTLITERAL)
-			|	STRINGLITERAL -> ^(STRING STRINGLITERAL)
-			|	CHARLITERAL   -> ^(CHAR CHARLITERAL)
-			|	BOOLLITERAL   -> ^(BOOL BOOLLITERAL)
+literal		:	INTLITERAL    
+			|	STRINGLITERAL 
+			|	CHARLITERAL   
+			|	BOOLLITERAL   
 			// TODO: more literal types
 			;
 		
