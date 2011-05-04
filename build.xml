@@ -128,7 +128,7 @@
 
 			<batchtest fork="yes" todir="${reports}">
 				<fileset dir="${build}">
-					<include name="**/test/**/*Test*.class"/>
+					<include name="**/test/**/Test*.class"/>
 					<exclude name="**/test/**/AllTests.class"/>
 				</fileset>
 			</batchtest>
