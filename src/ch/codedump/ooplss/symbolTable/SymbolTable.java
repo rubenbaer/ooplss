@@ -55,6 +55,10 @@ public class SymbolTable {
 			
 		}
 		
+		if (!(s instanceof VariableSymbol)) {
+			throw new UnknownDefinitionException(node);
+		}
+		
 		return s;
 	}
 	

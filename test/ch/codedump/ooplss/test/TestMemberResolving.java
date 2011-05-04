@@ -14,6 +14,7 @@ import ch.codedump.ooplss.antlr.OoplssRef;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
@@ -114,6 +115,20 @@ public class TestMemberResolving {
 						"class b subtypeOf a {" +
 						"	def __construct() {" +
 						"		x;" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test(expected=UnknownDefinitionException.class)
+	public void testClassVarAccess() throws Exception {
+		String str = 	"class a {" + 
+						"	var x:a;" +
+						"}" +
+						"class b {" +
+						"	def __construct() {" +
+						"		a;" +
 						"	}" +
 						"}";
 		this.createRef(str);
