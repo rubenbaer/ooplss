@@ -183,8 +183,12 @@ class B subtypeOf A {
 }
 \end{lstlisting}
 
+\todo{Base reference}
+
 \subsection{Extension Class Combinator}
 \todo{Combination operator (No method overloading)}
+
+
 
 %The extension mechanism is the same as provided by Java. Instead of
 %the \emph{extends} keyword a new is introduced: \emph{subtypeOf} which
@@ -300,8 +304,8 @@ class B subclassOf A {
 
 The following listing \ref{lst:javaTrans} presents the to Java translated
 code of listing \ref{lst:subclassOf}. It demonstrates the clear cut within 
-the subtyping hierarchy since the whole content of class \emph{A} is modified
-and copied to class \emph{B}.
+the subtyping hierarchy since the whole content of class \A is modified
+and copied to class \B.
 
 \begin{lstlisting}[float,caption=Subtyping translated in Java,label=lst:javaTrans]
 public class A {
@@ -339,13 +343,13 @@ public class B {
 
 \section{Introducing \mytype}
 With subclassing an other sort of class combination is introduced. By
-observing the listings \todo{reference} one may see something rather strange. While
-class \emph{A} has a recursive object type it is not the case for
-class \emph{B}. Since these two classes are completely decoupled but
-the type of the classes' type is not changed from \emph{A} to \emph{B}
+observing the listings \todo{reference} one may see something rather
+strange. While class \A has a recursive object type it is not the
+case for class \B. Since these two classes are completely decoupled
+but the type of the classes' type is not changed from \A to \B
 the expression in listing \ref{lst:breakSelf} can not be typed.
 
-\begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \emph{A}) : \emph{Void} in class \emph{B},label=lst:breakSelf]
+\begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
 def m(o : A) Void {
 	%\ldots)
 	m(self); // Breaks in subclass!
@@ -353,11 +357,14 @@ def m(o : A) Void {
 }
 \end{lstlisting}
 
-This code is illegal because \emph{self} is of type \emph{B} and
-subclassing does not provide subsumption, i.e., \emph{B} $\nless$:
-\emph{A}. To overcome this problem, a special type variable is
+This code is illegal because \emph{self} is of type \B and
+subclassing does not provide subsumption, i.e., \B $\nless$:
+\A. To overcome this problem, a special type variable is
 introduced which is called \mytype. Wherever a \mytype is used it will
-get bound with the type that is generated.
+get bound with the type that is generated. To go a step further $self$ is not
+not of the class type itself. To not get trapped into type incompatibility with
+the self variable, which vary within the hierarchy, is of type \mytype, i.e., 
+the relation $self <: MyType$ is true whenever used.
 
 \begin{figure}[h]
 	\centering
@@ -383,19 +390,21 @@ get bound with the type that is generated.
 \label{sec:resolveAmbiguity}
 Lets consider the extension and inheritance hierarchy in \cref{fig:hierarchy}
 again. A special remark is given in the left side of this graph. It is clear
-that \emph{C} inherits \emph{B}. But what about the extension of \emph{A} 
-with \emph{B}? As seen before, inheritance breaks the hierarchy and does only
+that \E inherits \B. But what about the extension of \A 
+with \B? As seen before, inheritance breaks the hierarchy and does only
 provide a possibility of class combination. This rises the question how the 
-relation between \emph{A} and \emph{B} is considered. If the self type in 
-\emph{A} would be bound before the record combination to \emph{E} would be
+relation between \A and \B is considered. If the self type in 
+\A would be bound before the record combination to \E would be
 performed unsafe type constructs could be possible since a method expecting 
-type \emph{A} would not make any sense in class \emph{E}. From this point of 
+type \A would not make any sense in class \E. From this point of 
 consideration the extension mechanism has two faces. In a pure subtyping 
 hierarchy it is subtyping and in a subclassing hierarchy the extension
 mechanism is inheritance as well.
 
+\todo{Self is a MyType but not type of class it self.}
+
 Knowing this fact generates the following hierarchy in \cref{fig:fixedHierarchy}
-for the type \emph{E}. This fact makes it impossible to use a explicit recursive
+for the type \E. This fact makes it impossible to use a explicit recursive
 self reference for classes since they are not subclass compatible anymore, i.e.,
 the \mytype is used wherever possible. 
 
@@ -415,7 +424,7 @@ the \mytype is used wherever possible.
 		E -> D [style=dashed];
 		E -> B [style=dashed];
 		}
-	\caption{Subclassing hierarchy for class \emph{E}}
+	\caption{Subclassing hierarchy for class \E}
 	\label{fig:fixedHierarchy}
 \end{figure}
 
@@ -427,9 +436,9 @@ the other hand there is a matching relation which is used to restrict type
 parameters to a given protocol and is denoted with \match respectively
 with a dashed line in diagrams. \Cref{fig:hierarchy} shows an example
 of a type hierarchy in \ooplss.
-%Only one subtype relation between type \emph{A}
-%and \emph{B} exists. Between the other types exists a matching relation; \emph{E}
-%\match \emph{D} \match \emph{C} \match \emph{A} and \emph{E} \match \emph{B}.
+%Only one subtype relation between type \A
+%and \B exists. Between the other types exists a matching relation; \E
+%\match \D \match \C \match \A and \E \match \B.
 
 From this and \cref{sec:resolveAmbiguity} follows directly that these
 relations in \cref{fig:fixedHierarchy} are true:
@@ -443,30 +452,6 @@ E <\!\!\#~B \\
 \ref{alg:match} makes problems
 
 %\subsection{Matching is Compatible with Subtyping}
-
-Now, after some considerations about matching, lets take a look at
-proposition \ref{prop:matching}. Bruce is stated that `matching is the same as
-subtyping in the absence of the MyType construct.'
-
-\begin{thm}[Matching as subtyping]
-	\label{thm:matchinIsSubtyping}
-	if $B <: A \rightarrow B$ \match $A$
-\end{thm}
-
-\begin{proof}
-	For this one may recall how subtyping is to understand.\footnote{See
-	definitions \ref{def:subtypeObject} - \ref{def:methodSubtyping}}.
-
-	Let $B <: A$, $X := \mu MyType.\{m :
-	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Class combinators}
-
-	\begin{enumerate}
-%		\item From definition \ref{def:subtypeObject}
-%		follows directly that $Y <: X$.
-
-		\item 
-	\end{enumerate}
-\end{proof}
 
 Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
@@ -487,6 +472,34 @@ of Java's or \cs's generics.
 These generics does only allow f-bounds with subtypes but not with
 subclasses what is different in \ooplss because of the matching relation
 between two subclasses.
+
+Now, after some considerations about matching, lets take a look at
+proposition \ref{prop:matching}. Bruce is stated that `matching is the same as
+subtyping in the absence of the MyType construct.'
+
+\begin{thm}[Matching as subtyping]
+	\label{thm:matchinIsSubtyping}
+	if $B <: A \rightarrow B$ \match $A$
+\end{thm}
+
+\begin{proof}
+	For this one may recall how subtyping is to understand.\footnote{See
+	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
+
+	Let $B <: A$, $X := \mu MyType.\{m :
+	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Class combinators}
+
+	\begin{enumerate}
+%		\item From definition \ref{def:subtypeObject}
+%		follows directly that $Y <: X$.
+
+		\item 
+	\end{enumerate}
+\end{proof}
+
+\begin{mathpar}
+	\inferrule*[Right=foo]{A}{B}
+\end{mathpar}
 
 \subsection{No \#-Types in \ooplss}
 \cite{bruce_foundations_2002}

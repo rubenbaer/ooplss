@@ -206,7 +206,7 @@ general or same argument type, but not a more specific one:
 		link(inheritance)(B.e -- A.w);
 
 	\end{emp}
-	\caption{Contravariance: the argument type in \emph{B} is more specific than the one in \emph{A}}
+	\caption{Contravariance: the argument type in \B is more specific than the one in \A}
 	\label{fig:contravariance}
 \end{figure}
 
@@ -275,8 +275,7 @@ There are two main cases when recursion occurs:
 
 The first case is problematic when objects are derived: it is not quite
 clear to which object the self variable should refer after the derivation.
-In C++ and Java\todo{Java is not a good example since Java knows only
-virtual methods}, the self-reference in inherited methods refers to
+In C++ and Java, the self-reference in inherited methods refers to
 the base object that was derived. This means that an object may contain
 many versions of self-references, which is called \emph{schizophrenic
 self-reference}. Other languages like Smalltalk and Eiffel treat the
