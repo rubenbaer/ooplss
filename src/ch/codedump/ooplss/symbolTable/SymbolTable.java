@@ -123,9 +123,7 @@ public class SymbolTable {
 	 * @return Result type
 	 */
 	protected Type getResultType(Type[][] resultTable, Type left, Type right) {
-		Type t = this.arithmeticResultType
-			 [left.getTypeIndex()]
-			 [right.getTypeIndex()];
+		Type t = resultTable[left.getTypeIndex()][right.getTypeIndex()];
 	
 		return t;
 	}

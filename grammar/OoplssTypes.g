@@ -33,7 +33,13 @@ topdown		:
 			
 statement		
 			:
-				^(STMT (varAccess|methodCall|arithmeticOperator|equalityOperator))
+				^(STMT (
+					varAccess
+					|methodCall
+					|arithmeticOperator
+					|equalityOperator
+					|relationalOperator
+				))
 			;
 			
 
@@ -89,10 +95,27 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+relationalOperator
+				returns [Type type]
+			: 	^((op=LESS|op=GREATER|op=LEQ|op=GEQ)
+					left=atom right=atom)
+			{
+				logger.fine("<Type>Determining relational expression type");
+				type = symtab.relationalType($left.type, $right.type, $op);
+				
+				logger.fine("<Type>Result type is " + type);
+				$op.setEvalType(type);
+			}
+			;
+catch [InvalidExpressionException e] {
+	error.reportError(e);
+}
+
 atom			returns [Type type]
 			:	expr=literal            { type = $expr.type; }
 			|	expr=arithmeticOperator { type = $expr.type; }
 			|	expr=equalityOperator 	{ type = $expr.type; }
+			|	expr=relationalOperator { type = $expr.type; }
 			|	expr=varAccess          { type = $expr.type; }
 			|   expr=methodCall         { type = $expr.type; }
 			;			
