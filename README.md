@@ -21,7 +21,7 @@ Directory Structure
               /tstp    -- Articles used in the project 2
                           (Type Systems: Theory and Practice)
               /beo1    -- Articles received from beo1 for the project 2
-              /thesis  -- Some new articles for the thesis
+              /ooplss  -- Some new articles for the thesis
               /simons  -- A serie of articles written by Anthony J.H.
                           Simons for the Journal of Object Technology
     ./doc       -- Documentation
