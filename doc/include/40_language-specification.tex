@@ -46,6 +46,12 @@ Since nominal subtyping is used, information hiding has not that impact
 compared to structural subtyping since all fields are automatically
 available. This helps to keep the language small.
 
+\paragraph{No Method Overloading}
+
+\paragraph{Single Dispatch}
+
+Further details in discussion!
+
 \chapter{Syntax}
 \section{Abstract Syntax}
 The abstract syntax gives a short overview of \ooplss. This syntax is
@@ -57,7 +63,7 @@ implementation.\\
 		PROG & \lra & CLASSES \\
 		CLASSES & \lra & CLASS+ \\
 		CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINATORS \\
-		& & ~~~~`\{' VARDEF* METHODDEF* CONSTRUCTOR* `\}' \\
+		& & ~~~~`\{' VARDEF* METHODDEF* CONSTR* `\}' \\
 		CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
 		CLASSPARAM & \lra & TYPE \\
 		 & | & TYPEVAR \match TYPE \\
@@ -71,7 +77,7 @@ implementation.\\
 		& | & \mytype \\
 		VARDEF & \lra & `var' ID `:' TYPE `;' \\
 		METHODDEF & \lra & `def' ID `(' PARAMS? `) :' TYPE `\{' EXPR* `\}'  \\
-		CONSTRUCTOR & \lra & `def \_\_construct (' PARAMS? `) \{' EXPR* `\}' \\
+		CONSTR & \lra & `def \_\_construct (' PARAMS? `) \{' EXPR* `\}' \\
 		EXPR & \lra & VARDEF \\
 		& | & BLOCK \\
 		& | & ID = EXPR `;' \\
@@ -142,9 +148,6 @@ can not be nested. The second kind comes in the C++-style and is a single-
 line comment which starts with `//'. The character sequence behind this token
 until to the next newline is ignored.
 
-%\section{Declarations and Definitions}
-%\subsection{Type Parameters}
-
 \chapter{Language Semantics}
 Classes build the foundation of \ooplss and contain one of the
 differences known in today's languages\todo{which one?}
@@ -188,52 +191,33 @@ class B subtypeOf A {
 \subsection{Extension Class Combinator}
 \todo{Combination operator (No method overloading)}
 
-
-
-%The extension mechanism is the same as provided by Java. Instead of
-%the \emph{extends} keyword a new is introduced: \emph{subtypeOf} which
-%makes a clear distinction to subclass building. Since in subtyping in a
-%class the \mytype is first bound and afterwards the classes are combined,
-%overriding a method must be specified with parameters conforming to the
-%subtype relation. In other words the \mytype construct is here useless
-%since \mytype would have different meaning in the different classes. Listing
-%\ref{lst:subtypeOf} demonstrates this behaviour.
-%
-%For a seamless integration into Java and other target systems without multiple
-%inheritance, the class can only build one subtype at once.
-%
-%\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label="lst:subtypeOf"]
-%class A {
-%	// Defines a method with parameter of type A.
-%	def m(p : MyType) : RType {
-%		%\ldots)
-%	}
-%}
-%
-%class B subtypeOf A {
-%	// Provides a new method with parameter of type B.
-%	// which is not in a subtype of the parent method m(o).
-%	def m(p : MyType) : RType {
-%		%\ldots)
-%	}
-%
-%	// Overrides the method m of class A.
-%	def m(p : A) : RType {
-%		%\ldots)
-%	}
-%}
-%\end{lstlisting}
-
 \section{Inheritance as Subclassing}
-Inheritance is the second possibility of class combination in \ooplss. It
-is postulated by Simons' Theory of Classification \cite{simons_theory_2004-2}.
-This combination is not only a sort of class extension with code reuse where
-the new class needs to follow subtyping rules and avoids the problem of
-schizophrenic self-reference since the self-variable binding is performed after
-the class combination and follows the notion of inheritance in the
-classical sense. \ooplss integrates this second form of combination within
-the nominal subtyping model which is used as well. This dual possibility is
-unseen in current programming languages.
+Inheritance is the second class combinator in \ooplss. It is postulated
+by Simons' Theory of Classification \cite{simons_theory_2004-2}.
+This combination is not only a sort of class extension with code
+reuse where the new class needs to follow subtyping rules and avoids
+the problem of schizophrenic self-reference since the self-variable
+binding is performed after the class combination and follows the notion
+of inheritance in the classical sense. \ooplss integrates this second
+form of combination within the nominal subtyping model which is used as
+well. This dual possibility is unseen in current programming languages.
+
+To represent this kind of class combination the diagrams used differs from classical
+UML representation. The dashed lines show a subclass reference between two classes
+like in \cref{fig:subclassCombination}
+
+\begin{figure}
+	\centering
+	\digraph[scale=0.8]{SubclassCombination}{
+		rankdir=BT;
+		margin=0;
+		A[fontname=LMRoman10];
+		B[fontname=LMRoman10];
+		B -> A [style=dashed];
+	}
+	\caption{Graphical representation of a inheritance class combination}
+	\label{fig:subclassCombination}
+\end{figure}
 
 Semantically a subclass is a break in the subtyping hierarchy, i.e., inheritance
 combines classes without holding the subsumption property. This gives \ooplss
@@ -242,7 +226,7 @@ would be introduced. This is illustrated in \cref{fig:inheritHierarchy}. In figu
 \ref{fig:javaHierarchy} the types \emph{C'} and \emph{D'} is the combined type
 defined in \ooplss.
 
-\begin{figure}[h]
+\begin{figure}
 	\centering
 	\subfigure[\ooplss hierarchy]{
 		\digraph[scale=0.8]{OoplssHierarchy}{
@@ -256,9 +240,10 @@ defined in \ooplss.
 			C -> A [style=dashed];
 			D -> C [style=dashed];
 			D -> B [style=dashed];
-			} \label{fig:ooplssHierarchy}
-			}
-		\subfigure[Java hierarchy]{
+		} 
+		\label{fig:ooplssHierarchy}
+	}
+	\subfigure[Java hierarchy]{
 		\digraph[scale=0.8]{JavaHierarchy}{
 			rankdir=BT;
 			margin=0;
@@ -269,8 +254,9 @@ defined in \ooplss.
 			B -> A;
 			C[label="C'"];
 			D[label="D'"];
-			} \label{fig:javaHierarchy}
-			}
+		} 
+		\label{fig:javaHierarchy}
+	}
 	\caption{Class relation hierarchy in \ooplss and Java}
 	\label{fig:inheritHierarchy}
 \end{figure}
@@ -286,18 +272,14 @@ class A {
 	var a : A;
 
 	def m(o : A) Void {
-		%\ldots)
 		m(a); // Recursive call
-		%\ldots)
 	}
 }
 
 class B subclassOf A {
 	def m(o : A) Void {
-		%\ldots)
 		m(a);
 		A.m(a);
-		%\ldots)
 	}
 }
 \end{lstlisting}
@@ -307,14 +289,12 @@ code of listing \ref{lst:subclassOf}. It demonstrates the clear cut within
 the subtyping hierarchy since the whole content of class \A is modified
 and copied to class \B.
 
-\begin{lstlisting}[float,caption=Subtyping translated in Java,label=lst:javaTrans]
+\begin{lstlisting}[float,caption=Subclassing translated in Java,label=lst:javaTrans]
 public class A {
 	public A a;
 
 	public void m(A o) {
-		%\ldots)
 		m(a); // Recursive call
-		%\ldots)
 	}
 }
 
@@ -323,17 +303,13 @@ public class B {
 	public A a;
 
 	private void A$$m(A o) {
-		%\ldots)
 		m(a); // Recursion back to original method
-		%\ldots)
 	}
 
 	// Override A.m()
 	public void m(A o) {
-		%\ldots)
 		m(a); // Direct recursion
 		A$$m(a); // Recursion call over class A
-		%\ldots)
 	}
 }
 \end{lstlisting}
@@ -343,30 +319,129 @@ public class B {
 
 \section{Introducing \mytype}
 With subclassing an other sort of class combination is introduced. By
-observing the listings \todo{reference} one may see something rather
-strange. While class \A has a recursive object type it is not the
-case for class \B. Since these two classes are completely decoupled
-but the type of the classes' type is not changed from \A to \B
-the expression in listing \ref{lst:breakSelf} can not be typed.
+observing the listings \ref{lst:subclassOf} and \ref{lst:javaTrans}
+one may see something rather strange. While class \A has a recursive
+object type it is not the case for class \B. Since these two classes are
+completely decoupled but the type of the classes' type is not changed from
+\A to \B the expression in listing \ref{lst:breakSelf} can not be typed.
 
 \begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
-def m(o : A) Void {
-	%\ldots)
-	m(self); // Breaks in subclass!
-	%\ldots)
+class A {
+	def m(o : A) : A {
+		return m(self); //Works fine in Java
+	}
+}
+
+class B subclassOf A {
+	def m(o : A) : A {
+		return m(self); // Breaks in subclass!
+	}
 }
 \end{lstlisting}
 
-This code is illegal because \self is of type \B and
-subclassing does not provide subsumption, i.e., \B $\nless$:
-\A. To overcome this problem, a special type variable is
-introduced which is called \mytype. Wherever a \mytype is used it will
-get bound with the type that is generated. To go a step further $self$ is not
-not of the class type itself. To not get trapped into type incompatibility with
-the self variable, which vary within the hierarchy, is of type \mytype, i.e., 
-the relation $self <: MyType$ is true whenever used.
+This code is illegal because \self is of type \B and subclassing does
+not provide subsumption, i.e., \B $\nless$: \A. To overcome this problem,
+a special type variable is introduced which is called \mytype.
 
-\begin{figure}[h]
+This type variable is available in every class but has different meanings
+depending on the class under consideration. It is the type correspondence
+to the \self variable. Definition \ref{def:selfType} reflects this idea.
+
+\begin{defn}[Self Type]
+	\label{def:selfType}
+	\self <: \mytype
+\end{defn}
+
+Listing \ref{lst:fixBreakSelf} fixes the code with the assumption of
+definition \ref{def:selfType}.
+
+\begin{lstlisting}[float,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
+class A {
+	def m(o : MyType) : MyType {
+		return m(self); //Works well
+	}
+}
+
+class B subclassOf A {
+	def m(o : MyType) : MyType {
+		MyType A.m(self); // Works fine as well
+	}
+}
+\end{lstlisting}
+
+The demo in listing \ref{lst:fixBreakSelf} shows how \mytype works well
+in \ooplss.  Semantically this works since every occurrence of \mytype
+is replaced with the new type of class \B. In other words, \mytype is
+replaced after the classes are combined.
+
+Consequently the translation of listing \ref{lst:fixBreakSelf}
+into corresponding Java code which is presented in listing
+\ref{lst:javaTransMyTypeSubclassing}. Considering the recursive
+method calls in method $m(o : MyType)$ makes clear that subclassing
+provides a proper possibility for mutual recursion mentioned in
+\cref{sec:schizoReferences}. This behaviour is intended since this gives
+programmers the possibility to take fully control over the recursion
+and correct program flow.
+
+\begin{lstlisting}[float,caption=Subclassing with \mytype translated in Java,label=lst:javaTransMyTypeSubclasing]
+public class A {
+	public A m(A o) {
+		m(this);
+	}
+}
+
+public class B {
+	private B A$$m(B o) {
+		return m(this); // Recursion back to original method
+	}
+
+	// Override A.m()
+	public B m(B o) {
+		return A$$m(this); // Recursion call over class A
+	}
+}
+\end{lstlisting}
+
+\subsection{\mytype in Subtyping}
+\label{ssec:mytypeInSubtype}
+The \mytype was now introduced to fix typing problems within
+inheritance. This rises the question whether a \mytype is suitable
+with extension as well. This problem is illustrated in listing
+\ref{lst:myTypeSubtyping} since it is not sure what type the parameter
+$o$ should have in class \B. Is it type \B or type \A? 
+
+\begin{lstlisting}[float,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
+class A {
+	def m(o : MyType) : MyType {
+		return m(self);
+	}
+}
+
+class B subtypeOf A {
+	def m(o : MyType) : MyType {
+		return base.m(self);
+	}
+}
+\end{lstlisting}
+
+Let consider the consequences if $o : B$ in class \B. First of all this
+method definition would necessarily require that \ooplss would support
+method overloading which it does not. But there are other consequences which
+are considerably more problematic like that $B.m$ would not be a subtype method of that
+provided from class \A. Knowing that $B.m$ is not a subtype if $A.m$ does
+it make impossible to create mutual recursion which is provided by inheritance
+and only naive recursion would be possible within extension. From this follows
+that if method $A.m$ is called there is no possibility to come back to object \B 
+within this recursion as long as no dynamic dispatch is available since \B can 
+not provide a own implementation of $m$ with $o : A$. However, even \B would
+provide two implementations of $m$, one with $o : A$ and one with $o : B$ this
+would lead to a contradiction if \B is used as a superclass. For this one may
+consider \cref{fig:hierarchy} and its corresponding code in listing
+\ref{lst:mixedHierarchy}. The problem is in line \ref{lst:mixedHierarchy1}. 
+If this code segment would be combined in class \C, \self would now be of type
+\C which is not a subtype of \A.
+
+\begin{figure}[ht]
 	\centering
 	\digraph[scale=0.8]{FixedSubclassingSubtyping}{
 		rankdir=BT;
@@ -374,19 +449,105 @@ the relation $self <: MyType$ is true whenever used.
 		A[fontname=LMRoman10];
 		B[fontname=LMRoman10];
 		C[fontname=LMRoman10];
-		D[fontname=LMRoman10];
-		E[fontname=LMRoman10];
 		B -> A;
-		C -> A [style=dashed];
-		D -> C [style=dashed];
-		E -> D [style=dashed];
-		E -> B [style=dashed];
+		C -> B [style=dashed];
 		}
 	\caption{Subclassing and subtyping hierarchy}
 	\label{fig:hierarchy}
 \end{figure}
 
-\section{Resolving Extension Ambiguity}
+\begin{lstlisting}[float,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
+class A {
+	def m(o : MyType) : MyType {
+		return m(self);
+	}
+}
+
+class B subtypeOf A {
+	def m(o : MyType) : MyType {
+		return base.m(self);
+	}
+
+	def m(o : A) : MyType { 
+		return o.m(self); // Not typeable in C!%\label{lst:mixedHierarchy1})
+	}
+}
+
+class C subclassOf B {
+	def m(o : MyType) : MyType {
+		return B.m(self);
+	}
+}
+\end{lstlisting}
+
+For this the self compatibility is defined as follow:
+
+\begin{defn}[Self is compatible with MyType]
+	\label{def:selfCompatibility}
+	For every class \A it is true that $self : MyType$ but not that $A <: MyType$
+\end{defn}
+
+\subsection{Binding Moment of \mytype}
+To fit the behaviour described in \cref{ssec:mytypeInSubtype} in
+a uniform model of extension and inheritance the binding moment
+of \mytype needs to be considered more clearly. For this listing
+\ref{lst:bindingInMixedHierarchy} shows a mixed class hierarchy in
+\ooplss. First of all \B extends \A. Here the \mytype in method $m$ is
+not rebound in the subtype class, i.e., the \mytype binding in within
+extension is as early as possible done. This is fully the notion of
+subtyping. However, in \B is \mytype not uniformly bound. Method $f$
+does have an other bound of \mytype then $m$. This works perfectly fine
+since $B <: A$. Going one step deeper in the hierarchy inheritance is
+performed. In class \C every occurrence of \mytype is now rebound to
+type \C. This works as well since \self-type is defined as in definition
+\ref{def:selfCompatibility}. Now, \C is also extended in \D where method
+$g$ is overridden. Here again, since in extension the binding moment is
+performed as early as possible, this fits well in to \ooplss' model of
+class combination.
+
+\begin{lstlisting}[float,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
+class A {
+	def m(o : MyType) : MyType { // o : A
+		return m(self); 
+	}
+}
+
+class B subtypeOf A {
+	def m(o : MyType) : MyType { // o : A
+		return base.m(self);
+	}
+
+	def f(o : MyType) : MyType {  // o : B
+		return o.f(self); 
+	}
+}
+
+class C subclassOf B { // Rebinds every occurrence of MyType in hierarchy
+	def m(o : MyType) : MyType { // o : C
+		return B.m(self);
+	}
+
+	def g(o : MyType) : MyType { // o : C
+		return g(self);
+	}
+}
+
+class D subtypeOf C {
+	def g(o : MyType) : MyType { // o : C
+		return g(self);
+	}
+}
+\end{lstlisting}
+
+Although everything is now typeable, does this code provide mutual
+recursion as wanted?  Let consider a method call of $m$ in \C. The
+method call handle goes correctly to its superclass method $B.m$. Now
+there the next problem may rise. How is the \base reference considered?
+First of all, a \base reference does here not make any sense since
+\C does not have a supertype except \object and \object does most 
+of the time not provide a method that is wanted.
+
+\subsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
 Lets consider the extension and inheritance hierarchy in \cref{fig:hierarchy}
 again. A special remark is given in the left side of this graph. It is clear
@@ -401,14 +562,12 @@ consideration the extension mechanism has two faces. In a pure subtyping
 hierarchy it is subtyping and in a subclassing hierarchy the extension
 mechanism is inheritance as well.
 
-\todo{Self is a MyType but not type of class it self.}
-
 Knowing this fact generates the following hierarchy in \cref{fig:fixedHierarchy}
 for the type \E. This fact makes it impossible to use a explicit recursive
 self reference for classes since they are not subclass compatible anymore, i.e.,
-the \mytype is used wherever possible. 
+the \mytype is used wherever possible.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\digraph[scale=0.8]{SubclassingSubtyping}{
 		rankdir=BT;
@@ -416,17 +575,18 @@ the \mytype is used wherever possible.
 		A[fontname=LMRoman10];
 		B[fontname=LMRoman10];
 		C[fontname=LMRoman10];
-		D[fontname=LMRoman10];
-		E[fontname=LMRoman10];
 		B -> A [style=dashed];
 		C -> A [style=dashed];
 		D -> C [style=dashed];
-		E -> D [style=dashed];
-		E -> B [style=dashed];
 		}
 	\caption{Subclassing hierarchy for class \E}
 	\label{fig:fixedHierarchy}
 \end{figure}
+%
+%\subsection{Method Overloading and Mutual Recursion}
+
+\section{Class Combinators Refined}
+\todo{Give a full specification of class combinators with mytype and base rewriting}
 
 \section{Type Relations}
 \ooplss knows two different type relations. On one hand there exists
@@ -446,7 +606,7 @@ relations in \cref{fig:fixedHierarchy} are true:
 B <: A \\
 B \nless\!\!\#~A \label{alg:match} \\
 E <\!\!\#~A \\
-E <\!\!\#~B \\
+E <\!\!\#~B
 \end{align}
 
 \ref{alg:match} makes problems
