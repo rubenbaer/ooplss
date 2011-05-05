@@ -33,7 +33,7 @@ topdown		:
 			
 statement		
 			:
-				^(STMT (varAccess|methodCall|arithmeticOperator))
+				^(STMT (varAccess|methodCall|arithmeticOperator|equalityOperator))
 			;
 			
 
@@ -74,9 +74,25 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+equalityOperator
+				returns [Type type]
+			:	^((op=EQ|op=INEQ) left=atom right=atom)
+			{
+				logger.fine("<Type>Determining equality expression type");
+				type = symtab.equalityType($left.type, $right.type, $op);
+				
+				logger.fine("<Type>Result type is " + type);
+				$op.setEvalType(type);
+			}
+			;
+catch [InvalidExpressionException e] {
+	error.reportError(e);
+}
+
 atom			returns [Type type]
 			:	expr=literal            { type = $expr.type; }
 			|	expr=arithmeticOperator { type = $expr.type; }
+			|	expr=equalityOperator 	{ type = $expr.type; }
 			|	expr=varAccess          { type = $expr.type; }
 			|   expr=methodCall         { type = $expr.type; }
 			;			

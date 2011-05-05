@@ -50,7 +50,7 @@ public class SymbolTable {
 	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);;
 	
 	/**
-	 * The mappings of arithmetic operations 
+	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
 		/*				object	int		float	string	 char	  bool	  void */
@@ -61,6 +61,34 @@ public class SymbolTable {
 		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void},
 		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
 		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+	};
+	
+	/**
+	 * The mappings of relational expressions like < > <= >=
+	 */
+	protected final Type[][] relationalResultType = new Type[][] {
+		/*				object	int		float	string	 char	  bool	  void */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
+		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+	};
+	
+	/**
+	 * The mappings of equality expressions like == !=
+	 */
+	protected final Type[][] equalityResultType = new Type[][] {
+		/*				object	int		float	string	 char	  bool	  void */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
+		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}		
 	};
 
 	/**
@@ -85,23 +113,81 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Return the result type of two expressions 
+	 * 
+	 * Return the result type of two expressions with a certain
+	 * typing table
+	 * @param resultTable The table to use
+	 * @param left Left expression
+	 * @param right Right expression
+	 * @return Result type
+	 */
+	protected Type getResultType(Type[][] resultTable, Type left, Type right) {
+		Type t = this.arithmeticResultType
+			 [left.getTypeIndex()]
+			 [right.getTypeIndex()];
+	
+		return t;
+	}
+	
+	/**
 	 * Return the type of an arithmetic expression
+	 * 
 	 * @param left Type of the left side of the expression
 	 * @param right Type of the right side of the expression
+	 * @param op The node for error handling
 	 * @return Type
 	 * @throws InvalidExpressionException 
 	 */
 	public Type arithmeticType(Type left, Type right, OoplssAST op) 
 			throws InvalidExpressionException {
-		Type t = this.arithmeticResultType
-				 [left.getTypeIndex()]
-				 [right.getTypeIndex()];
+		
+		Type t = this.getResultType(this.arithmeticResultType, left, right);
 		if (t == SymbolTable._void) {
 			throw new InvalidExpressionException(left, right, op);
 		}
 		
 		return t;
 	}
+	
+	/**
+	 * Return the type of an equality expression
+	 * 
+	 * @param left Type of the left side of the expression
+	 * @param right Type of the right side of the expression
+	 * @param op The node for Error handling
+	 * @return Result type
+	 * @throws InvalidExpressionException 
+	 */
+	public Type equalityType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		Type t = this.getResultType(this.equalityResultType, left, right);
+		if (t == SymbolTable._void) {
+			throw new InvalidExpressionException(left, right, op);
+		}
+		
+		return t;
+	}
+	
+	/**
+	 * Return the type of an relational expression
+	 * 
+	 * @param left Type of the left side of the expression
+	 * @param right Type of the right side of the expression
+	 * @param op The node for Error handling
+	 * @return Result type
+	 * @throws InvalidExpressionException 
+	 */
+	public Type relationalType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		Type t = this.getResultType(this.relationalResultType, left, right);
+		if (t == SymbolTable._void) {
+			throw new InvalidExpressionException(left, right, op);
+		}
+		
+		return t;
+	}
+	
 	
 	/**
 	 * Resolve a name

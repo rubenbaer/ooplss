@@ -304,7 +304,7 @@ TYPEOF		:	':';
 
 SUBCLASSOF	:	'#';
 
-EQOPERATOR	: 	'=';
+ASSIGN		: 	'=';
 
 CALLOPERATOR 	
 			:	'.';
@@ -367,6 +367,8 @@ ELIF		:	'elseif';
 ELSE		:	'else';
 
 EQ			: 	'==';
+
+INEQ		:	'!=';
 
 IMPORT		:	'import';
 
