@@ -383,7 +383,7 @@ provides a proper possibility for mutual recursion mentioned in
 programmers the possibility to take fully control over the recursion
 and correct program flow.
 
-\begin{lstlisting}[float,caption=Subclassing with \mytype translated in Java,label=lst:javaTransMyTypeSubclasing]
+\begin{lstlisting}[float,caption=Subclassing with \mytype translated in Java,label=lst:javaTransMyTypeSubclassing]
 public class A {
 	public A m(A o) {
 		m(this);
@@ -619,10 +619,10 @@ consideration even if other object types would match types of other
 hierarchies.
 
 \section{Class Parametrisation}
-So far the introduction of a \mytype and proper inheritance gives not a
-enormous advantage compared to other languages only that some work can
-be reduced by reusing existing code in new classes. At a first glance
-all this looks like not very useful since even generics like that from
+So far the introduction of a \mytype and proper inheritance gives the
+advantage of proper code reuse within the type system and specialisation
+of binary methods compared to other language. At a first glance all
+this looks like not very useful since even generics like that from
 Java does not fit into this model very well. Further more the matching
 relation is not used by method parameters and does not appear yet. As
 seen in \cref{ctr:makingSubclassingPractical} matching is used in object
@@ -634,8 +634,11 @@ subclasses what is different in \ooplss because of the matching relation
 between two subclasses.
 
 Now, after some considerations about matching, lets take a look at
-proposition \ref{prop:matching}. Bruce is stated that `matching is the same as
-subtyping in the absence of the MyType construct.'
+proposition \ref{prop:matching}. Bruce is stated that `matching is
+the same as subtyping in the absence of the MyType construct.' From
+this proposition and definition \ref{def:matchingAsBound} the following
+theorem is formulated that subtyping is embedded into matching which is
+proven for \ooplss.
 
 \begin{thm}[Matching as subtyping]
 	\label{thm:matchinIsSubtyping}
@@ -647,29 +650,30 @@ subtyping in the absence of the MyType construct.'
 	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
 
 	Let $B <: A$, $X := \mu MyType.\{m :
-	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Class combinators}
+	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Formal Class combinators first needed}
 
-	\begin{enumerate}
+%	\begin{enumerate}
 %		\item From definition \ref{def:subtypeObject}
 %		follows directly that $Y <: X$.
-
-		\item 
-	\end{enumerate}
+%
+%		\item 
+%	\end{enumerate}
 \end{proof}
 
-\begin{mathpar}
-	\inferrule*[Right=foo]{A}{B}
-\end{mathpar}
+%\begin{mathpar}
+%	\inferrule*[Right=foo]{A}{B}
+%\end{mathpar}
 
 \subsection{No \#-Types in \ooplss}
-\cite{bruce_foundations_2002}
+Research languages like \emph{LooM}, its successor
+\emph{polyToil} or $\mathcal{MOOL}$ are all showing how
+matching can be integrated into object-oriented languages
+\cite{bruce_subtyping_1997,bruce_polytoil:_1995,bruce_foundations_2002}.
+\todo{Remove this section}
 
-%\section{Class Combinators}
 %Class definition
 %\section{Constructors}
 %\section{Linearisation}
 \section{Basic Types}
 Some build in types within the basic framework\ldots
 
-%\chapter{Syntax and Type Inference}
-% estimated pages:	5
