@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
@@ -198,6 +199,32 @@ public class SymbolTable {
 		if (cond.getEvalType() != SymbolTable._bool) {
 			throw new ConditionalException(stmt, cond);
 		}
+	}
+	
+	/**
+	 * Check if an assignment can be done
+	 * @param var The variable on the left
+	 * @param stmt
+	 * @throws IllegalAssignmentException 
+	 */
+	public void checkAssignment(OoplssAST assign, OoplssAST var, OoplssAST stmt) 
+			throws IllegalAssignmentException {
+		if (!this.canAssignTo(var, stmt)) {
+			throw new IllegalAssignmentException(assign.token, var, stmt);
+		}
+	}
+	
+	
+	/**
+	 * Check if the type of a variable is the same as the one
+	 * that is assigned
+	 * 
+	 * @param var The variable to be assigned
+	 * @param stmt The value to assign to
+	 * @return Whether the assignment can be done
+	 */
+	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
+		return var.getEvalType() == stmt.getEvalType();
 	}
 	
 	/**

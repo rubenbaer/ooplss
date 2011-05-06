@@ -30,6 +30,7 @@ bottomup	:
 			/*|	memberAccess*/
 			 	statement
 			 |	conditionals
+			 |	assignment
 			;
 			
 statement		
@@ -135,6 +136,16 @@ conditionals
 			}
 			;
 catch [ConditionalException e] {
+	error.reportError(e);
+}
+
+assignment 	:	^(ASSIGN var=. stmt=.)
+			{
+				logger.fine("<Type>Checking an assignment");
+				symtab.checkAssignment($ASSIGN, $var, $stmt);
+			}
+			;
+catch [IllegalAssignmentException e] {
 	error.reportError(e);
 }
 

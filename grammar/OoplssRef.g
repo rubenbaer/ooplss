@@ -214,8 +214,6 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 catch [UnknownTypeException e] {
 	error.reportError(e);
 }
- 
-
 
 	/*
 rettype	returns [Type type]
