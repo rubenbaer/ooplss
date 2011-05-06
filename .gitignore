@@ -6,4 +6,6 @@ grammar/output
 src/ch/codedump/ooplss/antlr/*
 proposal.eps
 reports
+ooplss.tgz
+ooplss.zip
 *.class

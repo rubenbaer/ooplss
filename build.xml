@@ -55,6 +55,8 @@
 
 	<target name="dist-clean">
 		<delete dir="${dist}" />
+		<delete file="ooplss.zip" />
+		<delete file="ooplss.tgz" />
 	</target>
 
 	<!-- BUILD -->
@@ -143,11 +145,21 @@
 	</target>
 
 	<!-- Create distribution package -->
-	<target name="dist" depends="dist-clean,jar,javadoc,latex-final,clean-latex,build-dist,pack">
+	<target name="dist" depends="dist-clean,jar,javadoc,latex-final,clean-latex,build-dist">
 		<antcall target="clean" />
 	</target>
 
-	<target name="pack">
+	<!-- Creates two ready to deliver archives. One as zip and one as tar.gz -->
+
+	<target name="pack" depends="dist">
+		<shellscript shell="bash">
+			git archive --format=tar --prefix=ooplss/ HEAD | tar x
+			cp -R dist ooplss
+			zip -r ooplss ooplss
+			tar --posix -czvf ooplss.tgz ooplss/
+			rm -R ooplss
+			rm -R dist
+		</shellscript>
 	</target>
 
 	<target name="build-dist">
