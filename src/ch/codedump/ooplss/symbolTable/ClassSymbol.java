@@ -102,4 +102,19 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	public int getTypeIndex() {
 		return SymbolTable.tOBJECT;
 	}
+
+	/**
+	 * Check whether this class is a subtype of the given one
+	 * @param classSymbol
+	 */
+	public boolean isSubtypeOf(ClassSymbol type) {
+		if (this == type) {
+			return true;
+		}
+		if (this.superType != null) {
+			return this.superType.isSubtypeOf(type);
+		}
+		
+		return false;
+	}
 }

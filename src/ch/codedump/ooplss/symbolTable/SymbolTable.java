@@ -214,7 +214,6 @@ public class SymbolTable {
 		}
 	}
 	
-	
 	/**
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
@@ -224,6 +223,12 @@ public class SymbolTable {
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
+		if (var.getEvalType() instanceof ClassSymbol &&
+				stmt.getEvalType() instanceof ClassSymbol) {
+			// check subtype
+			return ((ClassSymbol)stmt.getEvalType()).isSubtypeOf(
+					((ClassSymbol)var.getEvalType()));
+		}
 		return var.getEvalType() == stmt.getEvalType();
 	}
 	

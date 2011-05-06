@@ -10,8 +10,8 @@ public class IllegalAssignmentException extends OoplssException {
 	public IllegalAssignmentException(Token token, OoplssAST var, OoplssAST stmt) {
 		super(token);
 		
-		String str = "Cannot assign value of type " + stmt.getEvalType() + 
-						" to a variable of type " + var.getEvalType();
+		String str = "Cannot assign value of type " + stmt.getEvalType().getName() + 
+						" to a variable of type " + var.getEvalType().getName();
 		this.setError(str);
 	}
 
