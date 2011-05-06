@@ -1,0 +1,19 @@
+gunit Ooplss;
+
+@header {
+package ch.codedump.ooplss.antlr;
+}
+
+ifStmt:
+<<
+if (3 == 2) {
+
+} elseif (3 == 3) {
+
+} elseif (x == 3) {
+
+} else {
+	x;
+}
+>> -> (IFSTMT (== 3 2) BLOCK (ELIF (== 3 3) BLOCK) (ELIF (== (VARACCESS x) 3) BLOCK) (ELSE (BLOCK (STMT (VARACCESS x)))))
+

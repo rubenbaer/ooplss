@@ -224,9 +224,15 @@ literal		:	INTLITERAL
 			|	FLOATLITERAL
 			;
 		
-ifStmt		:	'if' '(' statement ')' block
-				('elseif' '(' statement ')' block)*
-				('else' block)?;
+ifStmt		:	'if' '(' statement ')' trueblock=block
+				elseifStmt*
+				('else' falseblock=block)?
+			-> ^(IFSTMT statement $trueblock elseifStmt*  ^(ELSE $falseblock)?)	
+		;
+		
+elseifStmt		:	('elseif' '(' stmt=statement ')' blocK=block)
+			-> ^(ELIF $stmt $blocK)
+		;
 			
 whileStmt		: 	'while' '(' statement')' block;
 
