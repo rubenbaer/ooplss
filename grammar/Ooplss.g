@@ -28,7 +28,6 @@ tokens {
 	METHODS;
 	FIELDS;
 	RETURN;
-	STMT;
 	PROG;
 	ARGUMENTLIST;
 	SUBTYPEARG;
@@ -132,9 +131,9 @@ options {
 	k=2;
 	backtrack=true;
 }			
-			:	varDef ';'		-> ^(STMT varDef)
-			|	statement ';'	-> ^(STMT statement)
-			|	assignment ';'	-> ^(STMT assignment)
+			:	varDef ';'!		//-> ^(STMT varDef)
+			|	statement ';'!	//-> ^(STMT statement)
+			|	assignment ';'!	//-> ^(STMT assignment)
 			|	block
 			|	retStmt ';'!
 			|	ifStmt

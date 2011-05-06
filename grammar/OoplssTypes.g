@@ -32,14 +32,12 @@ topdown		:
 			;
 			
 statement		
-			:
-				^(STMT (
-					varAccess
-					|methodCall
-					|arithmeticOperator
-					|equalityOperator
-					|relationalOperator
-				))
+			:	varAccess
+			|	methodCall
+			|	arithmeticOperator
+			|	equalityOperator
+			|	relationalOperator
+			|	literal
 			;
 			
 
