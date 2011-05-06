@@ -1,4 +1,7 @@
 build
+dist
+doxygen
+ooplss.jar
 grammar/output
 src/ch/codedump/ooplss/antlr/*
 proposal.eps
