@@ -4,9 +4,9 @@ Object-Oriented Programming Language with Subtyping and Subclassing
 An object-oriented programming language providing subclassing and
 subtyping.
 
-This bachelor thesis is presented by Ruben Bär and Stefan Heinemann
-from the University of Applied Science in Bern and was supervised by
-Professor Olivier Biberstein, PhD.
+This bachelor thesis is presented to the University of Applied Science in
+Bern by Ruben Bär and Stefan Heinemann and was supervised by Professor
+Olivier Biberstein, PhD.
 
 It was written in the spring semester 2011 and is licensed under the
 Creative Commons Attribution-ShareAlike 3.0 License.
