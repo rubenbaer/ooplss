@@ -227,15 +227,15 @@ literal		:	INTLITERAL
 ifStmt		:	'if' '(' statement ')' trueblock=block
 				elseifStmt*
 				('else' falseblock=block)?
-			-> ^(IFSTMT ^(STMT statement) $trueblock elseifStmt*  ^(ELSE $falseblock)?)	
+			-> ^(IFSTMT statement $trueblock elseifStmt*  ^(ELSE $falseblock)?)	
 		;
 		
 elseifStmt		:	('elseif' '(' stmt=statement ')' blocK=block)
-			-> ^(ELIF ^(STMT $stmt) $blocK)
+			-> ^(ELIF $stmt $blocK)
 		;
 			
 whileStmt		: 	'while' '(' statement')' block
-			-> ^(WHILESTMT ^(STMT statement) block) ;
+			-> ^(WHILESTMT statement block) ;
 /*
 forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block
 			-> ^(FORSTMT ;
