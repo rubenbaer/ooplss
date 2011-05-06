@@ -84,7 +84,6 @@ implementation.\\
 		& | & VARDEF = EXPR `;' \\
 		& | & `if (' EXPR `)' EXPR $\langle$ `else' EXPR $\rangle$?  \\
 		& | & `while (' EXPR `)' EXPR \\
-		& | & `for (' EXPR `;' EXPR `;' EXPR `)' EXPR \\
 		& | & EXPR `.' EXPR \\
 		& | & EXPR `(' METHODPARAMS? `)' \\
 		METHODPARAMS & \lra & EXPR $\langle$ `,' EXPR $\rangle$* \\
@@ -584,6 +583,7 @@ the \mytype is used wherever possible.
 \end{figure}
 %
 %\subsection{Method Overloading and Mutual Recursion}
+\subsection{}
 
 \section{Class Combinators Refined}
 \todo{Give a full specification of class combinators with mytype and base rewriting}
@@ -673,7 +673,7 @@ matching can be integrated into object-oriented languages
 
 %Class definition
 %\section{Constructors}
-%\section{Linearisation}
+\section{Linearisation}
 \section{Basic Types}
 Some build in types within the basic framework\ldots
 

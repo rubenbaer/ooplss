@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Object-Oriented Programming Language with Subtyping and Subclassing" default="build" basedir=".">
 	<property name="src" location="src" />
+	<property name="destjar" location="ooplss.jar" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="reports" location="reports" />
 	<property name="grammar" location="grammar" />
+	<property name="javadoc" location="doxygen" />
 	<property name="antlr-outputdir" location="${src}/ch/codedump/ooplss/antlr/" />
 	<property name="lib" location="lib"/>
+	<property name="antlrjar" location="${lib}/antlr-master-3.3.1-SNAPSHOT-completejar.jar"/>
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
@@ -28,6 +31,9 @@
 	
 	<target name="clean-build">
 		<delete dir="${build}" />
+		<delete dir="${javadoc}" />
+		<delete file="${destjar}" />
+		<delete dir="reports" />
 	</target>
 
 	<target name="clean-misc">
@@ -43,10 +49,13 @@
 	
 	<target name="clean-latex">
 		<exec executable="make" dir="doc">
-			<arg value="clean" />
+			<arg value="distclean" />
 		</exec>
 	</target>
-	
+
+	<target name="dist-clean">
+		<delete dir="${dist}" />
+	</target>
 
 	<!-- BUILD -->
 
@@ -125,6 +134,57 @@
 	</target>
 
 	<target name="javadoc">
+		<exec executable="doxygen">
+			<arg value=".doxygen.config" />
+		</exec>
+		<exec executable="make" dir="doxygen/latex" />
+	</target>
+
+	<!-- Create distribution package -->
+	<target name="dist" depends="dist-clean,jar,javadoc,latex-final,clean-latex,build-dist,pack">
+		<antcall target="clean" />
+	</target>
+
+	<target name="pack">
+	</target>
+
+	<target name="build-dist">
+		<mkdir dir="${dist}" />
+		<mkdir dir="${dist}/lib" />
+		<move file="${destjar}" todir="${dist}" />
+		<copy todir="${dist}/html" >
+			<fileset dir="doxygen/html" />
+		</copy>
+		<copy todir="${dist}">
+			<fileset dir="doc" includes="ooplss*.pdf" />
+		</copy>
+		<copy file="doxygen/latex/refman.pdf" tofile="${dist}/source.pdf" />
+		<copy file="${antlrjar}" tofile="${dist}/lib/antlr3.jar" />
+		<copy todir="${dist}" file="misc/README" />
+	</target>
+
+	<target name="jar" depends="build,run-tests">
+		<tstamp>
+			<format property="TODAY" pattern="d-MMMM-yyyy hh:mm aa" locale="en,UK"/>
+		</tstamp>
+
+		<copy todir="${build}" file="misc/logging.properties" />
+
+		<jar basedir="${build}" destfile="${destjar}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="ch.codedump.ooplss.Main" />
+				<section name="common">
+					<attribute name="Specification-Title" value="OOPLSS" />
+					<attribute name="Specification-Version" value="1.0" />
+					<attribute name="Specification-Vendor" value="codedump.ch" />
+					<attribute name="Implementation-Title" value="OOPLSS" />
+					<attribute name="Implementation-Version" value="1.0 ${TODAY}" />
+					<attribute name="Implementation-Vendor" value="codedump.ch" />
+				</section>
+				<attribute name="Class-Path" value="lib/antlr3.jar" />
+			</manifest>
+		</jar>
 	</target>
 
 	<!-- Testing -->
@@ -239,4 +299,3 @@
 		</java>
 	</target>
 </project>
-
