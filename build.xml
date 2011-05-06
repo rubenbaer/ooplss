@@ -202,6 +202,10 @@
 		<run-gunit test-file="grammar/test/ast-class.gunit" />
 	</target>
 
+	<target name="gunit-ast-conditionals">
+		<run-gunit test-file="grammar/test/ast-conditionals.gunit" />
+	</target>
+
 	<!-- the simple test, do not include it in the overall build -->
 	<target name="simple-test" depends="build">
 		<java classname="ch.codedump.ooplss.simpletest.SimpleTest">

@@ -3,8 +3,10 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
+import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
@@ -21,7 +23,9 @@ public class SymbolTable {
 		SymbolTable.GLOBAL = new GlobalScope();
 		try {
 			this.initSpecialTypes();
+			this.registerBuiltInTypes();
 		} catch (Exception e) {}
+		
 		
 	}
 	
@@ -47,7 +51,7 @@ public class SymbolTable {
 	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);;
 	
 	/**
-	 * The mappings of arithmetic operations 
+	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
 		/*				object	int		float	string	 char	  bool	  void */
@@ -59,6 +63,34 @@ public class SymbolTable {
 		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
 		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
 	};
+	
+	/**
+	 * The mappings of relational expressions like < > <= >=
+	 */
+	protected final Type[][] relationalResultType = new Type[][] {
+		/*				object	int		float	string	 char	  bool	  void */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
+		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+	};
+	
+	/**
+	 * The mappings of equality expressions like == !=
+	 */
+	protected final Type[][] equalityResultType = new Type[][] {
+		/*				object	int		float	string	 char	  bool	  void */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
+		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}		
+	};
 
 	/**
 	 * Initialise the special types
@@ -68,19 +100,48 @@ public class SymbolTable {
 		SymbolTable.GLOBAL.define(new ConstructorType(SymbolTable.GLOBAL));
 	}
 
+	/**
+	 * Register the built in types in the global scope to be able to resolve them
+	 * @throws SymbolAlreadyDefinedException
+	 */
+	private void registerBuiltInTypes() throws SymbolAlreadyDefinedException {
+		SymbolTable.GLOBAL.define(SymbolTable._bool);
+		SymbolTable.GLOBAL.define(SymbolTable._int);
+		SymbolTable.GLOBAL.define(SymbolTable._void);
+		SymbolTable.GLOBAL.define(SymbolTable._string);
+		SymbolTable.GLOBAL.define(SymbolTable._char);
+		SymbolTable.GLOBAL.define(SymbolTable._float);
+	}
+	
+	/**
+	 * Return the result type of two expressions 
+	 * 
+	 * Return the result type of two expressions with a certain
+	 * typing table
+	 * @param resultTable The table to use
+	 * @param left Left expression
+	 * @param right Right expression
+	 * @return Result type
+	 */
+	protected Type getResultType(Type[][] resultTable, Type left, Type right) {
+		Type t = resultTable[left.getTypeIndex()][right.getTypeIndex()];
+	
+		return t;
+	}
 	
 	/**
 	 * Return the type of an arithmetic expression
+	 * 
 	 * @param left Type of the left side of the expression
 	 * @param right Type of the right side of the expression
+	 * @param op The node for error handling
 	 * @return Type
 	 * @throws InvalidExpressionException 
 	 */
 	public Type arithmeticType(Type left, Type right, OoplssAST op) 
 			throws InvalidExpressionException {
-		Type t = this.arithmeticResultType
-				 [left.getTypeIndex()]
-				 [right.getTypeIndex()];
+		
+		Type t = this.getResultType(this.arithmeticResultType, left, right);
 		if (t == SymbolTable._void) {
 			throw new InvalidExpressionException(left, right, op);
 		}
@@ -89,15 +150,64 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * Resolve a variable 
+	 * Return the type of an equality expression
 	 * 
-	 * Resolve a simple variable. Check that the 
-	 * variable is not accessed before it's definition.
-	 * @param node
-	 * @return Symbol The resolved symbol
-	 * @throws UnknownDefinitionException 
+	 * @param left Type of the left side of the expression
+	 * @param right Type of the right side of the expression
+	 * @param op The node for Error handling
+	 * @return Result type
+	 * @throws InvalidExpressionException 
 	 */
-	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
+	public Type equalityType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		Type t = this.getResultType(this.equalityResultType, left, right);
+		if (t == SymbolTable._void) {
+			throw new InvalidExpressionException(left, right, op);
+		}
+		
+		return t;
+	}
+	
+	/**
+	 * Return the type of an relational expression
+	 * 
+	 * @param left Type of the left side of the expression
+	 * @param right Type of the right side of the expression
+	 * @param op The node for Error handling
+	 * @return Result type
+	 * @throws InvalidExpressionException 
+	 */
+	public Type relationalType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		Type t = this.getResultType(this.relationalResultType, left, right);
+		if (t == SymbolTable._void) {
+			throw new InvalidExpressionException(left, right, op);
+		}
+		
+		return t;
+	}
+	
+	/**
+	 * Check if a condition yields boolean
+	 * @param stmt The statement (if/while) for error Throwing
+	 * @param cond The condition that must yield boolean
+	 * @throws ConditionalException
+	 */
+	public void checkCondition(OoplssAST stmt, OoplssAST cond) 
+			throws ConditionalException {
+		if (cond.getEvalType() != SymbolTable._bool) {
+			throw new ConditionalException(stmt, cond);
+		}
+	}
+	
+	/**
+	 * Resolve a name
+	 * 
+	 * @param node
+	 * @return
+	 * @throws UnknownDefinitionException
+	 */
+	protected Symbol resolveName(OoplssAST node) throws UnknownDefinitionException {
 		Scope scope = node.getScope();
 		Symbol s = scope.resolve(node.getText());
 		if (s == null) {
@@ -116,6 +226,42 @@ public class SymbolTable {
 		
 		if (!(s instanceof VariableSymbol)) {
 			throw new UnknownDefinitionException(node);
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * Resolve a variable 
+	 * 
+	 * Resolve a simple variable. Check that the 
+	 * variable is not accessed before it's definition.
+	 * @param node
+	 * @return  The resolved symbol
+	 * @throws UnknownDefinitionException 
+	 */
+	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
+		Symbol s = this.resolveName(node);
+		
+		if (!(s instanceof VariableSymbol)) {
+			throw new UnknownDefinitionException(node);
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * Resolve a method call
+	 * @param node
+	 * @return The resolved symbol
+	 * @throws UnknownDefinitionException
+	 * @throws NotCallableException
+	 */
+	public Symbol resolveMethod(OoplssAST node) throws UnknownDefinitionException, NotCallableException {
+		Symbol s = this.resolveName(node);
+		
+		if (!(s instanceof MethodSymbol)) {
+			throw new NotCallableException(node);
 		}
 		
 		return s;

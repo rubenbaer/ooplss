@@ -35,6 +35,7 @@ topdown		:	enterMethod
 			/*|	arrayAccess*/
 			/*|	arrayDef*/
 			|	argument
+			|	methodCall
 			|	//import
 			;
 	
@@ -171,6 +172,15 @@ selfVarAccess
 				$SELF.setScope(this.currentScope);
 			}
 			;
+		
+methodCall
+			:	^(METHODCALL ID .*)
+			{
+				logger.fine("<Def>Recording scope of a method call");
+				$ID.setScope(this.currentScope);
+			}
+			;
+			
 /*			
 memberAccess
 			:	^('.' left=(varAccess|memberAccess) ^(MEMBERACCESS ID))

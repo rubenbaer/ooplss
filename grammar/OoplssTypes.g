@@ -26,18 +26,37 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
-topdown		:	varAccess
+bottomup	:	
 			/*|	memberAccess*/
-			| 	arithmeticOperator
+			 	statement
+			 |	conditionals
+			;
+			
+statement		
+			:	varAccess
+			|	methodCall
+			|	arithmeticOperator
+			|	equalityOperator
+			|	relationalOperator
+			|	literal
 			;
 			
 
-varAccess		returns [Type t]
+varAccess		returns [Type type]
 			:	^(VARACCESS ID) 
 			{
 				logger.fine("<Type>Determining expression type of varaccess");
-				t = $ID.getSymbol().getType();
-				$VARACCESS.setEvalType(t);
+				type = $ID.getSymbol().getType();
+				$VARACCESS.setEvalType(type);
+			}
+			;
+			
+methodCall		returns [Type type]
+			:	^(METHODCALL ID .*)
+			{
+				logger.fine("<Type>Determining expression type of method call");
+				type = $ID.getSymbol().getType();
+				$METHODCALL.setEvalType(type);
 			}
 			;
 			
@@ -60,24 +79,64 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+equalityOperator
+				returns [Type type]
+			:	^((op=EQ|op=INEQ) left=atom right=atom)
+			{
+				logger.fine("<Type>Determining equality expression type");
+				type = symtab.equalityType($left.type, $right.type, $op);
+				
+				logger.fine("<Type>Result type is " + type);
+				$op.setEvalType(type);
+			}
+			;
+catch [InvalidExpressionException e] {
+	error.reportError(e);
+}
+
+relationalOperator
+				returns [Type type]
+			: 	^((op=LESS|op=GREATER|op=LEQ|op=GEQ)
+					left=atom right=atom)
+			{
+				logger.fine("<Type>Determining relational expression type");
+				type = symtab.relationalType($left.type, $right.type, $op);
+				
+				logger.fine("<Type>Result type is " + type);
+				$op.setEvalType(type);
+			}
+			;
+catch [InvalidExpressionException e] {
+	error.reportError(e);
+}
+
 atom			returns [Type type]
-			:	expr=literal
-			{
-				type = $expr.type;
-			}
-			|	expr=arithmeticOperator
-			{
-				type = $expr.type;
-			}
+			:	expr=literal            { type = $expr.type; }
+			|	expr=arithmeticOperator { type = $expr.type; }
+			|	expr=equalityOperator 	{ type = $expr.type; }
+			|	expr=relationalOperator { type = $expr.type; }
+			|	expr=varAccess          { type = $expr.type; }
+			|   expr=methodCall         { type = $expr.type; }
 			;			
 
 literal			returns [Type type]
-			:	INTLITERAL    { type = SymbolTable._int; }
-			|	STRINGLITERAL { type = SymbolTable._string; }
-			| 	CHARLITERAL   { type = SymbolTable._char; }
-			|	BOOLLITERAL   { type = SymbolTable._bool; }
-			| 	FLOATLITERAL  { type = SymbolTable._float; }
+			:	INTLITERAL    { $type = SymbolTable._int;    $INTLITERAL.setEvalType($type); }
+			|	STRINGLITERAL { $type = SymbolTable._string; $STRINGLITERAL.setEvalType($type);}
+			| 	CHARLITERAL   { $type = SymbolTable._char;   $CHARLITERAL.setEvalType($type);}
+			|	BOOLLITERAL   { $type = SymbolTable._bool;   $BOOLLITERAL.setEvalType($type);}
+			| 	FLOATLITERAL  { $type = SymbolTable._float;  $FLOATLITERAL.setEvalType($type);}
 			;
+			
+conditionals		
+			:	(^(stmt=IFSTMT cond=. .*)|^(stmt=WHILESTMT cond=. .*))
+			{
+				logger.fine("<Type>Checking for boolean type in a conditional");
+				symtab.checkCondition($stmt, $cond);
+			}
+			;
+catch [ConditionalException e] {
+	error.reportError(e);
+}
 
 /*
 memberAccess	returns [Type t]

@@ -81,6 +81,7 @@ while (x+2) {
 while()
 >> FAIL
 
+/*
 forStmt:
 <<
 for (i = 3; i < 10; i = i + 1) {
@@ -93,3 +94,4 @@ for (x = blah; blubb; bleh) {
 
 }
 >> OK
+*/

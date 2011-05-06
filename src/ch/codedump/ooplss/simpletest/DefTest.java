@@ -41,17 +41,17 @@ public class DefTest {
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 
 		logger.setLevel(Level.FINE);
-		logger.fine("Definition run");
+		logger.fine("\n\nDefinition run");
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 				
-		logger.info("Referencing run");
+		logger.info("\n\nReferencing run");
 		OoplssRef ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
 		logger.fine("Symbol Table: \n" + symTab.toString());
 		
-		logger.info("Type checking");
+		logger.info("\n\nType checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
 	}

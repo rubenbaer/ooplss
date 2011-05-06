@@ -91,6 +91,30 @@ public class TestMemberResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testClassMemberAccess() throws Exception {
+		String str = 	"class a {" +
+						"	var x:Int;" +
+						"	def __construct() {" +
+						"		x;" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testClassMethodAccess() throws Exception {
+		String str = 	"class a {" +
+						"	def x():Int;" +
+						"	def __construct() {" +
+						"		x();" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 

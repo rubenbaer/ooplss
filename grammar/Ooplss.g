@@ -28,7 +28,6 @@ tokens {
 	METHODS;
 	FIELDS;
 	RETURN;
-	STMT;
 	PROG;
 	ARGUMENTLIST;
 	SUBTYPEARG;
@@ -132,14 +131,14 @@ options {
 	k=2;
 	backtrack=true;
 }			
-			:	varDef ';'		-> ^(STMT varDef)
-			|	statement ';'	-> ^(STMT statement)
-			|	assignment ';'	-> ^(STMT assignment)
+			:	varDef ';'!		//-> ^(STMT varDef)
+			|	statement ';'!	//-> ^(STMT statement)
+			|	assignment ';'!	//-> ^(STMT assignment)
 			|	block
 			|	retStmt ';'!
 			|	ifStmt
 			|	whileStmt
-			|	forStmt
+/*			|	forStmt*/
 			|	';'!
 			;
 		
@@ -171,6 +170,12 @@ backtrack=true;
 							-> ^('.' SELF ^(ARRAYACCESS ID statement))*/
 					|	'self' '.' ID 
 							-> ^('.' SELF ^(MEMBERACCESS ID))
+					|
+						'self' '.' ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
+							-> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
+					|
+						ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
+							-> ^(METHODCALL ID ^(METHODARGS $arg+)?)
 				)
 				( 
 						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
@@ -218,13 +223,22 @@ literal		:	INTLITERAL
 			|	FLOATLITERAL
 			;
 		
-ifStmt		:	'if' '(' statement ')' block
-				('elseif' '(' statement ')' block)*
-				('else' block)?;
+ifStmt		:	'if' '(' statement ')' trueblock=block
+				elseifStmt*
+				('else' falseblock=block)?
+			-> ^(IFSTMT statement $trueblock elseifStmt*  ^(ELSE $falseblock)?)	
+		;
+		
+elseifStmt		:	('elseif' '(' stmt=statement ')' blocK=block)
+			-> ^(ELIF $stmt $blocK)
+		;
 			
-whileStmt		: 	'while' '(' statement')' block;
-
-forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block;
+whileStmt		: 	'while' '(' statement')' block
+			-> ^(WHILESTMT statement block) ;
+/*
+forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block
+			-> ^(FORSTMT ;
+*/
 	
 stmtOrAssign	
 options {
@@ -298,7 +312,7 @@ TYPEOF		:	':';
 
 SUBCLASSOF	:	'#';
 
-EQOPERATOR	: 	'=';
+ASSIGN		: 	'=';
 
 CALLOPERATOR 	
 			:	'.';
@@ -361,6 +375,16 @@ ELIF		:	'elseif';
 ELSE		:	'else';
 
 EQ			: 	'==';
+
+INEQ		:	'!=';
+
+LESS		:	'<';
+
+GREATER		:	'>';
+
+LEQ			: 	'<=';
+
+GEQ			:	'=>';
 
 IMPORT		:	'import';
 
