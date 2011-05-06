@@ -17,3 +17,10 @@ if (3 == 2) {
 }
 >> -> (IFSTMT (== 3 2) BLOCK (ELIF (== 3 3) BLOCK) (ELIF (== (VARACCESS x) 3) BLOCK) (ELSE (BLOCK (STMT (VARACCESS x)))))
 
+
+whileStmt:
+<<
+while (1 == 2) {
+
+}
+>> -> (WHILESTMT (== 1 2) BLOCK)

@@ -139,7 +139,7 @@ options {
 			|	retStmt ';'!
 			|	ifStmt
 			|	whileStmt
-			|	forStmt
+/*			|	forStmt*/
 			|	';'!
 			;
 		
@@ -234,9 +234,12 @@ elseifStmt		:	('elseif' '(' stmt=statement ')' blocK=block)
 			-> ^(ELIF $stmt $blocK)
 		;
 			
-whileStmt		: 	'while' '(' statement')' block;
-
-forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block;
+whileStmt		: 	'while' '(' statement')' block
+			-> ^(WHILESTMT statement block) ;
+/*
+forStmt		:	'for' '(' (assignment) ';' statement ';' (stmtOrAssign) ')' block
+			-> ^(FORSTMT ;
+*/
 	
 stmtOrAssign	
 options {
