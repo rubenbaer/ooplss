@@ -109,6 +109,8 @@
 			includes="*"
 			token="// ${projecthome}/"
 			value="// " />
+
+		<copy file="grammar/package-info.java" todir="src/ch/codedump/ooplss/antlr" />
 	</target>
 
 	<!-- Documentation-->
