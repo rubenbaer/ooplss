@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
@@ -85,7 +86,7 @@ public class SymbolTable {
 		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
 		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
 		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
-		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
+		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void},
 		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
 		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
 		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}		
@@ -186,6 +187,18 @@ public class SymbolTable {
 		return t;
 	}
 	
+	/**
+	 * Check if a condition yields boolean
+	 * @param stmt The statement (if/while) for error Throwing
+	 * @param cond The condition that must yield boolean
+	 * @throws ConditionalException
+	 */
+	public void checkCondition(OoplssAST stmt, OoplssAST cond) 
+			throws ConditionalException {
+		if (cond.getEvalType() != SymbolTable._bool) {
+			throw new ConditionalException(stmt, cond);
+		}
+	}
 	
 	/**
 	 * Resolve a name

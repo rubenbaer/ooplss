@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
@@ -50,7 +51,7 @@ public class TestRelationalType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test
+	@Test (expected=InvalidExpressionException.class)
 	public void testInvalidBool() throws Exception {
 		String str = 	"class foo {" +
 						"	def __construct() {" +

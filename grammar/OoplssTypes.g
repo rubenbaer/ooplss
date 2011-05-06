@@ -26,9 +26,10 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
-topdown		:	
+bottomup	:	
 			/*|	memberAccess*/
 			 	statement
+			 |	conditionals
 			;
 			
 statement		
@@ -119,12 +120,23 @@ atom			returns [Type type]
 			;			
 
 literal			returns [Type type]
-			:	INTLITERAL    { type = SymbolTable._int; }
-			|	STRINGLITERAL { type = SymbolTable._string; }
-			| 	CHARLITERAL   { type = SymbolTable._char; }
-			|	BOOLLITERAL   { type = SymbolTable._bool; }
-			| 	FLOATLITERAL  { type = SymbolTable._float; }
+			:	INTLITERAL    { $type = SymbolTable._int;    $INTLITERAL.setEvalType($type); }
+			|	STRINGLITERAL { $type = SymbolTable._string; $STRINGLITERAL.setEvalType($type);}
+			| 	CHARLITERAL   { $type = SymbolTable._char;   $CHARLITERAL.setEvalType($type);}
+			|	BOOLLITERAL   { $type = SymbolTable._bool;   $BOOLLITERAL.setEvalType($type);}
+			| 	FLOATLITERAL  { $type = SymbolTable._float;  $FLOATLITERAL.setEvalType($type);}
 			;
+			
+conditionals		
+			:	(^(stmt=IFSTMT cond=. .*)|^(stmt=WHILESTMT cond=. .*))
+			{
+				logger.fine("<Type>Checking for boolean type in a conditional");
+				symtab.checkCondition($stmt, $cond);
+			}
+			;
+catch [ConditionalException e] {
+	error.reportError(e);
+}
 
 /*
 memberAccess	returns [Type t]

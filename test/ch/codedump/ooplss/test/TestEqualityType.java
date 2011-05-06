@@ -50,4 +50,28 @@ public class TestEqualityType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testIntVariableEquality() throws Exception {
+		String str = 	"class foo {" +
+						"	var x:Int;" +
+						"	def __construct() {" +
+						"		x == 3;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();	
+	}
+	
+	@Test
+	public void testStringVariableEquality() throws Exception {
+		String str = 	"class foo {" +
+						"	var x:String;" +
+						"	def __construct() {" +
+						"		x == \"abc\";" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();	
+	}
 }
