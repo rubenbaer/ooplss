@@ -92,6 +92,14 @@
 			outputdirectory="${antlr-outputdir}">
 			<classpath refid="classpath" />
 		</ant-antlr3>
+
+		<!-- Post process generated files -->
+		<dirname property="projecthome" file="build.xml" />
+		<replace 
+			dir="src/ch/codedump/ooplss/antlr"
+			includes="*"
+			token="// ${projecthome}/"
+			value="// " />
 	</target>
 
 	<!-- Documentation-->
@@ -152,21 +160,21 @@
 	</target>
 
 	<!-- Wrapper target for macrodef run-gunit -->
-	<target name="call-gunit">
-		<run-gunit test-file="${gunit-file}" />
-	</target>
+<target name="call-gunit">
+	<run-gunit test-file="${gunit-file}" />
+</target>
 
-	<!-- macro to perform a gunit test. the gunit file name is the test-file attribute -->
-	<macrodef name="run-gunit">
-		<attribute name="test-file" />
-		<sequential>
-			<echo message="Running @{test-file}" />
-			<java classname="org.antlr.gunit.Interp">
-				<classpath refid="classpath" />
-				<arg value="@{test-file}" />
-			</java>
-		</sequential>
-	</macrodef>
+<!-- macro to perform a gunit test. the gunit file name is the test-file attribute -->
+<macrodef name="run-gunit">
+	<attribute name="test-file" />
+	<sequential>
+		<echo message="Running @{test-file}" />
+		<java classname="org.antlr.gunit.Interp">
+			<classpath refid="classpath" />
+			<arg value="@{test-file}" />
+		</java>
+	</sequential>
+</macrodef>
 
 	<target name="gunit-simpleClass">
 		<run-gunit test-file="grammar/test/simpleClass.gunit" />
