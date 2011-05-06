@@ -23,11 +23,17 @@
 		classpath="${contrib-tasks}" />
 	
 	<!-- CLEAN -->
-	<target name="clean" depends="clean-build,clean-antlr,clean-latex">
+	<target name="clean" depends="clean-build,clean-misc,clean-antlr,clean-latex">
 	</target>
 	
 	<target name="clean-build">
 		<delete dir="${build}" />
+	</target>
+
+	<target name="clean-misc">
+		<delete>
+			<fileset dir="misc" includes="**/*.class" />
+		</delete>
 	</target>
 	
 	<target name="clean-antlr">
