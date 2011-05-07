@@ -1,0 +1,11 @@
+digraph javaHierarchy {
+	rankdir=BT
+	margin=0
+	A [fontname=LMRoman10]
+	B [fontname=LMRoman10]
+	C [fontname=LMRoman10]
+	D [fontname=LMRoman10]
+	B -> A
+	C [label="C'"]
+	D [label="D'"]
+} 

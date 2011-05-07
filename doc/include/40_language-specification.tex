@@ -207,13 +207,7 @@ like in \cref{fig:subclassCombination}
 
 \begin{figure}
 	\centering
-	\digraph[scale=0.8]{SubclassCombination}{
-		rankdir=BT;
-		margin=0;
-		A[fontname=LMRoman10];
-		B[fontname=LMRoman10];
-		B -> A [style=dashed];
-	}
+	\includedot[scale=0.8]{dot/subclassCombination}
 	\caption{Graphical representation of a inheritance class combination}
 	\label{fig:subclassCombination}
 \end{figure}
@@ -228,32 +222,11 @@ defined in \ooplss.
 \begin{figure}
 	\centering
 	\subfigure[\ooplss hierarchy]{
-		\digraph[scale=0.8]{OoplssHierarchy}{
-			rankdir=BT;
-			margin=0;
-			A[fontname=LMRoman10];
-			B[fontname=LMRoman10];
-			C[fontname=LMRoman10];
-			D[fontname=LMRoman10];
-			B -> A;
-			C -> A [style=dashed];
-			D -> C [style=dashed];
-			D -> B [style=dashed];
-		} 
+		\includedot[scale=0.8]{dot/ooplssHierarchy}
 		\label{fig:ooplssHierarchy}
 	}
 	\subfigure[Java hierarchy]{
-		\digraph[scale=0.8]{JavaHierarchy}{
-			rankdir=BT;
-			margin=0;
-			A[fontname=LMRoman10];
-			B[fontname=LMRoman10];
-			C[fontname=LMRoman10];
-			D[fontname=LMRoman10];
-			B -> A;
-			C[label="C'"];
-			D[label="D'"];
-		} 
+		\includedot[scale=0.8]{dot/javaHierarchy}
 		\label{fig:javaHierarchy}
 	}
 	\caption{Class relation hierarchy in \ooplss and Java}
@@ -442,15 +415,7 @@ If this code segment would be combined in class \C, \self would now be of type
 
 \begin{figure}[ht]
 	\centering
-	\digraph[scale=0.8]{FixedSubclassingSubtyping}{
-		rankdir=BT;
-		margin=0;
-		A[fontname=LMRoman10];
-		B[fontname=LMRoman10];
-		C[fontname=LMRoman10];
-		B -> A;
-		C -> B [style=dashed];
-		}
+	\includedot[scale=0.8]{dot/fixedSubclassingSubtyping}
 	\caption{Subclassing and subtyping hierarchy}
 	\label{fig:hierarchy}
 \end{figure}
@@ -568,16 +533,7 @@ the \mytype is used wherever possible.
 
 \begin{figure}[ht]
 	\centering
-	\digraph[scale=0.8]{SubclassingSubtyping}{
-		rankdir=BT;
-		margin=0;
-		A[fontname=LMRoman10];
-		B[fontname=LMRoman10];
-		C[fontname=LMRoman10];
-		B -> A [style=dashed];
-		C -> A [style=dashed];
-		D -> C [style=dashed];
-		}
+	\includedot[scale=0.8]{dot/subclassingSubtyping}
 	\caption{Subclassing hierarchy for class \E}
 	\label{fig:fixedHierarchy}
 \end{figure}

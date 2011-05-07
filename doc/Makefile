@@ -5,7 +5,7 @@ FINAL := final
 DRAFT := draft
 VIEWER := evince
 SHELL := /bin/bash
-CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dot,dvi
+CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dvi
 
 default: build
 
@@ -62,6 +62,7 @@ full-debug: clean
 clean:
 	rm -f *{$(CLEAN_EXT)}
 	rm -f include/*{$(CLEAN_EXT)}
+	rm -f dot/*.pdf
 	rm -f [^ooplss]*.pdf
 
 # also removes output documents

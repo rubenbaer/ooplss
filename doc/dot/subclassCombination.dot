@@ -1,0 +1,7 @@
+digraph subclassCombination {
+	rankdir=BT
+	margin=0
+	A[fontname=LMRoman10]
+	B[fontname=LMRoman10]
+	B -> A [style=dashed]
+}

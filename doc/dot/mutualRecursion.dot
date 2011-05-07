@@ -1,0 +1,10 @@
+digraph MutualRecursion {
+	rankdir=LR
+	margin=0
+	c[fontname=LMRoman10,label=client,shape=plaintext]
+	a[fontname=LMRoman10,label=M,shape=Mrecord]
+	b[fontname=LMRoman10,label=F,shape=Mrecord]
+	c->a
+	a->b
+	b->a[tailport=s,headport=s]
+}

@@ -1,0 +1,22 @@
+digraph CompilerDesign {
+	rankdir = TB
+	A [shape=box,label=Lexer]
+	B [shape=box,label=Parser]
+	C [shape=box,label=Definition]
+	D [shape=box,label=Reference]
+	E [shape=box,label="Type Checking"]
+	F [shape=box,label=Translation]
+	G [shape=plain,label=Output]
+	A -> B
+	subgraph cluster0 {
+		label = "Intermediate representation"
+		B -> C
+		subgraph cluster1 {
+			label = "Symbol table creation"
+			C -> D
+		}
+		D -> E
+	}
+	E -> F
+	F -> G
+}
