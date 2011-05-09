@@ -243,7 +243,7 @@
 	<attribute name="test-file" />
 	<sequential>
 		<echo message="Running @{test-file}" />
-		<java classname="org.antlr.gunit.Interp">
+		<java classname="org.antlr.gunit.Interp" failonerror="true">
 			<classpath refid="classpath" />
 			<arg value="@{test-file}" />
 		</java>
