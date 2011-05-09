@@ -211,9 +211,14 @@ dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*;
 
 pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
+newObject	:	'new' ID '(' (arg+=statement (',' arg+=statement)* )? ')'
+				-> ^(NEW ID ^(METHODARGS $arg+)?)
+			;
+
 atom		:	literal
 			|	varAccess
 			|	'('! expression ')'! 
+			|	newObject
 			;
 
 /*arrayAccess	:	'[' statement ']';*/
@@ -359,6 +364,8 @@ CLASS		: 	'class';
 VAR			: 	'var';
 
 DEF			: 	'def';
+
+NEW			:	'new';
 
 RETURNSTMT	:	'return';
 
