@@ -208,7 +208,7 @@
 	<!-- JUnit Testing -->
 	<target name="junit" depends="build-test">
 		<mkdir dir="${reports}" />
-		<junit printsummary="yes">
+		<junit printsummary="yes" failureproperty="junit.failure">
 			<classpath refid="classpath" />
 			<sysproperty key="basedir" value="${build}"/>
 
@@ -221,6 +221,7 @@
 				</fileset>
 			</batchtest>
 		</junit>
+		<fail if="junit.failure" message="Unit test(s) failed. See reports!" />
 	</target>
 
 
