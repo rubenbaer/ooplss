@@ -306,12 +306,13 @@ public class SymbolTable {
 	public Type resolveType(OoplssAST node, OoplssAST type) 
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
-		Type t = (Type)s.resolve(type.getText());
-		if (t == null) {
+
+		Symbol sym = s.resolve(type.getText());
+		if (sym == null || !(sym instanceof Type)) {
 			throw new UnknownTypeException(type);
 		} 
 
-		return t;
+		return (Type)sym;
 	}
 	
 	/**
