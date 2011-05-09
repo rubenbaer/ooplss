@@ -307,7 +307,7 @@ public class SymbolTable {
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
 
-		Symbol sym = s.resolve(type.getText());
+		Symbol sym = s.resolveType(type.getText());
 		if (sym == null || !(sym instanceof Type)) {
 			throw new UnknownTypeException(type);
 		} 

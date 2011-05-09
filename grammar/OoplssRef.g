@@ -45,8 +45,7 @@ subType		: 	^(CLASSDEF classname=ID
 				.*)
 			{
 				logger.fine("<Ref>Resolving a supertype");
-				Scope s = $classname.getSymbol().getScope();
-				ClassSymbol t = (ClassSymbol)s.resolve($supertype.text);
+				ClassSymbol t = (ClassSymbol) symtab.resolveType($classname, $supertype);
 				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
 					throw new CyclicSubtypingException($classname);
 				} 
@@ -57,7 +56,9 @@ subType		: 	^(CLASSDEF classname=ID
 catch[CyclicSubtypingException e] {
 	error.reportError(e);
 }
-			
+catch[UnknownTypeException e] {
+	error.reportError(e);
+}			
 superClasses	returns [Type t]
 			:	(^(SUPERCLASS subclass+=ID))
 			{

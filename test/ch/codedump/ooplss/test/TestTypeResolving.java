@@ -56,4 +56,15 @@ public class TestTypeResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testSameNameButDifferntSymbolType() throws Exception {
+		String str = 	"class A {" +
+						"    def Foo() : Void {" +
+						"        var A : A;" +
+						"    }" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

@@ -49,6 +49,21 @@ public abstract class BaseScope implements Scope {
 	}
 	
 	@Override
+	public Symbol resolveType(String name) {
+		Symbol s = members.get(name);
+		
+		if (s != null && s instanceof Type) {
+			return s;
+		}
+
+		if (enclosingScope != null) {
+			return enclosingScope.resolve(name);
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public String getName() {
 		return this.name;
 	}
