@@ -11,8 +11,8 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test (expected=UnknownTypeException.class)
 	public void testReturnType() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():notexist {}" +
+		String str = 	"class foo {\n" +
+						"	def bar():notexist {}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -20,8 +20,8 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test (expected=UnknownTypeException.class)
 	public void testVarType() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:notexist;" +
+		String str = 	"class foo {\n" +
+						"	var x:notexist;\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -29,10 +29,10 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test (expected=UnknownTypeException.class)
 	public void testLocalVarType() throws Exception {
-		String str =	"class foo {" +
-						"	def __construct() {" +
-						"		var x:notexist;" +
-						"	}" +
+		String str =	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		var x:notexist;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -40,8 +40,8 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test (expected=UnknownTypeException.class)
 	public void testSubtypeArgType()throws Exception {
-		String str = 	"class foo {" +
-						"	def bar(x:notexist):foo {}" +
+		String str = 	"class foo {\n" +
+						"	def bar(x:notexist):foo {}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -49,9 +49,9 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test (expected=UnknownTypeException.class)
 	public void testIllegalTyping() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():foo {}" +
-						"	var x:bar;" +
+		String str = 	"class foo {\n" +
+						"	def bar():foo {}\n" +
+						"	var x:bar;\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -59,10 +59,10 @@ public class TestTypeResolving extends OoplssTest {
 	
 	@Test
 	public void testSameNameButDifferntSymbolType() throws Exception {
-		String str = 	"class A {" +
-						"    def Foo() : Void {" +
-						"        var A : A;" +
-						"    }" +
+		String str = 	"class A {\n" +
+						" def Foo() : Void {\n" +
+						" var A : A;\n" +
+						" }\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();

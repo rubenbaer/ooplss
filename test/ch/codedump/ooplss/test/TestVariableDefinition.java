@@ -9,7 +9,7 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public class TestVariableDefinition extends OoplssTest {	
 	@Test (expected=SymbolAlreadyDefinedException.class)
 	public void testDoubleClasses() throws Exception {
-		String str = 	"class foo {}" +
+		String str = 	"class foo {}\n" +
 						"class foo {}";
 		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
@@ -17,9 +17,9 @@ public class TestVariableDefinition extends OoplssTest {
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
 	public void testDoubleVariables() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:foo;" +
-						"	var x:foo;" +
+		String str = 	"class foo {\n" +
+						"	var x:foo;\n" +
+						"	var x:foo;\n" +
 						"}";
 		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
@@ -27,9 +27,9 @@ public class TestVariableDefinition extends OoplssTest {
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
 	public void testDoubleMethods() throws Exception {
-		String str = 	"class foo {" +
-						"	def blah():foo {}" +
-						"	def blah():foo {}" +
+		String str = 	"class foo {\n" +
+						"	def blah():foo {}\n" +
+						"	def blah():foo {}\n" +
 						"}";
 		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
@@ -37,9 +37,9 @@ public class TestVariableDefinition extends OoplssTest {
 	
 	@Test (expected=SymbolAlreadyDefinedException.class)
 	public void testMethodAndVars() throws Exception {
-		String str = 	"class foo {" +
-						"	def blah():foo {}" +
-						"	var blah:foo;" +
+		String str = 	"class foo {\n" +
+						"	def blah():foo {}\n" +
+						"	var blah:foo;\n" +
 						"}";
 		this.createDef(str);
 		ErrorHandler.getInstance().throwException();
@@ -47,10 +47,10 @@ public class TestVariableDefinition extends OoplssTest {
 	
 	@Test 
 	public void testNestedSymbols() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():foo {" +
-						"		var foo:foo;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():foo {\n" +
+						"		var foo:foo;\n" +
+						"	}\n" +
 						"}";
 		this.createDef(str);
 	}

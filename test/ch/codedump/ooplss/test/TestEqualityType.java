@@ -9,10 +9,10 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public class TestEqualityType extends OoplssTest {
 	@Test
 	public void testIntEquality() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		3 == 3;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		3 == 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -20,10 +20,10 @@ public class TestEqualityType extends OoplssTest {
 
 	@Test
 	public void testInequality() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		3 != 4;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		3 != 4;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -31,10 +31,10 @@ public class TestEqualityType extends OoplssTest {
 	
 	@Test (expected=InvalidExpressionException.class)
 	public void testIncompatibleEquality() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		3 == \"abc\";" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		3 == \"abc\";\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -42,10 +42,10 @@ public class TestEqualityType extends OoplssTest {
 	
 	@Test
 	public void testBoolEquality() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		true == true;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		true == true;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -53,11 +53,11 @@ public class TestEqualityType extends OoplssTest {
 	
 	@Test
 	public void testIntVariableEquality() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Int;" +
-						"	def __construct() {" +
-						"		x == 3;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:Int;\n" +
+						"	def __construct() {\n" +
+						"		x == 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();	
@@ -65,11 +65,11 @@ public class TestEqualityType extends OoplssTest {
 	
 	@Test
 	public void testStringVariableEquality() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:String;" +
-						"	def __construct() {" +
-						"		x == \"abc\";" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:String;\n" +
+						"	def __construct() {\n" +
+						"		x == \"abc\";\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();	

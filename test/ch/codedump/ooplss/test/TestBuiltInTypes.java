@@ -9,8 +9,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testIntegerVar() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Int;" +
+		String str = 	"class foo {\n" +
+						"	var x:Int;\n" +
 						"}";
 		
 		this.createRef(str);
@@ -19,8 +19,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testFloatVar() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Float;" +
+		String str = 	"class foo {\n" +
+						"	var x:Float;\n" +
 						"}";
 		
 		this.createRef(str);
@@ -29,8 +29,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testCharVar() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Char;" +
+		String str = 	"class foo {\n" +
+						"	var x:Char;\n" +
 						"}";
 		
 		this.createRef(str);
@@ -39,8 +39,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testBoolVar() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Bool;" +
+		String str = 	"class foo {\n" +
+						"	var x:Bool;\n" +
 						"}";
 		
 		this.createRef(str);
@@ -49,8 +49,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testStringVar() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:String;" +
+		String str = 	"class foo {\n" +
+						"	var x:String;\n" +
 						"}";
 		
 		this.createRef(str);
@@ -59,8 +59,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testIntegerMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():Int {}" +
+		String str = 	"class foo {\n" +
+						"	def bar():Int {}\n" +
 						"}";
 
 		this.createRef(str);
@@ -69,9 +69,9 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testVoidMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():Void {" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():Void {\n" +
+						"	}\n" +
 						"}";
 		
 		this.createRef(str);
@@ -80,9 +80,9 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testStringMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():String {" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():String {\n" +
+						"	}\n" +
 						"}";
 		
 		this.createRef(str);
@@ -91,9 +91,9 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testCharMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():Char {" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():Char {\n" +
+						"	}\n" +
 						"}";
 		
 		this.createRef(str);
@@ -102,9 +102,9 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testFloatMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():Float {" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():Float {\n" +
+						"	}\n" +
 						"}";
 		
 		this.createRef(str);
@@ -113,9 +113,9 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test
 	public void testBoolMethod() throws Exception {
-		String str = 	"class foo {" +
-						"	def foo():Bool {" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def foo():Bool {\n" +
+						"	}\n" +
 						"}";
 		
 		this.createRef(str);
@@ -124,8 +124,8 @@ public class TestBuiltInTypes extends OoplssTest {
 	
 	@Test (expected=CannotUseVoidOnVariableException.class)
 	public void testVoidOnVariable() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Void;" +
+		String str = 	"class foo {\n" +
+						"	var x:Void;\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();

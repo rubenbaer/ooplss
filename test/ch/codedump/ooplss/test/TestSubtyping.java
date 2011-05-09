@@ -8,7 +8,7 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public class TestSubtyping extends OoplssTest {
 	@Test (expected=CyclicSubtypingException.class)
 	public void testCyclicSubtyping() throws Exception {
-		String str = 	"class A subtypeOf B {  }" +
+		String str = 	"class A subtypeOf B {  }\n" +
 						"class B subtypeOf A {  } ";
 		
 		this.createRef(str);

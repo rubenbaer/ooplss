@@ -9,10 +9,10 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public class TestRelationalType extends OoplssTest {
 	@Test 
 	public void testGreater() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		3 > 2;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		3 > 2;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -20,10 +20,10 @@ public class TestRelationalType extends OoplssTest {
 	
 	@Test
 	public void testGEQ() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		3 >= 2;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		3 >= 2;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -31,10 +31,10 @@ public class TestRelationalType extends OoplssTest {
 	
 	@Test
 	public void testLess() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		2 < 3;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		2 < 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -42,10 +42,10 @@ public class TestRelationalType extends OoplssTest {
 	
 	@Test
 	public void testLEQ() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		2 <= 3;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		2 <= 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -53,10 +53,10 @@ public class TestRelationalType extends OoplssTest {
 	
 	@Test (expected=InvalidExpressionException.class)
 	public void testInvalidBool() throws Exception {
-		String str = 	"class foo {" +
-						"	def __construct() {" +
-						"		true < false;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def __construct() {\n" +
+						"		true < false;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();

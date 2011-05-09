@@ -14,10 +14,10 @@ public class TestArithmeticType extends OoplssTest {
 	
 	@Test
 	public void testFloatPromotion() throws Exception {
-		String str = 	"class fo {" +
-						"	def __construct() {" +
-						"		3.0 + 2 + 1;" + 
-						"	}" + 
+		String str = 	"class fo {\n" +
+						"	def __construct() {\n" +
+						"		3.0 + 2 + 1;\n" + 
+						"	}\n" + 
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -30,45 +30,60 @@ public class TestArithmeticType extends OoplssTest {
 						"		3 + \"a\";\n" +
 						"	}\n" +
 						"}\n";
-		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test
 	public void testIntVarWithInt() throws Exception {
 		String str = 	"class foo {\n" +
-						"	var x:Int;" +
-						"	def __construct() {" +
-						"		x + 3;" +
-						"	}" +
+						"	var x:Int;\n" +
+						"	def __construct() {\n" +
+						"		x + 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test
-	public void testMethodReturnInt() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():Int {" +
-						"		return 3;" +
-						"	}" +
-						"	def __construct() {" +
-						"		bar() + 3;" +
-						"	}" +
+	public void testMethodReturnIntInConstructor() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def bar():Int {\n" +
+						"		return 3;\n" +
+						"	}\n" +
+						"	def __construct() {\n" +
+						"		bar() + 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
+		System.out.println("FOOOOOOO : \n" + this.symTab.toString());
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testMethodReturnIntInMethod() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def bar():Int {\n" +
+						"		return 3;\n" +
+						"	}\n" +
+						"	def f00()  {\n" +
+						"		bar() + 3;\n" +
+						"	}\n" +
+						"}";
+		this.createTyper(str);
+		System.out.println(this.symTab.toString());
 		ErrorHandler.getInstance().throwException();
 	}
 	
 	@Test(expected=InvalidExpressionException.class)
 	public void tesInvalidMethodReturn() throws Exception {
-		String str = 	"class foo {" +
-						"	def bar():String {" +
-						"		return \"abc\";" +
-						"	}" +
-						"	def __construct() {" +
-						"		self.bar() + 3;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	def bar():String {\n" +
+						"		return \"abc\";\n" +
+						"	}\n" +
+						"	def __construct() {\n" +
+						"		self.bar() + 3;\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
