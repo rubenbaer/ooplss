@@ -47,7 +47,7 @@ public interface Scope {
 	 * @param name
 	 * @return
 	 */
-	public Symbol resolveType(String name);
+	public Type resolveType(String name);
 	
 	/**
 	 * Adds a new child scope to the current scope

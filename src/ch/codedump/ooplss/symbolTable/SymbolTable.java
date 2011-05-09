@@ -233,6 +233,25 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Resolve an object
+	 * 
+	 * Resolve an object in case of a new statement
+	 * @param obj
+	 * @return Resolved object type
+	 * @throws UnknownDefinitionException 
+	 */
+	public Symbol resolveObject(OoplssAST obj) throws UnknownDefinitionException {
+		Scope s = obj.getScope();
+		
+		Type t = s.resolveType(obj.getText());
+		if (t == null) {
+			throw new UnknownDefinitionException(obj);
+		}
+		
+		return (Symbol)t;
+	}
+	
+	/**
 	 * Resolve a name
 	 * 
 	 * @param node
@@ -307,8 +326,9 @@ public class SymbolTable {
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
 
-		Symbol sym = s.resolveType(type.getText());
+		Type sym = s.resolveType(type.getText());
 		if (sym == null || !(sym instanceof Type)) {
+			// TODO i smell redundancy here
 			throw new UnknownTypeException(type);
 		} 
 

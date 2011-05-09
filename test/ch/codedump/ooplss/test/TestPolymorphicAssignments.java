@@ -19,4 +19,17 @@ public class TestPolymorphicAssignments extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test 
+	public void testNewObjectSubtype() throws Exception {
+		String str = 	"class foo {}" +
+						"class bar subtypeOf foo {" +
+						"	var y:foo;" +
+						"	def __construct() {" +
+						"		y = new bar();" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

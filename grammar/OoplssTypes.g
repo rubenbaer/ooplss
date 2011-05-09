@@ -41,6 +41,7 @@ statement
 			|	equalityOperator
 			|	relationalOperator
 			|	literal
+			| 	newObject
 			;
 			
 
@@ -50,6 +51,15 @@ varAccess		returns [Type type]
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
 				$VARACCESS.setEvalType(type);
+			}
+			;
+			
+newObject		returns [Type type]
+			:	^(NEW ID .*)
+			{
+				logger.fine("<Type>Determining type of new");
+				type = (Type)$ID.getSymbol();
+				$NEW.setEvalType(type);
 			}
 			;
 			

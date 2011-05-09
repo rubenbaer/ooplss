@@ -33,6 +33,7 @@ topdown		:	enterMethod
 				|	selfAccess
 				|	memberAccess
 				| 	methodCall
+				|	newObject
 				)
 
 			|	argument
@@ -118,7 +119,7 @@ catch [UnknownTypeException e] {
 }
 */
 
-varAccess	returns [Type type]
+varAccess		returns [Type type]
 			:	^(VARACCESS name=ID)
 			{
 				if ($name.getSymbol() != null) {
@@ -135,6 +136,18 @@ catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
 
+newObject		returns [Type type]
+			:	^(NEW ID .*)
+			{
+				logger.fine("<Ref>Resolving a new statement");
+				Symbol s = this.symtab.resolveObject($ID);
+				$ID.setSymbol(s);
+				type = s.getType();
+			}
+			;
+catch[UnknownDefinitionException e] {
+	error.reportError(e);
+}
 
 methodCall		returns [Type type]
 			:	^(METHODCALL name=ID .*)
