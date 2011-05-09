@@ -30,8 +30,10 @@ topdown		:	enterMethod
 			|	varDef
 			|
 				(	varAccess
+				|	selfAccess
 				|	memberAccess
 				| 	methodCall
+				|	newObject
 				)
 
 			|	argument
@@ -44,13 +46,20 @@ subType		: 	^(CLASSDEF classname=ID
 				.*)
 			{
 				logger.fine("<Ref>Resolving a supertype");
-				Scope s = $classname.getSymbol().getScope();
-				ClassSymbol t = (ClassSymbol)s.resolve($supertype.text);
+				ClassSymbol t = (ClassSymbol) symtab.resolveType($classname, $supertype);
+				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
+					throw new CyclicSubtypingException($classname);
+				} 
 				((ClassSymbol)($classname.getSymbol())).setSuperType(t);
 				
 			}
 			;
-			
+catch[CyclicSubtypingException e] {
+	error.reportError(e);
+}
+catch[UnknownTypeException e] {
+	error.reportError(e);
+}			
 superClasses	returns [Type t]
 			:	(^(SUPERCLASS subclass+=ID))
 			{
@@ -84,10 +93,17 @@ varDef		:	^(VARDEF type=ID name=ID)
 			{
 				logger.fine("<Ref>Resolving type of variable declaration " + $name.text);
 				Type t = this.symtab.resolveType($name, $type);
+				if (t.getName() == "Void") {
+					// do this in symtab?
+					throw new CannotUseVoidOnVariableException($name);
+				}
 				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
   error.reportError(e);
+}
+catch[CannotUseVoidOnVariableException e] {
+	error.reportError(e);
 }
 
 
@@ -103,7 +119,7 @@ catch [UnknownTypeException e] {
 }
 */
 
-varAccess	returns [Type type]
+varAccess		returns [Type type]
 			:	^(VARACCESS name=ID)
 			{
 				if ($name.getSymbol() != null) {
@@ -113,6 +129,19 @@ varAccess	returns [Type type]
 				logger.fine("<Ref>Resolving a simple variable " + $name.text);
 				Symbol s = this.symtab.resolveVar($name);
 				$name.setSymbol(s);
+				type = s.getType();
+			}
+			;
+catch[UnknownDefinitionException e] {
+	error.reportError(e);
+}
+
+newObject		returns [Type type]
+			:	^(NEW ID .*)
+			{
+				logger.fine("<Ref>Resolving a new statement");
+				Symbol s = this.symtab.resolveObject($ID);
+				$ID.setSymbol(s);
 				type = s.getType();
 			}
 			;
@@ -214,8 +243,6 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 catch [UnknownTypeException e] {
 	error.reportError(e);
 }
- 
-
 
 	/*
 rettype	returns [Type type]

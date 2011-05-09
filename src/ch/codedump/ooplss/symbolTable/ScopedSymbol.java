@@ -51,11 +51,27 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 	public Symbol resolve(String name) {
 		Symbol s = members.get(name);
 		
-		if (s!= null) {
+		if (s != null) {
 			return s;
 		}
+
 		if (enclosingScope != null) {
 			return enclosingScope.resolve(name);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public Type resolveType(String name) {
+		Symbol s = members.get(name);
+		
+		if (s != null && s instanceof Type) {
+			return (Type)s;
+		}
+
+		if (enclosingScope != null) {
+			return enclosingScope.resolveType(name);
 		}
 		
 		return null;

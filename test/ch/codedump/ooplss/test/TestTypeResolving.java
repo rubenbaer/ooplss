@@ -46,4 +46,25 @@ public class TestTypeResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test (expected=UnknownTypeException.class)
+	public void testIllegalTyping() throws Exception {
+		String str = 	"class foo {" +
+						"	def bar():foo {}" +
+						"	var x:bar;" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testSameNameButDifferntSymbolType() throws Exception {
+		String str = 	"class A {" +
+						"    def Foo() : Void {" +
+						"        var A : A;" +
+						"    }" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
@@ -201,6 +202,56 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Check if an assignment can be done
+	 * @param var The variable on the left
+	 * @param stmt
+	 * @throws IllegalAssignmentException 
+	 */
+	public void checkAssignment(OoplssAST assign, OoplssAST var, OoplssAST stmt) 
+			throws IllegalAssignmentException {
+		if (!this.canAssignTo(var, stmt)) {
+			throw new IllegalAssignmentException(assign.token, var, stmt);
+		}
+	}
+	
+	/**
+	 * Check if the type of a variable is the same as the one
+	 * that is assigned
+	 * 
+	 * @param var The variable to be assigned
+	 * @param stmt The value to assign to
+	 * @return Whether the assignment can be done
+	 */
+	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
+		if (var.getEvalType() instanceof ClassSymbol &&
+				stmt.getEvalType() instanceof ClassSymbol) {
+			// check subtype
+			return ((ClassSymbol)stmt.getEvalType()).isSubtypeOf(
+					((ClassSymbol)var.getEvalType()));
+		}
+		return var.getEvalType() == stmt.getEvalType();
+	}
+	
+	/**
+	 * Resolve an object
+	 * 
+	 * Resolve an object in case of a new statement
+	 * @param obj
+	 * @return Resolved object type
+	 * @throws UnknownDefinitionException 
+	 */
+	public Symbol resolveObject(OoplssAST obj) throws UnknownDefinitionException {
+		Scope s = obj.getScope();
+		
+		Type t = s.resolveType(obj.getText());
+		if (t == null) {
+			throw new UnknownDefinitionException(obj);
+		}
+		
+		return (Symbol)t;
+	}
+	
+	/**
 	 * Resolve a name
 	 * 
 	 * @param node
@@ -278,12 +329,14 @@ public class SymbolTable {
 	public Type resolveType(OoplssAST node, OoplssAST type) 
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
-		Type t = (Type)s.resolve(type.getText());
-		if (t == null) {
+
+		Type sym = s.resolveType(type.getText());
+		if (sym == null || !(sym instanceof Type)) {
+			// TODO i smell redundancy here
 			throw new UnknownTypeException(type);
 		} 
 
-		return t;
+		return (Type)sym;
 	}
 	
 	/**

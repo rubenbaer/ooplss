@@ -97,7 +97,9 @@ normalVarDef
 /*arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);*/
 		
 methodDef	:	'def' (
-					(name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
+					(name=ID argumentDeclList ':' rettype=ID) 
+					| 
+					(name='__construct' argumentDeclList)
 				) methodBlock 
 				-> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
 			;
@@ -164,6 +166,8 @@ backtrack=true;
 			:	(
 						ID 
 							-> ^(VARACCESS ID)
+					|	'self' 
+							-> ^(SELF)
 					/*|	ID '[' statement ']' 
 							-> ^(ARRAYACCESS ID statement)
 					|	'self' '.' ID '[' statement ']' 
@@ -207,9 +211,14 @@ dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*;
 
 pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
+newObject	:	'new' ID '(' (arg+=statement (',' arg+=statement)* )? ')'
+				-> ^(NEW ID ^(METHODARGS $arg+)?)
+			;
+
 atom		:	literal
 			|	varAccess
 			|	'('! expression ')'! 
+			|	newObject
 			;
 
 /*arrayAccess	:	'[' statement ']';*/
@@ -355,6 +364,8 @@ CLASS		: 	'class';
 VAR			: 	'var';
 
 DEF			: 	'def';
+
+NEW			:	'new';
 
 RETURNSTMT	:	'return';
 

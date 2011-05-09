@@ -93,3 +93,9 @@ block:
 	}
 }
 >> OK
+
+<<
+{
+	x = new blubb();
+}
+>> OK
