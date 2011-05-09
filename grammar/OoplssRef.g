@@ -47,10 +47,16 @@ subType		: 	^(CLASSDEF classname=ID
 				logger.fine("<Ref>Resolving a supertype");
 				Scope s = $classname.getSymbol().getScope();
 				ClassSymbol t = (ClassSymbol)s.resolve($supertype.text);
+				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
+					throw new CyclicSubtypingException($classname);
+				} 
 				((ClassSymbol)($classname.getSymbol())).setSuperType(t);
 				
 			}
 			;
+catch[CyclicSubtypingException e] {
+	error.reportError(e);
+}
 			
 superClasses	returns [Type t]
 			:	(^(SUPERCLASS subclass+=ID))
