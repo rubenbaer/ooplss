@@ -35,6 +35,7 @@ bottomup	:
 			
 statement		
 			:	varAccess
+			|	selfAccess
 			|	methodCall
 			|	arithmeticOperator
 			|	equalityOperator
@@ -49,6 +50,15 @@ varAccess		returns [Type type]
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
 				$VARACCESS.setEvalType(type);
+			}
+			;
+			
+selfAccess		returns [Type type]
+			:	SELF
+			{
+				logger.fine("<Type>Determining type of self");
+				type = (Type)$SELF.getSymbol();
+				$SELF.setEvalType(type);
 			}
 			;
 			

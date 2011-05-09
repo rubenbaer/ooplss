@@ -166,7 +166,7 @@ varAccess	:	^(VARACCESS ID)
 			;
 			
 selfVarAccess
-			:	^('.' SELF .)
+			:	SELF
 			{
 				logger.fine("<Def>Recording scope of a self reference");
 				$SELF.setScope(this.currentScope);

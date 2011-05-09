@@ -164,6 +164,8 @@ backtrack=true;
 			:	(
 						ID 
 							-> ^(VARACCESS ID)
+					|	'self' 
+							-> ^(SELF)
 					/*|	ID '[' statement ']' 
 							-> ^(ARRAYACCESS ID statement)
 					|	'self' '.' ID '[' statement ']' 

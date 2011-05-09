@@ -58,4 +58,28 @@ public class TestSimpleAssignments extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();		
 	}
+	
+	@Test
+	public void testSelfAssignment() throws Exception {
+		String str = 	"class foo {" + 
+						"	def __construct() {" +
+						"		self.x = self;" +
+						"	}" +
+						"	var x:foo;" +
+						"}"	;
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testIllegalSelfAssignment() throws Exception {
+		String str = 	"class foo {" + 
+						"	def __construct() {" +
+						"		x = self;" +
+						"	}" +
+						"	var x:Int;" +
+						"}"	;
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

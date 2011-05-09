@@ -30,6 +30,7 @@ topdown		:	enterMethod
 			|	varDef
 			|
 				(	varAccess
+				|	selfAccess
 				|	memberAccess
 				| 	methodCall
 				)
