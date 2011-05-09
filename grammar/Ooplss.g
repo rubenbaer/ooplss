@@ -97,7 +97,9 @@ normalVarDef
 /*arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);*/
 		
 methodDef	:	'def' (
-					(name=ID argumentDeclList ':' rettype=ID) | (name='__construct' argumentDeclList)
+					(name=ID argumentDeclList ':' rettype=ID) 
+					| 
+					(name='__construct' argumentDeclList)
 				) methodBlock 
 				-> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
 			;

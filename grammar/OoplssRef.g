@@ -92,10 +92,17 @@ varDef		:	^(VARDEF type=ID name=ID)
 			{
 				logger.fine("<Ref>Resolving type of variable declaration " + $name.text);
 				Type t = this.symtab.resolveType($name, $type);
+				if (t.getName() == "Void") {
+					// do this in symtab?
+					throw new CannotUseVoidOnVariableException($name);
+				}
 				$name.getSymbol().setType(t);
 			};
 catch [UnknownTypeException e] {
   error.reportError(e);
+}
+catch[CannotUseVoidOnVariableException e] {
+	error.reportError(e);
 }
 
 
@@ -127,6 +134,7 @@ varAccess	returns [Type type]
 catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
+
 
 methodCall		returns [Type type]
 			:	^(METHODCALL name=ID .*)

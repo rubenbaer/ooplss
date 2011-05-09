@@ -8,6 +8,7 @@ ID:
 "someIdentifiCation" OK
 "not valid" FAIL
 "3var" FAIL
+"__construct" OK
 
 INTLITERAL:
 "3" OK
