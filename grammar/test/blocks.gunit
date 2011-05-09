@@ -89,10 +89,13 @@ block:
 	if (a == b) {
 		while (true) {
 			var i:int;
-			for (i = 1; i < 10; i = i + 1) {
-
-			}
 		}
 	}
+}
+>> OK
+
+<<
+{
+	x = new blubb();
 }
 >> OK

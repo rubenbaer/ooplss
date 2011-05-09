@@ -31,6 +31,7 @@ topdown		:	enterMethod
 			|	varDef
 			|	enterClass	
 			|	varAccess
+			|	newObject
 			|	selfVarAccess
 			/*|	arrayAccess*/
 			/*|	arrayDef*/
@@ -166,7 +167,7 @@ varAccess	:	^(VARACCESS ID)
 			;
 			
 selfVarAccess
-			:	^('.' SELF .)
+			:	SELF
 			{
 				logger.fine("<Def>Recording scope of a self reference");
 				$SELF.setScope(this.currentScope);
@@ -177,6 +178,13 @@ methodCall
 			:	^(METHODCALL ID .*)
 			{
 				logger.fine("<Def>Recording scope of a method call");
+				$ID.setScope(this.currentScope);
+			}
+			;
+			
+newObject	:	^(NEW ID .?)
+			{
+				logger.fine("<Def>Recording scope of a new statement");
 				$ID.setScope(this.currentScope);
 			}
 			;

@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.CannotUseVoidOnVariableException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 public class TestBuiltInTypes extends OoplssTest {
@@ -12,7 +13,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:Int;" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -22,7 +23,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:Float;" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -32,7 +33,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:Char;" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -42,7 +43,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:Bool;" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -52,7 +53,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:String;" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -62,7 +63,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	def bar():Int {}" +
 						"}";
 
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -73,7 +74,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	}" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -84,7 +85,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	}" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -95,7 +96,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	}" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -106,7 +107,7 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	}" +
 						"}";
 		
-		this.createTyper(str);
+		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -117,6 +118,15 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	}" +
 						"}";
 		
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=CannotUseVoidOnVariableException.class)
+	public void testVoidOnVariable() throws Exception {
+		String str = 	"class foo {" +
+						"	var x:Void;" +
+						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}

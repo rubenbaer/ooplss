@@ -27,6 +27,10 @@ equality:
 "3 == 4"  -> (== 3 4)
 "3 == 13 + 3" -> (== 3 (+ 13 3))
 
+statement:
+"new Object()" OK
+"new blah(3,4)" OK
+
 /*j
 varAccess:
 "x[a]" -> (ARRAYACCESS (VARACCESS x) (VARACCESS a))

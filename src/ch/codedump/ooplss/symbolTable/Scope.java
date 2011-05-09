@@ -39,6 +39,17 @@ public interface Scope {
 	public Symbol resolve(String name);
 	
 	/**
+	 * Resolve a type
+	 * 
+	 * Slightly different than resolving just a symbol:
+	 * if the symbol is not of type Type, then still
+	 * look higher up in the Scope tree
+	 * @param name
+	 * @return
+	 */
+	public Type resolveType(String name);
+	
+	/**
 	 * Adds a new child scope to the current scope
 	 * 
 	 * @param child

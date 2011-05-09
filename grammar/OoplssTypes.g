@@ -30,15 +30,18 @@ bottomup	:
 			/*|	memberAccess*/
 			 	statement
 			 |	conditionals
+			 |	assignment
 			;
 			
 statement		
 			:	varAccess
+			|	selfAccess
 			|	methodCall
 			|	arithmeticOperator
 			|	equalityOperator
 			|	relationalOperator
 			|	literal
+			| 	newObject
 			;
 			
 
@@ -48,6 +51,24 @@ varAccess		returns [Type type]
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
 				$VARACCESS.setEvalType(type);
+			}
+			;
+			
+newObject		returns [Type type]
+			:	^(NEW ID .*)
+			{
+				logger.fine("<Type>Determining type of new");
+				type = (Type)$ID.getSymbol();
+				$NEW.setEvalType(type);
+			}
+			;
+			
+selfAccess		returns [Type type]
+			:	SELF
+			{
+				logger.fine("<Type>Determining type of self");
+				type = (Type)$SELF.getSymbol();
+				$SELF.setEvalType(type);
 			}
 			;
 			
@@ -135,6 +156,16 @@ conditionals
 			}
 			;
 catch [ConditionalException e] {
+	error.reportError(e);
+}
+
+assignment 	:	^(ASSIGN var=. stmt=.)
+			{
+				logger.fine("<Type>Checking an assignment");
+				symtab.checkAssignment($ASSIGN, $var, $stmt);
+			}
+			;
+catch [IllegalAssignmentException e] {
 	error.reportError(e);
 }
 
