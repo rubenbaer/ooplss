@@ -15,7 +15,7 @@ if (3 == 2) {
 } else {
 	x;
 }
->> -> (IFSTMT (== 3 2) BLOCK (ELIF (== 3 3) BLOCK) (ELIF (== (VARACCESS x) 3) BLOCK) (ELSE (BLOCK (STMT (VARACCESS x)))))
+>> -> (IFSTMT (== 3 2) BLOCK (ELIF (== 3 3) BLOCK) (ELIF (== (VARACCESS x) 3) BLOCK) (ELSE (BLOCK (VARACCESS x))))
 
 
 whileStmt:
