@@ -8,11 +8,11 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public class TestConditionals extends OoplssTest {
 	@Test
 	public void testIfStatement1() throws Exception {
-		String str = 	"class fof {" +
-						"	def __construct() {" +
-						"		if (3 == 2) {" +
-						"		}" +
-						"	}" +
+		String str = 	"class fof {\n" +
+						"	def __construct() {\n" +
+						"		if (3 == 2) {\n" +
+						"		}\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -20,15 +20,15 @@ public class TestConditionals extends OoplssTest {
 	
 	@Test
 	public void testIfStatement2() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Bool;" +
-						"	var y:Bool;" +
-						"	def __construct() {" +
-						"		if (3 == 2) {" +
-						"		} elseif (x) {" +
-						"		} elseif (x == y) {" +
-						"		}" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:Bool;\n" +
+						"	var y:Bool;\n" +
+						"	def __construct() {\n" +
+						"		if (3 == 2) {\n" +
+						"		} elseif (x) {\n" +
+						"		} elseif (x == y) {\n" +
+						"		}\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -36,11 +36,11 @@ public class TestConditionals extends OoplssTest {
 	
 	@Test (expected=ConditionalException.class)
 	public void testInvalidIfStatemet() throws Exception {
-		String str = 	"class fof {" +
-						"	def __construct() {" +
-						"		if (3 + 2) {" +
-						"		}" +
-						"	}" +
+		String str = 	"class fof {\n" +
+						"	def __construct() {\n" +
+						"		if (3 + 2) {\n" +
+						"		}\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
@@ -48,13 +48,13 @@ public class TestConditionals extends OoplssTest {
 	
 	@Test
 	public void testWhileStatement1() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:Bool;" +
-						"	var y:Bool;" +
-						"	def __construct() {" +
-						"		while(true) {" +
-						"		}" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:Bool;\n" +
+						"	var y:Bool;\n" +
+						"	def __construct() {\n" +
+						"		while(true) {\n" +
+						"		}\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();		
@@ -62,12 +62,12 @@ public class TestConditionals extends OoplssTest {
 	
 	@Test
 	public void testWhileStatement2() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:String;" +
-						"	def __construct() {" +
-						"		while(\"abc\" == x) {" +
-						"		}" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:String;\n" +
+						"	def __construct() {\n" +
+						"		while(\"abc\" == x) {\n" +
+						"		}\n" +
+						"	}\n" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();		

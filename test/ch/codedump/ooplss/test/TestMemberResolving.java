@@ -12,11 +12,11 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test (expected=IllegalMemberAccessException.class) 
 	public void testUndefinedMemberAccess() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:foo;" +
-						"	def __construct() {" +
-						"		x.a;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:foo;\n" +
+						"	def __construct() {\n" +
+						"		x.a;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -24,14 +24,14 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test
 	public void testRecursiveCalling() throws Exception {
-		String str = 	"class foo {" +
+		String str = 	"class foo {\n" +
 						"	var x:bar;"+
-						"}" +
-						"class bar {" +
-						"	var y:foo;" + 
-						"	def __construct() {" +
-						"		y.x.y.x;" +
-						"	}" +
+						"}\n" +
+						"class bar {\n" +
+						"	var y:foo;\n" + 
+						"	def __construct() {\n" +
+						"		y.x.y.x;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -39,14 +39,14 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test (expected=IllegalMemberAccessException.class)
 	public void testIllegalRecursion() throws Exception {
-		String str = 	"class foo {" +
-						"	var x:bar;" +
-						"}" +
-						"class bar {" +
-						"	var y:foo;" +
-						"	def __construct() {" +
-						"		y.x.x;" +
-						"	}" +
+		String str = 	"class foo {\n" +
+						"	var x:bar;\n" +
+						"}\n" +
+						"class bar {\n" +
+						"	var y:foo;\n" +
+						"	def __construct() {\n" +
+						"		y.x.x;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -54,11 +54,11 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test
 	public void testSelfAccess() throws Exception {
-		String str = 	"class foo{" +
-						"	var x:foo;" +
-						"	def __construct() {" +
-						"		self.x;" +
-						"	}" +
+		String str = 	"class foo{\n" +
+						"	var x:foo;\n" +
+						"	def __construct() {\n" +
+						"		self.x;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -66,13 +66,13 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test
 	public void testSuperTypes() throws Exception {
-		String str = 	"class a {" + 
-						"	var x:a;" + 
-						"}" +
-						"class b subtypeOf a {" +
-						"	def __construct() {" +
-						"		x;" +
-						"	}" +
+		String str = 	"class a {\n" + 
+						"	var x:a;\n" + 
+						"}\n" +
+						"class b subtypeOf a {\n" +
+						"	def __construct() {\n" +
+						"		x;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -80,13 +80,13 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test(expected=UnknownDefinitionException.class)
 	public void testClassVarAccess() throws Exception {
-		String str = 	"class a {" + 
-						"	var x:a;" +
-						"}" +
-						"class b {" +
-						"	def __construct() {" +
-						"		a;" +
-						"	}" +
+		String str = 	"class a {\n" + 
+						"	var x:a;\n" +
+						"}\n" +
+						"class b {\n" +
+						"	def __construct() {\n" +
+						"		a;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -94,11 +94,11 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test
 	public void testClassMemberAccess() throws Exception {
-		String str = 	"class a {" +
-						"	var x:Int;" +
-						"	def __construct() {" +
-						"		x;" +
-						"	}" +
+		String str = 	"class a {\n" +
+						"	var x:Int;\n" +
+						"	def __construct() {\n" +
+						"		x;\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -106,11 +106,11 @@ public class TestMemberResolving extends OoplssTest {
 	
 	@Test
 	public void testClassMethodAccess() throws Exception {
-		String str = 	"class a {" +
-						"	def x():Int;" +
-						"	def __construct() {" +
-						"		x();" +
-						"	}" +
+		String str = 	"class a {\n" +
+						"	def x():Int;\n" +
+						"	def __construct() {\n" +
+						"		x();\n" +
+						"	}\n" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
