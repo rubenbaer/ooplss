@@ -66,7 +66,7 @@ public class TestArithmeticType extends OoplssTest {
 						"	def bar():Int {\n" +
 						"		return 3;\n" +
 						"	}\n" +
-						"	def f00()  {\n" +
+						"	def f00() : Int {\n" +
 						"		bar() + 3;\n" +
 						"	}\n" +
 						"}";
