@@ -60,7 +60,7 @@ import	:	^('import' ID)
 enterClass	:	^(CLASSDEF classname=ID 
 				.*)
 			{
-				logger.fine("<Def>Entering a class");
+				logger.fine("<Def>Entering a class: " + $classname);
 				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope);
 				cs.setDef($classname);
 				$classname.setSymbol(cs);
@@ -82,7 +82,7 @@ exitClass	:	CLASSDEF
 enterMethod 
 			:	(^(METHODDEF name=ID .*)|^(METHODDEF name='__construct' .*))
 			{
-				logger.fine("<Def>Entering a method");
+				logger.fine("<Def>Entering a method: " + $name);
 				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
 				ms.setDef($name);
 				$name.setSymbol(ms);
@@ -103,7 +103,8 @@ exitMethod	:	METHODDEF
 	
 argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
-				logger.fine("<Def>Defining a method argument (subtype)");
+				logger.fine("<Def>Defining a method argument (subtype): " + $name + 
+				  " of type " + $type);
 				VariableSymbol vs = new VariableSymbol($name.text, this.currentScope);
 				vs.setDef($name);
 				$name.setSymbol(vs);
@@ -158,10 +159,10 @@ catch [SymbolAlreadyDefinedException e] {
 }
 */
 
-varAccess	:	^(VARACCESS ID)
+varAccess	:	^(VARACCESS name=ID)
 			{
 				// record the scope in the variable
-				logger.fine("<Def>Recording scope of a variable");
+				logger.fine("<Def>Recording scope of a variable: " + $name);
 				$ID.setScope(this.currentScope);
 			}
 			;
@@ -175,16 +176,16 @@ selfVarAccess
 			;
 		
 methodCall
-			:	^(METHODCALL ID .*)
+			:	^(METHODCALL name=ID .*)
 			{
-				logger.fine("<Def>Recording scope of a method call");
+				logger.fine("<Def>Recording scope of a method call: " + $name);
 				$ID.setScope(this.currentScope);
 			}
 			;
 			
-newObject	:	^(NEW ID .?)
+newObject	:	^(NEW name=ID .?)
 			{
-				logger.fine("<Def>Recording scope of a new statement");
+				logger.fine("<Def>Recording scope of a new statement: " + $name);
 				$ID.setScope(this.currentScope);
 			}
 			;

@@ -45,7 +45,8 @@ subType		: 	^(CLASSDEF classname=ID
 				^(SUPERTYPE supertype=ID)
 				.*)
 			{
-				logger.fine("<Ref>Resolving a supertype");
+				logger.fine("<Ref>Resolving a supertype in class: " + $classname.text + 
+				  " with supertype of" + $supertype.text);
 				ClassSymbol t = (ClassSymbol) symtab.resolveType($classname, $supertype);
 				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
 					throw new CyclicSubtypingException($classname);
@@ -91,7 +92,7 @@ enterConstructor
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
-				logger.fine("<Ref>Resolving type of variable declaration " + $name.text);
+				logger.fine("<Ref>Resolving type of variable declaration " + $name.text + " of type " + $type.text);
 				Type t = this.symtab.resolveType($name, $type);
 				if (t.getName() == "Void") {
 					// do this in symtab?
@@ -137,9 +138,9 @@ catch[UnknownDefinitionException e] {
 }
 
 newObject		returns [Type type]
-			:	^(NEW ID .*)
+			:	^(NEW name=ID .*)
 			{
-				logger.fine("<Ref>Resolving a new statement");
+				logger.fine("<Ref>Resolving a new statement: " + $name.text);
 				Symbol s = this.symtab.resolveObject($ID);
 				$ID.setSymbol(s);
 				type = s.getType();
@@ -234,7 +235,7 @@ catch[NotAnArrayException e] {
 
 argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
-				logger.fine("<Ref>Resolving an argument");
+				logger.fine("<Ref>Resolving an argument: " + $name.text + " of type " + $type.text);
 				Type t = this.symtab.resolveType($name, $type);
 				$name.getSymbol().setType(t);
 
