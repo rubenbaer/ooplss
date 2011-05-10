@@ -10,7 +10,6 @@
 	<property name="antlr-outputdir" location="${src}/ch/codedump/ooplss/antlr/" />
 	<property name="lib" location="lib"/>
 	<property name="antlrjar" location="${lib}/antlr-3.3.1-snapshot.jar"/>
-	<!--<property name="antlrjar" location="${lib}/antlr-master-3.3.1-SNAPSHOT-completejar.jar"/>-->
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
