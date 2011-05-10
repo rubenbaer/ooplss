@@ -1,17 +1,19 @@
 digraph CompilerDesign {
 	rankdir = TB
-	A [shape=box,label=Lexer]
-	B [shape=box,label=Parser]
-	C [shape=box,label=Definition]
-	D [shape=box,label=Reference]
-	E [shape=box,label="Type Checking"]
-	F [shape=box,label=Translation]
-	G [shape=plain,label=Output]
+	A [fontname=LMRoman10,shape=box,label=Lexer]
+	B [fontname=LMRoman10,shape=box,label=Parser]
+	C [fontname=LMRoman10,shape=box,label=Definition]
+	D [fontname=LMRoman10,shape=box,label=Reference]
+	E [fontname=LMRoman10,shape=box,label="Type Checking"]
+	F [fontname=LMRoman10,shape=box,label=Translation]
+	G [fontname=LMRoman10,shape=plain,label=Output]
 	A -> B
 	subgraph cluster0 {
 		label = "Intermediate representation"
+		fontname=LMRoman10
 		B -> C
 		subgraph cluster1 {
+			fontname=LMRoman10
 			label = "Symbol table creation"
 			C -> D
 		}
