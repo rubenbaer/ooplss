@@ -1,0 +1,23 @@
+No.:    08
+Date:   02.04.2011 11:00
+Place:  Hallerstrasse 8, Bern
+
+Discussed Issues from last time:
+* New language specification
+  - We showed that we changed the structure of this part
+	- It is less formal but more iterative and constructive which presents the ideas
+		we had.
+	- We should not miss formal points with this. We moved some stuff in the appendix
+* Implementation part
+  - We have to show that the used algorithm is decidable. Proof or good evindence
+* Project schedule
+  - The project is not as far as espected but not bad in time.
+	
+* Theoretical Background
+  - Give a good reference on recursive problems in typing
+	- Show where the problems are. 
+
+Next meeting:
+ Date:  13.04.2011 11:00
+ Place: Dr. O. Biberstein's office
+
