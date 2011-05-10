@@ -99,6 +99,18 @@ public class Main {
 		logger.fine("Type checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
+		
+		
+		// Report error count
+		int errorCount = lexer.getNumberOfSyntaxErrors();
+		errorCount += parser.getNumberOfSyntaxErrors();
+		errorCount += ref.getNumberOfSyntaxErrors();
+		errorCount += def.getNumberOfSyntaxErrors();
+		errorCount += types.getNumberOfSyntaxErrors();
+		
+		if (errorCount != 0) {
+			System.out.println(errorCount + " errors found");
+		} 
 	}
 
 	/**
