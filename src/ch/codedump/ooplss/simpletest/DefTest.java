@@ -45,13 +45,13 @@ public class DefTest {
 		OoplssDef def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 				
-		logger.info("\n\nReferencing run");
+		logger.fine("\n\nReferencing run");
 		OoplssRef ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
 		logger.fine("Symbol Table: \n" + symTab.toString());
 		
-		logger.info("\n\nType checking");
+		logger.fine("\n\nType checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
 	}
