@@ -24,6 +24,19 @@
 \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
 
 %
+% Real empty pages between chapters on right side
+%
+%Copy cleadoublepage
+\let\origdoublepage\cleardoublepage
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+% overwrite cleardoublepage with clearemptydoublepage
+% Works because origdoublepage made a copy
+\let\cleardoublepage\clearemptydoublepage
+
+%
 % Clear page for bibliography
 %
 \if@twoside
@@ -240,6 +253,7 @@
 			\includegraphics[height=2\baselineskip]{imgs/logo}
 	}
 \fi
+
 
 % Table of content not contents
 %\renewcommand\contentsname{Table of Contents}
