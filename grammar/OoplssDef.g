@@ -41,6 +41,7 @@ topdown		:	enterMethod
 			/*|	methodArgs*/
 			|	superType
 			|	superClass
+			|	returnStmt
 			|	//import
 			;
 	
@@ -226,6 +227,13 @@ newObject	:	^(NEW ID .?)
 			{
 				logger.fine("<Def>Recording scope of a new statement");
 				$ID.setScope(this.currentScope);
+			}
+			;
+			
+returnStmt	:	^(RETURN .)
+			{
+				logger.fine("<Def>Recording scope of return statement");
+				$RETURN.setScope((Scope)symtab.getMethodScope(this.currentScope));
 			}
 			;
 			

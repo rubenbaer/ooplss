@@ -31,6 +31,7 @@ bottomup	:
 			 	statement
 			 |	conditionals
 			 |	assignment
+			 |	returnStmt
 			;
 			
 statement		
@@ -183,6 +184,16 @@ assignment 	:	^(ASSIGN var=. stmt=.)
 			}
 			;
 catch [IllegalAssignmentException e] {
+	error.reportError(e);
+}
+
+returnStmt	:	^(RETURN stmt=.)
+			{
+				logger.fine("<Type>Checking a return");
+				symtab.checkReturn($RETURN, $stmt);
+			}
+			;
+catch [OoplssException e] {
 	error.reportError(e);
 }
 

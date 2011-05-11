@@ -12,6 +12,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
+import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class SymbolTable {
@@ -229,6 +230,21 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Check if the return type is correct
+	 * @param ret
+	 * @param retval
+	 * @throws WrongReturnValueException 
+	 */
+	public void checkReturn(OoplssAST ret, OoplssAST retval) 
+			throws WrongReturnValueException {
+		if (!this.canAssignTo(
+				((MethodSymbol)ret.getScope()).getType(), retval.getEvalType())
+		) {
+			throw new WrongReturnValueException(retval);
+		}
+	}
+	
+	/**
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
 	 * 
@@ -429,6 +445,22 @@ public class SymbolTable {
 		// not allowed to use the self keyword outside of a class, so
 		// this should always find a class
 		return null;
+	}
+	
+	/**
+	 * Get method scope
+	 * 
+	 * Walk up from the given scope until the enclosing
+	 * method scope is found
+	 * @param s
+	 * @return
+	 */
+	public MethodSymbol getMethodScope(Scope s) {
+		while (!(s instanceof MethodSymbol)) {
+			s = s.getEnclosingScope();
+		}
+		
+		return (MethodSymbol)s;
 	}
 
 	@Override
