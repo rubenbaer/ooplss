@@ -9,9 +9,9 @@ import ch.codedump.ooplss.tree.OoplssAST;
 
 public class ClassSymbol extends ScopedSymbol implements Type {
 	
-	protected ClassSymbol superType;
+	protected ClassSymbol supertype;
 	
-	protected ClassSymbol superClass;
+	protected ClassSymbol superclass;
 	
 	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
@@ -21,7 +21,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 
 	@Override
 	public Scope getParentScope() {
-		return this.superType;
+		return this.supertype;
 	}
 	
 	@Override
@@ -32,8 +32,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			return s;
 		}
 		
-		if (this.superType != null) {
-			s = this.superType.resolve(name);
+		if (this.supertype != null) {
+			s = this.supertype.resolve(name);
 			
 			if (s != null) {
 				return s;
@@ -56,8 +56,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			return s;
 		}
 		
-		if (this.superType != null) {
-			return this.superType.resolveMember(name);
+		if (this.supertype != null) {
+			return this.supertype.resolveMember(name);
 		}
 		
 		return null;
@@ -76,14 +76,14 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	public void resolveSuper(OoplssAST sup) throws NoSuperTypeException, UnknownSuperClassException {
 		String name = sup.getText();
 		if (name.equals("base")) {
-			if (this.superType == null) {
+			if (this.supertype == null) {
 				throw new NoSuperTypeException(sup);
 			}
-			sup.setSymbol(this.superType);
+			sup.setSymbol(this.supertype);
 		} else 	{
-			if (this.superClass != null) {
-				if (this.superClass.getName().equals(name)) {
-					sup.setSymbol(this.superClass);
+			if (this.superclass != null) {
+				if (this.superclass.getName().equals(name)) {
+					sup.setSymbol(this.superclass);
 				}
 			}
 			throw new UnknownSuperClassException(sup);
@@ -127,8 +127,32 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * Set the super type of this class
 	 * @param superType
 	 */
-	public void setSuperType(ClassSymbol superType) {
-		this.superType = superType;
+	public void setSupertype(ClassSymbol superType) {
+		this.supertype = superType;
+	}
+	
+	/**
+	 * Set the super class of this class
+	 * @param superClass
+	 */
+	public void setSuperclass(ClassSymbol superClass) {
+		this.superclass = superClass;
+	}
+	
+	/**
+	 * Return the classes supertype
+	 * @return
+	 */
+	public ClassSymbol getSupertype() {
+		return this.supertype;
+	}
+	
+	/**
+	 * Return the classes superclass
+	 * @return
+	 */
+	public ClassSymbol getSuperclass() {
+		return this.superclass;
 	}
 
 	@Override
@@ -138,14 +162,30 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 
 	/**
 	 * Check whether this class is a subtype of the given one
-	 * @param classSymbol
+	 * @param ClassSymbol
 	 */
 	public boolean isSubtypeOf(ClassSymbol type) {
 		if (this == type) {
 			return true;
 		}
-		if (this.superType != null) {
-			return this.superType.isSubtypeOf(type);
+		if (this.supertype != null) {
+			return this.supertype.isSubtypeOf(type);
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Check wheter this class is a subclass of the given one
+	 * @param ClassSymbol
+	 */
+	public boolean isSubclassOf(ClassSymbol type) {
+		if (this == type) {
+			return true;
+		}
+		
+		if (this.superclass != null) {
+			return this.superclass.isSubclassOf(type);
 		}
 		
 		return false;

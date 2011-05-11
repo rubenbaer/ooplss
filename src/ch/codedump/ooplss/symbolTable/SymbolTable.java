@@ -330,6 +330,18 @@ public class SymbolTable {
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
 
+		return this.resolveType(s, type);
+	}
+	
+	/**
+	 * Resolve the type of a variable that is declared
+	 * @param s
+	 * @param type
+	 * @return
+	 * @throws UnknownTypeException
+	 */
+	public Type resolveType(Scope s, OoplssAST type) 
+			throws UnknownTypeException {
 		Type sym = s.resolveType(type.getText());
 		if (sym == null || !(sym instanceof Type)) {
 			// TODO i smell redundancy here

@@ -38,6 +38,8 @@ topdown		:	enterMethod
 			/*|	arrayDef*/
 			|	argument
 			|	methodCall
+			|	superType
+			|	superClass
 			|	//import
 			;
 	
@@ -72,6 +74,19 @@ enterClass	:	^(CLASSDEF classname=ID
 catch [SymbolAlreadyDefinedException e] {
 	error.reportError(e);
 }
+
+superType	:	SUPERTYPE
+			{
+				logger.fine("<Def>Recording class to supertype");
+				$SUPERTYPE.setScope(this.currentScope);
+			};
+			
+superClass	:	SUPERCLASS
+			{
+				logger.fine("<Def>Recording class to superclass");
+				$SUPERCLASS.setScope(this.currentScope);
+			}
+			;
 	
 exitClass	:	CLASSDEF
 			{

@@ -39,33 +39,40 @@ topdown		:	enterMethod
 			|	argument
 			|	enterConstructor
 			|	subType
+			|	subClass
 			;
 			
-subType		: 	^(CLASSDEF classname=ID 
-				^(SUPERTYPE supertype=ID)
-				.*)
+subType		: 	^(SUPERTYPE supertype=ID)
 			{
 				logger.fine("<Ref>Resolving a supertype");
-				ClassSymbol t = (ClassSymbol) symtab.resolveType($classname, $supertype);
-				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
-					throw new CyclicSubtypingException($classname);
-				} 
-				((ClassSymbol)($classname.getSymbol())).setSuperType(t);
+				ClassSymbol cls = (ClassSymbol)$SUPERTYPE.getScope();
+				ClassSymbol t = (ClassSymbol) symtab.resolveType((Scope)cls, $supertype);
+				if (t.isSubtypeOf(cls)) {
+					throw new CyclicSubtypingException(cls);
+				}
+				cls.setSupertype(t);
 				
 			}
 			;
-catch[CyclicSubtypingException e] {
+catch[OoplssException e] {
 	error.reportError(e);
-}
-catch[UnknownTypeException e] {
-	error.reportError(e);
-}			
-superClasses	returns [Type t]
-			:	(^(SUPERCLASS subclass+=ID))
+}	
+
+subClass	: 	^(SUPERCLASS superclass=ID)
 			{
-				logger.fine("<Ref>Resolve superclass");
+				logger.fine("<Ref>Resolving a superclass");
+				ClassSymbol cls = (ClassSymbol)$SUPERCLASS.getScope();
+				ClassSymbol t = (ClassSymbol) symtab.resolveType((Scope)cls, $superclass);
+				if (t.isSubclassOf(cls)) {
+					throw new CyclicSubclassingException(cls);
+				}
+				cls.setSuperclass(t);
 			}
 			;
+catch[OoplssException e] {
+	error.reportError(e);
+}		
+
  	
 enterMethod 	
 			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? . .)
