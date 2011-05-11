@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 }
 
 bottomup	:	
-			/*|	memberAccess*/
+			|	memberAccess
 			 	statement
 			 |	conditionals
 			 |	assignment
@@ -48,11 +48,11 @@ statement
 			
 
 varAccess		returns [Type type]
-			:	^(VARACCESS ID) 
+			:	^((ast=VARACCESS|ast=MEMBERACCESS) ID) 
 			{
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
-				$VARACCESS.setEvalType(type);
+				$ast.setEvalType(type);
 			}
 			;
 			
@@ -197,12 +197,12 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
-/*
 memberAccess	returns [Type t]
-			:	('.')
+			:	^(CALLOPERATOR . (right=varAccess|right=methodCall|right=literal))
 			{
-				logger.fine('<Type>Determine expression type of memberaccess');
+				logger.fine("<Type>Determine expression type of memberaccess");
+				$CALLOPERATOR.setEvalType($right.type);
+				logger.fine("<Type>Expression type is " + $right.type.getName());
 			}
 			;
-*/
 	
