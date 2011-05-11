@@ -163,25 +163,25 @@ catch[UnknownDefinitionException e] {
 }
 
 methodCall		returns [Type type]
-			:	^(METHODCALL name=ID .*)
+			:	^(METHODCALL name=ID (^(args=METHODARGS .*))?)
 			{
 				if ($name.getSymbol() != null) {
 					// we have already visited this node
 					return $name.getSymbol().getType();
 				}
-				logger.fine("<Ref>Resolving a method call " + $name.text);
+				logger.fine("<Ref>Resolving a method call '" + $name.text + "'");
 				Symbol s = this.symtab.resolveMethod($name);
 				$name.setSymbol(s);
 				type = s.getType();
+				
+				if ($args != null) {
+					$args.setScope((MethodSymbol)s);
+				}
 			}
 			;
-catch[UnknownDefinitionException e] {
+catch[OoplssException e] {
 	error.reportError(e);
 }
-catch[NotCallableException e] {
-	error.reportError(e);
-}
-
 
 selfAccess	returns [Type type]
 			: 	SELF
@@ -192,9 +192,6 @@ selfAccess	returns [Type type]
 				type = s;
 			}
 			;
-catch[Exception e] {
-	error.reportError(e);
-}		
 
 memberAccess 	returns [Type type]
 			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) ^(MEMBERACCESS var=ID))
@@ -250,7 +247,8 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				logger.fine("<Ref>Resolving an argument");
 				Type t = this.symtab.resolveType($name, $type);
 				$name.getSymbol().setType(t);
-
+				MethodSymbol meth = (MethodSymbol)$name.getSymbol().getScope();
+				meth.addArgument($name.getSymbol());
 			}
 			;
 catch [UnknownTypeException e] {

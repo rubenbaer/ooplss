@@ -37,6 +37,7 @@ statement
 			:	varAccess
 			|	selfAccess
 			|	methodCall
+			|	methodArgs
 			|	arithmeticOperator
 			|	equalityOperator
 			|	relationalOperator
@@ -80,6 +81,22 @@ methodCall		returns [Type type]
 				$METHODCALL.setEvalType(type);
 			}
 			;
+			
+methodArgs	:	^(METHODARGS (arg+=.)*)
+			{
+				logger.fine("<Type>Resolving method arguments");
+				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
+				for (int i = 0; i < list_arg.size(); i++) {
+					symtab.checkArgumentType(
+						method.getArgument(i, (OoplssAST) list_arg.get(i)), 
+						(OoplssAST)(list_arg.get(i))
+					);
+				}
+			}
+			;
+catch[OoplssException e] {
+	error.reportError(e);
+}
 			
 arithmeticOperator
 				returns [Type type]

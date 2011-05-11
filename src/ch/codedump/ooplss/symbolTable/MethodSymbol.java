@@ -1,11 +1,18 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
+
+import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
+import ch.codedump.ooplss.tree.OoplssAST;
 
 public class MethodSymbol extends ScopedSymbol {
 	
 	static Logger logger = Logger.getLogger(MethodSymbol.class.getName());
+	
+	protected List<Symbol> arguments = new ArrayList<Symbol>();
 	
 	public MethodSymbol(String name, Scope encScope) {
 		super(name, encScope);
@@ -54,5 +61,30 @@ public class MethodSymbol extends ScopedSymbol {
 		return str;
 	}
 
-
+	/**
+	 * Add an argument to this method
+	 * @param arg
+	 */
+	public void addArgument(Symbol arg) {
+		this.arguments.add(arg);
+	}
+	
+	/**
+	 * Return an argument with index
+	 * 
+	 * @param index
+	 * @param node
+	 * @throws ArgumentDoesntMatchException
+	 */
+	public Symbol getArgument(int index, OoplssAST node) 
+			throws ArgumentDoesntMatchException {
+		Symbol s;
+		try {
+			s = this.arguments.get(index);
+		} catch (IndexOutOfBoundsException e) {
+			throw new ArgumentDoesntMatchException(node);
+		}
+		
+		return s;
+	}
 }

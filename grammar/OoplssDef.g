@@ -38,6 +38,7 @@ topdown		:	enterMethod
 			/*|	arrayDef*/
 			|	argument
 			|	methodCall
+			/*|	methodArgs*/
 			|	superType
 			|	superClass
 			|	//import
@@ -204,13 +205,22 @@ selfVarAccess
 			}
 			;
 		
-methodCall
-			:	^(METHODCALL ID .*)
+methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 			{
 				logger.fine("<Def>Recording scope of a method call");
 				$ID.setScope(this.currentScope);
+
 			}
 			;
+			
+			/*
+methodArgs	:	^(METHODARGS .*)
+			{
+				logger.fine("<Def>Recording scope of method call arguments");
+				$METHODARGS.setScope(this.currentScope);
+			}
+			;
+			*/
 			
 newObject	:	^(NEW ID .?)
 			{

@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
@@ -215,6 +216,37 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Check if the argument is of the right type
+	 * @param argType
+	 * @param givenArg
+	 * @throws ArgumentDoesntMatchException 
+	 */
+	public void checkArgumentType(Symbol argType, OoplssAST givenArg) 
+			throws ArgumentDoesntMatchException {
+		if (!this.canAssignTo(argType.getType(), givenArg.getEvalType())) {
+			throw new ArgumentDoesntMatchException(givenArg);
+		}
+	}
+	
+	/**
+	 * Check if the type of a variable is the same as the one
+	 * that is assigned
+	 * 
+	 * @param var
+	 * @param stmt
+	 * @return
+	 */
+	protected boolean canAssignTo(Type var, Type stmt) {
+		if (var instanceof ClassSymbol &&
+				stmt instanceof ClassSymbol) {
+			// check subtype
+			return ((ClassSymbol)stmt).isSubtypeOf(
+					((ClassSymbol)var));
+		}
+		return var == stmt;
+	}
+	
+	/**
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
 	 * 
@@ -223,13 +255,7 @@ public class SymbolTable {
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
-		if (var.getEvalType() instanceof ClassSymbol &&
-				stmt.getEvalType() instanceof ClassSymbol) {
-			// check subtype
-			return ((ClassSymbol)stmt.getEvalType()).isSubtypeOf(
-					((ClassSymbol)var.getEvalType()));
-		}
-		return var.getEvalType() == stmt.getEvalType();
+		return this.canAssignTo(var.getEvalType(), stmt.getEvalType());
 	}
 	
 	/**
@@ -273,10 +299,6 @@ public class SymbolTable {
 				throw new UnknownDefinitionException(node);
 			}
 			
-		}
-		
-		if (!(s instanceof VariableSymbol)) {
-			throw new UnknownDefinitionException(node);
 		}
 		
 		return s;
@@ -392,7 +414,7 @@ public class SymbolTable {
 	 * @todo   Change this for subclassing i guess
 	 * @throws IllegalMemberAccessException 
 	 */
-	public ClassSymbol resolveSelf(OoplssAST node) throws Exception {
+	public ClassSymbol resolveSelf(OoplssAST node)  {
 		Scope scope = node.getScope();
 		
 		do {
@@ -406,7 +428,7 @@ public class SymbolTable {
 		// this should actually never happen, because it is grammatically
 		// not allowed to use the self keyword outside of a class, so
 		// this should always find a class
-		throw new Exception("No enclosing class found");
+		return null;
 	}
 
 	@Override
