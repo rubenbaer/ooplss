@@ -1,12 +1,13 @@
 digraph CompilerDesign {
-	rankdir = TB
-	A [fontname=LMRoman10,shape=box,label=Lexer]
-	B [fontname=LMRoman10,shape=box,label=Parser]
-	C [fontname=LMRoman10,shape=box,label=Definition]
-	D [fontname=LMRoman10,shape=box,label=Reference]
-	E [fontname=LMRoman10,shape=box,label="Type Checking"]
-	F [fontname=LMRoman10,shape=box,label=Translation]
-	G [fontname=LMRoman10,shape=plain,label=Output]
+	rankdir = LR
+	margin=0
+	A [fontname=LMRoman10,shape=box,label="Lexer\n(Ooplss.g)"]
+	B [fontname=LMRoman10,shape=box,label="Parser\n(Ooplss.g)"]
+	C [fontname=LMRoman10,shape=box,label="Definition\n(OoplssDef.g)"]
+	D [fontname=LMRoman10,shape=box,label="Reference\n(OoplssRef.g)"]
+	E [fontname=LMRoman10,shape=box,label="Type Checking\n(OoplssType.g)"]
+	F [fontname=LMRoman10,shape=box,label="Translation\n(OoplssGen.g)"]
+	G [fontname=LMRoman10,shape=plain,label="Output\n(*.java)"]
 	A -> B
 	subgraph cluster0 {
 		label = "Intermediate representation"
@@ -18,7 +19,7 @@ digraph CompilerDesign {
 			C -> D
 		}
 		D -> E
+		E -> F
 	}
-	E -> F
 	F -> G
 }

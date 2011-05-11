@@ -95,6 +95,8 @@ implementation.\\
 	\label{lst:abstractSyntax}
 \end{listing}
 
+\todo{new keyword, self, base}
+
 \section{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The
 definition of names can have different origins and depends on the current
@@ -363,13 +365,13 @@ public class A {
 }
 
 public class B {
-	private B A$$m(B o) {
+	private B A%\$\$)m(B o) {
 		return m(this); // Recursion back to original method
 	}
 
 	// Override A.m()
 	public B m(B o) {
-		return A$$m(this); // Recursion call over class A
+		return A%\$\$)m(this); // Recursion call over class A
 	}
 }
 \end{lstlisting}
@@ -605,8 +607,8 @@ proven for \ooplss.
 	For this one may recall how subtyping is to understand.\footnote{See
 	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
 
-	Let $B <: A$, $X := \mu MyType.\{m :
-	B \times MyType \rightarrow C \} $ and $Y := \mu X.  $\todo{Formal Class combinators first needed}
+	Let $B <: A$, $X := \mu self.\{m :
+	B \times self \rightarrow C \} $ and $Y := \mu X.  $\todo{Formal Class combinators first needed}
 
 %	\begin{enumerate}
 %		\item From definition \ref{def:subtypeObject}
@@ -620,12 +622,12 @@ proven for \ooplss.
 %	\inferrule*[Right=foo]{A}{B}
 %\end{mathpar}
 
-\subsection{No \#-Types in \ooplss}
-Research languages like \emph{LooM}, its successor
-\emph{polyToil} or $\mathcal{MOOL}$ are all showing how
-matching can be integrated into object-oriented languages
-\cite{bruce_subtyping_1997,bruce_polytoil:_1995,bruce_foundations_2002}.
-\todo{Remove this section}
+%\subsection{No \#-Types in \ooplss}
+%Research languages like \emph{LooM}, its successor
+%\emph{polyToil} or $\mathcal{MOOL}$ are all showing how
+%matching can be integrated into object-oriented languages
+%\cite{bruce_subtyping_1997,bruce_polytoil:_1995,bruce_foundations_2002}.
+%\todo{Remove this section}
 
 %Class definition
 %\section{Constructors}
