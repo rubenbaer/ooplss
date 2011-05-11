@@ -1,19 +1,134 @@
-
 \part{Implementation}
 \chapter{Design}
+This chapter contains a description of the general compiler. Figure
+\ref{fig:compilerPhase} shows the different parts of the whole compiler
+software. For every phase exists a corresponding section.
 
 \begin{figure}[ht]
-	\centering
-	\includedot[scale=0.7]{dot/compilerDesign}
+	%\centering
+	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
 	\caption{Compiler phases}
 	\label{fig:compilerPhase}
 \end{figure}
 
+The compiler of this prototypical language is written in Java using
+ANTLR as parser generator. ANTLR support the generation of the lexical
+and semantical analysis which generates an abstract syntax tree which
+is denoted as intermediate representation. In ANTLR it is possible to
+define both, grammars for string , 1-dimensional, data as well as for
+abstract syntax trees which are 2-dimensional. In ANTLR these are known
+as \emph{tree grammars} which are similar to normal grammars but matches
+abstract syntax tree nodes and not lexer tokens. The lexer and parser
+part is a normal grammar whereas the other phases are all tree grammars
+which are used for tree rewriting. The output process is supported by
+\st, a project associated to ANTLR.
 
-\todo{Show which parts does the compiler has}
-% estimated pages: 15
+However, every phase of this compiler design is independently and can 
+replaced arbitrary. This makes corrections within this parts easy and
+does not automatically breaks the whole interface between compiling
+phases. Even new phases can be injected between two phases which may 
+perform some further analysis or code optimisation.
+
+Even ANTLR supports different output languages for the parser, Java was
+chosen and consequently the whole compiler is written in Java. Mixing
+the implementation language would unnecessarily increase the effort
+by providing a uniform interface from ANTLR code ant implementation
+language.
+
+The output translation back end is a translation unit from the
+intermediate abstract syntax tree to pure Java code.
+
+\section{Lexer and Parser}
+The lexer and parser are both in the same file \emph{Ooplss.g} defined
+since they are strongly connected together. 
+
+The lexer creates token which are feed to the parser. It does simply
+analyse every character in the input string and tries to identify token
+which are used in the parser. The comment and whitespace tokens are all
+skipped and will not get forwarded to the parser phase.
+
+The parser parses the token from left to right and creates a left most
+derivation with a lookahead of two, this is shortly known as LL(2) parser.
+All this is done from top to bottom and produced from the token read an 
+abstract syntax tree. For the sake of simplicity during the debugging
+process of the parser code the lookahead is limited to two while ANTLR
+would support arbitrary lookahead.
+
+After this phase an abstract syntax tree is generated and ready to be visited
+and translated to other trees and output code.
+
+\section{Symbol Table Deployment}
+The first part that works on the abstract syntax tree is the deployment of
+the symbol table. This is divided into two separated compiler runs. The
+first identifies every symbol definition like classes, methods and
+variables used within a program. Since symbols in object-oriented
+languages are context sensitive and can be recursive, this definition
+of two phases is inevitable unless forward declarations are provided
+which are well known in C++.
+
+The symbol table has four different scope levels. These scopes are nested
+and child scopes can access the symbols in the parent scope.
+\begin{description}
+	\item[Global scope] All classes and basic types
+	\item[Class scope] All fields of a specific class
+	\item[Method scope] The method parameters and variables
+	\item[Local scope] Local scopes within a method. This scopes
+	define the validity of local defined variables.
+\end{description}
+
+\subsection{Define Symbols}
+This is the first phase of the symbol table deployment. Every single
+class, method and scope is visited with the depth first strategy and
+tracks every symbols definition and skips the use of the symbols. The
+tree grammar for this can be found in the file \emph{OoplssDef.g}.
+
+If a symbol is already defined within the current scope and clashes with
+an existing one, an exception is thrown.
+
+After this phase a symbol table is created for the whole program where
+every symbol in every scope is tracked. The table is in reality a tree
+which can resolve every valid symbol within a scope.
+
+\subsection{Referencing Symbols}
+This is the second phase of the symbol table promotion. Again, every scope
+is visited. However, in this run, the type definitions are resolved and
+promoted to the definition under consideration. Further more the symbols
+used within the code are resolved and does not reference to the correct
+instance within the symbol table. The tree grammar code can be found in
+the file \emph{OoplssRef.g}
+
+All of this is possible since now all definitions are known and available
+in the tree.
+
+The result of this phase is a fully propagated symbol table. Every symbol can
+now be resolved within this tree with all necessary meta data.
+
+\section{Type Checking}
+\todo{TODO!}
+
+\section{Translation}
+Translation is the last stage of the back end from the compiler. It
+translates an abstract syntax tree which is type checked to the
+output language -- Java. The last tree grammar can be found in the
+file \emph{OoplssGen.g}. Again, a tree grammar is used to perform the
+translation.
+
+The code translation is template driven, i.e., appropriate templates
+were created which cover the used language structures in Java. The
+templates are written in \st which is a dynamically typed and functional
+programming language. Matches in the abstract syntax tree does directly
+call a template which generates appropriate code. The detailed syntax
+equivalence of \ooplss to Java is described in \cref{ctr:translation}.
+
+As result the intermediate language representation is translated to the
+output Java code which runs on the Java Virtual Machine.
 
 \chapter{Translation}
+\label{ctr:translation}
+This chapter deals with the exact translation from \ooplss code segments
+to Java.
+
+Done to java as seen in part III
 % estimated pages: 10
 
 \todo{Export code and intermediate code in X\$\$...}
@@ -21,7 +136,13 @@
 \chapter{Algorithms}
 % estimated pages: 8
 
+\section{Decidability}
+
 \chapter{Tests}
-% estimated pages: 5
+\section{Unit Testing}
+\subsection{GUnit -- A Grammar Testing Framework}
+\subsection{JUnit}
 
 \section{Examples}
+see \cref{ctr:exampleCode}
+% estimated pages: 5
