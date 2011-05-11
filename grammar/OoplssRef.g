@@ -79,15 +79,21 @@ catch [UnknownTypeException e] {
 	error.reportError(e);
 }			
 		
-		
 enterConstructor
-			:	^(METHODDEF name='__construct' .*)
+			://	CONSTRUCTORDEF	
+				^(CONSTRUCTORDEF . (^(SUPER supers+=ID .*))* .)
 			{
 				logger.fine("<Ref>Entering a constructor");
 				Type t = this.symtab.resolveSpecialType("construct");
-				$name.getSymbol().setType(t);
+				$CONSTRUCTORDEF.getSymbol().setType(t);
+				for (Object sup: list_supers) {
+					((ClassSymbol)$CONSTRUCTORDEF.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+				}
 			}
 			;	
+catch[OoplssException e] {
+	error.reportError(e);
+}
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
@@ -243,6 +249,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 catch [UnknownTypeException e] {
 	error.reportError(e);
 }
+			
 
 	/*
 rettype	returns [Type type]

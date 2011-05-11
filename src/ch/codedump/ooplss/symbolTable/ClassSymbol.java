@@ -3,9 +3,15 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
+import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
+import ch.codedump.ooplss.tree.OoplssAST;
+
 public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	protected ClassSymbol superType;
+	
+	protected ClassSymbol superClass;
 	
 	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
@@ -55,6 +61,33 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Resolve the super declarations 
+	 * 
+	 * Since it is possible to add the super constructors
+	 * after the constructor declaration, these names
+	 * have to be resolved
+	 * @param name
+	 * @throws NoSuperTypeException 
+	 * @throws UnknownSuperClassException 
+	 */
+	public void resolveSuper(OoplssAST sup) throws NoSuperTypeException, UnknownSuperClassException {
+		String name = sup.getText();
+		if (name.equals("base")) {
+			if (this.superType == null) {
+				throw new NoSuperTypeException(sup);
+			}
+			sup.setSymbol(this.superType);
+		} else 	{
+			if (this.superClass != null) {
+				if (this.superClass.getName().equals(name)) {
+					sup.setSymbol(this.superClass);
+				}
+			}
+			throw new UnknownSuperClassException(sup);
+		}
 	}
 	
 	/**

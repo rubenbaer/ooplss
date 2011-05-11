@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 }
 
 topdown		:	enterMethod
+			|	enterConstructor
 			|	enterBlock
 			|	varDef
 			|	enterClass	
@@ -80,7 +81,7 @@ exitClass	:	CLASSDEF
 			;
 	
 enterMethod 
-			:	(^(METHODDEF name=ID .*)|^(METHODDEF name='__construct' .*))
+			:	^(METHODDEF name=ID .*)
 			{
 				logger.fine("<Def>Entering a method");
 				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
@@ -93,8 +94,23 @@ enterMethod
 catch [SymbolAlreadyDefinedException e] {
 	error.reportError(e);
 }
+
+enterConstructor
+			:	^(name=CONSTRUCTORDEF .*)
+			{
+				logger.fine("<Def>Entering a constructor");
+				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
+				ms.setDef($name);
+				$name.setSymbol(ms);
+				this.currentScope.define(ms);
+				this.currentScope = ms;
+			}
+			;
+catch [SymbolAlreadyDefinedException e] {
+	error.reportError(e);
+}	
 	
-exitMethod	:	METHODDEF
+exitMethod	:	METHODDEF | CONSTRUCTORDEF
 			{
 				logger.fine("<Def>Leaving a method");
 				this.currentScope = this.currentScope.getEnclosingScope();
