@@ -104,14 +104,14 @@ methodDef	:	(
 				|
 				(
 					'def' ('__construct' argumentDeclList) 
-						(':' sc+=superConstructorCall  (',' sc+=superConstructorCall ))?
+						(':' sc+=superConstructorCall  (',' sc+=superConstructorCall )*)?
 						methodBlock
 				) -> ^(CONSTRUCTORDEF argumentDeclList $sc* methodBlock)
 			;
 			
 superConstructorCall
 			:	ID '(' (statement (',' statement)*)? ')'
-				->  ^(SUPER ID statement+)
+				->  ^(SUPER ID statement*)
 			;
 		
 argumentDeclList 	
