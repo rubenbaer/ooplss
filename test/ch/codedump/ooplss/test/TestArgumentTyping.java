@@ -7,6 +7,19 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 
 
 public class TestArgumentTyping extends OoplssTest {
+	
+	@Test
+	public void testNoArgumentCalling() throws Exception {
+		String str = 	"class foo {" +
+						"	def func():Void {}" +
+						"	def __construct() {" +
+						"		func();" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+
 
 	@Test
 	public void testArgumentRecording() throws Exception {

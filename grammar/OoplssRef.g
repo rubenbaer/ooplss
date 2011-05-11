@@ -93,8 +93,10 @@ enterConstructor
 				logger.fine("<Ref>Entering a constructor");
 				Type t = this.symtab.resolveSpecialType("construct");
 				$CONSTRUCTORDEF.getSymbol().setType(t);
-				for (Object sup: list_supers) {
-					((ClassSymbol)$CONSTRUCTORDEF.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+				if (list_supers != null) {
+					for (Object sup: list_supers) {
+						((ClassSymbol)$CONSTRUCTORDEF.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+					}
 				}
 			}
 			;	
