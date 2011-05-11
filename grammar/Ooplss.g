@@ -33,6 +33,8 @@ tokens {
 	SUBTYPEARG;
 	SUBCLASSARG;
 	METHODBLOCK;
+	CONSTRUCTORDEF;
+	SUPER;
 }
 
 
@@ -96,12 +98,20 @@ normalVarDef
 
 /*arrayDef	:	'var' name=ID '[' size=INTLITERAL ']' ':' type=ID -> ^(ARRAYDEF $type $name $size);*/
 		
-methodDef	:	'def' (
-					(name=ID argumentDeclList ':' rettype=ID) 
-					| 
-					(name='__construct' argumentDeclList)
-				) methodBlock 
-				-> ^(METHODDEF $name ^(RETURNTYPE $rettype)? argumentDeclList methodBlock)
+methodDef	:	(
+					'def' (name=ID argumentDeclList ':' rettype=ID) methodBlock
+				) -> ^(METHODDEF $name ^(RETURNTYPE $rettype) argumentDeclList methodBlock) 
+				|
+				(
+					'def' ('__construct' argumentDeclList) 
+						(':' sc+=superConstructorCall  (',' sc+=superConstructorCall ))?
+						methodBlock
+				) -> ^(CONSTRUCTORDEF argumentDeclList $sc* methodBlock)
+			;
+			
+superConstructorCall
+			:	ID '(' (statement (',' statement)*)? ')'
+				->  ^(SUPER ID statement+)
 			;
 		
 argumentDeclList 	
