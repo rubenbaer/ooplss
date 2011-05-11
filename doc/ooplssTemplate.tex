@@ -316,8 +316,8 @@
 \usepackage{amsthm}
 \usepackage{ucs}
 \usepackage{amsmath}
-\usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{amsfonts}
 \usepackage{emp}
 \usepackage{xspace}
 
@@ -372,7 +372,14 @@
 
 
 % switch back to Latin Modern
+\usepackage[T1]{fontenc}
 \usepackage{lmodern}
+%\DeclareSymbolFont{operators}{OT1}{cmr}{m}{n}
+%\DeclareSymbolFont{letters}{OML}{cmm}{m}{it}
+%\DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
+%\DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n}
+% Fucking workaround. AMSFonts makes troubles...
+\DeclareMathSymbol{\nless}{\mathbin}{AMSb}{"04}
 
 % this is apparently used for the metauml stuff
 \ifx\pdftexversion\undefined
