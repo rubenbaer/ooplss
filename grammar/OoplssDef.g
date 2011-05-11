@@ -60,10 +60,9 @@ import	:	^('import' ID)
 	;
 	*/
 	
-enterClass	:	^(CLASSDEF classname=ID 
-				.*)
+enterClass	:	^(CLASSDEF classname=ID .*)
 			{
-				logger.fine("<Def>Entering a class");
+				logger.fine("<Def>Entering  class " + $classname.text);
 				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope);
 				cs.setDef($classname);
 				$classname.setSymbol(cs);

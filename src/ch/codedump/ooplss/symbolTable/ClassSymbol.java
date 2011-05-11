@@ -3,6 +3,8 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalSuperclass;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalSupertype;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.tree.OoplssAST;
@@ -126,17 +128,42 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	/**
 	 * Set the super type of this class
 	 * @param superType
+	 * @throws IllegalSupertype 
+	 * @throws IllegalSuperclass 
 	 */
-	public void setSupertype(ClassSymbol superType) {
+	public void setSupertype(ClassSymbol superType) 
+			throws IllegalSupertype, IllegalSuperclass {
 		this.supertype = superType;
+		this.checkForInheritanceErrors();
 	}
 	
 	/**
 	 * Set the super class of this class
 	 * @param superClass
+	 * @throws IllegalSuperclass 
+	 * @throws IllegalSupertype 
 	 */
-	public void setSuperclass(ClassSymbol superClass) {
+	public void setSuperclass(ClassSymbol superClass) 
+			throws IllegalSuperclass, IllegalSupertype {
 		this.superclass = superClass;
+		this.checkForInheritanceErrors();
+	}
+	
+	/**
+	 * Check for illegal subtyping and -classing
+	 * 
+	 * @throws IllegalSupertype
+	 * @throws IllegalSuperclass
+	 */
+	protected void checkForInheritanceErrors() throws IllegalSupertype, IllegalSuperclass {
+		if (this.superclass != null && this.supertype != null) {
+			if (this.superclass.isSubtypeOf(this.supertype)) {
+				throw new IllegalSupertype(this, this.superclass, this.supertype);
+			}
+			if (this.supertype.isSubclassOf(this.superclass)) {
+				throw new IllegalSuperclass(this, this.supertype, this.superclass);
+			}
+		}
 	}
 	
 	/**
