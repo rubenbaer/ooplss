@@ -27,8 +27,8 @@ import java.util.logging.Logger;
 }
 
 bottomup	:	
-			|	memberAccess
-			 	statement
+			 |	memberAccess
+			 |	statement
 			 |	conditionals
 			 |	assignment
 			 |	returnStmt
