@@ -61,7 +61,7 @@ public class TestArithmeticType extends OoplssTest {
 	}
 	
 	@Test(expected=InvalidExpressionException.class)
-	public void tesInvalidMethodReturn() throws Exception {
+	public void testInvalidMethodReturn() throws Exception {
 		String str = 	"class foo {" +
 						"	def bar():String {" +
 						"		return \"abc\";" +

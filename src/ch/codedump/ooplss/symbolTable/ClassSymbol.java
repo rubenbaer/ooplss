@@ -1,12 +1,17 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalSuperclass;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalSupertype;
-import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
+import ch.codedump.ooplss.symbolTable.exceptions.InvalidMemberRedefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.MethodOverrideWrongArgumentsException;
+import ch.codedump.ooplss.symbolTable.exceptions.MethodOverrideWrongReturnTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class ClassSymbol extends ScopedSymbol implements Type {
@@ -44,6 +49,40 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		
 		return null;
 	}
+	
+	/**
+	 * Compare the arguments of two method definitions
+	 * @param m1
+	 * @param m2
+	 * @return Whether they have the same argument signature
+	 */
+	protected boolean checkMethodArguments(MethodSymbol m1, MethodSymbol m2) {
+		List<Symbol> args1 = m1.getArguments();
+		List<Symbol> args2 = m2.getArguments();
+
+		if (args1.size() != args2.size()) {
+			return false;
+		}
+		
+		for (int i = 0; i < args1.size(); i++) {
+			if (args1.get(i).getType() != args2.get(i).getType()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Compare the return types of two methods
+	 * @param m1
+	 * @param m2
+	 * @return Whether they have the same return types
+	 */
+	protected boolean checkMethodReturnTypes(MethodSymbol m1, MethodSymbol m2) {
+		return m1.getType() == m2.getType();
+	}
+	
 	
 	/**
 	 * Resolve a member 
@@ -132,7 +171,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws IllegalSuperclass 
 	 */
 	public void setSupertype(ClassSymbol superType) 
-			throws IllegalSupertype, IllegalSuperclass {
+			throws OoplssException {
 		this.supertype = superType;
 		this.checkForInheritanceErrors();
 	}
@@ -144,7 +183,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws IllegalSupertype 
 	 */
 	public void setSuperclass(ClassSymbol superClass) 
-			throws IllegalSuperclass, IllegalSupertype {
+			throws OoplssException {
 		this.superclass = superClass;
 		this.checkForInheritanceErrors();
 	}
@@ -162,6 +201,56 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			}
 			if (this.supertype.isSubclassOf(this.superclass)) {
 				throw new IllegalSuperclass(this, this.supertype, this.superclass);
+			}
+		}
+	}
+	
+	/**
+	 * Check symbol override
+	 * 
+	 * Check if a symbol is overriding another one. If it is the
+	 * case and it's a variable, throw an exception to inhibit this.
+	 * If it's an method, check if the signature is the same. If it is, 
+	 * set the override flag of the overriding method, otherwise throw
+	 * exceptions.
+	 * @param scope
+	 * @param sym
+	 * @throws OoplssException
+	 */
+	protected void checkSymbolOverride(ClassSymbol scope, Symbol sym) throws OoplssException {
+		Symbol resolvedSym = scope.resolveMember(sym.getName());
+		if (resolvedSym != null) {
+			if (resolvedSym != null) {
+				if (sym instanceof VariableSymbol && resolvedSym instanceof VariableSymbol) {
+					throw new InvalidMemberRedefinitionException(sym, resolvedSym);
+				}
+				
+				if (sym instanceof MethodSymbol && resolvedSym instanceof MethodSymbol) {
+					if (!this.checkMethodArguments((MethodSymbol)sym, (MethodSymbol)resolvedSym)) {
+						throw new MethodOverrideWrongArgumentsException(sym, resolvedSym);
+					}
+					
+					if (!this.checkMethodReturnTypes((MethodSymbol)sym, (MethodSymbol)resolvedSym)) {
+						throw new MethodOverrideWrongReturnTypeException(sym, resolvedSym);
+					}
+					
+					// seems ok, set the override flag
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Go through the symbols and check for inheritance mistakes
+	 * @throws OoplssException
+	 */
+	public void checkForOverridings () throws OoplssException {
+		for (Entry<String, Symbol> sym: this.members.entrySet()) {
+			if (this.supertype != null) {
+				this.checkSymbolOverride(this.supertype, sym.getValue());
+			}
+			if (this.superclass != null) {
+				this.checkSymbolOverride(this.superclass, sym.getValue());
 			}
 		}
 	}

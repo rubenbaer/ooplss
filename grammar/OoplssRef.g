@@ -42,6 +42,8 @@ topdown		:	enterMethod
 			|	subClass
 			;
 			
+bottomup	:	leaveClass;
+			
 subType		: 	^(SUPERTYPE supertype=ID)
 			{
 				logger.fine("<Ref>Resolving a supertype");
@@ -196,10 +198,11 @@ selfAccess	returns [Type type]
 			;
 
 memberAccess 	returns [Type type]
-			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) ^(MEMBERACCESS var=ID))
-				// probably give the possibility to call a method here too?
+			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
+					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID .*))
+				)
 			{
-				logger.fine("<Ref>Accessing a member " + $ID.text);
+				logger.fine("<Ref>Accessing a member " + $var.text);
 				Type lefttype = $left.type;
 				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
 				$var.setScope((ClassSymbol)lefttype);
@@ -257,6 +260,16 @@ catch [UnknownTypeException e] {
 	error.reportError(e);
 }
 			
+			
+leaveClass	:	^(CLASSDEF ID .*)
+			{
+				logger.fine("<Ref>Leaving a class, check for errors");
+				((ClassSymbol)$ID.getSymbol()).checkForOverridings();
+			}
+			;
+catch [OoplssException e] {
+	error.reportError(e);
+}
 
 	/*
 rettype	returns [Type type]

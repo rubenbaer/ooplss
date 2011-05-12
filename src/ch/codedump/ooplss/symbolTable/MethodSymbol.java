@@ -87,4 +87,12 @@ public class MethodSymbol extends ScopedSymbol {
 		
 		return s;
 	}
+	
+	/**
+	 * Return the arguments 
+	 * @return
+	 */
+	public List<Symbol> getArguments() {
+		return this.arguments;
+	}
 }

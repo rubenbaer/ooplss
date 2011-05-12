@@ -9,7 +9,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
-import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;

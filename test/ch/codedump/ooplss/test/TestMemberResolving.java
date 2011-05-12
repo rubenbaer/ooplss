@@ -115,6 +115,20 @@ public class TestMemberResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test (expected=UnknownDefinitionException.class)
+	public void testInvalidFunctionResolving() throws Exception {
+		String str = 	"class a {" +
+						"	var x:b;" +
+						"	def call():Void {}" +
+						"	def foo():Void {" +
+						"		x.call();" +
+						"	}" +
+						"}" +
+						"class b {}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 
