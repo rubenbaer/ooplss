@@ -72,7 +72,7 @@ enterClass	:	^(CLASSDEF classname=ID .*)
 				this.currentScope = cs;
 			}	
 			;
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
 
@@ -107,7 +107,7 @@ enterMethod
 				this.currentScope = ms;
 			}
 			;
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
 
@@ -122,7 +122,7 @@ enterConstructor
 				this.currentScope = ms;
 			}
 			;
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }	
 	
@@ -141,7 +141,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				$name.setSymbol(vs);
 				this.currentScope.define(vs);
 			};
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
 
@@ -171,7 +171,7 @@ varDef		:	^(VARDEF type=ID name=ID)
 				currentScope.define(vs);
 
 			};
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
   error.reportError(e);
 }
 /*
