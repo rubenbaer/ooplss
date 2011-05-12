@@ -156,6 +156,7 @@ atom			returns [Type type]
 			|	expr=relationalOperator { type = $expr.type; }
 			|	expr=varAccess          { type = $expr.type; }
 			|   expr=methodCall         { type = $expr.type; }
+			|	expr=memberAccess		{ type = $expr.type; }
 			;			
 
 literal			returns [Type type]
@@ -197,12 +198,13 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
-memberAccess	returns [Type t]
+memberAccess	returns [Type type]
 			:	^(CALLOPERATOR . (right=varAccess|right=methodCall|right=literal))
 			{
 				logger.fine("<Type>Determine expression type of memberaccess");
 				$CALLOPERATOR.setEvalType($right.type);
-				logger.fine("<Type>Expression type is " + $right.type.getName());
+				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
+				type = $right.type;
 			}
 			;
 	
