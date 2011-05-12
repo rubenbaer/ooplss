@@ -67,4 +67,17 @@ public class TestTypeResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testClassTypeResolving() throws Exception {
+		String str = 	"class A {" +
+						"	var abc:B;" +
+						"   def Foo() : Void {" +
+						"        var A : B;" +
+						"   }" +
+						"}" +
+						"class B {}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

@@ -42,6 +42,7 @@ public class SymbolTable {
 	public static final int tCHAR	= 4;
 	public static final int tBOOL 	= 5;
 	public static final int tVOID   = 6;
+	public static final int tMYTYPE = 7;
 	
 	/**
 	 * The Built in symbols
@@ -51,69 +52,74 @@ public class SymbolTable {
 	public static final BuiltInTypeSymbol _float  = new BuiltInTypeSymbol("Float",  GLOBAL, tFLOAT);
 	public static final BuiltInTypeSymbol _char   = new BuiltInTypeSymbol("Char",   GLOBAL, tCHAR);
 	public static final BuiltInTypeSymbol _bool   = new BuiltInTypeSymbol("Bool",   GLOBAL, tBOOL);
-	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);;
+	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);
+	public static final BuiltInTypeSymbol _myType = new BuiltInTypeSymbol("MyType", GLOBAL, tMYTYPE); 
 	
 	/**
 	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void},
-		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void},
-		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void},
-		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+		/*				object	int		float	string	 char	  bool	  void		myType */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void,	_void},
+		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void,	_void},
+		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_myType}
 	};
 	
 	/**
 	 * The mappings of relational expressions like < > <= >=
 	 */
 	protected final Type[][] relationalResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
-		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
-		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
-		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+		/*				object	int		float	string	 char	  bool	  void 		myType*/
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void, 	_void}
 	};
 	
 	/**
 	 * The mappings of equality expressions like == !=
 	 */
 	protected final Type[][] equalityResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
-		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
-		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void},
-		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}		
+		/*				object	int		float	string	 char	  bool	  void 		myType */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void,	_void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},	
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_bool}
 	};
 
 	/**
 	 * Initialise the special types
-	 * @throws SymbolAlreadyDefinedException
+	 * @throws OoplssException 
 	 */
-	private void initSpecialTypes() throws SymbolAlreadyDefinedException {
+	private void initSpecialTypes() throws OoplssException {
 		SymbolTable.GLOBAL.define(new ConstructorType(SymbolTable.GLOBAL));
 	}
 
 	/**
 	 * Register the built in types in the global scope to be able to resolve them
-	 * @throws SymbolAlreadyDefinedException
+	 * @throws OoplssException 
 	 */
-	private void registerBuiltInTypes() throws SymbolAlreadyDefinedException {
+	private void registerBuiltInTypes() throws OoplssException {
 		SymbolTable.GLOBAL.define(SymbolTable._bool);
 		SymbolTable.GLOBAL.define(SymbolTable._int);
 		SymbolTable.GLOBAL.define(SymbolTable._void);
 		SymbolTable.GLOBAL.define(SymbolTable._string);
 		SymbolTable.GLOBAL.define(SymbolTable._char);
 		SymbolTable.GLOBAL.define(SymbolTable._float);
+		SymbolTable.GLOBAL.define(SymbolTable._myType);
 	}
 	
 	/**

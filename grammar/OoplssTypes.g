@@ -69,8 +69,11 @@ selfAccess		returns [Type type]
 			:	SELF
 			{
 				logger.fine("<Type>Determining type of self");
+				$SELF.setEvalType(symtab._myType);
+				/*
 				type = (Type)$SELF.getSymbol();
 				$SELF.setEvalType(type);
+				*/
 			}
 			;
 			
