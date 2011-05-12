@@ -2,7 +2,7 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.Set;
 
-import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 
 public interface Scope {
 	/**
@@ -28,7 +28,7 @@ public interface Scope {
 	 * 
 	 * @param sym
 	 */
-	public void define(Symbol sym) throws SymbolAlreadyDefinedException;
+	public void define(Symbol sym) throws OoplssException;
 	
 	/**
 	 * Resolve the name in this scope

@@ -3,14 +3,16 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
-import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
+import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class SymbolTable {
@@ -40,6 +42,7 @@ public class SymbolTable {
 	public static final int tCHAR	= 4;
 	public static final int tBOOL 	= 5;
 	public static final int tVOID   = 6;
+	public static final int tMYTYPE = 7;
 	
 	/**
 	 * The Built in symbols
@@ -49,69 +52,74 @@ public class SymbolTable {
 	public static final BuiltInTypeSymbol _float  = new BuiltInTypeSymbol("Float",  GLOBAL, tFLOAT);
 	public static final BuiltInTypeSymbol _char   = new BuiltInTypeSymbol("Char",   GLOBAL, tCHAR);
 	public static final BuiltInTypeSymbol _bool   = new BuiltInTypeSymbol("Bool",   GLOBAL, tBOOL);
-	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);;
+	public static final BuiltInTypeSymbol _void   = new BuiltInTypeSymbol("Void",   GLOBAL, tVOID);
+	public static final BuiltInTypeSymbol _myType = new BuiltInTypeSymbol("MyType", GLOBAL, tMYTYPE); 
 	
 	/**
 	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void},
-		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void},
-		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void},
-		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+		/*				object	int		float	string	 char	  bool	  void		myType */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void,	_void},
+		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void,	_void},
+		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_myType}
 	};
 	
 	/**
 	 * The mappings of relational expressions like < > <= >=
 	 */
 	protected final Type[][] relationalResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
-		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
-		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void},
-		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}
+		/*				object	int		float	string	 char	  bool	  void 		myType*/
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void, 	_void}
 	};
 	
 	/**
 	 * The mappings of equality expressions like == !=
 	 */
 	protected final Type[][] equalityResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void},
-		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void},
-		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void},
-		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void},
-		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void}		
+		/*				object	int		float	string	 char	  bool	  void 		myType */
+		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
+		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void,	_void},
+		/* char   */	{_void, _bool,  _bool,  _void,   _bool,   _void,  _void,	_void},
+		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},	
+		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_bool}
 	};
 
 	/**
 	 * Initialise the special types
-	 * @throws SymbolAlreadyDefinedException
+	 * @throws OoplssException 
 	 */
-	private void initSpecialTypes() throws SymbolAlreadyDefinedException {
+	private void initSpecialTypes() throws OoplssException {
 		SymbolTable.GLOBAL.define(new ConstructorType(SymbolTable.GLOBAL));
 	}
 
 	/**
 	 * Register the built in types in the global scope to be able to resolve them
-	 * @throws SymbolAlreadyDefinedException
+	 * @throws OoplssException 
 	 */
-	private void registerBuiltInTypes() throws SymbolAlreadyDefinedException {
+	private void registerBuiltInTypes() throws OoplssException {
 		SymbolTable.GLOBAL.define(SymbolTable._bool);
 		SymbolTable.GLOBAL.define(SymbolTable._int);
 		SymbolTable.GLOBAL.define(SymbolTable._void);
 		SymbolTable.GLOBAL.define(SymbolTable._string);
 		SymbolTable.GLOBAL.define(SymbolTable._char);
 		SymbolTable.GLOBAL.define(SymbolTable._float);
+		SymbolTable.GLOBAL.define(SymbolTable._myType);
 	}
 	
 	/**
@@ -215,6 +223,52 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Check if the argument is of the right type
+	 * @param argType
+	 * @param givenArg
+	 * @throws ArgumentDoesntMatchException 
+	 */
+	public void checkArgumentType(Symbol argType, OoplssAST givenArg) 
+			throws ArgumentDoesntMatchException {
+		if (!this.canAssignTo(argType.getType(), givenArg.getEvalType())) {
+			throw new ArgumentDoesntMatchException(givenArg);
+		}
+	}
+	
+	/**
+	 * Check if the return type is correct
+	 * @param ret
+	 * @param retval
+	 * @throws WrongReturnValueException 
+	 */
+	public void checkReturn(OoplssAST ret, OoplssAST retval) 
+			throws WrongReturnValueException {
+		if (!this.canAssignTo(
+				((MethodSymbol)ret.getScope()).getType(), retval.getEvalType())
+		) {
+			throw new WrongReturnValueException(retval);
+		}
+	}
+	
+	/**
+	 * Check if the type of a variable is the same as the one
+	 * that is assigned
+	 * 
+	 * @param var
+	 * @param stmt
+	 * @return
+	 */
+	protected boolean canAssignTo(Type var, Type stmt) {
+		if (var instanceof ClassSymbol &&
+				stmt instanceof ClassSymbol) {
+			// check subtype
+			return ((ClassSymbol)stmt).isSubtypeOf(
+					((ClassSymbol)var));
+		}
+		return var == stmt;
+	}
+	
+	/**
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
 	 * 
@@ -223,13 +277,7 @@ public class SymbolTable {
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
-		if (var.getEvalType() instanceof ClassSymbol &&
-				stmt.getEvalType() instanceof ClassSymbol) {
-			// check subtype
-			return ((ClassSymbol)stmt.getEvalType()).isSubtypeOf(
-					((ClassSymbol)var.getEvalType()));
-		}
-		return var.getEvalType() == stmt.getEvalType();
+		return this.canAssignTo(var.getEvalType(), stmt.getEvalType());
 	}
 	
 	/**
@@ -273,10 +321,6 @@ public class SymbolTable {
 				throw new UnknownDefinitionException(node);
 			}
 			
-		}
-		
-		if (!(s instanceof VariableSymbol)) {
-			throw new UnknownDefinitionException(node);
 		}
 		
 		return s;
@@ -330,6 +374,18 @@ public class SymbolTable {
 			throws UnknownTypeException {
 		Scope s = node.getSymbol().getScope();
 
+		return this.resolveType(s, type);
+	}
+	
+	/**
+	 * Resolve the type of a variable that is declared
+	 * @param s
+	 * @param type
+	 * @return
+	 * @throws UnknownTypeException
+	 */
+	public Type resolveType(Scope s, OoplssAST type) 
+			throws UnknownTypeException {
 		Type sym = s.resolveType(type.getText());
 		if (sym == null || !(sym instanceof Type)) {
 			// TODO i smell redundancy here
@@ -380,7 +436,7 @@ public class SymbolTable {
 	 * @todo   Change this for subclassing i guess
 	 * @throws IllegalMemberAccessException 
 	 */
-	public ClassSymbol resolveSelf(OoplssAST node) throws Exception {
+	public ClassSymbol resolveSelf(OoplssAST node)  {
 		Scope scope = node.getScope();
 		
 		do {
@@ -394,7 +450,23 @@ public class SymbolTable {
 		// this should actually never happen, because it is grammatically
 		// not allowed to use the self keyword outside of a class, so
 		// this should always find a class
-		throw new Exception("No enclosing class found");
+		return null;
+	}
+	
+	/**
+	 * Get method scope
+	 * 
+	 * Walk up from the given scope until the enclosing
+	 * method scope is found
+	 * @param s
+	 * @return
+	 */
+	public MethodSymbol getMethodScope(Scope s) {
+		while (!(s instanceof MethodSymbol)) {
+			s = s.getEnclosingScope();
+		}
+		
+		return (MethodSymbol)s;
 	}
 
 	@Override

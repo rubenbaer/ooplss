@@ -251,47 +251,47 @@
 	</sequential>
 </macrodef>
 
-	<target name="gunit-simpleClass">
+	<target name="gunit-simpleClass" depends="build">
 		<run-gunit test-file="grammar/test/simpleClass.gunit" />
 	</target>
 
-	<target name="gunit-simpleMethod">
+	<target name="gunit-simpleMethod" depends="build">
 		<run-gunit test-file="grammar/test/simpleMethod.gunit" />
 	</target>
 
-	<target name="gunit-statements">
+	<target name="gunit-statements" depends="build">
 		<run-gunit test-file="grammar/test/statements.gunit" />
 	</target>
 
-	<target name="gunit-tokensLiterals">
+	<target name="gunit-tokensLiterals" depends="build">
 		<run-gunit test-file="grammar/test/tokensLiterals.gunit" />
 	</target>
 
-	<target name="gunit-blocks">
+	<target name="gunit-blocks" depends="build">
 		<run-gunit test-file="grammar/test/blocks.gunit" />
 	</target>
 
-	<target name="gunit-conditionals">
+	<target name="gunit-conditionals" depends="build">
 		<run-gunit test-file="grammar/test/conditionals.gunit" />
 	</target>
 
-	<target name="gunit-ast-statements">
+	<target name="gunit-ast-statements" depends="build">
 		<run-gunit test-file="grammar/test/ast-statements.gunit" />
 	</target>
 
-	<target name="gunit-ast-classes">
+	<target name="gunit-ast-classes" depends="build">
 		<run-gunit test-file="grammar/test/ast-classes.gunit" />
 	</target>
 
-	<target name="gunit-ast-methods">
+	<target name="gunit-ast-methods" depends="build">
 		<run-gunit test-file="grammar/test/ast-methods.gunit" />
 	</target>
 
-	<target name="gunit-ast-class">
+	<target name="gunit-ast-class" depends="build">
 		<run-gunit test-file="grammar/test/ast-class.gunit" />
 	</target>
 
-	<target name="gunit-ast-conditionals">
+	<target name="gunit-ast-conditionals" depends="build">
 		<run-gunit test-file="grammar/test/ast-conditionals.gunit" />
 	</target>
 

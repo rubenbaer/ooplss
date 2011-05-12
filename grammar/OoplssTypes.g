@@ -27,16 +27,18 @@ import java.util.logging.Logger;
 }
 
 bottomup	:	
-			/*|	memberAccess*/
-			 	statement
+			 |	memberAccess
+			 |	statement
 			 |	conditionals
 			 |	assignment
+			 |	returnStmt
 			;
 			
 statement		
 			:	varAccess
 			|	selfAccess
 			|	methodCall
+			|	methodArgs
 			|	arithmeticOperator
 			|	equalityOperator
 			|	relationalOperator
@@ -46,11 +48,11 @@ statement
 			
 
 varAccess		returns [Type type]
-			:	^(VARACCESS ID) 
+			:	^((ast=VARACCESS|ast=MEMBERACCESS) ID) 
 			{
 				logger.fine("<Type>Determining expression type of varaccess");
 				type = $ID.getSymbol().getType();
-				$VARACCESS.setEvalType(type);
+				$ast.setEvalType(type);
 			}
 			;
 			
@@ -67,8 +69,11 @@ selfAccess		returns [Type type]
 			:	SELF
 			{
 				logger.fine("<Type>Determining type of self");
+				$SELF.setEvalType(symtab._myType);
+				/*
 				type = (Type)$SELF.getSymbol();
 				$SELF.setEvalType(type);
+				*/
 			}
 			;
 			
@@ -80,6 +85,22 @@ methodCall		returns [Type type]
 				$METHODCALL.setEvalType(type);
 			}
 			;
+			
+methodArgs	:	^(METHODARGS (arg+=.)*)
+			{
+				logger.fine("<Type>Resolving method arguments");
+				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
+				for (int i = 0; i < list_arg.size(); i++) {
+					symtab.checkArgumentType(
+						method.getArgument(i, (OoplssAST) list_arg.get(i)), 
+						(OoplssAST)(list_arg.get(i))
+					);
+				}
+			}
+			;
+catch[OoplssException e] {
+	error.reportError(e);
+}
 			
 arithmeticOperator
 				returns [Type type]
@@ -138,6 +159,7 @@ atom			returns [Type type]
 			|	expr=relationalOperator { type = $expr.type; }
 			|	expr=varAccess          { type = $expr.type; }
 			|   expr=methodCall         { type = $expr.type; }
+			|	expr=memberAccess		{ type = $expr.type; }
 			;			
 
 literal			returns [Type type]
@@ -169,12 +191,23 @@ catch [IllegalAssignmentException e] {
 	error.reportError(e);
 }
 
-/*
-memberAccess	returns [Type t]
-			:	('.')
+returnStmt	:	^(RETURN stmt=.)
 			{
-				logger.fine('<Type>Determine expression type of memberaccess');
+				logger.fine("<Type>Checking a return");
+				symtab.checkReturn($RETURN, $stmt);
 			}
 			;
-*/
+catch [OoplssException e] {
+	error.reportError(e);
+}
+
+memberAccess	returns [Type type]
+			:	^(CALLOPERATOR . (right=varAccess|right=methodCall|right=literal))
+			{
+				logger.fine("<Type>Determine expression type of memberaccess");
+				$CALLOPERATOR.setEvalType($right.type);
+				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
+				type = $right.type;
+			}
+			;
 	

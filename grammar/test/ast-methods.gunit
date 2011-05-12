@@ -4,6 +4,12 @@ gunit Ooplss;
 package ch.codedump.ooplss.antlr;
 }
 
+superConstructorCall:
+<<
+A(foo)
+>> -> (SUPER A (VARACCESS foo))
+
+
 methodDef:
 <<
 def foo():bar {
@@ -15,7 +21,7 @@ def foo():bar {
 def __construct() {
 
 }
->> -> (METHODDEF __construct ARGUMENTLIST METHODBLOCK)
+>> -> (CONSTRUCTORDEF ARGUMENTLIST METHODBLOCK)
 
 <<
 def foo():bar {
@@ -35,6 +41,10 @@ def foo(x#y):bar {
 }
 
 >> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBCLASSARG x y)) METHODBLOCK)
+
+<<
+def __construct() : foo(bar), dings(bums, foo) {}
+>> -> (CONSTRUCTORDEF ARGUMENTLIST (SUPER foo (VARACCESS bar)) (SUPER dings (VARACCESS bums) (VARACCESS foo)) METHODBLOCK)
 
 
 block:

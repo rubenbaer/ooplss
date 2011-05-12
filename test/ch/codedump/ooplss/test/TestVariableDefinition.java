@@ -53,6 +53,25 @@ public class TestVariableDefinition extends OoplssTest {
 						"	}\n" +
 						"}";
 		this.createDef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testConstructorDef() throws Exception {
+		String str = 	"class foo {" +
+						"	def __construct() {}" +
+						"}";
+		this.createDef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testConstructorDef2() throws Exception {
+		String str = 	"class foo {" +
+						"	def __construct() : base() {}" +
+						"}";
+		this.createDef(str);
+		ErrorHandler.getInstance().throwException();
 	}
 }
 

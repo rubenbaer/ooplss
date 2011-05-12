@@ -27,4 +27,5 @@ methodDef:
 "def method(foo#bar, foo:bar):tyyype {}" OK
 "def blah(flubber:johnny, depp#mark, wahlberg:maeh):bleh {}" OK
 
-
+// superconstructor calling
+"def __construct() : A(dings), B(bums) {}" OK

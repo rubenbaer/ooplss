@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 }
 
 topdown		:	enterMethod
+			|	enterConstructor
 			|	enterBlock
 			|	varDef
 			|	enterClass	
@@ -37,6 +38,10 @@ topdown		:	enterMethod
 			/*|	arrayDef*/
 			|	argument
 			|	methodCall
+			/*|	methodArgs*/
+			|	superType
+			|	superClass
+			|	returnStmt
 			|	//import
 			;
 	
@@ -57,10 +62,9 @@ import	:	^('import' ID)
 	;
 	*/
 	
-enterClass	:	^(CLASSDEF classname=ID 
-				.*)
+enterClass	:	^(CLASSDEF classname=ID .*)
 			{
-				logger.fine("<Def>Entering a class: " + $classname);
+				logger.fine("<Def>Entering  class " + $classname.text);
 				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope);
 				cs.setDef($classname);
 				$classname.setSymbol(cs);
@@ -68,9 +72,22 @@ enterClass	:	^(CLASSDEF classname=ID
 				this.currentScope = cs;
 			}	
 			;
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
+
+superType	:	SUPERTYPE
+			{
+				logger.fine("<Def>Recording class to supertype");
+				$SUPERTYPE.setScope(this.currentScope);
+			};
+			
+superClass	:	SUPERCLASS
+			{
+				logger.fine("<Def>Recording class to superclass");
+				$SUPERCLASS.setScope(this.currentScope);
+			}
+			;
 	
 exitClass	:	CLASSDEF
 			{
@@ -80,7 +97,7 @@ exitClass	:	CLASSDEF
 			;
 	
 enterMethod 
-			:	(^(METHODDEF name=ID .*)|^(METHODDEF name='__construct' .*))
+			:	^(METHODDEF name=ID .*)
 			{
 				logger.fine("<Def>Entering a method: " + $name);
 				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
@@ -90,11 +107,26 @@ enterMethod
 				this.currentScope = ms;
 			}
 			;
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
+
+enterConstructor
+			:	^(name=CONSTRUCTORDEF .*)
+			{
+				logger.fine("<Def>Entering a constructor");
+				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
+				ms.setDef($name);
+				$name.setSymbol(ms);
+				this.currentScope.define(ms);
+				this.currentScope = ms;
+			}
+			;
+catch [OoplssException e] {
+	error.reportError(e);
+}	
 	
-exitMethod	:	METHODDEF
+exitMethod	:	(METHODDEF | CONSTRUCTORDEF)
 			{
 				logger.fine("<Def>Leaving a method");
 				this.currentScope = this.currentScope.getEnclosingScope();
@@ -110,7 +142,7 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				$name.setSymbol(vs);
 				this.currentScope.define(vs);
 			};
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
 
@@ -140,7 +172,7 @@ varDef		:	^(VARDEF type=ID name=ID)
 				currentScope.define(vs);
 
 			};
-catch [SymbolAlreadyDefinedException e] {
+catch [OoplssException e] {
   error.reportError(e);
 }
 /*
@@ -175,18 +207,34 @@ selfVarAccess
 			}
 			;
 		
-methodCall
-			:	^(METHODCALL name=ID .*)
+methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 			{
-				logger.fine("<Def>Recording scope of a method call: " + $name);
+				logger.fine("<Def>Recording scope of a method call");
+				$ID.setScope(this.currentScope);
+
+			}
+			;
+			
+			/*
+methodArgs	:	^(METHODARGS .*)
+			{
+				logger.fine("<Def>Recording scope of method call arguments");
+				$METHODARGS.setScope(this.currentScope);
+			}
+			;
+			*/
+			
+newObject	:	^(NEW ID .?)
+			{
+				logger.fine("<Def>Recording scope of a new statement");
 				$ID.setScope(this.currentScope);
 			}
 			;
 			
-newObject	:	^(NEW name=ID .?)
+returnStmt	:	^(RETURN .)
 			{
-				logger.fine("<Def>Recording scope of a new statement: " + $name);
-				$ID.setScope(this.currentScope);
+				logger.fine("<Def>Recording scope of return statement");
+				$RETURN.setScope((Scope)symtab.getMethodScope(this.currentScope));
 			}
 			;
 			

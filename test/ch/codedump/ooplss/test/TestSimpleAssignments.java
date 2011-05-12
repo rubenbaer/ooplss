@@ -59,7 +59,7 @@ public class TestSimpleAssignments extends OoplssTest {
 		ErrorHandler.getInstance().throwException();		
 	}
 	
-	@Test
+	@Test (expected=IllegalAssignmentException.class)
 	public void testSelfAssignment() throws Exception {
 		String str = 	"class foo {\n" + 
 						"	def __construct() {\n" +
