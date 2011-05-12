@@ -1,19 +1,19 @@
-public abstract class A<X> {
-	public abstract X m(X x);
+public interface A<X> {
+	public X m(X x);
 
-	static public class A$Foo$ extends A<Foo> {
+	static public class A$Foo$ implements A<Foo> {
 		public Foo m(Foo x) {
 			return x;
 		}
 	}
 
-	static public class A$Bar$ extends A<Bar> {
+	static public class A$Bar$ implements A<Bar> {
 		public Bar m(Bar x) {
 			return x;
 		}
 	}
 
-	static public class A$FooBar$ extends A<FooBar> {
+	static public class A$FooBar$ implements A<FooBar> {
 		public FooBar m(FooBar x) {
 			return x;
 		}
