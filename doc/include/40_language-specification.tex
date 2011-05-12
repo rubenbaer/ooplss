@@ -516,35 +516,31 @@ of the time not provide a method that is wanted.
 \subsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
 Lets consider the extension and inheritance hierarchy in \cref{fig:hierarchy}
-again. A special remark is given in the left side of this graph. It is clear
-that \E inherits \B. But what about the extension of \A 
+again. It is clear that \C inherits \B. But what about the extension of \A 
 with \B? As seen before, inheritance breaks the hierarchy and does only
 provide a possibility of class combination. This rises the question how the 
-relation between \A and \B is considered. If the self type in 
-\A would be bound before the record combination to \E would be
-performed unsafe type constructs could be possible since a method expecting 
-type \A would not make any sense in class \E. From this point of 
-consideration the extension mechanism has two faces. In a pure subtyping 
-hierarchy it is subtyping and in a subclassing hierarchy the extension
-mechanism is inheritance as well.
+relation between \A and \B is considered when a subclass of \B exists. If
+the self type in \A would be bound before the record combination to
+\C would be performed unsafe type constructs could be possible since a
+method expecting type \A would not make any sense in class \C. From this
+point of consideration the extension mechanism has two faces. In a pure
+subtyping hierarchy it is subtyping and in a subclassing hierarchy the
+extension mechanism is inheritance as well.
 
 Knowing this fact generates the following hierarchy in \cref{fig:fixedHierarchy}
-for the type \E. This fact makes it impossible to use a explicit recursive
+for the type \C. This fact makes it impossible to use a explicit recursive
 self reference for classes since they are not subclass compatible anymore, i.e.,
 the \mytype is used wherever possible.
 
 \begin{figure}[ht]
 	\centering
 	\includedot[scale=0.8]{dot/subclassingSubtyping}
-	\caption{Subclassing hierarchy for class \D}
+	\caption{Subclassing hierarchy for class \C}
 	\label{fig:fixedHierarchy}
 \end{figure}
 %
 %\subsection{Method Overloading and Mutual Recursion}
 %\subsection{}
-
-\section{Class Combinators Refined}
-\todo{Give a full specification of class combinators with mytype and base rewriting}
 
 \section{Type Relations}
 \ooplss knows two different type relations. On one hand there exists
@@ -563,8 +559,8 @@ relations in \cref{fig:fixedHierarchy} are true:
 \begin{align}
 B <: A \\
 B <\!\!\#~A \label{alg:match} \\
-D <\!\!\#~A \\
-D <\!\!\#~B
+C <\!\!\#~A \\
+C <\!\!\#~B
 \end{align}
 
 \ref{alg:match} makes problems
@@ -575,21 +571,6 @@ Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
 consideration even if other object types would match types of other
 hierarchies.
-
-\section{Class Parametrisation}
-So far the introduction of a \mytype and proper inheritance gives the
-advantage of proper code reuse within the type system and specialisation
-of binary methods compared to other language. At a first glance all
-this looks like not very useful since even generics like that from
-Java does not fit into this model very well. Further more the matching
-relation is not used by method parameters and does not appear yet. As
-seen in \cref{ctr:makingSubclassingPractical} matching is used in object
-parametrisation and does replaces generics respectively is the foundation
-of Java's or \cs's generics.
-
-These generics does only allow f-bounds with subtypes but not with
-subclasses what is different in \ooplss because of the matching relation
-between two subclasses.
 
 \subsection{Matching Embeds Subtyping}
 Now, after some considerations about matching, lets take a look at
@@ -622,6 +603,24 @@ proven for \ooplss.
 %\begin{mathpar}
 %	\inferrule*[Right=foo]{A}{B}
 %\end{mathpar}
+
+\section{Class Combinators Refined}
+\todo{Give a full specification of class combinators with mytype and base rewriting}
+
+\section{Class Parametrisation}
+So far the introduction of a \mytype and proper inheritance gives the
+advantage of proper code reuse within the type system and specialisation
+of binary methods compared to other language. At a first glance all
+this looks like not very useful since even generics like that from
+Java does not fit into this model very well. Further more the matching
+relation is not used by method parameters and does not appear yet. As
+seen in \cref{ctr:makingSubclassingPractical} matching is used in object
+parametrisation and does replaces generics respectively is the foundation
+of Java's or \cs's generics.
+
+These generics does only allow f-bounds with subtypes but not with
+subclasses what is different in \ooplss because of the matching relation
+between two subclasses.
 
 \subsection{Translation by Mimic Templates}
 Knowing that \ooplss class parametrisation is not compatible with that

@@ -4,8 +4,6 @@ digraph subclassingSubtyping {
 	A [fontname=LMRoman10]
 	B [fontname=LMRoman10]
 	C [fontname=LMRoman10]
-	D [fontname=LMRoman10]
 	B -> A [style=dashed]
-	C -> A [style=dashed]
-	D -> C [style=dashed]
+	C -> B [style=dashed]
 }
