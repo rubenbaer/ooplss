@@ -7,21 +7,6 @@
 	pages = {254---280}
 },
 
-@inproceedings{malayeri_integrating_2008,
-	address = {Berlin, Heidelberg},
-	series = {{ECOOP} '08},
-	title = {Integrating Nominal and Structural Subtyping},
-	isbn = {978-3-540-70591-8},
-	location = {Paphos, Cypress},
-	url = {http://dx.doi.org/10.1007/978-3-540-70592-5_12},
-	doi = {http://dx.doi.org/10.1007/978-3-540-70592-5_12},
-	booktitle = {Proceedings of the 22nd European conference on {Object-Oriented} Programming},
-	publisher = {{Springer-Verlag}},
-	author = {Donna Malayeri and Jonathan Aldrich},
-	year = {2008},
-	pages = {260–284}
-},
-
 @techreport{odersky_scala_2010,
 	title = {The Scala Language Specification Version 2.8},
 	location = {Lausanne, Switzerland},
@@ -91,6 +76,27 @@
 	pages = {15--25}
 },
 
+@book{bruce_subtyping_1997,
+	title = {Subtyping is not a good {`Match'} for object-oriented languages},
+	author = {Kim B. Bruce and Leaf Petersen and Adrian Fiech},
+	year = {1997}
+},
+
+@incollection{bruce_polytoil:_1995,
+	series = {Lecture Notes in Computer Science},
+	title = {{PolyTOIL:} A {Type-Safe} Polymorphic {Object-Oriented} Language},
+	volume = {952},
+	url = {http://dx.doi.org/10.1007/3-540-49538-X_3},
+	abstract = {{PolyTOIL} is a new statically-typed polymorphic object-oriented programming language which is provably type-safe. By separating the definitions of subtyping and inheritance, providing a name for the type of self, and carefully defining the type-checking rules, we have obtained a language which is very expressive while supporting modular type-checking of classes. The matching relation on types, which is related to F-bounded quantification, is used both in stating type-checking rules and expressing the bounds on type parameters for polymorphism. The design of {PolyTOIL} is based on a careful formal definition of type-checking rules and semantics. A proof of type safety is obtained with the aid of a subject reduction theorem.},
+	booktitle = {{ECOOP’95} — {Object-Oriented} Programming, 9th European Conference, Åarhus, Denmark, August 7–11, 1995},
+	publisher = {Springer Berlin / Heidelberg},
+	author = {Kim Bruce and Angela Schuett and Robert van Gent},
+	editor = {Mario Tokoro and Remo Pareschi},
+	year = {1995},
+	note = {{10.1007/3-540-49538-X\_3}},
+	pages = {27--51}
+},
+
 @incollection{cardelli_type_1997,
 	title = {Type Systems},
 	booktitle = {The Computer Science and Engineering Handbook},
@@ -127,6 +133,16 @@
 	year = {2002}
 },
 
+@book{parr_definitive_2007,
+	address = {The Pragmatic Programmers, {LLC}},
+	title = {The Definitive {ANTLR} Reference: Building {Domain-Specific} Languages},
+	isbn = {978-0-9787392-5-6},
+	url = {http://www.pragprog.com/titles/tpantlr/the-definitive-antlr-reference},
+	publisher = {The Pragmatic Programmers, {LLC}},
+	author = {Terence Parr},
+	year = {2007}
+},
+
 @techreport{gawecki_tool:_1995,
 	type = {fiderep},
 	title = {{TooL:} A Persistent Language Integrating Subtyping, Matching and Type Quantification},
@@ -150,6 +166,15 @@
 	pages = {26--47}
 },
 
+@book{parr_language_2009,
+	title = {Language Implementation Patterns: Create Your Own {Domain-Specific} and General Programming Languages},
+	abstract = {Learn to build configuration file readers, data readers, model-driven code generators, source-to-source translators, source analyzers, and interpreters. You don't need a background in computer {science—ANTLR} creator Terence Parr demystifies language implementation by breaking it down into the most common design patterns. Pattern by pattern, you'll learn the key skills you need to implement your own computer languages.},
+	publisher = {The Pragmatic Bookshelf},
+	author = {Terence Parr},
+	year = {2009},
+	keywords = {language\_implementation}
+},
+
 @inproceedings{bruce_binary_1995,
 	title = {On Binary Methods},
 	booktitle = {{IN} {SYMPOSIUM} {ON} {OBJECT-ORIENTED} {PROGRAMMING:} {SYSTEMS,} {LANGUAGES,} {AND} {APPLICATIONS,} {ACM}},
@@ -168,42 +193,37 @@
 	year = {2002}
 },
 
-@incollection{bruce_polytoil:_1995,
-	series = {Lecture Notes in Computer Science},
-	title = {{PolyTOIL:} A {Type-Safe} Polymorphic {Object-Oriented} Language},
-	volume = {952},
-	url = {http://dx.doi.org/10.1007/3-540-49538-X_3},
-	abstract = {{PolyTOIL} is a new statically-typed polymorphic object-oriented programming language which is provably type-safe. By separating the definitions of subtyping and inheritance, providing a name for the type of self, and carefully defining the type-checking rules, we have obtained a language which is very expressive while supporting modular type-checking of classes. The matching relation on types, which is related to F-bounded quantification, is used both in stating type-checking rules and expressing the bounds on type parameters for polymorphism. The design of {PolyTOIL} is based on a careful formal definition of type-checking rules and semantics. A proof of type safety is obtained with the aid of a subject reduction theorem.},
-	booktitle = {{ECOOP’95} — {Object-Oriented} Programming, 9th European Conference, Åarhus, Denmark, August 7–11, 1995},
-	publisher = {Springer Berlin / Heidelberg},
-	author = {Kim Bruce and Angela Schuett and Robert van Gent},
-	editor = {Mario Tokoro and Remo Pareschi},
-	year = {1995},
-	note = {{10.1007/3-540-49538-X\_3}},
-	pages = {27--51}
+@inproceedings{malayeri_integrating_2008,
+	address = {Berlin, Heidelberg},
+	series = {{ECOOP} '08},
+	title = {Integrating Nominal and Structural Subtyping},
+	isbn = {978-3-540-70591-8},
+	location = {Paphos, Cypress},
+	url = {http://dx.doi.org/10.1007/978-3-540-70592-5_12},
+	doi = {10.1007/978-3-540-70592-5_12},
+	abstract = {Nominal and structural subtyping each have their own strengths and weaknesses. Nominal subtyping allows programmers to explicitly express design intent, and, when types are associated with run time tags, enables run-time type tests and external method dispatch. On the other hand, structural subtyping is flexible and compositional, allowing unanticipated reuse. To date, nearly all object-oriented languages fully support one subtyping paradigm or the {other.In} this paper, we describe a core calculus for a language that integrates the key aspects of nominal and structural subtyping in a unified framework. We have also merged the flexibility of structural subtyping with statically typechecked external methods, a novel combination. We prove type safety for this language and illustrate its practical utility through examples that are not easily expressed in other languages. Our work provides a clean foundation for the design of future languages that enjoy the benefits of both nominal and structural subtyping.},
+	booktitle = {Proceedings of the 22nd European conference on {Object-Oriented} Programming},
+	publisher = {{Springer-Verlag}},
+	author = {Donna Malayeri and Jonathan Aldrich},
+	year = {2008},
+	keywords = {structural-subtyping, subtyping, types},
+	pages = {260–284}
 },
 
-@book{bruce_subtyping_1997,
-	title = {Subtyping is not a good {`Match'} for object-oriented languages},
-	author = {Kim B. Bruce and Leaf Petersen and Adrian Fiech},
-	year = {1997}
+@book{kennedy_decidability_2006,
+	title = {On Decidability of Nominal Subtyping with Variance},
+	author = {Andrew J. Kennedy and Benjamin C. Pierce},
+	month = sep,
+	year = {2006},
+	note = {{FOOL-WOOD} '07}
 },
 
-@book{parr_definitive_2007,
-	address = {The Pragmatic Programmers, {LLC}},
-	title = {The Definitive {ANTLR} Reference: Building {Domain-Specific} Languages},
-	isbn = {978-0-9787392-5-6},
-	url = {http://www.pragprog.com/titles/tpantlr/the-definitive-antlr-reference},
-	publisher = {The Pragmatic Programmers, {LLC}},
-	author = {Terence Parr},
-	year = {2007}
-},
-
-@book{parr_language_2009,
-	title = {Language Implementation Patterns: Create Your Own {Domain-Specific} and General Programming Languages},
-	abstract = {Learn to build configuration file readers, data readers, model-driven code generators, source-to-source translators, source analyzers, and interpreters. You don't need a background in computer {science—ANTLR} creator Terence Parr demystifies language implementation by breaking it down into the most common design patterns. Pattern by pattern, you'll learn the key skills you need to implement your own computer languages.},
-	publisher = {The Pragmatic Bookshelf},
-	author = {Terence Parr},
-	year = {2009},
-	keywords = {language\_implementation}
+@book{stroustrup_c++_2000,
+	address = {Boston, {MA,} {USA}},
+	edition = {3rd},
+	title = {The C++ Programming Language},
+	isbn = {0201700735},
+	publisher = {{Addison-Wesley} Longman Publishing Co., Inc.},
+	author = {Bjarne Stroustrup},
+	year = {2000}
 }
