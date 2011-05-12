@@ -126,7 +126,7 @@ catch [SymbolAlreadyDefinedException e] {
 	error.reportError(e);
 }	
 	
-exitMethod	:	METHODDEF | CONSTRUCTORDEF
+exitMethod	:	(METHODDEF | CONSTRUCTORDEF)
 			{
 				logger.fine("<Def>Leaving a method");
 				this.currentScope = this.currentScope.getEnclosingScope();
