@@ -14,6 +14,11 @@ public class MethodSymbol extends ScopedSymbol {
 	
 	protected List<Symbol> arguments = new ArrayList<Symbol>();
 	
+	/**
+	 * Whether this method overrides another one in a superclass or type
+	 */
+	protected boolean override = false; 
+	
 	public MethodSymbol(String name, Scope encScope) {
 		super(name, encScope);
 	}
@@ -94,5 +99,20 @@ public class MethodSymbol extends ScopedSymbol {
 	 */
 	public List<Symbol> getArguments() {
 		return this.arguments;
+	}
+	
+	/**
+	 * Return wheter this method overrides another
+	 * @return
+	 */
+	public boolean getOverrideFlag() {
+		return this.override;
+	}
+	
+	/**
+	 * Set the override flag
+	 */
+	public void setOverride() {
+		this.override = true;
 	}
 }

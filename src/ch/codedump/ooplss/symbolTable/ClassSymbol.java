@@ -235,6 +235,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 					}
 					
 					// seems ok, set the override flag
+					((MethodSymbol)sym).setOverride();
 				}
 			}
 		}
