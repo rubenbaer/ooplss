@@ -27,6 +27,15 @@ public class OoplssAST extends CommonTree {
 	 */
 	protected Type evalType;
 	
+	/**
+	 * The realtype
+	 * 
+	 * In case of class member access, the real type
+	 * is the one on the left side of the member access,
+	 * the type of the object.
+	 */
+	protected Type realType;
+	
 	public OoplssAST(Token t) {
 		super(t);
 	}
@@ -78,5 +87,20 @@ public class OoplssAST extends CommonTree {
 		return this.evalType;
 	}
 	
+	/**
+	 * Set the real type of this AST node
+	 * 
+	 * @param t real Type
+	 */
+	public void setRealType(Type t) {
+		this.realType = t;
+	}
 	
+	/**
+	 * Return the real type
+	 * @return
+	 */
+	public Type getRealType() {
+		return this.realType;
+	}
 }

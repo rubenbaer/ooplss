@@ -70,6 +70,7 @@ selfAccess		returns [Type type]
 			{
 				logger.fine("<Type>Determining type of self");
 				$SELF.setEvalType(symtab._myType);
+				type = symtab._myType;
 				/*
 				type = (Type)$SELF.getSymbol();
 				$SELF.setEvalType(type);
@@ -202,12 +203,19 @@ catch [OoplssException e] {
 }
 
 memberAccess	returns [Type type]
-			:	^(CALLOPERATOR . (right=varAccess|right=methodCall|right=literal))
+			:	^(CALLOPERATOR 
+					(left=varAccess|left=methodCall|left=literal|left=selfAccess) 
+					(right=varAccess|right=methodCall|right=literal)
+				)
 			{
 				logger.fine("<Type>Determine expression type of memberaccess");
 				$CALLOPERATOR.setEvalType($right.type);
 				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
 				type = $right.type;
+				logger.fine("<Type>Real type of this AST is " + $left.type.getName());
+				$CALLOPERATOR.setRealType($left.type);
 			}
 			;
+	
+	
 	
