@@ -58,7 +58,10 @@ public class TestMyType extends OoplssTest {
 		String str = 	"class foo {\n" +
 						"	var x:foo;" +
 						"	def blah():MyType {" +
-						"		return self;" +
+						"		return x;" +
+						"	}" +
+						"	def blubb():Void {" +
+						"		blah();" +
 						"	}" +
 						"}";	
 		this.createTyper(str);
