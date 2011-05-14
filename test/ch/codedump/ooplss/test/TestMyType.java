@@ -30,7 +30,6 @@ public class TestMyType extends OoplssTest {
 						"	var y:bar;\n" +
 						"	def __construct() {\n" +
 						"		x = y.blah();\n" +
-						"		y = y.blah();\n" +
 						"	}\n" +
 						"}\n";
 		this.createTyper(str);

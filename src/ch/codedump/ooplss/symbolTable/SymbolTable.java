@@ -3,6 +3,7 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
@@ -263,12 +264,12 @@ public class SymbolTable {
 		if (varType.getTypeIndex() == SymbolTable.tMYTYPE) {
 			// check something else
 			logger.fine("MyType on the left");
-			varType = var.getRealType();
+			varType = this.bindMyType(var);
 			logger.fine("Evaluated to " + varType.getName());
 		} else if (stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
 			// check something else
 			logger.fine("MyType on the right");
-			stmtType = stmt.getRealType();
+			stmtType = this.bindMyType(stmt);
 			logger.fine("Evaluated to " + stmtType.getName());
 		}
 		
@@ -279,6 +280,35 @@ public class SymbolTable {
 					((ClassSymbol)varType));
 		}
 		return var == stmt;
+	}
+	
+	/**
+	 * Bind the MyType
+	 * @param node
+	 * @return
+	 */
+	protected Type bindMyType(OoplssAST node) {
+		OoplssAST methodNode = null;
+		if (node.getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = node;
+		}
+		
+		 if (node.getToken().getType() == OoplssLexer.CALLOPERATOR &&
+						((OoplssAST)node.getChild(1)).getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = (OoplssAST)node.getChild(1);
+		}
+						
+		if (methodNode != null) {
+			System.out.println("Dealing with a method call");
+			// check if we have a subtype here
+			ClassSymbol cl = (ClassSymbol)((OoplssAST)methodNode.getChild(0)).getScope();
+			if (cl.getSupertype() != null) {
+				System.out.println("We have subtype");
+				return (Type)(((OoplssAST)methodNode.getChild(0)).getSymbol().getScope());
+			}
+		}
+		
+		return node.getRealType();
 	}
 	
 	/**
