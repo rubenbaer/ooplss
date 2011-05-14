@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -11,6 +12,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
+import org.antlr.stringtemplate.StringTemplateGroup;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -19,6 +21,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
 import ch.codedump.ooplss.antlr.OoplssDef;
+import ch.codedump.ooplss.antlr.OoplssGen;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.antlr.OoplssParser.prog_return;
@@ -99,7 +102,8 @@ public class Main {
 		logger.fine("Type checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
-		
+
+		codeGeneration(t, nodes);
 		
 		// Report error count
 		int errorCount = lexer.getNumberOfSyntaxErrors();
@@ -111,6 +115,19 @@ public class Main {
 		if (errorCount != 0) {
 			System.out.println(errorCount + " errors found");
 		} 
+	}
+
+	private void codeGeneration(Tree t, CommonTreeNodeStream nodes) throws IOException, RecognitionException {
+		logger.fine("Code generation");
+		InputStreamReader in = new InputStreamReader(
+				getClass().getResourceAsStream("/Ooplss.stg"));
+		StringTemplateGroup templates = new StringTemplateGroup(in);
+		in.close();
+		
+		OoplssGen gen = new OoplssGen(nodes);
+		gen.setTemplateLib(templates);
+		OoplssGen.prog_return ret = gen.prog();
+		System.out.println(ret.getTemplate());		
 	}
 
 	/**
