@@ -234,7 +234,7 @@ newObject	:	^(NEW ID .?)
 returnStmt	:	^(RETURN .)
 			{
 				logger.fine("<Def>Recording scope of return statement");
-				$RETURN.setScope((Scope)symtab.getMethodScope(this.currentScope));
+				$RETURN.setScope((Scope)symtab.getEnclosingMethodScope(this.currentScope));
 			}
 			;
 			

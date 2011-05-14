@@ -85,6 +85,7 @@ methodCall		returns [Type type]
 				logger.fine("<Type>Determining expression type of method call");
 				type = $ID.getSymbol().getType();
 				$METHODCALL.setEvalType(type);
+				$METHODCALL.setRealType(symtab.getEnclosingClassScope($ID.getScope()));
 				// TODO make something to evaluate the real type
 				// which would be to look in the enclosing scopes
 				// for the class

@@ -299,11 +299,11 @@ public class SymbolTable {
 		}
 						
 		if (methodNode != null) {
-			System.out.println("Dealing with a method call");
+			logger.fine("Dealing with a method call");
 			// check if we have a subtype here
-			ClassSymbol cl = (ClassSymbol)((OoplssAST)methodNode.getChild(0)).getScope();
+			ClassSymbol cl = (ClassSymbol)node.getRealType();
 			if (cl.getSupertype() != null) {
-				System.out.println("We have subtype");
+				logger.fine("We have a subtype");
 				return (Type)(((OoplssAST)methodNode.getChild(0)).getSymbol().getScope());
 			}
 		}
@@ -496,12 +496,28 @@ public class SymbolTable {
 	 * @param s
 	 * @return
 	 */
-	public MethodSymbol getMethodScope(Scope s) {
+	public MethodSymbol getEnclosingMethodScope(Scope s) {
 		while (!(s instanceof MethodSymbol)) {
 			s = s.getEnclosingScope();
 		}
 		
 		return (MethodSymbol)s;
+	}
+	
+	/**
+	 * Get class scope
+	 * 
+	 * Walk up from the given scope until the enclosing
+	 * class scope is found
+	 * @param s
+	 * @return
+	 */
+	public ClassSymbol getEnclosingClassScope(Scope s) {
+		while (!(s instanceof ClassSymbol)) {
+			s = s.getEnclosingScope();
+		}
+		
+		return (ClassSymbol)s;
 	}
 
 	@Override

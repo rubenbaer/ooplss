@@ -36,6 +36,22 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
+	@Test
+	public void testDirectMyTypeInheritance() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def blah():MyType { }\n" +
+						"}\n" +
+						"class bar subtypeOf foo {\n" +
+						"	var x:foo;\n" +
+						"	var y:bar;\n" +
+						"	def __construct() {\n" +
+						"		x = blah();\n" +
+						"	}\n" +
+						"}\n";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
 	/*
 	@Test
 	public void testMyTypeClassInheritance() throws Exception {
