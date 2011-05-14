@@ -205,14 +205,14 @@ memberAccess 	returns [Type type]
 				logger.fine("<Ref>Accessing a member " + $var.text);
 				Type lefttype = $left.type;
 				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
-				$var.setScope((ClassSymbol)lefttype);
-				Symbol s = this.symtab.resolveMember($var);
+				//$var.setScope((ClassSymbol)lefttype);
+				Symbol s = this.symtab.resolveMember(lefttype, $var);
 				$var.setSymbol(s);
 				s.setDef($var);
 				type = s.getType();
 			}
 			;
-catch[IllegalMemberAccessException e] {
+catch[OoplssException e] {
 	error.reportError(e);
 }		
 /*
