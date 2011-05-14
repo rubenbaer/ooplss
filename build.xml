@@ -68,7 +68,7 @@
 		<mkdir dir="${build}" />
 
 		<copy todir="${build}">
-			<fileset dir="resources"/>
+			<fileset dir="resources" includes="**"/>
 		</copy>
 		
 		<javac srcdir="src/" destdir="${build}" debug="on" debuglevel="lines,vars,source" includeantruntime="false" >
@@ -82,7 +82,7 @@
 		</javac>
 	</target>
 
-	<target name="build-grammar" depends="clean-antlr"> 
+	<target name="build-grammar"> 
 		<mkdir dir="${antlr-outputdir}" />
 		
 		<foreach target="run-antlr3" param="file">
@@ -100,6 +100,11 @@
 			value="// " />
 
 		<copy file="grammar/package-info.java" todir="src/ch/codedump/ooplss/antlr" />
+	</target>
+
+	<target name="build-codegen">
+		<property name="file" value="grammar/OoplssGen.g" />
+		<antcall target="run-antlr3"/>
 	</target>
 	
 	<target name="run-antlr3">
