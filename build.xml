@@ -66,6 +66,11 @@
 
 	<target name="build-src" depends="build-grammar">
 		<mkdir dir="${build}" />
+
+		<copy todir="${build}">
+			<fileset dir="resources"/>
+		</copy>
+		
 		<javac srcdir="src/" destdir="${build}" debug="on" debuglevel="lines,vars,source" includeantruntime="false" >
 			<classpath refid="classpath" />
 		</javac>
@@ -77,33 +82,15 @@
 		</javac>
 	</target>
 
-	<target name="build-grammar" depends="clean-antlr">
+	<target name="build-grammar" depends="clean-antlr"> 
 		<mkdir dir="${antlr-outputdir}" />
-		<ant-antlr3
-			target="${grammar}/Ooplss.g"
-			verbose="true"
-			outputdirectory="${antlr-outputdir}">
-			<classpath refid="classpath" />
-		</ant-antlr3>
-		<ant-antlr3
-			target="${grammar}/OoplssDef.g"
-			verbose="true"
-			outputdirectory="${antlr-outputdir}">
-			<classpath refid="classpath" />
-		</ant-antlr3>
-		<ant-antlr3
-			target="${grammar}/OoplssRef.g"
-			verbose="true"
-			outputdirectory="${antlr-outputdir}">
-			<classpath refid="classpath" />
-		</ant-antlr3>
-		<ant-antlr3
-			target="${grammar}/OoplssTypes.g"
-			verbose="true"
-			outputdirectory="${antlr-outputdir}">
-			<classpath refid="classpath" />
-		</ant-antlr3>
-
+		
+		<foreach target="run-antlr3" param="file">
+	     	<path>
+	       		<fileset dir="${grammar}" includes="**/*.g"/>
+	     	</path>
+	   </foreach>
+		
 		<!-- Post process generated files -->
 		<dirname property="projecthome" file="build.xml" />
 		<replace 
@@ -113,6 +100,15 @@
 			value="// " />
 
 		<copy file="grammar/package-info.java" todir="src/ch/codedump/ooplss/antlr" />
+	</target>
+	
+	<target name="run-antlr3">
+		<ant-antlr3
+			target="${file}"
+			verbose="true"
+			outputdirectory="${antlr-outputdir}">
+			<classpath refid="classpath" />
+		</ant-antlr3>
 	</target>
 
 	<!-- Documentation-->
@@ -181,8 +177,6 @@
 		<tstamp>
 			<format property="TODAY" pattern="d-MMMM-yyyy hh:mm aa" locale="en,UK"/>
 		</tstamp>
-
-		<copy todir="${build}" file="misc/logging.properties" />
 
 		<jar basedir="${build}" destfile="${destjar}">
 			<manifest>

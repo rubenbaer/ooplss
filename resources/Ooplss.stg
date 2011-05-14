@@ -1,0 +1,9 @@
+group Ooplss;
+
+classdef(name, supertype, fields, methods) ::= <<
+class <name> <if(supertype)>: <supertype><endif> {
+  <fields:{field | <field>();}>
+  
+  <methods:{method | <method>();}>
+}
+>>
