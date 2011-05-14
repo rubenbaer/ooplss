@@ -245,8 +245,11 @@ public class SymbolTable {
 	 */
 	public void checkReturn(OoplssAST ret, OoplssAST retval) 
 			throws WrongReturnValueException {
+		Type t = this.getEnclosingMethodScope(ret.getScope()).getType();
+		ret.setEvalType(t);
+		ret.setRealType(t);
 		if (!this.canAssignTo(ret, retval)) {
-			throw new WrongReturnValueException(retval);
+			throw new WrongReturnValueException(ret);
 		}
 	}
 	
@@ -266,7 +269,8 @@ public class SymbolTable {
 			logger.fine("MyType on the left");
 			varType = this.bindMyType(var);
 			logger.fine("Evaluated to " + varType.getName());
-		} else if (stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
+		} 
+		if (stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
 			// check something else
 			logger.fine("MyType on the right");
 			stmtType = this.bindMyType(stmt);
@@ -279,7 +283,7 @@ public class SymbolTable {
 			return ((ClassSymbol)stmtType).isSubtypeOf(
 					((ClassSymbol)varType));
 		}
-		return var == stmt;
+		return varType == stmtType;
 	}
 	
 	/**
@@ -306,6 +310,10 @@ public class SymbolTable {
 				logger.fine("We have a subtype");
 				return (Type)(((OoplssAST)methodNode.getChild(0)).getSymbol().getScope());
 			}
+		}
+		
+		if (node.getToken().getType() == OoplssLexer.SELF) {
+			return SymbolTable._myType;
 		}
 		
 		return node.getRealType();

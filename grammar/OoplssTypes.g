@@ -72,10 +72,6 @@ selfAccess		returns [Type type]
 				logger.fine("<Type>Determining type of self");
 				$SELF.setEvalType(symtab._myType);
 				type = symtab._myType;
-				/*
-				type = (Type)$SELF.getSymbol();
-				$SELF.setEvalType(type);
-				*/
 			}
 			;
 			
@@ -86,9 +82,6 @@ methodCall		returns [Type type]
 				type = $ID.getSymbol().getType();
 				$METHODCALL.setEvalType(type);
 				$METHODCALL.setRealType(symtab.getEnclosingClassScope($ID.getScope()));
-				// TODO make something to evaluate the real type
-				// which would be to look in the enclosing scopes
-				// for the class
 			}
 			;
 			

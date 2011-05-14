@@ -231,10 +231,12 @@ newObject	:	^(NEW ID .?)
 			}
 			;
 			
-returnStmt	:	^(RETURN .)
+returnStmt	:	^(RETURN stmt=.)
 			{
 				logger.fine("<Def>Recording scope of return statement");
 				$RETURN.setScope((Scope)symtab.getEnclosingMethodScope(this.currentScope));
+				// this is so the exception knows where the return stmt is
+				$RETURN.token.setCharPositionInLine($stmt.token.getCharPositionInLine());
 			}
 			;
 			

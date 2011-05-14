@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
@@ -48,6 +49,30 @@ public class TestMyType extends OoplssTest {
 						"		x = blah();\n" +
 						"	}\n" +
 						"}\n";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=WrongReturnValueException.class)
+	public void testInvalidSelfRef() throws Exception {
+		String str = 	"class foo {\n" +
+						"	var x:foo;" +
+						"	def blah():MyType {" +
+						"		return self;" +
+						"	}" +
+						"}";	
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testSelfRef() throws Exception {
+		String str = 	"class foo {\n" +
+						"	var x:MyType;" +
+						"	def blah():MyType {" +
+						"		return self;" +
+						"	}" +
+						"}";	
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
