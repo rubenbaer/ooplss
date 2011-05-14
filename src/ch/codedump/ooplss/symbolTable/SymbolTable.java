@@ -232,6 +232,7 @@ public class SymbolTable {
 	 */
 	public void checkArgumentType(OoplssAST argType, OoplssAST givenArg) 
 			throws ArgumentDoesntMatchException {
+ 		argType.setEvalType(argType.getSymbol().getType()); //this might be a bit ugly
 		if (!this.canAssignTo(argType, givenArg)) {
 			throw new ArgumentDoesntMatchException(givenArg);
 		}
