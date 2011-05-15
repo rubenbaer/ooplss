@@ -124,13 +124,13 @@ public class Main {
 		StringTemplateGroup templates = new StringTemplateGroup(in);
 		in.close();
 		
+		logger.finest(t.toStringTree());	
+		
 		OoplssGen gen = new OoplssGen(nodes);
 		gen.setTemplateLib(templates);
 		OoplssGen.prog_return ret = gen.prog();
 		
 		logger.finer(ret.getTemplate().toString());	
-		
-		logger.finest(t.toStringTree());	
 	}
 
 	/**
