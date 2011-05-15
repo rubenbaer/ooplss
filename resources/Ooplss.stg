@@ -58,7 +58,7 @@ vardef(name, type) ::= <<
 >>
 
 return(expr) ::= <<
-return <expr>;
+return<if(expr)> <expr><endif>;
 >>
 
 assign(var, stmt) ::= <<
