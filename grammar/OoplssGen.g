@@ -3,6 +3,7 @@ options {
 tokenVocab=Ooplss;
 ASTLabelType=OoplssAST; // use the customised AST node
 output=template;
+//rewrite=true;
 k=1;
 }
 
@@ -28,9 +29,7 @@ import java.util.logging.Logger;
 }
 
 /// TODO: 
-/// New Objects
 /// Base -> super
-/// Self -> This
 /// Superclasses
 /// Base -> Classname?
 /// MyType
@@ -43,15 +42,20 @@ prog
 
 /// BEGIN: CLASSES  
 classDef
-      : ^(CLASSDEF classname=ID 
-          (^(SUPERTYPE supertype=ID))? 
-          (^(SUPERCLASS superclass=ID))?
+scope {
+	String className;
+	String supertypeName;
+	String superclassName;
+}
+      : ^(CLASSDEF classname=ID {$classDef::className = $classname.text;}
+          (^(SUPERTYPE supertype=ID))? {$classDef::supertypeName = $supertype.text;}
+          (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
          ) 
-         -> classdef( name={$classname.text}, 
-                      supertype={$supertype.text}, 
-                      fields={$f}, 
+         -> classdef( name={$classname.text},
+                      supertype={$supertype.text},
+                      fields={$f},
                       methods={$m})
       ;
       
@@ -76,7 +80,7 @@ method
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
           (^(METHODBLOCK (exprs+=expr)*))
         )
-        -> constructor(name={"FOO"}, params={$args}, exprs={$exprs})
+        -> constructor(name={$classDef::className}, params={$args}, exprs={$exprs})
       ;
       
 methodArgumentDef
