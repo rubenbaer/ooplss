@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.utils.ErrorHandler;
@@ -126,6 +127,47 @@ public class TestMemberResolving extends OoplssTest {
 						"	}" +
 						"}" +
 						"class b {}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=ClassNeededForMemberAccess.class)
+	public void testInvalidBuildInTypeMemberResolving() throws Exception {
+		String str = 	"class a {" +
+						"	def blah():Void {" +
+						"		var x:Int;" +
+						"		x.y;" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=ClassNeededForMemberAccess.class)
+	public void testInvalidBuildInTypeMemberResolving2() throws Exception {
+		String str = 	"class a {" +
+						"	def blubb():Void {}" +
+						"	def blah():Void {" +
+						"		var x:Int;" +
+						"		x.blubb();" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testInheritedMethodCall() throws Exception {
+		String str = 	"class foo {" +
+						"	def blah():Int;" +
+						"}" +
+						"class bar subtypeOf foo {}" +
+						"class third {" +
+						"	var x:bar;" +
+						"	def __construct() {" +
+						"		x.blah();" +
+						"	}" +
+						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}

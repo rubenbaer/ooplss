@@ -27,7 +27,7 @@ public class TestMemberTyping extends OoplssTest {
 						"	def blubb():foo;" +	
 						"	def __construct() {" +
 						"		x.blah();" +
-						"		self.blubb();" +
+						"		/*self.blubb();*/" +
 						"	}" +
 						"}";
 		this.createTyper(str);

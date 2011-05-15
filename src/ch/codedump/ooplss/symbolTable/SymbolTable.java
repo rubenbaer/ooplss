@@ -3,7 +3,9 @@ package ch.codedump.ooplss.symbolTable;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
+import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
@@ -228,9 +230,10 @@ public class SymbolTable {
 	 * @param givenArg
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	public void checkArgumentType(Symbol argType, OoplssAST givenArg) 
+	public void checkArgumentType(OoplssAST argType, OoplssAST givenArg) 
 			throws ArgumentDoesntMatchException {
-		if (!this.canAssignTo(argType.getType(), givenArg.getEvalType())) {
+ 		argType.setEvalType(argType.getSymbol().getType()); //this might be a bit ugly
+		if (!this.canAssignTo(argType, givenArg)) {
 			throw new ArgumentDoesntMatchException(givenArg);
 		}
 	}
@@ -243,29 +246,12 @@ public class SymbolTable {
 	 */
 	public void checkReturn(OoplssAST ret, OoplssAST retval) 
 			throws WrongReturnValueException {
-		if (!this.canAssignTo(
-				((MethodSymbol)ret.getScope()).getType(), retval.getEvalType())
-		) {
-			throw new WrongReturnValueException(retval);
+		Type t = this.getEnclosingMethodScope(ret.getScope()).getType();
+		ret.setEvalType(t);
+		ret.setRealType(t);
+		if (!this.canAssignTo(ret, retval)) {
+			throw new WrongReturnValueException(ret);
 		}
-	}
-	
-	/**
-	 * Check if the type of a variable is the same as the one
-	 * that is assigned
-	 * 
-	 * @param var
-	 * @param stmt
-	 * @return
-	 */
-	protected boolean canAssignTo(Type var, Type stmt) {
-		if (var instanceof ClassSymbol &&
-				stmt instanceof ClassSymbol) {
-			// check subtype
-			return ((ClassSymbol)stmt).isSubtypeOf(
-					((ClassSymbol)var));
-		}
-		return var == stmt;
 	}
 	
 	/**
@@ -277,7 +263,61 @@ public class SymbolTable {
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
-		return this.canAssignTo(var.getEvalType(), stmt.getEvalType());
+		Type varType = var.getEvalType();
+		Type stmtType = stmt.getEvalType();
+		if (varType.getTypeIndex() == SymbolTable.tMYTYPE) {
+			// check something else
+			logger.fine("MyType on the left");
+			varType = this.bindMyType(var);
+			logger.fine("Evaluated to " + varType.getName());
+		} 
+		if (stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
+			// check something else
+			logger.fine("MyType on the right");
+			stmtType = this.bindMyType(stmt);
+			logger.fine("Evaluated to " + stmtType.getName());
+		}
+		
+		if (varType instanceof ClassSymbol &&
+				stmtType instanceof ClassSymbol) {
+			// check subtype
+			return ((ClassSymbol)stmtType).isSubtypeOf(
+					((ClassSymbol)varType));
+		}
+		return varType == stmtType;
+	}
+	
+	/**
+	 * Bind the MyType
+	 * @param node
+	 * @return
+	 */
+	protected Type bindMyType(OoplssAST node) {
+		OoplssAST methodNode = null;
+		if (node.getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = node;
+		}
+		
+		 if (node.getToken().getType() == OoplssLexer.CALLOPERATOR &&
+						((OoplssAST)node.getChild(1)).getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = (OoplssAST)node.getChild(1);
+		}
+						
+		if (methodNode != null) {
+			logger.fine("Dealing with a method call");
+			// check if we have a subtype here
+			ClassSymbol cl = (ClassSymbol)node.getRealType();
+			if (cl.getSupertype() != null) {
+				logger.fine("We have a subtype");
+				return (Type)(((OoplssAST)methodNode.getChild(0)).getSymbol().getScope());
+			}
+		}
+		
+		if (node.getToken().getType() == OoplssLexer.SELF) {
+			return SymbolTable._myType;
+		}
+		
+		return node.getRealType();
 	}
 	
 	/**
@@ -417,8 +457,12 @@ public class SymbolTable {
 	 * @return The type
 	 * @throws IllegalMemberAccessException 
 	 */
-	public Symbol resolveMember(OoplssAST node) throws IllegalMemberAccessException {
-		ClassSymbol scope = (ClassSymbol) node.getScope();
+	public Symbol resolveMember(Type type, OoplssAST node) throws OoplssException {
+		if (!(type instanceof ClassSymbol)) {
+			throw new ClassNeededForMemberAccess(node);
+		}
+		ClassSymbol scope = (ClassSymbol) type;
+		node.setScope(scope);
 		
 		Symbol s =  scope.resolveMember(node.getText());
 		if (s == null) {
@@ -461,12 +505,28 @@ public class SymbolTable {
 	 * @param s
 	 * @return
 	 */
-	public MethodSymbol getMethodScope(Scope s) {
+	public MethodSymbol getEnclosingMethodScope(Scope s) {
 		while (!(s instanceof MethodSymbol)) {
 			s = s.getEnclosingScope();
 		}
 		
 		return (MethodSymbol)s;
+	}
+	
+	/**
+	 * Get class scope
+	 * 
+	 * Walk up from the given scope until the enclosing
+	 * class scope is found
+	 * @param s
+	 * @return
+	 */
+	public ClassSymbol getEnclosingClassScope(Scope s) {
+		while (!(s instanceof ClassSymbol)) {
+			s = s.getEnclosingScope();
+		}
+		
+		return (ClassSymbol)s;
 	}
 
 	@Override

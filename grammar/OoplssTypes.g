@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 bottomup	:	
 			 |	memberAccess
+			 //| 	memberAccessMethodCall
 			 |	statement
 			 |	conditionals
 			 |	assignment
@@ -70,10 +71,7 @@ selfAccess		returns [Type type]
 			{
 				logger.fine("<Type>Determining type of self");
 				$SELF.setEvalType(symtab._myType);
-				/*
-				type = (Type)$SELF.getSymbol();
-				$SELF.setEvalType(type);
-				*/
+				type = symtab._myType;
 			}
 			;
 			
@@ -83,6 +81,7 @@ methodCall		returns [Type type]
 				logger.fine("<Type>Determining expression type of method call");
 				type = $ID.getSymbol().getType();
 				$METHODCALL.setEvalType(type);
+				$METHODCALL.setRealType(symtab.getEnclosingClassScope($ID.getScope()));
 			}
 			;
 			
@@ -92,7 +91,7 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
 				for (int i = 0; i < list_arg.size(); i++) {
 					symtab.checkArgumentType(
-						method.getArgument(i, (OoplssAST) list_arg.get(i)), 
+						method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
 						(OoplssAST)(list_arg.get(i))
 					);
 				}
@@ -202,12 +201,34 @@ catch [OoplssException e] {
 }
 
 memberAccess	returns [Type type]
-			:	^(CALLOPERATOR . (right=varAccess|right=methodCall|right=literal))
+			:	^(CALLOPERATOR 
+					(left=varAccess|left=methodCall|left=literal|left=selfAccess) 
+					(right=varAccess|right=literal|right=methodCall)
+				)
 			{
 				logger.fine("<Type>Determine expression type of memberaccess");
 				$CALLOPERATOR.setEvalType($right.type);
 				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
 				type = $right.type;
+				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
+				$CALLOPERATOR.setRealType($left.type);
 			}
 			;
 	
+	/*
+memberAccessMethodCall
+				returns [Type type]
+			:
+				^(CALLOPERATOR
+					(left=varAccess|left=methodCall|left=literal|left=selfAccess)
+					^(METHODCALL name=ID .*)
+				)
+			{
+				logger.fine("<Type>Determine expression type of memberaccess method call");
+				$CALLOPERATOR.setEvalType($name.getSymbol().getType());
+				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
+				$METHODCALL.setRealType($left.type);
+			}
+			;		
+	
+	*/

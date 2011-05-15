@@ -31,6 +31,6 @@ public abstract class OoplssException extends Exception {
 	 * @return Line string
 	 */
 	protected String getLineStr() {
-		return "line " + token.getLine() + ":" + token.getTokenIndex();
+		return "line " + token.getLine() + ":" + token.getCharPositionInLine();
 	}
 }
