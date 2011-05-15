@@ -91,7 +91,7 @@ returnType
 /// BEGIN: EXPRESSIONS
 expr
       : ^(VARDEF type name=ID) -> vardef(name={$name.text}, type={$type.st})
-      | ^(RETURN e=expr) -> return(expr={$e.st})
+      | ^(RETURN (e=expr)?) -> return(expr={$e.st})
       | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
       | ifStatement -> {$ifStatement.st}
       | whileStatement -> {$whileStatement.st}
@@ -135,6 +135,7 @@ whileStatement
 binOperator
       : ^((op=TIMESOPERATOR|op=PLUSOPERATOR|op=MINUSOPERATOR|op=DIVIDEOPERATOR
           |op=EQ|op=INEQ
+          |op=ANDOPERATOR|op=OROPERATOR
           |op=LESS|op=GREATER|op=LEQ|op=GEQ)
           left=expr right=expr)
           -> binoperator(op={$op.text}, left={$left.st}, right={$right.st})

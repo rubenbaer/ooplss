@@ -201,8 +201,11 @@ backtrack=true;
 				)*
 			;
 
-retStmt		:	'return' statement 
+retStmt		
+      :	'return' statement 
 				-> ^(RETURN statement)
+			| 'return' 
+        -> ^(RETURN)
 			; 
 
 statement	:	expression;
