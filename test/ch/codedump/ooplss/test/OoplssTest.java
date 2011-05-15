@@ -28,6 +28,10 @@ public abstract class OoplssTest {
 	
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
+	OoplssDef def;
+	OoplssRef ref;
+	OoplssTypes typer;
+	
 	/**
 	 * Create the parser and lexer for code
 	 * @param code
@@ -60,30 +64,34 @@ public abstract class OoplssTest {
 	protected OoplssDef createDef(String code) throws RecognitionException {
 		this.createParser(code);
 		
-		logger.fine("\n\nRunning the definition walker");
-		OoplssDef def = new OoplssDef(nodes, symTab);
+		logger.info("\n\nRunning the definition walker");
+		this.def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 		
 		return def;
 	}
 	
 	protected OoplssRef createRef(String code) throws RecognitionException {
-		this.createDef(code);
+		if (this.def == null) {
+			this.createDef(code);
+		}
 		
-		logger.fine("\n\nRunning the reference walker");
-		OoplssRef ref = new OoplssRef(nodes, symTab);
+		logger.info("\n\nRunning the reference walker");
+		this.ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
 		return ref;
 	}
 	
 	protected OoplssTypes createTyper(String code) throws RecognitionException {
-		this.createRef(code);
+		if (this.ref == null) {
+			this.createRef(code);
+		}
 		
-		logger.fine("\n\nRunning the type walker");
-		OoplssTypes types = new OoplssTypes(nodes, symTab);
-		types.downup(t);
+		logger.info("\n\nRunning the type walker");
+		this.typer = new OoplssTypes(nodes, symTab);
+		typer.downup(t);
 		
-		return types;
+		return typer;
 	}
 }

@@ -39,34 +39,42 @@ topdown		:	enterMethod
 			|	argument
 			|	enterConstructor
 			|	subType
+			|	subClass
 			;
 			
-subType		: 	^(CLASSDEF classname=ID 
-				^(SUPERTYPE supertype=ID)
-				.*)
+bottomup	:	leaveClass;
+			
+subType		: 	^(SUPERTYPE supertype=ID)
 			{
-				logger.fine("<Ref>Resolving a supertype in class: " + $classname.text + 
-				  " with supertype of" + $supertype.text);
-				ClassSymbol t = (ClassSymbol) symtab.resolveType($classname, $supertype);
-				if (t.isSubtypeOf((ClassSymbol)$classname.getSymbol())) {
-					throw new CyclicSubtypingException($classname);
-				} 
-				((ClassSymbol)($classname.getSymbol())).setSuperType(t);
+				logger.fine("<Ref>Resolving a supertype");
+				ClassSymbol cls = (ClassSymbol)$SUPERTYPE.getScope();
+				ClassSymbol t = (ClassSymbol) symtab.resolveType((Scope)cls, $supertype);
+				if (t.isSubtypeOf(cls)) {
+					throw new CyclicSubtypingException(cls);
+				}
+				cls.setSupertype(t);
 				
 			}
 			;
-catch[CyclicSubtypingException e] {
+catch[OoplssException e] {
 	error.reportError(e);
-}
-catch[UnknownTypeException e] {
-	error.reportError(e);
-}			
-superClasses	returns [Type t]
-			:	(^(SUPERCLASS subclass+=ID))
+}	
+
+subClass	: 	^(SUPERCLASS superclass=ID)
 			{
-				logger.fine("<Ref>Resolve superclass");
+				logger.fine("<Ref>Resolving a superclass");
+				ClassSymbol cls = (ClassSymbol)$SUPERCLASS.getScope();
+				ClassSymbol t = (ClassSymbol) symtab.resolveType((Scope)cls, $superclass);
+				if (t.isSubclassOf(cls)) {
+					throw new CyclicSubclassingException(cls);
+				}
+				cls.setSuperclass(t);
 			}
 			;
+catch[OoplssException e] {
+	error.reportError(e);
+}		
+
  	
 enterMethod 	
 			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? . .)
@@ -80,15 +88,23 @@ catch [UnknownTypeException e] {
 	error.reportError(e);
 }			
 		
-		
 enterConstructor
-			:	^(METHODDEF name='__construct' .*)
+			://	CONSTRUCTORDEF	
+				^(CONSTRUCTORDEF . (^(SUPER supers+=ID .*))* .)
 			{
 				logger.fine("<Ref>Entering a constructor");
 				Type t = this.symtab.resolveSpecialType("construct");
-				$name.getSymbol().setType(t);
+				$CONSTRUCTORDEF.getSymbol().setType(t);
+				if (list_supers != null) {
+					for (Object sup: list_supers) {
+						((ClassSymbol)$CONSTRUCTORDEF.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+					}
+				}
 			}
 			;	
+catch[OoplssException e] {
+	error.reportError(e);
+}
 	
 varDef		:	^(VARDEF type=ID name=ID)
 			{
@@ -151,25 +167,25 @@ catch[UnknownDefinitionException e] {
 }
 
 methodCall		returns [Type type]
-			:	^(METHODCALL name=ID .*)
+			:	^(METHODCALL name=ID (^(args=METHODARGS .*))?)
 			{
 				if ($name.getSymbol() != null) {
 					// we have already visited this node
 					return $name.getSymbol().getType();
 				}
-				logger.fine("<Ref>Resolving a method call " + $name.text);
+				logger.fine("<Ref>Resolving a method call '" + $name.text + "'");
 				Symbol s = this.symtab.resolveMethod($name);
 				$name.setSymbol(s);
 				type = s.getType();
+				
+				if ($args != null) {
+					$args.setScope((MethodSymbol)s);
+				}
 			}
 			;
-catch[UnknownDefinitionException e] {
+catch[OoplssException e] {
 	error.reportError(e);
 }
-catch[NotCallableException e] {
-	error.reportError(e);
-}
-
 
 selfAccess	returns [Type type]
 			: 	SELF
@@ -180,15 +196,13 @@ selfAccess	returns [Type type]
 				type = s;
 			}
 			;
-catch[Exception e] {
-	error.reportError(e);
-}		
 
 memberAccess 	returns [Type type]
-			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) ^(MEMBERACCESS var=ID))
-				// probably give the possibility to call a method here too?
+			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
+					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID .*))
+				)
 			{
-				logger.fine("<Ref>Accessing a member " + $ID.text);
+				logger.fine("<Ref>Accessing a member " + $var.text);
 				Type lefttype = $left.type;
 				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
 				$var.setScope((ClassSymbol)lefttype);
@@ -238,10 +252,22 @@ argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 				logger.fine("<Ref>Resolving an argument: " + $name.text + " of type " + $type.text);
 				Type t = this.symtab.resolveType($name, $type);
 				$name.getSymbol().setType(t);
-
+				MethodSymbol meth = (MethodSymbol)$name.getSymbol().getScope();
+				meth.addArgument($name.getSymbol());
 			}
 			;
 catch [UnknownTypeException e] {
+	error.reportError(e);
+}
+			
+			
+leaveClass	:	^(CLASSDEF ID .*)
+			{
+				logger.fine("<Ref>Leaving a class, check for errors");
+				((ClassSymbol)$ID.getSymbol()).checkForOverridings();
+			}
+			;
+catch [OoplssException e] {
 	error.reportError(e);
 }
 

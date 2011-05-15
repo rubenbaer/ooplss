@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 
 public abstract class ScopedSymbol extends Symbol implements Scope {
@@ -31,7 +32,7 @@ public abstract class ScopedSymbol extends Symbol implements Scope {
 	}
 
 	@Override
-	public void define(Symbol sym) throws SymbolAlreadyDefinedException {
+	public void define(Symbol sym) throws OoplssException {
 		Symbol s = this.members.get(sym.getName());
 		if (s != null) {
 			throw new SymbolAlreadyDefinedException(this, s);
