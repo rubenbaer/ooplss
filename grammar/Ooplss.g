@@ -395,7 +395,7 @@ GREATER		:	'>';
 
 LEQ			: 	'<=';
 
-GEQ			:	'=>';
+GEQ			:	'>=';
 
 IMPORT		:	'import';
 
