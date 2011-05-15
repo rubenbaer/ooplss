@@ -37,7 +37,13 @@ public class <name> <if(supertype)>extends <supertype><endif> {
 
 method(name, params, return_type, exprs) ::= <<
   public <typename(return_type)> <name>(<params; separator=", ">) {
-    <exprs; separator="\n">
+    <exprs; separator=";\n"><if(exprs)>;<endif>
+  }
+>>
+
+constructor(name, params, exprs) ::= <<
+  public <name>(<params; separator=", ">) {
+    <exprs; separator=";\n"><if(exprs)>;<endif>
   }
 >>
 
@@ -46,7 +52,11 @@ method_param(name, type) ::= <<
 >>
 
 method_call(name, params) ::= <<
-public <name> (<params; separator=", ">)
+<name>(<params; separator=", ">)
+>>
+
+new_object(name, params) ::= <<
+new <name>(<params; separator=", ">)
 >>
 
 fielddef(name, type) ::= <<
@@ -54,15 +64,15 @@ fielddef(name, type) ::= <<
 >>
 
 vardef(name, type) ::= <<
-<typename(type)> <name> = <initTypeMapping.(type)>;
+<typename(type)> <name> = <initTypeMapping.(type)>
 >>
 
 return(expr) ::= <<
-return<if(expr)> <expr><endif>;
+return<if(expr)> <expr><endif>
 >>
 
 assign(var, stmt) ::= <<
-<var> = <stmt>;
+<var> = <stmt>
 >>
 
 binoperator(op, left, right) ::= <<
@@ -75,7 +85,7 @@ member_access(left, right) ::= <<
 
 block(exprs) ::= <<
 {
-  <exprs; separator=";\n">
+  <exprs; separator=";\n"><if(exprs)>;<endif>
 }
 >>
 

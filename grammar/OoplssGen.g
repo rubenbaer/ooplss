@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 /// TODO: 
 /// New Objects
-/// Parantheses
 /// Base -> super
 /// Self -> This
 /// Superclasses
@@ -46,11 +45,14 @@ prog
 classDef
       : ^(CLASSDEF classname=ID 
           (^(SUPERTYPE supertype=ID))? 
-          //(^(SUPERCLASS superclass=ID))?
+          (^(SUPERCLASS superclass=ID))?
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
          ) 
-         -> classdef(name={$classname.text}, supertype={$supertype.text}, fields={$f}, methods={$m})
+         -> classdef( name={$classname.text}, 
+                      supertype={$supertype.text}, 
+                      fields={$f}, 
+                      methods={$m})
       ;
       
 /// BEGIN: METHOD
@@ -66,7 +68,15 @@ method
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
           (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> method(name={$name.text}, params={$args}, return_type={$returnTypeDef.st}, exprs={$exprs})
+        -> method(name={$name.text}, 
+                  params={$args}, 
+                  return_type={$returnTypeDef.st}, 
+                  exprs={$exprs})
+      | ^(CONSTRUCTORDEF
+          (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (^(METHODBLOCK (exprs+=expr)*))
+        )
+        -> constructor(name={"FOO"}, params={$args}, exprs={$exprs})
       ;
       
 methodArgumentDef
@@ -97,7 +107,11 @@ expr
       | whileStatement -> {$whileStatement.st}
       | statement -> {$statement.st}
       | block -> {$block.st}
-      //| newObject -> {$newObject.st}
+      ;
+      
+newObject
+      : ^(NEW name=ID (^(METHODARGS (args+=literal)*))?) 
+        -> new_object(name={$name.text}, args={$args})
       ;
       
 statement
@@ -106,6 +120,7 @@ statement
       | methodCall -> {$methodCall.st}
       | binOperator -> {$binOperator.st}
       | memberAccess -> {$memberAccess.st}
+      | newObject -> {$newObject.st}
       ;
       
 block 
@@ -114,7 +129,10 @@ block
 
 ifStatement
       : ^(IFSTMT cond=statement block (elif+=elseif)* (elseBlock)?) 
-        -> if_statement(cond={$cond.st}, block={$block.st}, elifBlocks={$elif}, elseBlock={$elseBlock.st})
+        -> if_statement(cond={$cond.st}, 
+                        block={$block.st}, 
+                        elifBlocks={$elif}, 
+                        elseBlock={$elseBlock.st})
       ;
 
 elseif
@@ -155,7 +173,8 @@ leftMemberAccess
       
       /// TODO!
 methodCall
-      : ^(METHODCALL name=ID (^(METHODARGS (args+=literal)*))?) -> methodCall(name={$name.text}, args={$args})
+      : ^(METHODCALL name=ID (^(METHODARGS (args+=statement)*))?) 
+        -> method_call(name={$name.text}, params={$args})
       ;
 
 varAccess
