@@ -124,6 +124,8 @@ public class Main {
 		StringTemplateGroup templates = new StringTemplateGroup(in);
 		in.close();
 		
+		logger.finer(t.toStringTree());
+		
 		OoplssGen gen = new OoplssGen(nodes);
 		gen.setTemplateLib(templates);
 		OoplssGen.prog_return ret = gen.prog();
