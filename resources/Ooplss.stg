@@ -66,10 +66,28 @@ assign(var, stmt) ::= <<
 >>
 
 binoperator(op, left, right) ::= <<
-<left> <op> <right>;
+<left> <op> <right>
 >>
 
 member_access(left, right) ::= <<
 <left>.<right>
+>>
+
+block(exprs) ::= <<
+{
+  <exprs; separator=";\n">
+}
+>>
+
+if_statement(cond, block, elifBlocks, elseBlock) ::= <<
+if (<cond>) <block> <elifBlocks; separator="\n"> <elseBlock>
+>>
+
+elseif(cond, block) ::= <<
+else if (<cond>) <block>
+>>
+
+else(block) ::= <<
+else <block>
 >>
 

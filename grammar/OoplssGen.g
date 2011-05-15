@@ -93,13 +93,38 @@ expr
       : ^(VARDEF type name=ID) -> vardef(name={$name.text}, type={$type.st})
       | ^(RETURN e=expr) -> return(expr={$e.st})
       | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
-      | literal -> {$literal.st}
+      | ifStatement -> {$ifStatement.st}
+      | statement -> {$statement.st}
+      | block -> {$block.st}
+      //| newObject -> {$newObject.st}
+      ;
+      
+statement
+      : literal -> {$literal.st}
       | varAccess -> {$varAccess.st}
       | methodCall -> {$methodCall.st}
       | binOperator -> {$binOperator.st}
       | memberAccess -> {$memberAccess.st}
-      //| newObject -> {$newObject.st}
       ;
+      
+block 
+      : ^(BLOCK (exprs+=expr)*) -> block(exprs={$exprs})
+      ;
+
+ifStatement
+      : ^(IFSTMT cond=statement block (elif+=elseif)* (elseBlock)?) 
+        -> if_statement(cond={$cond.st}, block={$block.st}, elifBlocks={$elif}, elseBlock={$elseBlock.st})
+      ;
+
+elseif
+      : ^(ELIF cond=statement block)
+        -> elseif(cond={$cond.st}, block={$block.st})
+      ;
+      
+elseBlock
+      : ^(ELSE block) -> else(block={$block.st})
+      ;
+
 
 binOperator
       : ^((op=TIMESOPERATOR|op=PLUSOPERATOR|op=MINUSOPERATOR|op=DIVIDEOPERATOR
