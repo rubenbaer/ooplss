@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 /// TODO: 
 /// New Objects
-/// Method Calls
 /// Parantheses
 /// Base -> super
 /// Self -> This
@@ -96,7 +95,7 @@ expr
       | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
       | literal -> {$literal.st}
       | varAccess -> {$varAccess.st}
-      //| methodCall -> {$methodCall.st}
+      | methodCall -> {$methodCall.st}
       | binOperator -> {$binOperator.st}
       | memberAccess -> {$memberAccess.st}
       //| newObject -> {$newObject.st}
@@ -124,7 +123,7 @@ leftMemberAccess
       
       /// TODO!
 methodCall
-      : ^(METHODCALL name=ID .*) -> {%{$name.text}}
+      : ^(METHODCALL name=ID (^(METHODARGS (args+=literal)*))?) -> methodCall(name={$name.text}, args={$args})
       ;
 
 varAccess

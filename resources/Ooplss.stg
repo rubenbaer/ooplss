@@ -36,6 +36,10 @@ method_param(name, type) ::= <<
 <typename(type)> <name>
 >>
 
+method_call(name, params) ::= <<
+public <name> (<params; separator=", ">)
+>>
+
 fielddef(name, type) ::= <<
   public <typename(type)> <name>;
 >>
