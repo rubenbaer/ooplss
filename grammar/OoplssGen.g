@@ -82,8 +82,13 @@ returnType
 expr
       : ^(VARDEF type name=ID) -> vardef(name={$name.text}, type={$type.st})
       | ^(RETURN e=expr) -> return(expr={$e.st})
-      //| ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
+      | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
       | literal -> {$literal.st}
+      | varaccess -> {$varaccess.st}
+      ;
+
+varaccess
+      : ^(VARACCESS ID) -> {%{$ID.text}}
       ;
 
 literal
