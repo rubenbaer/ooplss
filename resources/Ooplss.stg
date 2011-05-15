@@ -1,5 +1,14 @@
 group Ooplss;
 
+initTypeMapping ::= [
+        "Int":"0",
+        "Float":"0.0",
+        "Char":"'\0'",
+        "String":"null",
+        "Bool":"false",
+        default:"null"
+]
+
 javaTypeMapping ::= [
         "Int":"Integer",
         "Float":"Double",
@@ -41,11 +50,11 @@ public <name> (<params; separator=", ">)
 >>
 
 fielddef(name, type) ::= <<
-  public <typename(type)> <name>;
+  public <typename(type)> <name> = <initTypeMapping.(type)>;
 >>
 
 vardef(name, type) ::= <<
-<typename(type)> <name>;
+<typename(type)> <name> = <initTypeMapping.(type)>;
 >>
 
 return(expr) ::= <<
