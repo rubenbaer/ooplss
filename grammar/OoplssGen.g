@@ -94,6 +94,7 @@ expr
       | ^(RETURN e=expr) -> return(expr={$e.st})
       | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
       | ifStatement -> {$ifStatement.st}
+      | whileStatement -> {$whileStatement.st}
       | statement -> {$statement.st}
       | block -> {$block.st}
       //| newObject -> {$newObject.st}
@@ -123,6 +124,11 @@ elseif
       
 elseBlock
       : ^(ELSE block) -> else(block={$block.st})
+      ;
+
+whileStatement
+      : ^(WHILESTMT cond=statement block) 
+        -> while_statement(cond={$cond.st}, block={$block.st})
       ;
 
 

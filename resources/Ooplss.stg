@@ -91,3 +91,6 @@ else(block) ::= <<
 else <block>
 >>
 
+while_statement(cond, block) ::= <<
+while (<cond>) <block>
+>>
