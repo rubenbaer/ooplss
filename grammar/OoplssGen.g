@@ -31,7 +31,8 @@ prog
       : (d+=classDef)+ 
         -> prog(classes={$d})
       ;
-  
+
+/// BEGIN: CLASSES  
 classDef
       : ^(CLASSDEF classname=ID 
           (^(SUPERTYPE supertype=ID))? 
@@ -42,11 +43,8 @@ classDef
          -> classdef(name={$classname.text}, supertype={$supertype.text}, fields={$f}, methods={$m})
       ;
       
-//methods
-//      : ^(METHODS m+=methodDef)
-//      //| constructor
-//      ;
-
+/// BEGIN: METHOD
+/// BEGIN: METHOD DEFINITION
 methodDef
       : method -> {$method.st}
       ;
@@ -56,14 +54,10 @@ method
           name=ID 
           returnTypeDef
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
-          (^(METHODBLOCK .*))
+          (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> method(name={$name.text}, params={$args}, return_type={$returnTypeDef.st}, method_body={null})
+        -> method(name={$name.text}, params={$args}, return_type={$returnTypeDef.st}, exprs={$exprs})
       ;
-
-//methodParams
-//      : ^(ARGUMENTLIST (args+=methodParam)+) -> method_params(params={$args})
-//      ;
       
 methodArgumentDef
       : methodArgument -> {$methodArgument.st}
@@ -79,9 +73,44 @@ returnTypeDef
       ;
       
 returnType
-      : ^(RETURNTYPE typename=type) -> {$typename.st}
+      : ^(RETURNTYPE type) -> {$type.st}
       ;
 
+/// END: METHOD DEFINITION
+      
+/// BEGIN: EXPRESSIONS
+expr
+      : ^(VARDEF type name=ID) -> vardef(name={$name.text}, type={$type.st})
+      | ^(RETURN e=expr) -> return(expr={$e.st})
+      //| ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
+      | literal -> {$literal.st}
+      ;
+
+literal
+      : INTLITERAL -> {%{$INTLITERAL.text}}
+      | FLOATLITERAL -> {%{$FLOATLITERAL.text}}
+      | STRINGLITERAL -> {%{$STRINGLITERAL.text}}
+      | CHARLITERAL -> {%{$CHARLITERAL.text}}
+      | BOOLLITERAL -> {%{$BOOLLITERAL.text}}
+      ;
+/// END: EXPRESSIONS
+
+/// BEGIN: METHOD VARIABLES
+varDef
+      : var -> {$var.st}
+      ;
+      
+var
+      : ^(VARDEF
+          typename=type
+          name=ID
+        )
+        -> vardef(name={$name.text}, type={$typename.st})
+      ;
+/// END: METHOD VARIABLES
+/// END: METHOD
+
+/// BEGIN: CLASS FIELD VARIABLES 
 fieldDef
       : field -> {$field.st}
       ;
@@ -91,8 +120,10 @@ field
           typename=type
           name=ID
         )
-        -> field(name={$name.text}, type={$typename.st})
+        -> fielddef(name={$name.text}, type={$typename.st})
       ;
+/// END: CLASS FIELD VARIABLES
+/// END: CLASSES
 
 type
       : primitiveType -> {$primitiveType.st}
@@ -100,9 +131,12 @@ type
       ;
 
 primitiveType
-@after {$st = %{$text};}
-      : 'Int'
-      | 'Float'
+//@after {$st = %{$text};}
+      : 'Int' -> {$st = %{"Integer"}}
+      | 'Float' -> {$st = %{"Double"}}
+      | 'Char' -> {$st = %{"Char"}}
+      | 'String' -> {$st = %{"String"}}
+      | 'Bool' -> {$st = %{"Boolean"}}
       ;
       
 /*

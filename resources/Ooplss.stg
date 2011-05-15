@@ -8,14 +8,14 @@ prog(classes) ::= <<
 
 classdef(name, supertype, fields, methods) ::= <<
 public class <name> <if(supertype)>extends <supertype><endif> {
-  <fields:{field | <field>}>
-  <methods:{method | <method>}>
+  <fields; separator="\n">
+  <methods; separator="\n">
 }
 >>
 
-method(name, params, return_type, method_body) ::= <<
+method(name, params, return_type, exprs) ::= <<
   public <return_type> <name>(<params; separator=", ">) {
-    method_body
+    <exprs; separator="\n">
   }
   
 >>
@@ -24,7 +24,19 @@ method_param(name, type) ::= <<
 <type> <name>
 >>
 
-field(name, type) ::= <<
+fielddef(name, type) ::= <<
   public <type> <name>;
   
+>>
+
+vardef(name, type) ::= <<
+<type> <name>;
+>>
+
+return(expr) ::= <<
+return <expr>;
+>>
+
+assign(var, stmt) ::= <<
+<var> = <stmt>;
 >>
