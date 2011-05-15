@@ -1,9 +1,30 @@
 group Ooplss;
 
+prog(classes) ::= <<
+<classes:{class | <class>
+
+}>
+>>
+
 classdef(name, supertype, fields, methods) ::= <<
-class <name> <if(supertype)>: <supertype><endif> {
-  <fields:{field | <field>();}>
-  
-  <methods:{method | <method>();}>
+public class <name> <if(supertype)>extends <supertype><endif> {
+  <fields:{field | <field>}>
+  <methods:{method | <method>}>
 }
+>>
+
+method(name, params, return_type, method_body) ::= <<
+  public <return_type> <name>(<params; separator=", ">) {
+    method_body
+  }
+  
+>>
+
+method_param(name, type) ::= <<
+<type> <name>
+>>
+
+field(name, type) ::= <<
+  public <type> <name>;
+  
 >>

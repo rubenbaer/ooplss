@@ -3,6 +3,7 @@ options {
 tokenVocab=Ooplss;
 ASTLabelType=OoplssAST; // use the customised AST node
 output=template;
+k=1;
 }
 
 @members {
@@ -27,50 +28,81 @@ import java.util.logging.Logger;
 }
 
 prog   
-      : classDef*
+      : (d+=classDef)+ 
+        -> prog(classes={$d})
       ;
   
-
-/*topdown   : enterMethod
-          | varDef
-          |
-          ( varAccess
-	          | selfAccess
-	          | memberAccess
-	          | methodCall
-	          | newObject
-          )
-		      | argument
-		      | enterConstructor
-		      | subType
-		      ;*/
-      
-classDef   
+classDef
       : ^(CLASSDEF classname=ID 
           (^(SUPERTYPE supertype=ID))? 
           //(^(SUPERCLASS superclass=ID))?
-          (f+=field)?
-          (m+=method)?
+          (^(FIELDS (f+=fieldDef)+))?
+          (^(METHODS (m+=methodDef)+))?
          ) 
          -> classdef(name={$classname.text}, supertype={$supertype.text}, fields={$f}, methods={$m})
       ;
+      
+//methods
+//      : ^(METHODS m+=methodDef)
+//      //| constructor
+//      ;
 
-method    
-      : ^(METHDODDEF 
+methodDef
+      : method -> {$method.st}
+      ;
+      
+method
+      : ^(METHODDEF
           name=ID 
-          RETURNTYPE 
-          ARGUMENTLIST 
-          METHODBLOCK
+          returnTypeDef
+          (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (^(METHODBLOCK .*))
         ) 
-        -> {%{$name.text}}
+        -> method(name={$name.text}, params={$args}, return_type={$returnTypeDef.st}, method_body={null})
       ;
 
+//methodParams
+//      : ^(ARGUMENTLIST (args+=methodParam)+) -> method_params(params={$args})
+//      ;
+      
+methodArgumentDef
+      : methodArgument -> {$methodArgument.st}
+      ;
+
+methodArgument
+      : ^(SUBTYPEARG name=ID type)
+        -> method_param(name={$name.text}, type={$type.st})
+      ;
+
+returnTypeDef
+      : returnType -> {$returnType.st}
+      ;
+      
+returnType
+      : ^(RETURNTYPE typename=type) -> {$typename.st}
+      ;
+
+fieldDef
+      : field -> {$field.st}
+      ;
+      
 field
-      : ^(VARDEF 
-          type=ID 
+      : ^(VARDEF
+          typename=type
           name=ID
         )
-        -> {%{$name.text}}
+        -> field(name={$name.text}, type={$typename.st})
+      ;
+
+type
+      : primitiveType -> {$primitiveType.st}
+      | ID -> {%{$ID.text}}
+      ;
+
+primitiveType
+@after {$st = %{$text};}
+      : 'Int'
+      | 'Float'
       ;
       
 /*
