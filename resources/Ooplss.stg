@@ -1,5 +1,18 @@
 group Ooplss;
 
+javaTypeMapping ::= [
+        "Int":"Integer",
+        "Float":"Double",
+        "Char":"Character",
+        "String":"String",
+        "Bool":"Boolean",
+        "Void":"void"
+]
+
+typename(type) ::= <<
+<if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
+>>
+
 prog(classes) ::= <<
 <classes:{class | <class>
 
@@ -14,23 +27,21 @@ public class <name> <if(supertype)>extends <supertype><endif> {
 >>
 
 method(name, params, return_type, exprs) ::= <<
-  public <return_type> <name>(<params; separator=", ">) {
+  public <typename(return_type)> <name>(<params; separator=", ">) {
     <exprs; separator="\n">
   }
-  
 >>
 
 method_param(name, type) ::= <<
-<type> <name>
+<typename(type)> <name>
 >>
 
 fielddef(name, type) ::= <<
-  public <type> <name>;
-  
+  public <typename(type)> <name>;
 >>
 
 vardef(name, type) ::= <<
-<type> <name>;
+<typename(type)> <name>;
 >>
 
 return(expr) ::= <<
@@ -40,3 +51,12 @@ return <expr>;
 assign(var, stmt) ::= <<
 <var> = <stmt>;
 >>
+
+binoperator(op, left, right) ::= <<
+<left> <op> <right>;
+>>
+
+member_access(left, right) ::= <<
+<left>.<right>
+>>
+
