@@ -27,6 +27,17 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
+/// TODO: 
+/// New Objects
+/// Method Calls
+/// Parantheses
+/// Base -> super
+/// Self -> This
+/// Superclasses
+/// Base -> Classname?
+/// MyType
+/// Parametrisation
+
 prog   
       : (d+=classDef)+ 
         -> prog(classes={$d})
