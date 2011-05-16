@@ -186,14 +186,14 @@ backtrack=true;
 							-> ^('.' SELF ^(MEMBERACCESS ID))
 					|
 						'self' '.' ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
-							-> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
+							-> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg*)))
 					|
 						ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
-							-> ^(METHODCALL ID ^(METHODARGS $arg+)?)
+							-> ^(METHODCALL ID ^(METHODARGS $arg*))
 				)
 				( 
 						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
-								-> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
+								-> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg*)))
 					/*|	'.' id=ID '[' statement ']'
 								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))*/
 					|	'.' id=ID
@@ -225,7 +225,7 @@ dashExpr	:	pointExpr (('+'|'-')^ pointExpr)*;
 pointExpr	: 	atom (('*'^|'/'^) atom)*;
 
 newObject	:	'new' ID '(' (arg+=statement (',' arg+=statement)* )? ')'
-				-> ^(NEW ID ^(METHODARGS $arg+)?)
+				-> ^(NEW ID ^(METHODARGS $arg*))
 			;
 
 atom		:	literal
