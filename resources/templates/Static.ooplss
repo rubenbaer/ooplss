@@ -1,0 +1,18 @@
+class System {
+//	def readln() : String {
+//		return "";
+//	}
+//	
+//	def readfile(file : String) : String {
+//		return "";
+//	}
+	
+	def printlnInt(str : Int) : Void {
+	}
+	
+	def println(str : String) : Void {
+	}
+	
+	def print(str : String) : Void {
+	}
+}

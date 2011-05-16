@@ -3,18 +3,31 @@ options {
 tokenVocab=Ooplss;
 ASTLabelType=OoplssAST; // use the customised AST node
 output=template;
-//rewrite=true;
 k=1;
 }
 
 @members {
-SymbolTable symtab;
-static Logger logger = Logger.getLogger(OoplssGen.class.getName());
-ErrorHandler error = ErrorHandler.getInstance();
-public OoplssGen(TreeNodeStream input, SymbolTable symtab) {
-  this(input);
-  this.symtab = symtab;
-}    
+	SymbolTable symtab;
+	static Logger logger = Logger.getLogger(OoplssGen.class.getName());
+	ErrorHandler error = ErrorHandler.getInstance();
+	public OoplssGen(TreeNodeStream input, SymbolTable symtab) {
+	  this(input);
+	  this.symtab = symtab;
+	} 
+	/**
+	 * Checks AST node for ClassSymbol and drops System class from
+	 * code generation. Used for semantic prediction
+	 */
+	public boolean isNotSystem(Object o) {
+	  if (o instanceof OoplssAST) {
+	    OoplssAST ast = (OoplssAST)o;
+	    if (ast.getSymbol() instanceof ClassSymbol) {
+	      ClassSymbol sym = (ClassSymbol)ast.getSymbol();
+	      return "System".equals(sym.getName());
+	    }
+	  }
+	  return false;
+	}     
 }
 
 @header {
@@ -47,7 +60,7 @@ scope {
 	String supertypeName;
 	String superclassName;
 }
-      : ^(CLASSDEF classname=ID {$classDef::className = $classname.text;}
+      : ^(CLASSDEF {!isNotSystem(input.LT(1))}? classname=ID {$classDef::className = $classname.text;}
           (^(SUPERTYPE supertype=ID))? {$classDef::supertypeName = $supertype.text;}
           (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
@@ -121,10 +134,11 @@ newObject
 statement
       : literal -> {$literal.st}
       | varAccess -> {$varAccess.st}
-      | methodCall -> {$methodCall.st}
+      | methodCall -> {$methodCall.st} // already in varAccess since this is implicitly a self / base var access
       | binOperator -> {$binOperator.st}
-      | memberAccess -> {$memberAccess.st}
+      //| memberAccess -> {$memberAccess.st}
       | newObject -> {$newObject.st}
+      | calls -> {$calls.st}
       ;
       
 block 
@@ -163,17 +177,27 @@ binOperator
           -> binoperator(op={$op.text}, left={$left.st}, right={$right.st})
       ;
       
-memberAccess
-      : ^('.' left=leftMemberAccess ^(MEMBERACCESS v=ID)) 
-        -> member_access(left={$left.st}, right={$v.text})
-      ;
+//memberAccess
+//      : ^('.' left=leftMemberAccess right=rightMemberAccess)
+//        -> member_access(left={$left.st}, right={$right.st})
+//      ;
+//
+//leftMemberAccess
+//      : varAccess -> {$varAccess.st}
+//      | literal -> {$literal.st}
+//      | methodCall -> {$methodCall.st}
+//      | memberAccess -> {$memberAccess.st}
+//      ;
 
-leftMemberAccess
-      : varAccess -> {$varAccess.st}
-      | literal -> {$literal.st}
-      | methodCall -> {$methodCall.st}
-      | memberAccess -> {$memberAccess.st}
+memberAccess
+      : ^(MEMBERACCESS ID) -> {%{$ID.text}}
       ;
+      
+//rightVarAccess
+//      : methodCall -> {$methodCall.st}
+//      | memberAccess -> {$memberAccess.st}
+//      | varAccess -> {$varAccess.st}
+//      ;
       
       /// TODO!
 methodCall
@@ -183,7 +207,34 @@ methodCall
 
 varAccess
       : ^(VARACCESS ID) -> {%{$ID.text}}
+      | memberAccess -> {$memberAccess.st}
       ;
+
+calls
+      : ^(CALLOPERATOR left=call right=call) -> call_operator(left={$left.st}, right={$right.st})// {$callAccess.st}
+      //| ^(SELF) -> typename(type={%{"self"}})
+      //| ^(BASE) -> typename(type={%{"base"}}) // TODO in subclassing changes
+      //| ^('.' ) -> var_access(left={$SELF.text}, right={$rightVarAccess.st})
+      //| ^('.' ) -> var_access(left={$BASE.text}, right={$rightVarAccess.st})
+      ;
+  
+call
+    : ID -> {%{$ID.text}}
+    | SELF -> {%{$SELF.text}}
+    | BASE -> {%{$BASE.text}}
+    | varAccess  -> {$varAccess.st}
+    | methodCall -> {$methodCall.st}
+    | calls -> {$calls.st}
+    ;
+  
+//callAccess
+//      : ID varAccess ->  var_access(left={$ID.text}, right={$varAccess.st})
+//      | SELF varAccess -> var_access(left={$SELF.text}, right={$varAccess.st})
+//      | BASE varAccess -> var_access(left={$BASE.text}, right={$varAccess.st})
+//      | varAccess  -> {$varAccess.st}
+//      | methodCall -> {$methodCall.st}
+//      | calls -> {$calls.st}
+//      ;
 
 literal
       : INTLITERAL -> {%{$INTLITERAL.text}}
@@ -191,8 +242,8 @@ literal
       | STRINGLITERAL -> {%{$STRINGLITERAL.text}}
       | CHARLITERAL -> {%{$CHARLITERAL.text}}
       | BOOLLITERAL -> {%{$BOOLLITERAL.text}}
-      | SELF -> {$st = %{"this"}}
-      | BASE -> {$st = %{"super"}} // TODO: Changes in subclassing
+      //| SELF -> varname(name={$SELF.text})
+      //| BASE -> varname(name={$BASE.text}) //{$st = %{"super"}} // TODO: Changes in subclassing
       ;
 /// END: EXPRESSIONS
 

@@ -1,0 +1,60 @@
+group Static;
+
+imports() ::= <<
+import java.io.*;
+>>
+
+app(classes) ::= <<
+<imports()>
+
+public class App {
+  public static void main(String[] args) {
+    Application app = new Application();
+    app.run();
+  }
+  
+  <systemclasses()>
+  
+  <classes; separator="\n">
+}
+>>
+
+systemclasses() ::= <<
+  public static class System {
+    public String readln() {
+      try {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        return in.readLine();
+      } catch (Exception e) {
+        System.err.println(e.getMessage());
+      } finally {
+        in.close();
+      }
+      return "";
+    }
+    
+    public String readfile(String filename) {
+      try {
+        BufferedReader in = new BufferedReader(new FileInputStream(filename));
+        return in.readLine();
+      } catch (Exception e) {
+        System.err.println(e.getMessage());
+      } finally {
+        in.close();
+      }
+      return "";
+    }
+    
+    public void println(String str) {
+      System.out.println(str);
+    }
+    
+    public void printlnInt(Integer i) {
+      System.out.println(i);
+    }
+    
+    public void print(String str) {
+      System.out.println(str);
+    }
+  }
+>>

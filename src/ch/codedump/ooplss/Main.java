@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringBufferInputStream;
 import java.util.logging.Logger;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -12,7 +14,10 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
+import org.antlr.stringtemplate.CommonGroupLoader;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.antlr.stringtemplate.StringTemplateGroupLoader;
+import org.antlr.tool.ErrorManager;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -30,7 +35,10 @@ import ch.codedump.ooplss.antlr.OoplssTypes;
 import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 
+@SuppressWarnings("deprecation")
 public class Main {
+	private static final int READ_BUFFER_SIZE = 1024;
+	private static final int INITIAL_BUFFER_SIZE = 1024;
 	private static final String USAGE = "[-h] [-d <directory>] [-f <file]";
 	private static final String HEADER = "OOPLSS - Object-Oriented Programming Language with Subtyping and Subclassing";
 	private static final String FOOTER = "For more instructions, see our website at: http://ooplss.codedump.ch";
@@ -76,7 +84,7 @@ public class Main {
 			RecognitionException {
 		assert (in != null);
 
-		ANTLRInputStream input = new ANTLRInputStream(in);
+		ANTLRInputStream input = new ANTLRInputStream(readInput(in));
 
 		OoplssLexer lexer = new OoplssLexer(input);
 
@@ -104,33 +112,128 @@ public class Main {
 		types.downup(t);
 
 		codeGeneration(t, nodes);
-		
+
 		// Report error count
 		int errorCount = lexer.getNumberOfSyntaxErrors();
 		errorCount += parser.getNumberOfSyntaxErrors();
 		errorCount += ref.getNumberOfSyntaxErrors();
 		errorCount += def.getNumberOfSyntaxErrors();
 		errorCount += types.getNumberOfSyntaxErrors();
-		
+
 		if (errorCount != 0) {
 			System.out.println(errorCount + " errors found");
-		} 
+		}
 	}
 
-	private void codeGeneration(Tree t, CommonTreeNodeStream nodes) throws IOException, RecognitionException {
+	/**
+	 * Read program from file or standard input and afterwards the static
+	 * program parts providing a minimal Java interface
+	 * 
+	 * @param in
+	 *            Input reading stream
+	 * @return String stream feed to ANTLR
+	 * @throws IOException
+	 */
+	private InputStream readInput(InputStream in) throws IOException {
+		InputStream staticInput = getClass().getResourceAsStream(
+				"/templates/Static.ooplss");
+		try {
+			StringBuilder builder = new StringBuilder();
+			builder.append(load(in));
+
+			builder.append(load(staticInput));
+
+			return new StringBufferInputStream(builder.toString());
+		} finally {
+			staticInput.close();
+		}
+	}
+
+	/**
+	 * Load wrapper for input stream
+	 * 
+	 * @param input
+	 *            Input reading stream
+	 * @return Char array with input. Exact size
+	 * @throws IOException
+	 */
+	private char[] load(InputStream input) throws IOException {
+		return load(new InputStreamReader(input), INITIAL_BUFFER_SIZE,
+				READ_BUFFER_SIZE);
+	}
+
+	/**
+	 * Fast file loader
+	 * 
+	 * @param r
+	 *            Input reader
+	 * @param size
+	 *            Init buffer size
+	 * @param readChunkSize
+	 *            Input chunk size
+	 * @return Char array with data. Exact size
+	 * @throws IOException
+	 */
+	public char[] load(Reader r, int size, int readChunkSize)
+			throws IOException {
+		if (r == null) {
+			return new char[0];
+		}
+		if (size <= 0) {
+			size = INITIAL_BUFFER_SIZE;
+		}
+		if (readChunkSize <= 0) {
+			readChunkSize = READ_BUFFER_SIZE;
+		}
+		char[] data;
+		int p = 0;
+		// System.out.println("load "+size+" in chunks of "+readChunkSize);
+		try {
+			// alloc initial buffer size.
+			data = new char[size];
+			// read all the data in chunks of readChunkSize
+			int numRead = 0;
+			do {
+				if (p + readChunkSize > data.length) { // overflow?
+					char[] newdata = new char[data.length * 2]; // resize
+					System.arraycopy(data, 0, newdata, 0, data.length);
+					data = newdata;
+				}
+				numRead = r.read(data, p, readChunkSize);
+				p += numRead;
+			} while (numRead != -1); // while not EOF
+		} finally {
+			r.close();
+		}
+		char[] target = new char[p + 1];
+		System.arraycopy(data, 0, target, 0, p + 1);
+		return target;
+	}
+
+	private void codeGeneration(Tree t, CommonTreeNodeStream nodes)
+			throws IOException, RecognitionException {
 		logger.fine("Code generation");
-		InputStreamReader in = new InputStreamReader(
-				getClass().getResourceAsStream("/Ooplss.stg"));
-		StringTemplateGroup templates = new StringTemplateGroup(in);
-		in.close();
-		
-		logger.finest(t.toStringTree());	
-		
+		// InputStreamReader in = new InputStreamReader(
+		// getClass().getResourceAsStream("/Ooplss.stg"));
+		// StringTemplateGroup templates = new StringTemplateGroup(in);
+		// in.close();
+
+		// get a group loader containing main templates dir and target subdir
+		StringTemplateGroupLoader loader = new CommonGroupLoader("templates",
+				ErrorManager.getStringTemplateErrorListener());
+		StringTemplateGroup.registerGroupLoader(loader);
+
+		// first load main language template
+		StringTemplateGroup superGroup = StringTemplateGroup.loadGroup("Static");
+		StringTemplateGroup templates = StringTemplateGroup.loadGroup("Ooplss", superGroup);
+
+		logger.finest(t.toStringTree());
+
 		OoplssGen gen = new OoplssGen(nodes);
 		gen.setTemplateLib(templates);
 		OoplssGen.prog_return ret = gen.prog();
-		
-		logger.finer(ret.getTemplate().toString());	
+
+		logger.finer(ret.getTemplate().toString());
 	}
 
 	/**

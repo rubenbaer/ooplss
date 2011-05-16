@@ -1,4 +1,4 @@
-group Ooplss;
+group Ooplss : Static;
 
 initTypeMapping ::= [
         "Int":"0",
@@ -18,18 +18,21 @@ javaTypeMapping ::= [
         "Void":"void"
 ]
 
+varNameMapping ::= [
+        "base":"super",
+        "self":"this"
+]
+
+varname(name) ::= <<
+<if(varNameMapping.(name))><varNameMapping.(name)><else><name><endif>
+>>
+
 typename(type) ::= <<
 <if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
 >>
 
-prog(classes) ::= <<
-<classes:{class | <class>
-
-}>
->>
-
 classdef(name, supertype, fields, methods) ::= <<
-public class <name> <if(supertype)>extends <supertype><endif> {
+public static class <name> <if(supertype)>extends <supertype><endif> {
   <fields; separator="\n">
   <methods; separator="\n">
 }
@@ -79,7 +82,7 @@ binoperator(op, left, right) ::= <<
 (<left> <op> <right>)
 >>
 
-member_access(left, right) ::= <<
+call_operator(left, right) ::= <<
 <left>.<right>
 >>
 
@@ -103,4 +106,10 @@ else <block>
 
 while_statement(cond, block) ::= <<
 while (<cond>) <block>
+>>
+
+// Application classes used for proper running
+
+prog(classes) ::= <<
+<app(classes)>
 >>
