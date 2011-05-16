@@ -20,6 +20,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	protected ClassSymbol superclass;
 	
+	protected MethodSymbol constructor;
+	
 	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
 	public ClassSymbol(String name, Scope enclosingScope) {
@@ -245,7 +247,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * Go through the symbols and check for inheritance mistakes
 	 * @throws OoplssException
 	 */
-	public void checkForOverridings () throws OoplssException {
+	protected void checkForOverridings () throws OoplssException {
 		for (Entry<String, Symbol> sym: this.members.entrySet()) {
 			if (this.supertype != null) {
 				this.checkSymbolOverride(this.supertype, sym.getValue());
@@ -253,6 +255,20 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			if (this.superclass != null) {
 				this.checkSymbolOverride(this.superclass, sym.getValue());
 			}
+		}
+	}
+	
+	/**
+	 * Do some checks 
+	 * 
+	 * Check for override errors, and create a constructor if there is none
+	 * @throws OoplssException
+	 */
+	public void doChecks() throws OoplssException {
+		this.checkForOverridings();
+		
+		if (this.constructor == null) {
+			this.constructor = new MethodSymbol("construct", this);
 		}
 	}
 	
@@ -293,7 +309,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 	
 	/**
-	 * Check wheter this class is a subclass of the given one
+	 * Set the constructor of this class
+	 * @param c
+	 */
+	public void setConstructor(MethodSymbol c) {
+		this.constructor = c;
+	}
+	
+	/**
+	 * Return the constructor of this class
+	 * @return
+	 */
+	public MethodSymbol getConstructor() {
+		return this.constructor;
+	}
+	
+	/**
+	 * Check whether this class is a subclass of the given one
 	 * @param ClassSymbol
 	 */
 	public boolean isSubclassOf(ClassSymbol type) {

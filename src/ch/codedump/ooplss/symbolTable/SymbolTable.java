@@ -1,6 +1,7 @@
 package ch.codedump.ooplss.symbolTable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.antlr.OoplssLexer;
@@ -8,8 +9,8 @@ import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
-import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
@@ -271,12 +272,39 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Check the arguments of a method call
+	 * 
+	 * @param method
+	 * @param args
+	 * @throws ArgumentDoesntMatchException 
+	 */
+	public void checkArguments(MethodSymbol method, List<OoplssAST> givenArgs) 
+			throws ArgumentDoesntMatchException {
+		List<Symbol> definedArgs = method.getArguments();
+		
+		if (givenArgs == null) {
+			// no arguments given, is this ok?
+			if (definedArgs.size() != 0) {
+				throw new ArgumentDoesntMatchException(method.getDef(), 0);
+			}
+		} else {
+			for (int i = 0; i < givenArgs.size(); i++) {
+				this.checkArgumentType(
+					method.getArgument(i, (OoplssAST) givenArgs.get(i)).getDef(), 
+					(OoplssAST)(givenArgs.get(i)),
+					i
+				);
+			}
+		}
+	}
+	
+	/**
 	 * Check if the argument is of the right type
 	 * @param argType
 	 * @param givenArg
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	public void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
+	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
 			throws ArgumentDoesntMatchException {
  		argType.setEvalType(argType.getSymbol().getType()); //this might be a bit ugly
 		if (!this.canAssignTo(argType, givenArg)) {
@@ -390,7 +418,7 @@ public class SymbolTable {
 	 * @return Resolved object type
 	 * @throws UnknownDefinitionException 
 	 */
-	public Symbol resolveObject(OoplssAST obj) throws UnknownDefinitionException {
+	public ClassSymbol resolveObject(OoplssAST obj) throws UnknownDefinitionException {
 		Scope s = obj.getScope();
 		
 		Type t = s.resolveType(obj.getText());
@@ -398,7 +426,7 @@ public class SymbolTable {
 			throw new UnknownDefinitionException(obj);
 		}
 		
-		return (Symbol)t;
+		return (ClassSymbol)t;
 	}
 	
 	/**

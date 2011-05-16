@@ -92,13 +92,7 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 			{
 				logger.fine("<Type>Resolving method arguments");
 				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				for (int i = 0; i < list_arg.size(); i++) {
-					symtab.checkArgumentType(
-						method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
-						(OoplssAST)(list_arg.get(i)),
-						i
-					);
-				}
+				symtab.checkArguments(method, list_arg);
 			}
 			;
 catch[OoplssException e] {
