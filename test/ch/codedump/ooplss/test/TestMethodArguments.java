@@ -82,4 +82,28 @@ public class TestMethodArguments extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test (expected=ArgumentDoesntMatchException.class)
+	public void testInvalidConstructorArgs() throws Exception {
+		String str = 	"class Foo {\n" + 
+						"    def __construct(x:Int) { }\n" + 
+						"    def m():Void {\n" + 
+						"        new Foo();\n" + 
+						"    }\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=ArgumentDoesntMatchException.class)
+	public void testNoMethodArgs() throws Exception {
+		String str = 	"class Foo {\n" + 
+						"    def blah(x:Int):Void { }\n" + 
+						"    def m():Void {\n" + 
+						"        blah();\n" + 
+						"    }\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

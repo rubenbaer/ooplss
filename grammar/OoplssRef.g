@@ -155,12 +155,17 @@ catch[UnknownDefinitionException e] {
 }
 
 newObject		returns [Type type]
-			:	^(NEW name=ID .*)
+			:	^(NEW name=ID ^(args=METHODARGS .*))
 			{
 				logger.fine("<Ref>Resolving a new statement: " + $name.text);
 				Symbol s = this.symtab.resolveObject($ID);
 				$ID.setSymbol(s);
 				type = s.getType();
+				
+				if ($args != null) {
+					logger.fine("<Ref>Set scope of method arguments");
+					$args.setScope(((ClassSymbol)s).getConstructor());
+				}
 			}
 			;
 catch[UnknownDefinitionException e] {
@@ -168,7 +173,7 @@ catch[UnknownDefinitionException e] {
 }
 
 methodCall		returns [Type type]
-			:	^(METHODCALL name=ID (^(args=METHODARGS .*))?)
+			:	^(METHODCALL name=ID ^(args=METHODARGS .*))
 			{
 				if ($name.getSymbol() != null) {
 					// we have already visited this node
@@ -201,7 +206,7 @@ selfAccess	returns [Type type]
 
 memberAccess 	returns [Type type]
 			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
-					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID (^(args=METHODARGS .*))?))
+					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID ^(args=METHODARGS .*)))
 				)
 			{
 				logger.fine("<Ref>Accessing a member " + $var.text);
@@ -271,7 +276,7 @@ catch [UnknownTypeException e] {
 leaveClass	:	^(CLASSDEF ID .*)
 			{
 				logger.fine("<Ref>Leaving a class, check for errors");
-				((ClassSymbol)$ID.getSymbol()).checkForOverridings();
+				((ClassSymbol)$ID.getSymbol()).doChecks();
 			}
 			;
 catch [OoplssException e] {

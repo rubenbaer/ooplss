@@ -112,9 +112,24 @@ public class TestSimpleAssignments extends OoplssTest {
 	@Test (expected=IllegalAssignmentToMethodException.class)
 	public void testIllegalMethodAssignment() throws Exception {
 		String str =	"class foo {" +
-						"	def blubb():Void;" +
+						"	def blubb():Void {}" +
 						"	def blah():Void {" +
 						"		blubb() = 3;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testLegalNestedMethodAssignment() throws Exception {
+		String str =	"class foo {" +
+						"	var x:Int;" +
+						"	def blubb():foo {" +
+						"		return new foo();" +
+						"	}" +
+						"	def blah():Void {" +
+						"		blubb().x = 3;" +
 						"	}" +
 						"}";
 		this.createTyper(str);

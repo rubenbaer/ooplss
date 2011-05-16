@@ -116,16 +116,13 @@ enterConstructor
 			:	^(name=CONSTRUCTORDEF .*)
 			{
 				logger.fine("<Def>Entering a constructor");
-				MethodSymbol ms = new MethodSymbol($name.text, this.currentScope);
+				MethodSymbol ms = new MethodSymbol("construct", this.currentScope);
 				ms.setDef($name);
 				$name.setSymbol(ms);
-				this.currentScope.define(ms);
-				this.currentScope = ms;
+				((ClassSymbol)this.currentScope).setConstructor(ms);
+				this.currentScope = (Scope)ms;
 			}
 			;
-catch [OoplssException e] {
-	error.reportError(e);
-}	
 	
 exitMethod	:	(METHODDEF | CONSTRUCTORDEF)
 			{
