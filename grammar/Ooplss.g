@@ -1,7 +1,7 @@
 grammar Ooplss;
 options {
 	k=2; 
-	backtrack=true;
+	backtrack=false;
 	output=AST;
 }
 tokens {
@@ -88,7 +88,7 @@ classDec	:	'class' classname=ID
 			;
 	
 		
-varDef		:	normalVarDef /*| arrayDef*/
+varDef		:	normalVarDef 
 			;
 
 normalVarDef	
@@ -168,38 +168,34 @@ backtrack=true;
 			;
 		
 varAccess	
-/*
-options {
-k=2;
-backtrack=true;
-} */
 			:	(
 						ID 
 							-> ^(VARACCESS ID)
-					|	'self' 
-							-> ^(SELF)
-					/*|	ID '[' statement ']' 
-							-> ^(ARRAYACCESS ID statement)
-					|	'self' '.' ID '[' statement ']' 
-							-> ^('.' SELF ^(ARRAYACCESS ID statement))*/
-					|	'self' '.' ID 
-							-> ^('.' SELF ^(MEMBERACCESS ID))
-					|
-						'self' '.' ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
-							-> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
-					|
-						ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
+					| 'self' selfVarAccess 
+					| ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
 							-> ^(METHODCALL ID ^(METHODARGS $arg+)?)
 				)
 				( 
-						'.' id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
-								-> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg+)?))
-					/*|	'.' id=ID '[' statement ']'
-								-> ^('.' $varAccess ^(ARRAYACCESS $id statement))*/
-					|	'.' id=ID
-								-> ^('.' $varAccess ^(MEMBERACCESS $id))
+						'.' oper=callOperatorAccess -> ^('.' $varAccess $oper)
 				)*
 			;
+			
+callOperatorAccess
+      : id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
+         -> ^(METHODCALL $id ^(METHODARGS $arg+)?)
+      | '.' id=ID
+         -> ^(MEMBERACCESS $id)
+      ;
+			
+selfVarAccess
+      : '.' callOperatorSelfVarAccess
+      ;
+      
+callOperatorSelfVarAccess
+      : ID -> ^('.' SELF ^(MEMBERACCESS ID))
+      | ID '('  (arg+=statement (',' arg+=statement)* )? ')'
+        -> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
+      ;
 
 retStmt		
       :	'return' statement 
