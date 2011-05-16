@@ -246,10 +246,26 @@ public class SymbolTable {
 	 */
 	public void checkReturn(OoplssAST ret, OoplssAST retval) 
 			throws WrongReturnValueException {
-		Type t = this.getEnclosingMethodScope(ret.getScope()).getType();
+		Type t = ((MethodSymbol) ret.getScope()).getType();
 		ret.setEvalType(t);
 		ret.setRealType(t);
 		if (!this.canAssignTo(ret, retval)) {
+			throw new WrongReturnValueException(ret);
+		}
+	}
+	
+	/**
+	 * Check if a void return is correct
+	 *  
+	 * @param ret
+	 * @throws WrongReturnValueException 
+	 */
+	public void checkVoidReturn(OoplssAST ret) 
+			throws WrongReturnValueException {
+		Type t = ((MethodSymbol) ret.getScope()).getType();
+		ret.setEvalType(t);
+		ret.setRealType(t);
+		if (t.getTypeIndex() != SymbolTable.tVOID) {
 			throw new WrongReturnValueException(ret);
 		}
 	}
