@@ -37,7 +37,9 @@ public class ErrorHandler {
 		if (this.breakOnError) {
 			System.exit(100);
 		}
-		this.ex = e;
+		if (this.ex == null) {
+			this.ex = e;
+		}
 	}
 	
 	/**

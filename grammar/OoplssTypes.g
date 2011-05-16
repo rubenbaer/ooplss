@@ -42,6 +42,7 @@ statement
 			|	selfAccess
 			|	methodCall
 			|	methodArgs
+			|	andOperator
 			|	arithmeticOperator
 			|	equalityOperator
 			|	relationalOperator
@@ -104,6 +105,21 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 catch[OoplssException e] {
 	error.reportError(e);
 }
+
+andOperator		returns [Type type]
+			:
+				^(ANDOPERATOR left=atom right=atom)	
+			{
+				logger.fine("<Type>Determining and operator expression type");
+				
+				type = symtab.andOPType($left.type, $right.type, $ANDOPERATOR);
+				
+				$ANDOPERATOR.setEvalType(type);
+			}
+			;
+catch[OoplssException e] {
+	error.reportError(e);
+}		
 			
 arithmeticOperator
 				returns [Type type]
@@ -163,6 +179,7 @@ atom			returns [Type type]
 			|	expr=varAccess          { type = $expr.type; }
 			|   expr=methodCall         { type = $expr.type; }
 			|	expr=memberAccess		{ type = $expr.type; }
+			|	expr=andOperator		{ type = $expr.type; }
 			;			
 
 literal			returns [Type type]
