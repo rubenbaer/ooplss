@@ -150,7 +150,6 @@ options {
 			|	retStmt ';'!
 			|	ifStmt
 			|	whileStmt
-/*			|	forStmt*/
 			|	';'!
 			;
 		
@@ -160,8 +159,8 @@ assignmentEntry
 	 	
 assignment
 options {
-k=*;
-backtrack=true;
+k=2;
+backtrack=false;
 }			
 			:	varAccess '=' statement
 				-> ^('=' varAccess statement)
