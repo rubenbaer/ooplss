@@ -219,7 +219,7 @@ assignment 	:	^(ASSIGN var=. stmt=.)
 				symtab.checkAssignment($ASSIGN, $var, $stmt);
 			}
 			;
-catch [IllegalAssignmentException e] {
+catch [OoplssException e] {
 	error.reportError(e);
 }
 

@@ -3,6 +3,7 @@ package ch.codedump.ooplss.test;
 import org.junit.Test;
 
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
@@ -104,6 +105,18 @@ public class TestSimpleAssignments extends OoplssTest {
 						" }\n" +
 						"}\n" +
 						"class bar {}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalAssignmentToMethodException.class)
+	public void testIllegalMethodAssignment() throws Exception {
+		String str =	"class foo {" +
+						"	def blubb():Void;" +
+						"	def blah():Void {" +
+						"		blubb() = 3;" +
+						"	}" +
+						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
