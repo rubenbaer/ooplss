@@ -198,8 +198,8 @@ calls
   
 call
     : ID -> {%{$ID.text}}
-    | SELF -> {%{$SELF.text}}
-    | BASE -> {%{$BASE.text}}
+    | SELF -> {%{"this"}}
+    | BASE -> {%{"super"}} // TODO: Depends on superclass
     | varAccess  -> {$varAccess.st}
     | methodCall -> {$methodCall.st}
     | calls -> {$calls.st}
