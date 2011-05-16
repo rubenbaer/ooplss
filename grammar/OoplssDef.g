@@ -42,6 +42,7 @@ topdown		:	enterMethod
 			|	superType
 			|	superClass
 			|	returnStmt
+			|	returnVoidStmt
 			|	//import
 			;
 	
@@ -237,6 +238,14 @@ returnStmt	:	^(RETURN stmt=.)
 				$RETURN.setScope((Scope)symtab.getEnclosingMethodScope(this.currentScope));
 				// this is so the exception knows where the return stmt is
 				$RETURN.token.setCharPositionInLine($stmt.token.getCharPositionInLine());
+			}
+			;
+			
+returnVoidStmt
+			:	RETURN
+			{
+				logger.fine("<Def>Recording scope of void return statement");
+				$RETURN.setScope((Scope)symtab.getEnclosingMethodScope(this.currentScope));
 			}
 			;
 			

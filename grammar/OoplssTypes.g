@@ -33,6 +33,7 @@ bottomup	:
 			 |	conditionals
 			 |	assignment
 			 |	returnStmt
+			 |	returnVoidStmt
 			;
 			
 statement		
@@ -194,6 +195,17 @@ returnStmt	:	^(RETURN stmt=.)
 			{
 				logger.fine("<Type>Checking a return");
 				symtab.checkReturn($RETURN, $stmt);
+			}
+			;
+catch [OoplssException e] {
+	error.reportError(e);
+}
+
+returnVoidStmt
+			:	RETURN
+			{
+				logger.fine("<Type>Checking a void return");
+				symtab.checkVoidReturn($RETURN); 
 			}
 			;
 catch [OoplssException e] {
