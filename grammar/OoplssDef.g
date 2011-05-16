@@ -38,7 +38,6 @@ topdown		:	enterMethod
 			/*|	arrayDef*/
 			|	argument
 			|	methodCall
-			/*|	methodArgs*/
 			|	superType
 			|	superClass
 			|	returnStmt
@@ -215,15 +214,6 @@ methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 
 			}
 			;
-			
-			/*
-methodArgs	:	^(METHODARGS .*)
-			{
-				logger.fine("<Def>Recording scope of method call arguments");
-				$METHODARGS.setScope(this.currentScope);
-			}
-			;
-			*/
 			
 newObject	:	^(NEW ID .?)
 			{

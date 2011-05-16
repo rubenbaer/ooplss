@@ -77,7 +77,7 @@ catch[OoplssException e] {
 
  	
 enterMethod 	
-			:	^(METHODDEF name=ID (^(RETURNTYPE rettype=ID))? . .)
+			:	^(METHODDEF name=ID ^(RETURNTYPE rettype=ID) .*)
 			{
 				logger.fine("<Ref>Entering method " + $name.text);
 				Type t = this.symtab.resolveType($name, $rettype);
@@ -179,6 +179,7 @@ methodCall		returns [Type type]
 				type = s.getType();
 				
 				if ($args != null) {
+					logger.fine("<Ref>Set scope of method arguments");
 					$args.setScope((MethodSymbol)s);
 				}
 			}
@@ -199,7 +200,7 @@ selfAccess	returns [Type type]
 
 memberAccess 	returns [Type type]
 			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
-					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID .*))
+					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID (^(args=METHODARGS .*))?))
 				)
 			{
 				logger.fine("<Ref>Accessing a member " + $var.text);
@@ -210,6 +211,11 @@ memberAccess 	returns [Type type]
 				$var.setSymbol(s);
 				s.setDef($var);
 				type = s.getType();
+				
+				if ($args != null) {
+					logger.fine("<Ref>Set scope of method arguments");
+					$args.setScope((MethodSymbol)s);
+				}
 			}
 			;
 catch[OoplssException e] {
