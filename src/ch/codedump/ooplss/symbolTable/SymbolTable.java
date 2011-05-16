@@ -141,14 +141,30 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Return the type of a || operation
+	 * 
+	 * Since this requires boolean expressions on both
+	 * sides, the equalityType method can be used
+	 * @param left Left side of the operator
+	 * @param right Right side of the operator
+	 * @param op Operator reference
+	 * @return Expression type
+	 * @throws InvalidExpressionException 
+	 */
+	public Type orOPType(Type left, Type right, OoplssAST op) 
+			throws InvalidExpressionException {
+		return this.equalityType(left, right, op);
+	}
+	
+	/**
 	 * Return the type of a && operation
 	 * 
 	 * Since this requires boolean expressions on both
 	 * sides, the equalityType method can be used
-	 * @param left
-	 * @param right
-	 * @param op
-	 * @return
+	 * @param left Left side of the operator
+	 * @param right Right side of the operator
+	 * @param op Operator reference
+	 * @return Expression type
 	 * @throws InvalidExpressionException 
 	 */
 	public Type andOPType(Type left, Type right, OoplssAST op) 
