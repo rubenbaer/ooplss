@@ -89,13 +89,11 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 			{
 				logger.fine("<Type>Resolving method arguments");
 				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				if (method != null) {
-					for (int i = 0; i < list_arg.size(); i++) {
-						symtab.checkArgumentType(
-							method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
-							(OoplssAST)(list_arg.get(i))
-						);
-					}
+				for (int i = 0; i < list_arg.size(); i++) {
+					symtab.checkArgumentType(
+						method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
+						(OoplssAST)(list_arg.get(i))
+					);
 				}
 			}
 			;
@@ -209,13 +207,11 @@ memberAccess	returns [Type type]
 				)
 			{
 				logger.fine("<Type>Determine expression type of memberaccess");
-				if ($right.type != null) {
-					$CALLOPERATOR.setEvalType($right.type);
-					logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
-					type = $right.type;
-					logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
-					$CALLOPERATOR.setRealType($left.type);
-				}
+				$CALLOPERATOR.setEvalType($right.type);
+				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
+				type = $right.type;
+				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
+				$CALLOPERATOR.setRealType($left.type);
 			}
 			;
 	
