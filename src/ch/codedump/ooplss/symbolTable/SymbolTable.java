@@ -9,6 +9,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
@@ -250,7 +251,20 @@ public class SymbolTable {
 	 * @throws IllegalAssignmentException 
 	 */
 	public void checkAssignment(OoplssAST assign, OoplssAST var, OoplssAST stmt) 
-			throws IllegalAssignmentException {
+			throws OoplssException {
+		OoplssAST methodSym = null;
+		
+		if (var.getToken().getType() == OoplssLexer.METHODCALL) {
+			methodSym = var;
+		} else if (assign.getToken().getType() == OoplssLexer.CALLOPERATOR &&
+				((OoplssAST)var.getChild(1)).getToken().getType() == OoplssLexer.METHODCALL) {
+			methodSym = (OoplssAST)var.getChild(1);
+		}
+		
+		if (methodSym != null) {
+			throw new IllegalAssignmentToMethodException(var);
+		}
+		
 		if (!this.canAssignTo(var, stmt)) {
 			throw new IllegalAssignmentException(assign.token, var, stmt);
 		}
