@@ -171,6 +171,24 @@ public class TestMemberResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testComplicatedMemberResolving() throws Exception {
+		// m().foo.bar();
+		
+		String str = 	"class Foo {" +
+						"	var foo:Foo;" +
+						"	def m():Foo {" +
+						"		return new Foo();" +
+						"	}" +
+						"	def bar():Void {}" +
+						"	def run():Void {" +
+						"		m().foo.bar();" +
+						"	}" +
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 
