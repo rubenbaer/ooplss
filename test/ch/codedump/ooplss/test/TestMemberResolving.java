@@ -117,7 +117,7 @@ public class TestMemberResolving extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=UnknownDefinitionException.class)
+	@Test (expected=IllegalMemberAccessException.class)
 	public void testInvalidFunctionResolving() throws Exception {
 		String str = 	"class a {" +
 						"	var x:b;" +
