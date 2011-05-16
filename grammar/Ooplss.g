@@ -1,4 +1,5 @@
 grammar Ooplss;
+
 options {
   k=2; 
   backtrack=false;
@@ -34,7 +35,6 @@ tokens {
   CONSTRUCTORDEF;
   SUPER;
 }
-
 
 @header {
 package ch.codedump.ooplss.antlr;
@@ -101,8 +101,8 @@ methodDef
       ;
       
 superConstructorCall
-      : ID '(' (statement (',' statement)*)? ')'
-        ->  ^(SUPER ID statement*)
+      : ID '(' (expression (',' expression)*)? ')'
+        ->  ^(SUPER ID expression*)
       ;
     
 argumentDeclList   
@@ -120,60 +120,40 @@ subTypeArg
       ;
 
 methodBlock  
-      : '{' (blockStatement)* '}'
-        -> ^(METHODBLOCK blockStatement*)
+      : '{' (statement)* '}'
+        -> ^(METHODBLOCK statement*)
       ;
   
 block     
-      : '{' (blockStatement)* '}' 
-        -> ^(BLOCK blockStatement*)
+      : '{' (statement)* '}' 
+        -> ^(BLOCK statement*)
       ;
 
-blockStatement  
-options {
-  k=2;
-  backtrack=false;
-}
+statement  
       : varDef ';'!
       | block
       | retStmt ';'!
       | ifStmt
       | whileStmt
-      | statement ';'!
-      //|  assignment ';'!
-      | ';'!
-      ;
-
-assignmentEntry // helper rule for debugging and testing
-      :  assignment EOF 
-      ;
-			
-assignment
-options {
-k=2;
-backtrack=true;
-}      
-      : varAccess '=' statement
-        -> ^('=' varAccess statement)
+      | expression ';'!
       ;
     
 varAccess  
       : (
-            ID 
-              -> ^(VARACCESS ID)
-          | 'self' selfVarAccess 
-          | ID '('  (arg+=statement (',' arg+=statement)* )? ')' 
-              -> ^(METHODCALL ID ^(METHODARGS $arg+)?)
+          ID -> ^(VARACCESS ID)
+        | ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
+          -> ^(METHODCALL ID ^(METHODARGS $arg*))
+        | 'self' selfVarAccess
         )
-        ( 
+        (
             '.' oper=callOperatorAccess -> ^('.' $varAccess $oper)
         )*
       ;
       
 callOperatorAccess
-      : id=ID '(' (arg+=statement (',' arg+=statement)* )? ')'
-         -> ^(METHODCALL $id ^(METHODARGS $arg+)?)
-      | '.' id=ID
+      : id=ID '(' (arg+=expression (',' arg+=expression)* )? ')'
+         -> ^(METHODCALL $id ^(METHODARGS $arg*))
+      | id=ID
          -> ^(MEMBERACCESS $id)
       ;
       
@@ -183,19 +163,15 @@ selfVarAccess
       
 callOperatorSelfVarAccess
       : ID -> ^('.' SELF ^(MEMBERACCESS ID))
-      | ID '('  (arg+=statement (',' arg+=statement)* )? ')'
-        -> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg+)?))
+      | ID '('  (arg+=expression (',' arg+=expression)* )? ')'
+        -> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg*)))
       ;
 
 retStmt
-      : 'return' statement
-        -> ^(RETURN statement)
+      : 'return' expression
+        -> ^(RETURN expression)
       | 'return'
         -> ^(RETURN)
-      ; 
-
-statement
-      : expression
       ;
     
 expression
@@ -203,7 +179,7 @@ expression
       ;
 
 orExpr
-      : andExpr ('||'^ andExpr)? 
+      : andExpr ('||'^ andExpr)?
       ;
 
 andExpr
@@ -223,12 +199,12 @@ dashExpr
       ; 
 
 pointExpr
-      :  atom (('*'^|'/'^) atom)*
+      : atom (('*'^|'/'^) atom)*
       ;
 
 newObject
-      : 'new' ID '(' (arg+=statement (',' arg+=statement)* )? ')'
-        -> ^(NEW ID ^(METHODARGS $arg+)?)
+      : 'new' ID '(' (arg+=expression (',' arg+=expression)* )? ')'
+        -> ^(NEW ID ^(METHODARGS $arg*))
       ;
 
 atom
@@ -247,20 +223,24 @@ literal
       ;
     
 ifStmt
-      : 'if' '(' statement ')' trueblock=block 
+      : 'if' '(' expression ')' trueblock=block 
         elseifStmt*  ('else' falseblock=block)?
-       -> ^(IFSTMT statement $trueblock elseifStmt*  ^(ELSE $falseblock)?)  
+       -> ^(IFSTMT expression $trueblock elseifStmt*  ^(ELSE $falseblock)?)  
       ;
     
 elseifStmt
-      : ('elseif' '(' stmt=statement ')' blocK=block)
-         -> ^(ELIF $stmt $blocK)
+      : 'elseif' '(' expression ')' block
+         -> ^(ELIF expression block)
       ;
       
 whileStmt    
-      : 'while' '(' statement')' block
-        -> ^(WHILESTMT statement block) 
+      : 'while' '(' expression ')' block
+        -> ^(WHILESTMT expression block) 
       ;
+      
+//*****************************************************************************/
+// LEXER
+//*****************************************************************************/
 
 // got that from the java.g example
 COMMENT    
