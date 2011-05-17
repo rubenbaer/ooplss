@@ -145,20 +145,31 @@ options {
 }
       : expression ';'!
       | varAccess '=' expression ';' -> ^('=' varAccess expression)
-      ;      
+      ;
     
 varAccess
       : ID
-        ( '.' expr2=varAccess -> ^('.' ^(VARACCESS ID) $expr2)
+        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(VARACCESS ID) $expr2)
 	      | -> ^(VARACCESS ID)
 	      )
       | ID argsMethodcall
-	      ( '.' expr2=varAccess -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
+	      ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
         | -> ^(METHODCALL ID argsMethodcall)
         )
       | 'self'
-	      ( '.' expr2=varAccess -> ^('.' ^(SELF) $expr2)
+	      ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(SELF) $expr2)
 	      | -> ^(SELF)
+        )
+      ;
+    
+varAccessWithoutSelf
+      : ID
+        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(VARACCESS ID) $expr2)
+        | -> ^(VARACCESS ID)
+        )
+      | ID argsMethodcall
+        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
+        | -> ^(METHODCALL ID argsMethodcall)
         )
       ;
       
