@@ -1,5 +1,5 @@
-\part{Language Specification}
-\chapter{Design Principles}
+\chapter{Language Specification}
+\section{Design Principles}
 The type system used for \ooplss is similar to that of \emph{TooL}
 \cite{gawecki_tool:_1995}. Many important aspects differ from
 \emph{TooL}. The used principles are these:
@@ -52,8 +52,8 @@ available. This helps to keep the language small.
 
 Further details in discussion!
 
-\chapter{Syntax}
-\section{Abstract Syntax}
+\section{Syntax}
+\subsection{Abstract Syntax}
 The abstract syntax gives a short overview of \ooplss. This syntax is
 not normalised and does not corresponds with the syntax used in the
 implementation.
@@ -96,14 +96,14 @@ implementation.
 	\label{lst:abstractSyntax}
 \end{listing}
 
-\section{Names and Identifiers}
+\subsection{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The
 definition of names can have different origins and depends on the current
 context of consideration which is given by its scope.
 
 \todo{Method overloading!}
 
-\section{Scopes}
+\subsection{Scopes}
 \ooplss uses lexical scoping to define the validity of expressions and 
 variables which is similar to that of Java. Generally there exists a global
 scope wherein the class definitions are. Within each class is a class-scope
@@ -137,7 +137,7 @@ class A {
 }
 \end{lstlisting}
 %Literals, Delimiters, 
-\section{Whitespace and Comments}
+\subsection{Whitespace and Comments}
 Whitespace characters and comments separate single tokens in \ooplss. A
 whitespace can either be a blank, a tab or a newline character.
 
@@ -148,7 +148,7 @@ can not be nested. The second kind comes in the C++-style and is a single-
 line comment which starts with `//'. The character sequence behind this token
 until to the next newline is ignored.
 
-\chapter{Language Semantics}
+\section{Language Semantics}
 %Classes build the foundation of \ooplss and contain one of the
 %differences known in today's languages\todo{which one?}
 %. 
@@ -160,7 +160,7 @@ and \emph{subtypeOf}. The difference between both is the moment of
 the self-type binding. For formal treatment a class is considered as a
 unordered record \cite{simons_theory_2002-1}.
 
-\section{Extension as Subtyping}
+\subsection{Extension as Subtyping}
 Extension is one sort of class combination in \ooplss. With extension the concept
 of nominal subtyping is implemented which is the same as \emph{extends} in Java.
 Since \ooplss knows two sorts of combinators, a clear distinguishable keyword is
@@ -189,10 +189,10 @@ class B subtypeOf A {
 
 \todo{Base reference}
 
-\subsection{Extension Class Combinator}
+\subsubsection{Extension Class Combinator}
 \todo{Combination operator (No method overloading)}
 
-\section{Inheritance as Subclassing}
+\subsection{Inheritance as Subclassing}
 Inheritance is the second class combinator in \ooplss. It is postulated
 by Simons' Theory of Classification \cite{simons_theory_2004-2}.
 This combination is not only a sort of class extension with code
@@ -287,10 +287,10 @@ public class B {
 }
 \end{lstlisting}
 
-\subsection{Inheritance Class Combinator}
+\subsubsection{Inheritance Class Combinator}
 \todo{Combination operator}
 
-\section{Introducing \mytype}
+\subsection{Introducing \mytype}
 With subclassing an other sort of class combination is introduced. By
 observing the listings \ref{lst:subclassOf} and \ref{lst:javaTrans}
 one may see something rather strange. While class \A has a recursive
@@ -375,7 +375,7 @@ public class B {
 }
 \end{lstlisting}
 
-\subsection{\mytype in Subtyping}
+\subsubsection{\mytype in Subtyping}
 \label{ssec:mytypeInSubtype}
 The \mytype was now introduced to fix typing problems within
 inheritance. This rises the question whether a \mytype is suitable
@@ -452,7 +452,7 @@ For this the self compatibility is defined as follow:
 	For every class \A it is true that $self : MyType$ but not that $A <: MyType$
 \end{defn}
 
-\subsection{Binding Moment of \mytype}
+\subsubsection{Binding Moment of \mytype}
 To fit the behaviour described in \cref{ssec:mytypeInSubtype} in
 a uniform model of extension and inheritance the binding moment
 of \mytype needs to be considered more clearly. For this listing
@@ -512,7 +512,7 @@ First of all, a \base reference does here not make any sense since
 \C does not have a supertype except \object and \object does most 
 of the time not provide a method that is wanted.
 
-\subsection{Resolving Extension Ambiguity}
+\subsubsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
 Lets consider the extension and inheritance hierarchy in \cref{fig:hierarchy}
 again. It is clear that \C inherits \B. But what about the extension of \A 
@@ -538,10 +538,10 @@ subclass compatible anymore, i.e., the \mytype is used wherever possible.
 	\label{fig:fixedHierarchy}
 \end{figure}
 %
-%\subsection{Method Overloading and Mutual Recursion}
-%\subsection{}
+%\subsubsection{Method Overloading and Mutual Recursion}
+%\subsubsection{}
 
-\section{Type Relations}
+\subsection{Type Relations}
 \ooplss knows two different type relations. On one hand there exists
 subtyping which is well known in typed object-oriented programming
 languages denoted with <: respectively as a straight line in diagrams. On
@@ -564,14 +564,14 @@ C <\!\!\#~B
 
 %\ref{alg:match} makes problems
 
-%\subsection{Matching is Compatible with Subtyping}
+%\subsubsection{Matching is Compatible with Subtyping}
 
 Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
 consideration even if other object types would match types of other
 hierarchies.
 
-\subsection{Matching Embeds Subtyping}
+\subsubsection{Matching Embeds Subtyping}
 Now, after some considerations about matching, lets take a look at
 proposition \ref{prop:matching}. Bruce is stated that `matching is
 the same as subtyping in the absence of the MyType construct.' From
@@ -603,10 +603,10 @@ proven for \ooplss.
 %	\inferrule*[Right=foo]{A}{B}
 %\end{mathpar}
 
-\section{Class Combinators Refined}
+\subsection{Class Combinators Refined}
 \todo{Give a full specification of class combinators with mytype and base rewriting}
 
-\section{Class Parametrisation}
+\subsection{Class Parametrisation}
 So far the introduction of a \mytype and proper inheritance gives the
 advantage of proper code reuse within the type system and specialisation
 of binary methods compared to other language. At a first glance all
@@ -621,7 +621,7 @@ These generics does only allow f-bounds with subtypes but not with
 subclasses what is different in \ooplss because of the matching relation
 between two subclasses.
 
-\subsection{Translation by Mimic Templates}
+\subsubsection{Translation by Mimic Templates}
 Knowing that \ooplss class parametrisation is not compatible with that
 from Java since Java knows only bounds on subtypes an other more open
 solution is needed.  Using matching as bound provides information that
@@ -741,7 +741,7 @@ public class Main {
 }
 \end{lstlisting}
 
-\subsection{Specialising Parametrised Classes}
+\subsubsection{Specialising Parametrised Classes}
 As seen, parametrising classes with matching does now fit well in
 the whole model. However, since parametrised classes can be too,
 this is now shown that this is straightforward as well. For the
@@ -780,7 +780,7 @@ public interface SpecialContainer<X> extends Container<X> {
 }
 \end{lstlisting}
 
-\subsection{Avoid Type Erasure}
+\subsubsection{Avoid Type Erasure}
 The idea of generating extended class instead of using the run-time
 generic support from Java is not new even the idea is a bit different
 but has the same consequences. Robert Cartwright and Guy Steele proposed
@@ -801,7 +801,7 @@ code generation which \ooplss does not have so far. A further but not
 that relevant problem is the generated code overhead.
 
 % TODO: If any time. Write this here...
-%\subsection{Implicitly Parametrised Classes with \mytype}
+%\subsubsection{Implicitly Parametrised Classes with \mytype}
 %At last in this section about parametrisation lets consider the \mytype
 %construct. 
 %
@@ -824,7 +824,7 @@ that relevant problem is the generated code overhead.
 %
 %\end{lstlisting}
 
-%\subsection{No \#-Types in \ooplss}
+%\subsubsection{No \#-Types in \ooplss}
 %Research languages like \emph{LooM}, its successor
 %\emph{polyToil} or $\mathcal{MOOL}$ are all showing how
 %matching can be integrated into object-oriented languages
@@ -832,11 +832,11 @@ that relevant problem is the generated code overhead.
 %\todo{Remove this section}
 
 %Class definition
-%\section{Constructors}
-%\section{Evaluation Order}
-\section{Basic Types}
+%\subsection{Constructors}
+%\subsection{Evaluation Order}
+\subsection{Basic Types}
 
-\subsection{Primitive Types}
+\subsubsection{Primitive Types}
 int, float, string, bool, char
 
 

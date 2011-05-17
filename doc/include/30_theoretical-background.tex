@@ -1,5 +1,5 @@
-\part{Theoretical Background}
-\chapter{Introduction}
+\chapter{Theoretical Background}
+\section{Introduction}
 In modern object-oriented programming languages \emph{subtyping} is
 the fundamental concept of \emph{subclassing} and inheritance since
 subclassing comes hand in hand with subtyping it self. If a subclass
@@ -16,7 +16,7 @@ is not. But to make subclassing practical at work an additional relation
 needs to be introduced: \emph{matching}. Matching raises the language
 to function-bounded typing with recursive self types.
 
-\chapter{Subtyping and Subclassing}
+\section{Subtyping and Subclassing}
 \label{chap:subtypingVsSubclassing}
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
@@ -24,7 +24,7 @@ the widely known object oriented programming languages like Java, Eiffel
 or C++, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
-\section{Subtyping}
+\subsection{Subtyping}
 Subtyping is a binary relation, denoted with `<:', which defines
 a substitution relation between two types and is one style of type
 polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
@@ -73,7 +73,7 @@ change in the hierarchy upwards.
 if $X <: A$ and $B <: Y$ then $A \rightarrow B <: X \rightarrow Y$
 \end{defn}
 
-\subsection{Variance}
+\subsubsection{Variance}
 Variance classifies the type change within the type hierarchy. These
 terms are introduced in category theory and were adopted to type theory
 \cite{pierce_basic_1991}.
@@ -92,7 +92,7 @@ terms are introduced in category theory and were adopted to type theory
 	e.g., $X \rightarrow A$ <: $X \rightarrow B$ if $B$ <: $A$.
 \end{description}
 
-\subsection{Liskov Substitution Principle}
+\subsubsection{Liskov Substitution Principle}
 \begin{quotation}
 `Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
 $q(y)$ should be true for objects $y$ of type $S$ where $S$ is a subtype
@@ -113,7 +113,7 @@ strong coupling of subtyping and subclassing in languages like Java,
 subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this
 problem.
 
-\section{Sharing Types Versus Implementation}
+\subsection{Sharing Types Versus Implementation}
 \label{sec:sharingTypes}
 
 Although the term \emph{class} is used in modern class-based object-oriented
@@ -186,7 +186,7 @@ how one could want to derive and reuse code, in this case the x and
 y coordinates. Because of that, inheritance (and reuse) of code and
 subtyping should be treated differently.
 
-\section{Binary Methods and the Problem of Recursive Closure}
+\subsection{Binary Methods and the Problem of Recursive Closure}
 \label{sec:recursiveClosure}
 Another problem of the subtyping concept in object-oriented languages is
 the problem of contravariance: the arguments of a method that is derived
@@ -259,7 +259,7 @@ To get rid of this, a language would need to specialise parameters
 covariant. This is possible in Eiffel but this makes the type system
 unsafe. Later, a type safe alternative will be presented.
 
-\section{Schizophrenic Self-Reference}
+\subsection{Schizophrenic Self-Reference}
 \label{sec:schizoReferences}
 
 In objects there has to be some recursion variable that refers to the
@@ -341,7 +341,7 @@ This is how the fixation of self-references is done in the subtyping
 concept: before the combination, i.e., inheritance, of the objects. In the
 concept of subclassing however, it is done after the combination.
 
-\section{Subclassing}
+\subsection{Subclassing}
 The goal of the concept of subclassing is now to provide a somewhat
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
@@ -362,7 +362,7 @@ placeholder is then substituted with the current type after the
 inheritance respectively after the inheritance in a subtyping environment.
 \todo{Some further explanations are necessary}
 
-\chapter{Making Subclassing Practical}
+\section{Making Subclassing Practical}
 \label{ctr:makingSubclassingPractical}
 % estimated pages: 2-3
 Subtyping is one of the most fundamental and most well known relation
@@ -380,7 +380,7 @@ this interpretation is more difficult for the users of the language since
 the semantic does not 
 
 %% Already coverded above
-%\section{Binary Methods}
+%\subsection{Binary Methods}
 %A binary method is a method with parameters of the same type as the
 %receiver of the method, i.e., the \self reference in the method. The
 %name has the origins in the fact that such methods are binary relations
@@ -462,7 +462,7 @@ the semantic does not
 %and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
 %which is not a subtype.
 
-\section{Matching}
+\subsection{Matching}
 \begin{prop}[Matching]
 	\label{prop:matching}
 	Bruce defines matching as `the same as subtyping in the absence
@@ -564,7 +564,7 @@ pubic void break(node <# SinglyLinkedNode) {
 One can see that in this case matching is too weak. Without subsumption the type system
 can not know that \emph{newNode} is compatible with the object passed as parameter.
 
-\subsection{Match-Bounded Quantification}
+\subsubsection{Match-Bounded Quantification}
 However, the example in listing \ref{lst:break} is still not correctly
 typeable as long as it is only known that the matching relation between
 \emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
@@ -579,7 +579,7 @@ To tackle such unwanted inflexibility matching can be extended
 with type parametrisation, called match-bounded quantification
 \cite{abadi_subtyping_1996}. 
 
-\section{Type Operators}
+\subsection{Type Operators}
 A type operator is a function on type level mapping types to types. Type
 operators are important for the formal specification of matching and
 understanding of the concepts. In an object-oriented language the object
@@ -601,7 +601,7 @@ This can now be used to define the fixpoint of $A$ and is written as \[A^*
 
 \todo{(un)folding property and typing problems, other reference than simons}
 
-\section{Matching as F-Bounded Subtyping}
+\subsection{Matching as F-Bounded Subtyping}
 F-bounded subtyping\footnote{Short form function-bounded subtyping}
 is an extension to simple subtyping by adding parametrisation to
 types. F-bounded subtyping relation is often called \emph{generics}
@@ -637,8 +637,8 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}$
 \end{defn}
 
-%\section{Matching as Higher-Order Subtyping}
+%\subsection{Matching as Higher-Order Subtyping}
 %
 %TODO Ruben: write this section
-%\section{Example with Matching}
+%\subsection{Example with Matching}
 
