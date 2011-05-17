@@ -129,7 +129,7 @@ inheritance automatically creates a subtype and there is no escape
 from this. Of a practical point of view however, inheritance is merely
 a mechanism to reuse code in further specialisations of classes. This
 leads us to the first conflict: sharing types vs. the implementation. To
-understand this have a look at \cref{fig:implementationConflict}
+understand this have a look at \Cref{fig:implementationConflict}
 \cite{simons_theory_2003-4}:
 
 \begin{figure}[H]
@@ -345,16 +345,16 @@ concept of subclassing however, it is done after the combination.
 The goal of the concept of subclassing is now to provide a somewhat
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
-This solves the problem described in \cref{sec:sharingTypes}. Since
+This solves the problem described in \Cref{sec:sharingTypes}. Since
 subclassing does not create subtypes, the restriction of contravariance,
-described in \cref{sec:recursiveClosure}, is of no relevancy
+described in \Cref{sec:recursiveClosure}, is of no relevancy
 anymore. And as already mentioned, the fixation of the self references
 and types is done after the inheritance, so there will be no schizophrenic
-self-references as described in the first case in \cref{sec:schizoReferences}.  
+self-references as described in the first case in \Cref{sec:schizoReferences}.  
 \todo{are they cases clear structured?}\\
 
 In subclassing however, the question rises: how should return values and
-arguments be typed (see the second case in \cref{sec:schizoReferences})
+arguments be typed (see the second case in \Cref{sec:schizoReferences})
 when defining the methods and fields, since the programmer is not able to
 know of what type the subclass will be. This is why there has to be some
 sort of placeholder for such cases: the \emph{MyType}. The \emph{MyType}
@@ -391,12 +391,12 @@ the semantic does not
 %rise difficulties. This looks complete different in statically object-oriented
 %languages where subtyping is fundamental \cite{bruce_binary_1995}.
 %
-%\cref{lst:javaBinary} shows how subtyping can not prevent the
+%\Cref{lst:javaBinary} shows how subtyping can not prevent the
 %possibility to add objects of type \emph{SinglyLinkedNode} in a
 %\emph{DoublyLinkedNode} which is definitely incorrect and has to end
 %in a runtime exception. In subtyping existing object state variables
 %and methods like \emph{setNext} can not be further specialised. The
-%\cref{lst:javaBinary1} shows how the type system has to be escaped
+%\Cref{lst:javaBinary1} shows how the type system has to be escaped
 %by casts which is unsafe and.	However, these problems does not rise
 %from binary methods them self but in combination with subtyping and
 %inheritance since these concepts are associated with subsumption.
@@ -439,7 +439,7 @@ the semantic does not
 %\end{lstlisting}
 %
 %Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
-%the code in \cref{lst:break} can create a run time exception. As
+%the code in \Cref{lst:break} can create a run time exception. As
 %long as both parameters are objects of the exact same type the code runs
 %without any problem. On the other side if the parameter are from different
 %types an runtime error would occur since the parameter of \emph{setNext}
@@ -457,7 +457,7 @@ the semantic does not
 %methods. One may argue that it should be possible to change the parameters
 %of the objects in a contravariant way, i.e., that \emph{setNext}
 %and \emph{getNext} is typed as a method with parameters of type
-%\emph{DoublyLinkedNode}. As seen in \cref{chap:subtypingVsSubclassing}
+%\emph{DoublyLinkedNode}. As seen in \Cref{chap:subtypingVsSubclassing}
 %this would break the subtyping relation between \emph{SinglyLinkedNode}
 %and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
 %which is not a subtype.
@@ -552,7 +552,7 @@ the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
 Since matching is a weaker relation than subtyping the assumption of $a:A$
 and $A$ \match $B$ does not imply $a:B$ like subtyping does, i.e., matching
-can not help in situations illustrated in listing \ref{lst:matchbreak}.
+can not help in situations illustrated in Listing \ref{lst:matchbreak}.
 
 \begin{lstlisting}[float,label={lst:matchbreak},caption={Matching relation in the break method}]
 pubic void break(node <# SinglyLinkedNode) {
@@ -565,7 +565,7 @@ One can see that in this case matching is too weak. Without subsumption the type
 can not know that \emph{newNode} is compatible with the object passed as parameter.
 
 \subsubsection{Match-Bounded Quantification}
-However, the example in listing \ref{lst:break} is still not correctly
+However, the example in Listing \ref{lst:break} is still not correctly
 typeable as long as it is only known that the matching relation between
 \emph{DoublyLinkedNode} and \emph{SinglyLinkedNode} holds since assigning
 objects to variable is not safe if only is known that the variable's type
@@ -608,7 +608,7 @@ types. F-bounded subtyping relation is often called \emph{generics}
 and is written as $X$<:$B_{Op}(X)$ and gives the information that $X$
 extends $B$. The use of the bound against the type operator of $B$
 shows the function in the bound. Considering an example in Java in
-listing \ref{lst:generics} shows how this concept is implemented in a popular
+Listing \ref{lst:generics} shows how this concept is implemented in a popular
 programming language. Since every type that satisfies the f-bound can
 be used to replace the type parameter $X$, the formal type of $A$ is
 $\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the 
