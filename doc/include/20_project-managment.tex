@@ -1,5 +1,5 @@
-\part{Project Management and Technologies}
-\chapter{Methodologies}
+\chapter{Project Management and Technologies}
+\section{Methodologies}
 Many different software development processes have risen since the
 breakthrough of software developing. Two major trends can be recognised;
 Sequential and iterative design processes. Although iterative processes
@@ -11,7 +11,7 @@ difficult to perform. For example, extending subsequently the grammar may end
 in major changes in a language. However, a not very strict iterative
 model is chosen.
 
-\section{Iterative and Agile Development}
+\subsection{Iterative and Agile Development}
 This project was build iteratively in the sense of continuous
 refinement in the definition of the language. The language definition and
 implementation goes hand in hand and gives direct feedback. This makes it
@@ -22,7 +22,7 @@ compiler stages. Further is a small not every feature proposed implemented.
 First of all a core language needs to be fully enrolled which will be refined
 step by step.
 
-\section{Test-Driven Development}
+\subsection{Test-Driven Development}
 A major goal is to provide a good and robust code basis. To ensure that
 this claim holds, test-driven development is performed. With the use of
 unit tests code breaking changes can be easily detected. This is inevitable
@@ -30,15 +30,15 @@ since many parts are highly fragile, e.g., small changes in the grammar can
 cause many changes in the code since the grammar will recognise a complete
 other language.
 
-\section{Regular Meetings}
+\subsection{Regular Meetings}
 The Bern University of Applied Science does not provide a major in
 topics used in this thesis. To ensure success regular meetings with the
 supervisors are hold. With this early divergence and loss of target should
 be prevented. A meeting between the students team and the supervisor
 should be at least every two weeks.
 
-\chapter{Project Schedule}
-\section{Tasks}
+\section{Project Schedule}
+\subsection{Tasks}
 \paragraph{Kick-Off}
 In this first phase the tasks will be identified and shortly
 described. Since the prior knowledge of type systems and programming
@@ -92,15 +92,15 @@ After some type checking the code can be translated to the target language.
 \paragraph{Documentation}
 All over the project work the documentation will be extended and reflect the work done.
 
-\section{Diagram}
+\subsection{Diagram}
 \begin{sideways}
 	\centering
 	\input{include/21_gantt}
 \end{sideways}
 
-\chapter{Technologies}
+\section{Technologies}
 
-\section{Tools and Software}
+\subsection{Tools and Software}
 \begin{description}
 	\item[ANTLR3] ANTLR\footnote{ANother Tool for Language
 	Recognition} is an advanced LL(*) parser generator with support
@@ -128,14 +128,14 @@ All over the project work the documentation will be extended and reflect the wor
 	in the first weeks.
 \end{description}
 
-\section{Standards and Guidelines}
+\subsection{Standards and Guidelines}
 The source code of \ooplss, which is written in Java, follows the official
 guidelines from Oracle.
 \footnote{\href{http://www.oracle.com/technetwork/java/codeconv-138413.html}{http://www.oracle.com/technetwork/java/codeconv-138413.html}}
 
 For the project structure an appropriate structure for us was chosen.
 A detailed explanation is found in the project root's README
-respectively in listing \ref{lst:README}.
+respectively in Listing \ref{lst:README}.
 
 \begin{listing}
 	\VerbatimInput[frame=single,numbers=left,firstline=19,lastline=32]{../README.md}
