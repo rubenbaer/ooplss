@@ -129,43 +129,44 @@ block
         -> ^(BLOCK statement*)
       ;
 
-statement  
+statement
       : varDef ';'!
       | block
       | retStmt ';'!
       | ifStmt
       | whileStmt
-      | expression ';'!
+      | complexStatement
       ;
+      
+complexStatement
+options {
+  k=2;
+  backtrack=true;
+}
+      : expression ';'!
+      | varAccess '=' expression ';' -> ^('=' varAccess expression)
+      ;      
     
-varAccess  
-      : (
-          ID -> ^(VARACCESS ID)
-        | ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
-          -> ^(METHODCALL ID ^(METHODARGS $arg*))
-        | 'self' selfVarAccess
+varAccess
+      : ID
+        ( '.' expr2=varAccess -> ^('.' ^(VARACCESS ID) $expr2)
+	      | -> ^(VARACCESS ID)
+	      )
+      | ID argsMethodcall
+	      ( '.' expr2=varAccess -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
+        | -> ^(METHODCALL ID argsMethodcall)
         )
-        (
-            '.' oper=callOperatorAccess -> ^('.' $varAccess $oper)
-        )*
+      | 'self'
+	      ( '.' expr2=varAccess -> ^('.' ^(SELF) $expr2)
+	      | -> ^(SELF)
+        )
       ;
       
-callOperatorAccess
-      : id=ID '(' (arg+=expression (',' arg+=expression)* )? ')'
-         -> ^(METHODCALL $id ^(METHODARGS $arg*))
-      | id=ID
-         -> ^(MEMBERACCESS $id)
+argsMethodcall
+      : '(' (arg+=expression (',' arg+=expression)* )? ')'
+        -> ^(METHODARGS $arg*)
       ;
-      
-selfVarAccess
-      : '.' callOperatorSelfVarAccess
-      ;
-      
-callOperatorSelfVarAccess
-      : ID -> ^('.' SELF ^(MEMBERACCESS ID))
-      | ID '('  (arg+=expression (',' arg+=expression)* )? ')'
-        -> ^('.' SELF ^(METHODCALL ID ^(METHODARGS $arg*)))
-      ;
+
 
 retStmt
       : 'return' expression
