@@ -87,7 +87,7 @@ public class MethodSymbol extends ScopedSymbol {
 		try {
 			s = this.arguments.get(index);
 		} catch (IndexOutOfBoundsException e) {
-			throw new ArgumentDoesntMatchException(node);
+			throw new ArgumentDoesntMatchException(node, index);
 		}
 		
 		return s;

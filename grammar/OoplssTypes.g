@@ -82,7 +82,7 @@ selfAccess		returns [Type type]
 methodCall		returns [Type type]
 			:	^(METHODCALL ID .*)
 			{
-				logger.fine("<Type>Determining expression type of method call");
+				logger.fine("<Type>Determining expression type of method call " + $ID.text);
 				type = $ID.getSymbol().getType();
 				$METHODCALL.setEvalType(type);
 				$METHODCALL.setRealType(symtab.getEnclosingClassScope($ID.getScope()));
@@ -93,13 +93,12 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 			{
 				logger.fine("<Type>Resolving method arguments");
 				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				if (method != null) {
-					for (int i = 0; i < list_arg.size(); i++) {
-						symtab.checkArgumentType(
-							method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
-							(OoplssAST)(list_arg.get(i))
-						);
-					}
+				for (int i = 0; i < list_arg.size(); i++) {
+					symtab.checkArgumentType(
+						method.getArgument(i, (OoplssAST) list_arg.get(i)).getDef(), 
+						(OoplssAST)(list_arg.get(i)),
+						i
+					);
 				}
 			}
 			;
