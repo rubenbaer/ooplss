@@ -118,7 +118,7 @@ returnType
 /// BEGIN: EXPRESSIONS
 expr
       : ^(VARDEF type name=ID) -> vardef(name={$name.text}, type={$type.st})
-      | ^(RETURN (e=expr)?) -> return(expr={$e.st})
+      | ^(RETURN (s=statement)?) -> return(expr={$s.st})
       | ^(ASSIGN v=expr stmt=expr) -> assign(var={$v.st}, stmt={$stmt.st})
       | ifStatement -> {$ifStatement.st}
       | whileStatement -> {$whileStatement.st}
@@ -138,6 +138,7 @@ statement
       | binOperator -> {$binOperator.st}
       | newObject -> {$newObject.st}
       | calls -> {$calls.st}
+      | NULL -> {%{"null"}}
       ;
       
 block 

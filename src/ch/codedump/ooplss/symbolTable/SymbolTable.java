@@ -355,6 +355,16 @@ public class SymbolTable {
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
 		Type varType = var.getEvalType();
 		Type stmtType = stmt.getEvalType();
+		
+		if (stmt.getText().equals("NULL")
+			&& varType.getTypeIndex() != SymbolTable.tVOID) {
+			return true;
+		} 
+		if (stmt.getText().equals("NULL")
+				&& varType.getTypeIndex() == SymbolTable.tVOID) {
+				return false;
+		}
+		
 		if (varType.getTypeIndex() == SymbolTable.tMYTYPE) {
 			// check something else
 			logger.fine("MyType on the left");

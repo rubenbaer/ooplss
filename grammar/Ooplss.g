@@ -34,6 +34,7 @@ tokens {
   METHODBLOCK;
   CONSTRUCTORDEF;
   SUPER;
+  NULL;
 }
 
 @header {
@@ -188,6 +189,7 @@ retStmt
     
 expression
       : orExpr
+      | 'null' -> ^(NULL)
       ;
 
 orExpr
@@ -400,6 +402,10 @@ DEF
 
 NEW    
       : 'new'
+      ;
+      
+NULL
+      : 'null'
       ;
 
 RETURNSTMT  
