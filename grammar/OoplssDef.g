@@ -93,9 +93,13 @@ superClass	:	SUPERCLASS
 exitClass	:	CLASSDEF
 			{
 				logger.fine("<Def>Leaving a class");
+				((ClassSymbol)this.currentScope).checkForConstructor();
 				this.currentScope = this.currentScope.getEnclosingScope();
 			}
 			;
+catch [OoplssException e] {
+	error.reportError(e);
+}
 	
 enterMethod 
 			:	^(METHODDEF name=ID .*)

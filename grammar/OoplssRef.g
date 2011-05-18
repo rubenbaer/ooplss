@@ -276,7 +276,7 @@ catch [UnknownTypeException e] {
 leaveClass	:	^(CLASSDEF ID .*)
 			{
 				logger.fine("<Ref>Leaving a class, check for errors");
-				((ClassSymbol)$ID.getSymbol()).doChecks();
+				((ClassSymbol)$ID.getSymbol()).checkForOverridings();
 			}
 			;
 catch [OoplssException e] {
