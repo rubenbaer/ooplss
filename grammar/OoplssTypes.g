@@ -33,8 +33,8 @@ bottomup	:
 			 |	statement
 			 |	conditionals
 			 |	assignment
-			 |	returnStmt
 			 |	returnVoidStmt
+			 |	returnStmt
 			;
 			
 statement		

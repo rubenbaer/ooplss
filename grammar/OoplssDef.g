@@ -41,8 +41,8 @@ topdown		:	enterMethod
 			|	methodCall
 			|	superType
 			|	superClass
-			|	returnStmt
 			|	returnVoidStmt
+			|	returnStmt
 			|	//import
 			;
 	
