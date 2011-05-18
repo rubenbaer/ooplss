@@ -1,4 +1,5 @@
 \chapter{Theoretical Background}
+\label{ctr:threticalBackground}
 In modern object-oriented programming languages \emph{subtyping} is the
 fundamental and only concept for class combination. Often but imprecise it
 is called \emph{subclassing}  as well. However, this chapter investigates
@@ -77,12 +78,12 @@ terms are introduced in category theory and were adopted to type theory
 
 \begin{description}
 	\item[Invariance] No type change is allowed.
-	\item[Covariance] Type changes are only allowed downwards. If $A$
-	<: $B$ and $A'$ <: $B'$ and $B$ has a method with the return
-	type of $A'$ then the return type of the same method in $B$
-	has to be a subtype of $A'$, e.g., the return type can be $B'$
-	or $A'$ because of the reflexivity property of subtyping. As
-	example $A' \rightarrow X$ <: $B' \rightarrow X$.
+	\item[Covariance] Type changes are only allowed downwards. If $B$
+	<: $A$ and $Y$ <: $X$ and $A$ has a method with the return
+	type of $Y$ then the return type of the same method in $A$
+	has to be a subtype of $Y$, e.g., the return type can be $X$
+	or $Y$ because of the reflexivity property of subtyping. For
+	example $Y \rightarrow A$ <: $X \rightarrow A$.
 	\item[Contravariance] Contravariance is the opposite of
 	covariance. Type changes are only allowed upwards in the type
 	hierarchy. The type of function parameters are contravariance,
