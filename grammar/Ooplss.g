@@ -110,8 +110,8 @@ methodDef	:	(
 			;
 			
 superConstructorCall
-			:	ID '(' (statement (',' statement)*)? ')'
-				->  ^(SUPER ID statement*)
+			:	ID '(' (arg+=statement (',' arg+=statement)*)? ')'
+				->  ^(SUPER ID ^(METHODARGS $arg*))
 			;
 		
 argumentDeclList 	

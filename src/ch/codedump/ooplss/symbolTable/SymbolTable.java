@@ -12,9 +12,11 @@ import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
+import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.tree.OoplssAST;
@@ -294,6 +296,26 @@ public class SymbolTable {
 					(OoplssAST)(givenArgs.get(i)),
 					i
 				);
+			}
+		}
+	}
+	
+	/**
+	 * Check the super constructors
+	 * @param supers
+	 * @param constructor
+	 * @throws NoSuperTypeException
+	 * @throws UnknownSuperClassException
+	 */
+	public void checkSuperConstructors(List<OoplssAST> supers, OoplssAST constructor) 
+			throws NoSuperTypeException, UnknownSuperClassException {
+		if (supers != null) {
+			for (OoplssAST sup: supers) {
+				((ClassSymbol)constructor.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+				
+				MethodSymbol supCstr = ((ClassSymbol)sup.getSymbol()).getConstructor();
+				OoplssAST methodArgs = (OoplssAST) ((OoplssAST) sup.getParent()).getChild(1);
+				methodArgs.setScope(supCstr);
 			}
 		}
 	}

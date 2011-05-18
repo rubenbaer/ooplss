@@ -89,17 +89,14 @@ catch [UnknownTypeException e] {
 }			
 		
 enterConstructor
-			://	CONSTRUCTORDEF	
-				^(CONSTRUCTORDEF . (^(SUPER supers+=ID .*))* .)
+			:	^(CONSTRUCTORDEF . (^(SUPER supers+=ID .))* .)
 			{
 				logger.fine("<Ref>Entering a constructor");
 				Type t = this.symtab.resolveSpecialType("construct");
-				$CONSTRUCTORDEF.getSymbol().setType(t);
-				if (list_supers != null) {
-					for (Object sup: list_supers) {
-						((ClassSymbol)$CONSTRUCTORDEF.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
-					}
-				}
+				MethodSymbol constructor = (MethodSymbol)$CONSTRUCTORDEF.getSymbol();
+				constructor.setType(t);
+				
+				symtab.checkSuperConstructors(list_supers, $CONSTRUCTORDEF);
 			}
 			;	
 catch[OoplssException e] {
