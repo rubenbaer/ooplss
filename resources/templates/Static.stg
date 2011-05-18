@@ -1,7 +1,6 @@
 group Static;
 
 imports() ::= <<
-import java.io.*;
 >>
 
 app(classes) ::= <<
@@ -22,39 +21,57 @@ public class App {
 systemclasses() ::= <<
   public static class System {
     public String readln() {
+			java.io.BufferedReader in = null;
       try {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        in = new java.io.BufferedReader(new java.io.InputStreamReader(java.lang.System.in));
         return in.readLine();
-      } catch (Exception e) {
-        System.err.println(e.getMessage());
+      } catch (java.io.IOException e) {
+        java.lang.System.err.println(e.getMessage());
       } finally {
-        in.close();
+        try {
+          in.close();
+        } catch (java.lang.Exception e) {
+          
+        }
       }
       return "";
     }
     
     public String readfile(String filename) {
+			java.io.BufferedReader in = null;
       try {
-        BufferedReader in = new BufferedReader(new FileInputStream(filename));
-        return in.readLine();
-      } catch (Exception e) {
-        System.err.println(e.getMessage());
+        java.lang.StringBuilder builder = new java.lang.StringBuilder();
+        in = new java.io.BufferedReader(new java.io.FileReader(filename));
+        String lastline = null;
+        do {
+          lastline = in.readLine();
+          if (lastline != null) {
+            builder.append(lastline);
+          }
+        } while(lastline != null);
+        return builder.toString();
+      } catch (java.io.IOException e) {
+        java.lang.System.err.println(e.getMessage());
       } finally {
-        in.close();
+        try {
+          in.close();
+        } catch (java.lang.Exception e) {
+          
+        }
       }
       return "";
     }
     
     public void println(String str) {
-      System.out.println(str);
+      java.lang.System.out.println(str);
     }
     
     public void printlnInt(Integer i) {
-      System.out.println(i);
+      java.lang.System.out.println(i);
     }
     
     public void print(String str) {
-      System.out.println(str);
+      java.lang.System.out.println(str);
     }
   }
 >>

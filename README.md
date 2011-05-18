@@ -16,20 +16,27 @@ The software is licensed under the conditions of the GPLv3
 Directory Structure
 -------------------
 
-    ./articles  -- A bunch of articles used for the project 2
+    articles/  -- A bunch of articles used for the project 2
                    and this thesis
-              /tstp    -- Articles used in the project 2
-                          (Type Systems: Theory and Practice)
-              /beo1    -- Articles received from beo1 for the project 2
-              /ooplss  -- Some new articles for the thesis
-              /simons  -- A serie of articles written by Anthony J.H.
-                          Simons for the Journal of Object Technology
-    ./doc       -- Documentation
-    ./minutes   -- Minutes of our meetings
-    ./src       -- Source code
-    ./test      -- JUnit test code
-    ./build     -- Temporary build output directory
-    ./grammar   -- OOPLSS's grammar definition and grammar gunit tests
+              tstp/        -- Articles used in the project 2
+                              (Type Systems: Theory and Practice)
+              beo1/        -- Articles received from beo1 for project 2
+              ooplss/      -- Some new articles for the thesis
+              simons/      -- Serie of articles by Anthony J.H. Simons
+                              in the Journal of Object Technology
+    build/      -- Temporary directory for build output
+    dist/        -- Temporary distribution directory for packing
+              ooplss.jar  -- Executable JAR
+              html        -- Source documentation by doxygen
+              *.pdf        -- Project documentation
+              README      -- README
+    doc/        -- Documentation
+    grammar/    -- OOPLSS's grammar definition and grammar gunit tests
+    minutes/    -- Minutes of our meetings
+    misc/        -- 
+    resources/  -- Property files and code generation templates
+    src/        -- Source code
+    test/        -- JUnit test code
 
 
 A Very Short Introduction to Git

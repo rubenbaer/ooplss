@@ -1,5 +1,5 @@
-\part{Implementation}
-\chapter{Design}
+\chapter{Implementation}
+\section{Design}
 This chapter contains a description of the general compiler. Figure
 \ref{fig:compilerPhase} shows the different parts of the whole compiler
 software. For every phase exists a corresponding section.
@@ -38,7 +38,7 @@ language.
 The output translation back end is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
 
-\section{Lexer and Parser}
+\subsection{Lexer and Parser}
 The lexer and parser are both in the same file \emph{Ooplss.g} defined
 since they are strongly connected together. 
 
@@ -57,7 +57,7 @@ would support arbitrary lookahead.
 After this phase an abstract syntax tree is generated and ready to be visited
 and translated to other trees and output code.
 
-\section{Symbol Table Deployment}
+\subsection{Symbol Table Deployment}
 The first part that works on the abstract syntax tree is the deployment of
 the symbol table. This is divided into two separated compiler runs. The
 first identifies every symbol definition like classes, methods and
@@ -76,7 +76,7 @@ and child scopes can access the symbols in the parent scope.
 	define the validity of local defined variables.
 \end{description}
 
-\subsection{Define Symbols}
+\subsubsection{Define Symbols}
 This is the first phase of the symbol table deployment. Every single
 class, method and scope is visited with the depth first strategy and
 tracks every symbols definition and skips the use of the symbols. The
@@ -89,7 +89,7 @@ After this phase a symbol table is created for the whole program where
 every symbol in every scope is tracked. The table is in reality a tree
 which can resolve every valid symbol within a scope.
 
-\subsection{Referencing Symbols}
+\subsubsection{Referencing Symbols}
 This is the second phase of the symbol table promotion. Again, every scope
 is visited. However, in this run, the type definitions are resolved and
 promoted to the definition under consideration. Further more the symbols
@@ -103,10 +103,12 @@ in the tree.
 The result of this phase is a fully propagated symbol table. Every symbol can
 now be resolved within this tree with all necessary meta data.
 
-\section{Type Checking}
+\subsection{Type Checking}
 \todo{TODO!}
+\subsubsection{Decidability}
+\Cref{ctr:typeRules}
 
-\section{Translation}
+\subsection{Translation}
 Translation is the last stage of the back end from the compiler. It
 translates an abstract syntax tree which is type checked to the
 output language -- Java. The last tree grammar can be found in the
@@ -118,12 +120,12 @@ were created which cover the used language structures in Java. The
 templates are written in \st which is a dynamically typed and functional
 programming language. Matches in the abstract syntax tree does directly
 call a template which generates appropriate code. The detailed syntax
-equivalence of \ooplss to Java is described in \cref{ctr:translation}.
+equivalence of \ooplss to Java is described in \Cref{ctr:translation}.
 
 As result the intermediate language representation is translated to the
 output Java code which runs on the Java Virtual Machine.
 
-\chapter{Translation}
+\section{Translation}
 \label{ctr:translation}
 This chapter deals with the exact translation from \ooplss code segments
 to Java.
@@ -133,16 +135,11 @@ Done to java as seen in part III
 
 \todo{Export code and intermediate code in X\$\$...}
 
-\chapter{Algorithms}
-% estimated pages: 8
+\section{Tests}
+\subsection{Unit Testing}
+\subsubsection{GUnit -- A Grammar Testing Framework}
+\subsubsection{JUnit}
 
-\section{Decidability}
-
-\chapter{Tests}
-\section{Unit Testing}
-\subsection{GUnit -- A Grammar Testing Framework}
-\subsection{JUnit}
-
-\section{Examples}
-see \cref{ctr:exampleCode}
+\subsection{Examples}
+see \Cref{ctr:exampleCode}
 % estimated pages: 5

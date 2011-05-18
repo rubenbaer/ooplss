@@ -1,11 +1,11 @@
 class System {
-//	def readln() : String {
-//		return "";
-//	}
-//	
-//	def readfile(file : String) : String {
-//		return "";
-//	}
+	def readln() : String {
+		return "";
+	}
+	
+	def readfile(file : String) : String {
+		return "";
+	}
 	
 	def printlnInt(str : Int) : Void {
 	}
