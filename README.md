@@ -16,7 +16,6 @@ The software is licensed under the conditions of the GPLv3
 Directory Structure
 -------------------
 
-./             -- Project root
     articles/  -- A bunch of articles used for the project 2
                    and this thesis
               tstp/        -- Articles used in the project 2
