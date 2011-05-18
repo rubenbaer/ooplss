@@ -1,20 +1,17 @@
 \chapter{Theoretical Background}
-\section{Introduction}
-In modern object-oriented programming languages \emph{subtyping} is
-the fundamental concept of \emph{subclassing} and inheritance since
-subclassing comes hand in hand with subtyping it self. If a subclass
-is defined a subtype is defined as well. This part shows that it is
-likely to have subclasses that are not a subtype of the parent as well
-class since subtyping does not hold between two object types that are
-not unnaturally in a programmer's daily work. One of the best known
-examples are recursive types with binary methods.
+In modern object-oriented programming languages \emph{subtyping} is the
+fundamental and only concept for class combination. Often but imprecise it
+is called \emph{subclassing}  as well. However, this chapter investigates
+the differences between the two concepts of subtyping and subclassing. Even
+subtyping has its own advantages it is also limited in expressiveness if
+binary methods are used and these appear in a programmer's daily work.
 
 This parts introduces these concepts mentioned above and where subtyping
-and where subclassing is wanted and explains where the difference are.  Subtyping
-is used for polymorphism in object-oriented languages, whereas subclassing
-is not. But to make subclassing practical at work an additional relation
-needs to be introduced: \emph{matching}. Matching raises the language
-to function-bounded typing with recursive self types.
+and where subclassing is wanted and explains where the difference are.
+Subtyping is used for polymorphism in object-oriented languages,
+whereas subclassing is not. But to make subclassing practical at work
+an additional relation needs to be introduced: \emph{matching}. Matching
+raises the language to function-bounded typing with recursive self types.
 
 \section{Subtyping and Subclassing}
 \label{chap:subtypingVsSubclassing}
@@ -192,7 +189,6 @@ Another problem of the subtyping concept in object-oriented languages is
 the problem of contravariance: the arguments of a method that is derived
 and overwrites the same method in the super type can only have a more
 general or same argument type, but not a more specific one:
-\todo{Redundancy?}
 
 \begin{figure}[H]
 	\centering
@@ -325,9 +321,10 @@ class Vec3D extends Vec2D {
 	bool equals(Vec2D vec) {
 		// Self is of Vec3D type
 		if (vec instanceof Vec3D)
-			return false;
-		// Uses insecure type casting
-		retrun super.equals(vec) && self.z == ((Vec3D)vec).z;
+			// Uses insecure type casting
+			return super.equals(vec) && self.z == ((Vec3D)vec).z;
+
+		return false;
 	}
 }
 \end{lstlisting}
@@ -425,7 +422,7 @@ the semantic does not
 %		return this.prev;
 %	}
 %	
-%	// Not typeable expression in Java.
+%	// Not typeable expression in Java due to the contravariance rule
 %	public setNext(DoublyLinkedNode next) {
 %			this.next = next;
 %			next.prev = this;
