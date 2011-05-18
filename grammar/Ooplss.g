@@ -1,7 +1,7 @@
 grammar Ooplss;
 
 options {
-  k=2; 
+  k=2 ; 
   backtrack=false;
   output=AST;
 }
@@ -141,38 +141,33 @@ statement
       
 complexStatement
 options {
-  k=2;
   backtrack=true;
 }
       : expression ';'!
       | varAccess '=' expression ';' -> ^('=' varAccess expression)
       ;
-    
+      
+varAccessEOF
+      : varAccess EOF
+      ;
+          
 varAccess
-      : ID
-        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(VARACCESS ID) $expr2)
-	      | -> ^(VARACCESS ID)
-	      )
-      | ID argsMethodcall
-	      ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
-        | -> ^(METHODCALL ID argsMethodcall)
-        )
-      | 'self'
-	      ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(SELF) $expr2)
-	      | -> ^(SELF)
-        )
-      ;
-    
-varAccessWithoutSelf
-      : ID
-        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(VARACCESS ID) $expr2)
-        | -> ^(VARACCESS ID)
-        )
-      | ID argsMethodcall
-        ( '.' expr2=varAccessWithoutSelf -> ^('.' ^(METHODCALL ID argsMethodcall) $expr2)
-        | -> ^(METHODCALL ID argsMethodcall)
-        )
-      ;
+	:
+	( ID 
+	  ->  ^(CALLOPERATOR SELF  ^(VARACCESS ID))
+	|'self' 
+	  -> ^(SELF)
+	| 	ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
+	        ->^(CALLOPERATOR SELF  ^(METHODCALL ID ^(METHODARGS $arg*)))
+	)
+	( '.' 
+	  ( id=ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
+	    -> ^(CALLOPERATOR $varAccess ^(METHODCALL $id ^(METHODARGS $arg*)))
+	  | id=ID 
+	    -> ^(CALLOPERATOR $varAccess ^(MEMBERACCESS $id))
+	  )
+	)*
+;
       
 argsMethodcall
       : '(' (arg+=expression (',' arg+=expression)* )? ')'
