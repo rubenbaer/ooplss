@@ -14,6 +14,7 @@ public class TestEqualityType extends OoplssTest {
 						"		3 == 3;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -25,6 +26,7 @@ public class TestEqualityType extends OoplssTest {
 						"		3 != 4;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -36,6 +38,7 @@ public class TestEqualityType extends OoplssTest {
 						"		3 == \"abc\";\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -47,6 +50,7 @@ public class TestEqualityType extends OoplssTest {
 						"		true == true;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -59,6 +63,7 @@ public class TestEqualityType extends OoplssTest {
 						"		x == 3;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();	
 	}
@@ -71,6 +76,7 @@ public class TestEqualityType extends OoplssTest {
 						"		x == \"abc\";\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();	
 	}

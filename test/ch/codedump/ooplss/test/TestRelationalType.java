@@ -14,6 +14,7 @@ public class TestRelationalType extends OoplssTest {
 						"		3 > 2;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -25,6 +26,7 @@ public class TestRelationalType extends OoplssTest {
 						"		3 >= 2;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -36,6 +38,7 @@ public class TestRelationalType extends OoplssTest {
 						"		2 < 3;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}	
@@ -47,6 +50,7 @@ public class TestRelationalType extends OoplssTest {
 						"		2 <= 3;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -58,6 +62,7 @@ public class TestRelationalType extends OoplssTest {
 						"		true < false;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}

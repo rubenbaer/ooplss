@@ -91,6 +91,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        new Foo();\n" + 
 						"    }\n" + 
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}

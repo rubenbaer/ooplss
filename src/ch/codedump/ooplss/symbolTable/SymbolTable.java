@@ -15,6 +15,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
 import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
+import ch.codedump.ooplss.symbolTable.exceptions.StandaloneStatementException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
@@ -28,6 +29,8 @@ public class SymbolTable {
 	
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
+	private boolean checkForStandalones = true;
+	
 	public SymbolTable() {
 		SymbolTable.GLOBAL = new GlobalScope();
 		try {
@@ -36,6 +39,13 @@ public class SymbolTable {
 		} catch (Exception e) {}
 		
 		
+	}
+	
+	/**
+	 * Disable the standalone check
+	 */
+	public void disableStandaloneCheck() {
+		this.checkForStandalones = false;
 	}
 	
 	/**
@@ -363,6 +373,26 @@ public class SymbolTable {
 		ret.setRealType(t);
 		if (t.getTypeIndex() != SymbolTable.tVOID) {
 			throw new WrongReturnValueException(ret);
+		}
+	}
+	
+	/**
+	 * Check if there are statements that cannot stand alone
+	 * @param list_stmts
+	 * @throws StandaloneStatementException 
+	 */
+	public void checkStandloneStatements(List<OoplssAST> list_stmts) 
+			throws StandaloneStatementException {
+		if (this.checkForStandalones) {
+			if (list_stmts != null) {
+				for (int i = 0; i < list_stmts.size(); i++) {
+					boolean sta = ((OoplssAST)list_stmts.get(i)).getStandalone();
+					logger.fine("<Ref>Standalone flag: " + sta);
+					if (!sta) {
+						throw new StandaloneStatementException(list_stmts.get(i));
+					}
+				}
+			}
 		}
 	}
 	

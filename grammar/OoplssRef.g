@@ -40,9 +40,21 @@ topdown		:	enterMethod
 			|	enterConstructor
 			|	subType
 			|	subClass
+			| 	standalones
 			;
 			
-bottomup	:	leaveClass;
+bottomup	:	leaveClass
+			|	block;
+
+block		:	(^(BLOCK (stmts+=.)*)|^(METHODBLOCK (stmts+=.)*))
+			{
+				logger.fine("<Ref>Examining block statements");
+				symtab.checkStandloneStatements(list_stmts);
+			}
+			;
+catch [OoplssException e] {
+	error.reportError(e);
+}
 			
 subType		: 	^(SUPERTYPE supertype=ID)
 			{
@@ -112,6 +124,8 @@ varDef		:	^(VARDEF type=ID name=ID)
 					throw new CannotUseVoidOnVariableException($name);
 				}
 				$name.getSymbol().setType(t);
+				
+				$VARDEF.setStandalone();
 			};
 catch [UnknownTypeException e] {
   error.reportError(e);
@@ -184,6 +198,8 @@ methodCall		returns [Type type]
 					logger.fine("<Ref>Set scope of method arguments");
 					$args.setScope((MethodSymbol)s);
 				}
+				
+				$METHODCALL.setStandalone();
 			}
 			;
 catch[OoplssException e] {
@@ -201,7 +217,7 @@ selfAccess	returns [Type type]
 			;
 
 memberAccess 	returns [Type type]
-			:	^('.' (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
+			:	^(CALLOPERATOR (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
 					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID ^(args=METHODARGS .*)))
 				)
 			{
@@ -217,6 +233,10 @@ memberAccess 	returns [Type type]
 				if ($args != null) {
 					logger.fine("<Ref>Set scope of method arguments");
 					$args.setScope((MethodSymbol)s);
+				}
+				
+				if ($METHODCALL != null) {
+					$CALLOPERATOR.setStandalone();
 				}
 			}
 			;
@@ -292,3 +312,13 @@ rettype	returns [Type type]
 	}
 	;
 	*/
+
+standalones
+		:	(s=ASSIGN|s=RETURN|s=IFSTMT|s=WHILESTMT)
+		{
+			$s.setStandalone();
+		}
+		;
+		
+		
+		

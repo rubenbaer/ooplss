@@ -22,7 +22,7 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 public abstract class OoplssTest {
 	CommonTreeNodeStream nodes;
 	
-	SymbolTable symTab;
+	SymbolTable symTab = new SymbolTable();
 	
 	Tree t;
 	
@@ -31,6 +31,7 @@ public abstract class OoplssTest {
 	OoplssDef def;
 	OoplssRef ref;
 	OoplssTypes typer;
+	
 	
 	/**
 	 * Create the parser and lexer for code
@@ -49,7 +50,6 @@ public abstract class OoplssTest {
 		prog_return result = parser.prog();
 		this.t = (Tree)result.getTree();
 		
-		this.symTab = new SymbolTable();
 		this.nodes = new CommonTreeNodeStream(t);
 		
 		ErrorHandler.getInstance().setBreakOnError(false);

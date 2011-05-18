@@ -28,6 +28,15 @@ public class OoplssAST extends CommonTree {
 	protected Type evalType;
 	
 	/**
+	 * Whether the node can stand alone or not
+	 * 
+	 * In case of some statements they cannot stand alone
+	 * like 3 + 4; others like x = 3 + 4; can. If this is
+	 * the case, set this flag to true.
+	 */
+	protected boolean standalone = false;
+	
+	/**
 	 * The realtype
 	 * 
 	 * In case of class member access, the real type
@@ -102,5 +111,20 @@ public class OoplssAST extends CommonTree {
 	 */
 	public Type getRealType() {
 		return this.realType;
+	}
+	
+	/**
+	 * Set the standalone flag to true
+	 */
+	public void setStandalone() {
+		this.standalone = true;
+	}
+	
+	/**
+	 * Return the standalone flag
+	 * @return
+	 */
+	public boolean getStandalone() {
+		return this.standalone;
 	}
 }

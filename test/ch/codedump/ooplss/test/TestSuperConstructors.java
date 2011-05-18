@@ -24,7 +24,9 @@ public class TestSuperConstructors extends OoplssTest {
 		String str = 	"class bar {" +
 						"	def __construct() : base() {}" +
 						"}";
-		this.createTyper(str);
+		try {
+			this.createTyper(str);
+		} catch (NullPointerException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 	

@@ -34,6 +34,7 @@ public class TestMemberResolving extends OoplssTest {
 						"		y.x.y.x;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -61,6 +62,7 @@ public class TestMemberResolving extends OoplssTest {
 						"		self.x;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -75,6 +77,7 @@ public class TestMemberResolving extends OoplssTest {
 						"		x;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -101,6 +104,7 @@ public class TestMemberResolving extends OoplssTest {
 						"		x;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}

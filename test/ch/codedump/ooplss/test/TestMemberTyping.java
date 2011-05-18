@@ -15,6 +15,7 @@ public class TestMemberTyping extends OoplssTest {
 						"		x.y;" +
 						"	}" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}

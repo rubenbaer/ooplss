@@ -19,6 +19,7 @@ public class TestArithmeticType extends OoplssTest {
 						"		3.0 + 2 + 1;" + 
 						"	}" + 
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -30,6 +31,7 @@ public class TestArithmeticType extends OoplssTest {
 						"		3 + \"a\";\n" +
 						"	}\n" +
 						"}\n";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -42,6 +44,7 @@ public class TestArithmeticType extends OoplssTest {
 						"		x + 3;" +
 						"	}" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -56,6 +59,7 @@ public class TestArithmeticType extends OoplssTest {
 						"		bar() + 3;" +
 						"	}" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -70,6 +74,7 @@ public class TestArithmeticType extends OoplssTest {
 						"		self.bar() + 3;" +
 						"	}" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
