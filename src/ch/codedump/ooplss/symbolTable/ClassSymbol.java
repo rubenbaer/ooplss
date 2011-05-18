@@ -247,7 +247,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * Go through the symbols and check for inheritance mistakes
 	 * @throws OoplssException
 	 */
-	protected void checkForOverridings () throws OoplssException {
+	public void checkForOverridings () throws OoplssException {
 		for (Entry<String, Symbol> sym: this.members.entrySet()) {
 			if (this.supertype != null) {
 				this.checkSymbolOverride(this.supertype, sym.getValue());
@@ -259,14 +259,10 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 	
 	/**
-	 * Do some checks 
-	 * 
-	 * Check for override errors, and create a constructor if there is none
+	 * Create a constructor if there is none
 	 * @throws OoplssException
 	 */
-	public void doChecks() throws OoplssException {
-		this.checkForOverridings();
-		
+	public void checkForConstructor() throws OoplssException {
 		if (this.constructor == null) {
 			this.constructor = new MethodSymbol("construct", this);
 		}

@@ -11,7 +11,11 @@ public class TestVariableDefinition extends OoplssTest {
 	public void testDoubleClasses() throws Exception {
 		String str = 	"class foo {}\n" +
 						"class foo {}";
-		this.createDef(str);
+		try {
+			this.createDef(str);
+		} catch (ClassCastException e) {
+			
+		}
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -31,7 +35,9 @@ public class TestVariableDefinition extends OoplssTest {
 						"	def blah():foo {}\n" +
 						"	def blah():foo {}\n" +
 						"}";
-		this.createDef(str);
+		try {
+			this.createDef(str);
+		} catch (ClassCastException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -41,7 +47,9 @@ public class TestVariableDefinition extends OoplssTest {
 						"	def blah():foo {}\n" +
 						"	var blah:foo;\n" +
 						"}";
-		this.createDef(str);
+		try {
+			this.createDef(str);
+		} catch (ClassCastException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 	
