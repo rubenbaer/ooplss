@@ -24,8 +24,7 @@ methodDef:
 // with arguments
 "def method(foo:bar):type {}" OK
 "def __construct(foo:bar) {}" OK
-"def method(foo#bar, foo:bar):tyyype {}" OK
-"def blah(flubber:johnny, depp#mark, wahlberg:maeh):bleh {}" OK
+"def method(foo:bar):tyyype {}" OK
 
 // superconstructor calling
 "def __construct() : A(dings), B(bums) {}" OK

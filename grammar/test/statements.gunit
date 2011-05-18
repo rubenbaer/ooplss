@@ -11,15 +11,15 @@ package ch.codedump.ooplss.antlr;
 
 
 // assignments do not have the ';'
-assignmentEntry:
-"identifier = 3 + 3" OK
-"blah=\"dings\"" OK
-"foo = 'c'" OK
-"foo=" FAIL
-"foo=bar" OK
-"x.y() = 3" OK
-"x.a = 4" OK
-"x.y().foo.bar().blubb = x.y().retVal.fo0()" OK
+complexStatement:
+"identifier = 3 + 3;" OK
+"blah=\"dings\";" OK
+"foo = 'c';" OK
+"foo=;" FAIL
+"foo=bar;" OK
+"x.y() = 3;" OK
+"x.a = 4;" OK
+"x.y().foo.bar().blubb = x.y().retVal.fo0();" OK
 
 
 atom:
@@ -84,11 +84,10 @@ orExpr:
 "a.b(id) || x.y(\"haha\", 3)" OK
 
 statement:
-"3 + 4 * 18 && 37 || 28 " OK
-"x.foo(y)" OK
-"x.foo(y).blah.shizzle(\"mizzle\").a" OK
+"3 + 4 * 18 && 37 || 28;" OK
+"x.foo(y);" OK
+"x.foo(y).blah.shizzle(\"mizzle\").a;" OK
 
-blockStatement:
 "x = 3;" OK
 "x" FAIL
 //";" OK

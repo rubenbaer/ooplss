@@ -35,12 +35,14 @@ def foo(x:y):bar {
 }
 >> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBTYPEARG x y)) METHODBLOCK)
 
+/*
 <<
 def foo(x#y):bar {
 
 }
 
 >> -> (METHODDEF foo (RETURNTYPE bar) (ARGUMENTLIST (SUBCLASSARG x y)) METHODBLOCK)
+*/
 
 <<
 def __construct() : foo(bar), dings(bums, foo) {}

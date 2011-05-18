@@ -154,17 +154,17 @@ varAccessEOF
 varAccess
 	:
 	( ID 
-	  ->  ^(CALLOPERATOR SELF  ^(VARACCESS ID))
+	  ->   ^(VARACCESS ID)
 	|'self' 
 	  -> ^(SELF)
 	| 	ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
-	        ->^(CALLOPERATOR SELF  ^(METHODCALL ID ^(METHODARGS $arg*)))
+	        -> ^(METHODCALL ID ^(METHODARGS $arg*))
 	)
 	( '.' 
 	  ( id=ID '(' (arg+=expression (',' arg+=expression)* )? ')' 
-	    -> ^(CALLOPERATOR $varAccess ^(METHODCALL $id ^(METHODARGS $arg*)))
+	    -> ^('.' $varAccess ^(METHODCALL $id ^(METHODARGS $arg*)))
 	  | id=ID 
-	    -> ^(CALLOPERATOR $varAccess ^(MEMBERACCESS $id))
+	    -> ^('.' $varAccess ^(MEMBERACCESS $id))
 	  )
 	)*
 ;
