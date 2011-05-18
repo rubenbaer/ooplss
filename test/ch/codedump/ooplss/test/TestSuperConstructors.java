@@ -50,12 +50,24 @@ public class TestSuperConstructors extends OoplssTest {
 	}
 	
 	@Test
-	public void testSuperConstructorArguments() throws Exception {
+	public void testSuperTypeConstructorArguments() throws Exception {
 		String str = 	"class foo {" +
 						"	def __construct(o:String) {}" +
 						"}" +
 						"class bar subtypeOf foo {" +
 						"	def __construct(): base(\"abc\") {}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();				
+	}
+	
+	@Test
+	public void testSuperClassConstructorArguments() throws Exception {
+		String str = 	"class foo {" +
+						"	def __construct(o:String) {}" +
+						"}" +
+						"class bar subclassOf foo {" +
+						"	def __construct(): foo(\"abc\") {}" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
