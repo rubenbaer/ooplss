@@ -9,7 +9,7 @@ The type system used for \ooplss is similar to that of \emph{TooL}
 object-oriented language. Every program entity is represented by an
 object that can receive messages from other objects. There are no
 primitive data types that are not objects. Computing is performed only
-by message passing between objects.
+by message passing between objects. \todo{Integer?}
 
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
@@ -29,11 +29,14 @@ number object.  In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 There are two options how to determine the relation of subtyping
-respectively matching between two types. On one hand there is the structural
-analysis of the given types in the current context and on the other there
-is the analysis of the type hierarchy and restricting subtyping and
-subclassing. Each concept has its assets and drawbacks but both can
-be provided simultaneously \cite{malayeri_integrating_2008}. However,
+respectively matching between two types. On one hand there is the
+structural analysis of the given types in the current context and on
+the other there is the analysis of the type hierarchy and restricting
+subtyping and subclassing. For the nominal subtyping special keywords
+like \emph{extends} in Java or \emph{subtypeOf} in \ooplss is necessarily
+and makes subtyping explicit between two object types which structural
+subtyping does not.  Each concept has its assets and drawbacks but both
+can be provided simultaneously \cite{malayeri_integrating_2008}. However,
 \emph{TooL} and \emph{PolyTOIL} use structural subtyping, contrary to
 Java which uses nominal subtyping. \ooplss has a nominal type system
 for a modular type checking. Once the inheritance relations are checked,
@@ -579,10 +582,10 @@ this proposition and definition \ref{def:matchingAsBound} the following
 theorem is formulated that subtyping is embedded into matching which is
 proven for \ooplss.
 
-\begin{thm}[Matching as subtyping]
-	\label{thm:matchinIsSubtyping}
+\begin{prop}[Matching as subtyping]
+	\label{prop:matchinIsSubtyping}
 	if $B <: A \rightarrow B$ \match $A$
-\end{thm}
+\end{prop}
 
 \begin{proof}
 	For this one may recall how subtyping is to understand.\footnote{See
@@ -834,9 +837,8 @@ that relevant problem is the generated code overhead.
 %Class definition
 %\subsection{Constructors}
 %\subsection{Evaluation Order}
-\subsection{Basic Types}
+\subsection{Built-in Types}
 
-\subsubsection{Primitive Types}
 int, float, string, bool, char
 
 
