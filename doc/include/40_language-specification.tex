@@ -803,35 +803,49 @@ bytecode analysis and engineering if a language would support a modular
 code generation which \ooplss does not have so far. A further but not 
 that relevant problem is the generated code overhead.
 
-% TODO: If any time. Write this here...
-%\subsubsection{Implicitly Parametrised Classes with \mytype}
-%At last in this section about parametrisation lets consider the \mytype
-%construct. 
-%
-%
-%\begin{lstlisting}[float,language=ooplss,caption=Extending a container class translated to Java,label=lst:extendingContainer]
-%class A[MyType$A$ <# A] {
-%	var self : MyType$A$;
-%	def m(o : MyType$A$) MyType$A$ {
-%		return self;
-%	}
-%}
-%
-%class B[MyType$B$ <# B, MyType$A$ <# A] subtypeOf A[MyType$A$] {
-%	%\ldots)
-%}
-%
-%class C[MyType$C$ <# C] subclassOf A[MyType$C$] {
-%	%\ldots)
-%}
-%
-%\end{lstlisting}
+\subsubsection{Implicitly Parametrised Classes with \mytype}
+At last in this section about parametrisation lets consider the \mytype
+construct. As seen in \Cref{ctr:threticalBackground} the \self variable
+can be bound with its real type by applying recursively the unbound type
+operator. To grasp this notion in \ooplss, classes can be considered
+as implicitly parametrised. Since both, subtyping and subclassing, is
+available, the type parameter is extended in every subtype with one more.
+Only this makes it possible to derive binary methods in subtypes
+and subclasses as well. An explicit parametrised hypothetical use of
+\mytype is presented in Listing \ref{lst:explicitMyType}.
+
+\begin{lstlisting}[float,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
+class A[MyType <# A] {
+	def m(o : MyType) MyType {
+		// Self is explicitly typed in the method.
+		return self;
+	}
+}
+
+class B[MyType <# B, MyType$A$ <# A] subtypeOf A[MyType$A$] {
+	// MyType of class A is used in class B
+	def m(o : MyType$A$) : MyType$A$ { %\ldots) }
+	%\ldots)
+}
+
+class C[MyType <# C] subclassOf A[MyType] {
+	%\ldots)
+}
+
+class D[MyType <# D] subclassOf B[MyType, MyType] {
+	%\ldots)
+}
+\end{lstlisting}
+
 
 %\subsubsection{No \#-Types in \ooplss}
-%Research languages like \emph{LooM}, its successor
-%\emph{polyToil} or $\mathcal{MOOL}$ are all showing how
-%matching can be integrated into object-oriented languages
-%\cite{bruce_subtyping_1997,bruce_polytoil:_1995,bruce_foundations_2002}.
+%Research languages like \emph{LOOM}\cite{bruce_subtyping_1997},
+%its successor \emph{polyToil}\cite{bruce_polytoil:_1995} or
+%$\mathcal{MOOL}$\cite{bruce_foundations_2002} are all showing how
+%matching can be integrated into object-oriented languages. All
+%of them are using a structural type system. However, they also 
+%introduced so called \#-types which. 
+
 %\todo{Remove this section}
 
 %Class definition
