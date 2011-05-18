@@ -127,6 +127,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			if (this.superclass != null) {
 				if (this.superclass.getName().equals(name)) {
 					sup.setSymbol(this.superclass);
+					return;
 				}
 			}
 			throw new UnknownSuperClassException(sup);
