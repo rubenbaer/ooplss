@@ -103,7 +103,7 @@ methodDef
       
 superConstructorCall
       : ID '(' (expression (',' expression)*)? ')'
-        ->  ^(SUPER ID expression*)
+        ->  ^(SUPER ID ^(METHODARGS expression*))
       ;
     
 argumentDeclList   
