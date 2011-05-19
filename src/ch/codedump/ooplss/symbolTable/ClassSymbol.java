@@ -231,14 +231,14 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 				if (sym instanceof MethodSymbol && resolvedSym instanceof MethodSymbol) {
 					if (!this.checkMethodArguments((MethodSymbol)sym, (MethodSymbol)resolvedSym)) {
 						throw new MethodOverrideWrongArgumentsException(sym, resolvedSym);
-					}
+					} 
 					
 					if (!this.checkMethodReturnTypes((MethodSymbol)sym, (MethodSymbol)resolvedSym)) {
 						throw new MethodOverrideWrongReturnTypeException(sym, resolvedSym);
 					}
 					
 					// seems ok, set the override flag
-					((MethodSymbol)sym).setOverride();
+					((MethodSymbol)sym).setOriginSymbol((MethodSymbol)resolvedSym);
 				}
 			}
 		}

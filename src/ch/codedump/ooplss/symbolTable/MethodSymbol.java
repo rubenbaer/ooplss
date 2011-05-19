@@ -9,16 +9,16 @@ import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 public class MethodSymbol extends ScopedSymbol {
-	
+
 	static Logger logger = Logger.getLogger(MethodSymbol.class.getName());
-	
+
 	protected List<Symbol> arguments = new ArrayList<Symbol>();
-	
+
 	/**
-	 * Whether this method overrides another one in a superclass or type
+	 * Reference to origin method symbol. Used when method is overridden
 	 */
-	protected boolean override = false; 
-	
+	protected MethodSymbol originSymbol = this;
+
 	public MethodSymbol(String name, Scope encScope) {
 		super(name, encScope);
 	}
@@ -27,7 +27,7 @@ public class MethodSymbol extends ScopedSymbol {
 	public Scope getParentScope() {
 		return null;
 	}
-	
+
 	/**
 	 * Print all the members of this scope
 	 * 
@@ -39,10 +39,10 @@ public class MethodSymbol extends ScopedSymbol {
 		if (this.enclosingScope != null) {
 			str += "<" + this.enclosingScope.getName() + ">: ";
 		}
-			
+
 		boolean first = true;
 		str += "[";
-		for (Entry<String, Symbol> s: this.members.entrySet()) {
+		for (Entry<String, Symbol> s : this.members.entrySet()) {
 			if (first) {
 				first = false;
 			} else {
@@ -51,29 +51,30 @@ public class MethodSymbol extends ScopedSymbol {
 			str += s.getValue().symbolString();
 		}
 		str += "]";
-				
+
 		return str;
 	}
 
 	@Override
 	public String symbolString() {
 		String str = "<Method>" + this.getName();
-		
+
 		if (this.getType() != null) {
-			str += ":" + this.getType().getName(); 
+			str += ":" + this.getType().getName();
 		}
-		
+
 		return str;
 	}
 
 	/**
 	 * Add an argument to this method
+	 * 
 	 * @param arg
 	 */
 	public void addArgument(Symbol arg) {
 		this.arguments.add(arg);
 	}
-	
+
 	/**
 	 * Return an argument with index
 	 * 
@@ -81,7 +82,7 @@ public class MethodSymbol extends ScopedSymbol {
 	 * @param node
 	 * @throws ArgumentDoesntMatchException
 	 */
-	public Symbol getArgument(int index, OoplssAST node) 
+	public Symbol getArgument(int index, OoplssAST node)
 			throws ArgumentDoesntMatchException {
 		Symbol s;
 		try {
@@ -89,32 +90,43 @@ public class MethodSymbol extends ScopedSymbol {
 		} catch (IndexOutOfBoundsException e) {
 			throw new ArgumentDoesntMatchException(node, index);
 		}
-		
+
 		return s;
 	}
-	
+
 	/**
-	 * Return the arguments 
+	 * Return the arguments
+	 * 
 	 * @return
 	 */
 	public List<Symbol> getArguments() {
 		return this.arguments;
 	}
-	
+
 	/**
 	 * Return wheter this method overrides another
+	 * 
 	 * @return
 	 */
 	public boolean getOverrideFlag() {
-		return this.override;
+		return this.originSymbol != this;
 	}
-	
+
 	/**
-	 * Set the override flag
+	 * Return origin method symbol. Self reference return when original
+	 * definition.
+	 * 
+	 * @return
 	 */
-	public void setOverride() {
-		this.override = true;
+	public MethodSymbol getOriginSymbol() {
+		return originSymbol;
+	}
+
+	/**
+	 * Sets the origin of the overriden method
+	 * @param originSymbol
+	 */
+	public void setOriginSymbol(MethodSymbol originSymbol) {
+		this.originSymbol = originSymbol;
 	}
 }
-
-

@@ -4,6 +4,7 @@ tokenVocab=Ooplss;
 ASTLabelType=OoplssAST; // use the customised AST node
 output=template;
 k=1;
+backtrack=false;
 }
 
 @members {
@@ -27,7 +28,14 @@ k=1;
 	    }
 	  }
 	  return false;
-	}     
+	}   
+	public boolean isMyType(Object o) {
+    if (o instanceof OoplssAST) {
+      OoplssAST ast = (OoplssAST)o;
+      return ast.getText().equals("MyType");
+    }
+	 return false;
+	}  
 }
 
 @header {
@@ -65,7 +73,7 @@ scope {
           (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
-         ) 
+         )
          -> classdef( name={$classname.text},
                       supertype={$supertype.text},
                       fields={$f},
@@ -79,8 +87,12 @@ methodDef
       ;
       
 method
+scope {
+  String currentMyType;
+}
       : ^(METHODDEF
           name=ID 
+          {$method::currentMyType = ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName();}
           returnTypeDef
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
           (^(METHODBLOCK (exprs+=expr)*))
@@ -89,10 +101,11 @@ method
                   params={$args}, 
                   return_type={$returnTypeDef.st}, 
                   exprs={$exprs})
-      | ^(CONSTRUCTORDEF
+      | {$method::currentMyType = $classDef::className;}
+        ^(CONSTRUCTORDEF
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
           (^(METHODBLOCK (exprs+=expr)*))
-        )
+        ) 
         -> constructor(name={$classDef::className}, params={$args}, exprs={$exprs})
       ;
       
@@ -200,7 +213,7 @@ calls
 call
     : ID -> {%{$ID.text}}
     | SELF -> {%{"this"}}
-    | BASE -> {%{"super"}} // TODO: Depends on superclass
+    //| BASE -> {%{"super"}} // TODO: Depends on superclass
     | varAccess  -> {$varAccess.st}
     | methodCall -> {$methodCall.st}
     | calls -> {$calls.st}
@@ -239,17 +252,23 @@ fieldDef
       
 field
       : ^(VARDEF
-          type
+          field_type
           ID
         )
-        -> fielddef(name={$ID.text}, type={$type.st})
+        -> fielddef(name={$ID.text}, type={$field_type.st})
       ;
 /// END: CLASS FIELD VARIABLES
 /// END: CLASSES
 
 /// BEGIN: TYPES
+field_type
+      :  {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
+      |  ID -> {%{$classDef::className}}
+      ;
+      
 type
-      : ID -> {%{$ID.text}}
+      : {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
+      | ID -> {%{$method::currentMyType}}
       ;
 
 /// END: TYPES
