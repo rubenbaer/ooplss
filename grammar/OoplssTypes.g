@@ -3,7 +3,7 @@ options {
 tokenVocab=Ooplss;
 ASTLabelType=OoplssAST; // use the customised AST node
 filter=true;
-k=1;
+k=2;
 }
 
 @members {
