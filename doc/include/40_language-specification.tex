@@ -402,20 +402,21 @@ class B subtypeOf A {
 
 Let consider the consequences if $o : B$ in class \B. First of all this
 method definition would necessarily require that \ooplss would support
-method overloading which it does not. But there are other consequences which
-are considerably more problematic like that $B.m$ would not be a subtype method of that
-provided from class \A. Knowing that $B.m$ is not a subtype if $A.m$ does
-it make impossible to create mutual recursion which is provided by inheritance
-and only naive recursion would be possible within extension. From this follows
-that if method $A.m$ is called there is no possibility to come back to object \B 
-within this recursion as long as no dynamic dispatch is available since \B can 
-not provide a own implementation of $m$ with $o : A$. However, even \B would
-provide two implementations of $m$, one with $o : A$ and one with $o : B$ this
-would lead to a contradiction if \B is used as a superclass. For this one may
-consider \Cref{fig:hierarchy} and its corresponding code in Listing
-\ref{lst:mixedHierarchy}. The problem is in line \ref{lst:mixedHierarchy1}. 
-If this code segment would be combined in class \C, \self would now be of type
-\C which is not a subtype of \A.
+method overloading which it does not. But there are other consequences
+which are considerably more problematic like that $B.m$ would not be a
+subtype method of that provided from class \A. Knowing that $B.m$ is not
+a subtype if $A.m$ does it make impossible to create mutual recursion
+which is provided by inheritance and only naive recursion would be
+possible within extension. From this follows that if method $A.m$
+is called there is no possibility to come back to object \B within
+this recursion as long as no dynamic dispatch is available since \B
+can not provide a own implementation of $m$ with $o : A$. However,
+even \B would provide two implementations of $m$, one with $o : A$
+and one with $o : B$ this would lead to a contradiction if \B is used
+as a superclass. For this one may consider \Cref{fig:hierarchy} and its
+corresponding code in Listing \ref{lst:mixedHierarchy}. The problem is in
+line \ref{lst:mixedHierarchy1}.  If this code segment would be combined
+in class \C, \self would now be of type \C which is not a subtype of \A.
 
 \begin{figure}[ht]
 	\centering
@@ -852,6 +853,7 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 %\subsection{Constructors}
 %\subsection{Evaluation Order}
 \subsection{Built-in Types}
+
 
 int, float, string, bool, char
 

@@ -147,7 +147,7 @@ is directly linked to the implementation hierarchy, in other words,
 inheritance automatically creates a subtype and there is no escape
 from this. Of a practical point of view however, inheritance is merely
 a mechanism to reuse code in further specialisations of classes. This
-leads us to the first conflict: sharing types vs. the implementation. To
+leads us to the first conflict: sharing types vs implementation. To
 understand this have a look at \Cref{fig:implementationConflict}
 \cite{simons_theory_2003-4}:
 
@@ -197,9 +197,9 @@ understand this have a look at \Cref{fig:implementationConflict}
 
 The left hierarchy expresses the conceptual family: A \emph{Circle}
 is a special kind of \emph{Ellipse}, so is \emph{Square} of
-\emph{Rectangle}. These objects do not actually `extend' their
-parents though, instead, they rather remove properties. For instance, the
-\emph{Circle} removes the property of having two radii.	The hierarchy on
+\emph{Rectangle}. These objects do not actually `extend' their parents
+though, instead, they rather remove properties. For instance, the
+\emph{Circle} removes the property of having two radii. The hierarchy on
 the right on the other hand is conceptual nonsense. It shows, however,
 how one could want to derive and reuse code, in this case the x and
 y coordinates. Because of that, inheritance (and reuse) of code and
@@ -277,7 +277,7 @@ To get rid of this, a language would need to specialise parameters
 covariant. This is possible in Eiffel but this makes the type system
 unsafe. Later, a type safe alternative will be presented.
 
-\subsection{Schizophrenic Self-Reference}
+\subsection{Schizophrenic Self-Reference} \todo{Cite}
 \label{sec:schizoReferences}
 
 In objects there has to be some recursion variable that refers to the
@@ -312,7 +312,7 @@ derived object. This makes recursion different between these two models.
 	\label{fig:schizoRecursion}
 \end{figure}
 
-An example of shizophrenic self-reference for the second case could be
+An example of schizophrenic self-reference for the second case could be
 a two dimensional vector type \emph{Vec2D} which has two coordinates
 and the methods \emph{identity} and \emph{equals}. The identity method
 returns the reference to the object itself and the equals method
@@ -360,7 +360,7 @@ This is how the fixation of self-references is done in the subtyping
 concept: before the combination, i.e., inheritance, of the objects. In the
 concept of subclassing however, it is done after the combination.
 
-\subsection{Subclassing}
+\subsection{Subclassing} \todo{Cite}
 The goal of the concept of subclassing is now to provide a somewhat
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
