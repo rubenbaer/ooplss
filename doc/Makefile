@@ -5,7 +5,7 @@ FINAL := final
 DRAFT := draft
 VIEWER := evince
 SHELL := /bin/bash
-CLEAN_EXT := aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dvi
+CLEAN_EXT := nls,ilg,aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dvi
 
 default: build
 
@@ -56,12 +56,12 @@ debug:
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
 full-debug: clean
-	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
+	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 	makeindex $(JOB).nlo -s nomencl.ist -o $(JOB).nls
-	mpost $(JOB) 1> /dev/null
-	bibtex $(JOB) 1> /dev/null
-	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
-	pdflatex -draftmode -jobname $(JOB) -shell-escape $(DRAFT)
+	mpost $(JOB)
+	bibtex $(JOB)
+	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
+	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
 # cleans index, logs, temporary files etc. 
 clean:
