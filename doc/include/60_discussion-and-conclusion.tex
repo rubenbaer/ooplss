@@ -2,8 +2,121 @@
 \section{Discussion}
 \label{ctr:discussion}
 
-\subsection{Solving Examples}
-In \Cref{ctr:threticalBackground} three different examples were introduced where subtyping forces the programmer to write code that needs unsafe type casts and runtime checks.
+INTRODUCTION \todo{Intro}
+
+\subsection{Solving prior Problems with \ooplss}
+In \Cref{chap:subtypingVsSubclassing} three different examples were
+introduced where subtyping forces the programmer to write code that
+needs unsafe type casts and runtime checks.
+
+\subsubsection{The Circle - Ellipse Problem}
+This example is introduced in \Cref{sec:sharingTypes} where the type
+hierarchy differs from implementation. The question is whether an ellipse
+is a specialisation from an circle or the other way round.
+
+To consider this example, both definitions of subtyping may be recalled;
+In signature subtyping, which is supported by \ooplss, gives the
+definition that a subtype can only add but not remove fields. With this,
+an ellipse can be a subtype of a circle since an ellipse has two radii,
+i.e., has at least one more field then a circle. In behavioural subtyping
+the subtypes invariants can only be more restrictive. Here a circle is
+a subtype of an ellipse since both radii of an ellipse must be equals
+to define a circle.
+
+However, the problem in signature subtyping is that the runtime behaviour
+of this model is incorrect, e.g., an circle object that references a
+runtime ellipse object would return a wrong result for the height and
+width properties and consequently a wrong area etc. For this problem
+exists different approaches tackling this problem. One of this is to
+decouple both types and implementation completely. Unfortunately this
+leads to massively redundant code which of course can be reduced with
+various techniques like multiple inheritance and abstract base classes. A
+more straightforward solution is now presented in \ooplss in Listing
+\ref{lst:ellipseCircleOoplss} using subclasses. Although subsumption
+is not not available the code of Circle could be reused and with the
+matching relation, new parametrised classes can get introduced that can
+handle with both classes properly even when they are not interchangeable.
+
+\begin{lstlisting}[float,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
+class Circle {
+	var width : Float;
+	def setWidth(widht : Float) : Void { self.width = widht; }
+	def area() : Float { return width * width * 3.1415; }
+	def width() : Float { return width; }
+}
+
+class Ellipse subclassOf Circle {
+	def area() : Float { return 3.1415 * width * height; }
+	var height : Float;
+	def setHeight(r : Float) : Void { self.height = r; }
+	def height() : Float { return self.height; }
+}
+\end{lstlisting}
+
+\subsubsection{Cats and Dogs and Linked Lists}
+The example presented in \Cref{sec:recursiveClosure} deals with the
+problem of binary methods and consequently with object families. 
+
+In the first case are binary methods considered. In a subtyping environment
+binary methods arguments are not changeable with the type hierarchy. This
+entails that when a programmer wants to implement these binary methods,
+unsafe type checks and casts are inevitable. A well known problem is the
+equals method like in Java or \cs. Before two objects can be compared
+for equality runtime type checking is necessary although passing other
+object types would not make any sense.
+
+The second case is strongly connected with binary methods and this
+restriction for subtyping. It deals with the implementation of multiple
+object hierarchies with a strong connection between them. There are two
+examples that presents this very well. First, suppose simultaneously to
+an element object hierarchy an hierarchy of operations are defined. For 
+the \emph{visitor pattern} by Erich Gamma et al. \cite{gamma_design_1995}
+is a good solution for a pure subtyping environment and where subsumption
+is important. However, if the operations are designed for homogeneous
+data structures this has a drawback. If the element hierarchy changes all
+visitors need to be changed which is maybe not possible everywhere. Here
+subclassing is may be more appropriate. \Cref{fig:operationFamily}
+presents this idea. With an appropriate parametrisation of the operation
+classes it is possible to defined appropriate operations for every object.
+
+\begin{figure}[H]
+	\centering
+	\begin{emp}[classdiag](20, 20)
+		Class.AnimalA("Animal")()("mate(Animal): Animal");
+		Class.DogA("Dog")()("mate(Dog): Dog");
+		Class.CatA("Cat")()("mate(Cat): Cat");
+
+		DogA.ne = AnimalA.s + (-10, -35);
+		CatA.nw = AnimalA.s + (10, -35);
+
+		drawObjects(AnimalA, DogA, CatA);
+		link(subclassof)(DogA.n -- AnimalA.s);
+		link(subclassof)(CatA.n -- AnimalA.s);
+
+		Class.AnimalOp("AnimalOperation[T<#Animal]")()("do(T): T");
+		Class.DogOp("DogOperation[T<#Dog]")()("do(T): T");
+		Class.CatOp("CatOperation[T<#Dog]")()("do(T): T");
+
+		AnimalOp.w = AnimalA.e + (100, 0);
+		DogOp.ne = AnimalOp.s + (-10, -35);
+		CatOp.nw = AnimalOp.s + (10, -35);
+
+		drawObjects(AnimalOp, DogOp, CatOp);
+		link(subclassof)(DogOp.n -- AnimalOp.s);
+		link(subclassof)(CatOp.n -- AnimalOp.s);
+	\end{emp}
+	\caption{Animal type family with operations on each concrete element}
+	\label{fig:operationFamily}
+\end{figure}
+
+This idea can easily adopted to the problem of SinglyLinkedNodes
+and DoublyLinkedNodes which is presented in Section
+\ref{subsec:matching}. Consequently the node family specifies an element
+family where an appropriate list class family does implement appropriate
+algorithms for efficient list using.
+
+\subsubsection{Schizophrenic Self References}
+\Cref{sec:schizoReferences}
 
 \subsection{Comparison with Scala}
 \label{sec:comparisonScala}
