@@ -74,7 +74,7 @@ vardef SubclassofInfo@# =
 
   @#widthB      = defaultRelationHeadWidth;
   @#heightB     = defaultRelationHeadHeight;
-  @#drawMethodB = "drawTriangle";
+  @#drawMethodB = "drawArrow";
   
   @#drawMethod = "drawLineDashed";
 enddef;
