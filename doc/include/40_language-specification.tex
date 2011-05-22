@@ -68,12 +68,12 @@ implementation.
 	\begin{tabular}[H]{lrll}
 		PROG & \lra & CLASSES \\
 		CLASSES & \lra & CLASS+ \\
-		CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? combiners \\
+		CLASS & \lra & `class' C$\langle$`['CLASSPPRMS`]'$\rangle$? COMBINERS \\
 		& & ~~~~`\{' VARDEF* METHODDEF* CONSTR* `\}' \\
 		CLASSPRMS & \lra & CLASSPARAM $\langle$, CLASSPARAM $\rangle$* \\
 		CLASSPARAM & \lra & TYPE \\
 		 & | & TYPEVAR \match TYPE \\
-		combiners & \lra & SUBTYPEOF? SUBCLASSOF? \\
+		COMBINERS & \lra & SUBTYPEOF? SUBCLASSOF? \\
 		SUBTYPEOF & \lra & `subtypeOf' TYPE \\
 		SUBCLASSOF & \lra & `subclassOf' TYPE $\langle$`,' TYPE $\rangle$* \\
 		TYPE & \lra & TYPENAME \\
@@ -157,27 +157,23 @@ is ignored.
 
 
 \section{Language Semantics}
-%Classes build the foundation of \ooplss and contain one of the
-%differences known in today's languages\todo{which one?}
-%. 
-Classes build the foundation of \ooplss with two kinds of combination mechanisms, 
-\emph{inheritance} and \emph{extending}. The
-first one creates a subclass and the second one a subtype of a given
+Classes build the foundation of \ooplss with two kinds of combination
+mechanisms, \emph{inheritance} and \emph{extending}. The first
+one creates a subclass and the second one a subtype of a given
 type. For both cases a new keyword is introduced, \emph{subclassOf}
 and \emph{subtypeOf}. The difference between them is the moment of
 the self-type binding. In formal treatment a class is considered as a
 unordered record \cite{simons_theory_2002-1}.
 
 \subsection{Extension as Subtyping}
-'Extension` is one sort of class combination in \ooplss. With extension, the concept
-of nominal subtyping is implemented which is the same as \emph{extends} in Java.
-Since \ooplss knows two sorts of combiners, a clearly distinguishable keyword is
-introduced: \emph{subtypeOf}. Subtyping can be represented as a record combiner
-where the recursive type binding is performed before the record combination.
-However, the combiner does not only combine records, it also overrides 
-\todo{Fields are not overridden are they?}
-old fields which are shadowed by the new record and renames parent
-fields \cite{simons_theory_2003-2}.
+'Extension` is one sort of class combination in \ooplss. With extension,
+the concept of nominal subtyping is implemented which is the same as
+\emph{extends} in Java.  Since \ooplss knows two sorts of combiners, a
+clearly distinguishable keyword is introduced: \emph{subtypeOf}. Subtyping
+can be represented as a record combiner where the recursive type binding
+is performed before the record combination.  However, the combiner does
+not only combine records, it also overrides old fields which are shadowed
+by the new record and renames parent fields \cite{simons_theory_2003-2}.
 
 This record extension is semantically equivalent to that of Java. This
 makes a straightforward implementation possible and easy to use for
@@ -202,23 +198,22 @@ class B subtypeOf A {
 \todo{Combination operator (No method overloading)}
 
 \subsection{Inheritance as Subclassing}
-Inheritance is the second class combiner in \ooplss. It is postulated
-by Simons' Theory of Classification \cite{simons_theory_2004-2}.
-This combination is not only a sort of class extension with code
-reuse where the new class needs to follow subtyping rules and avoids
-the problem of schizophrenic self-reference since the self-variable
-binding is performed after the class combination and follows the notion
-of inheritance in the classical sense. 
-\todo{Reformulate, usually such sentences go "... not only A but also B..."}
+Inheritance is the second class object combination operator in
+\ooplss. It is postulated by Simons' Theory of Classification for
+\cite{simons_theory_2004-2}.  This combination is not only a sort of class
+extension with code reuse where the new class needs to follow subtyping
+rules but also avoids the problem of schizophrenic self-reference since
+the self-variable binding is performed after the class combination
+and follows the notion of inheritance in the classical sense.  \ooplss
+integrates this second form of combination within the nominal subtyping
+model which is used as well. This dual possibility is unseen in current
+programming languages.
 
-\ooplss integrates this second
-form of combination within the nominal subtyping model which is used as
-well. This dual possibility is unseen in current programming languages.
-
-To represent this kind of class combination the diagrams used in this documentary differ from classical
-UML representation. The dashed lines show a subclass reference between two classes
-like in \Cref{fig:subclassCombination}. The solid lines represent the same as in UML:
-a subtype relation between two classes.
+To represent this kind of class combination the diagrams used in
+this documentary differ from classical UML representation. The
+dashed lines show a subclass reference between two classes like in
+\Cref{fig:subclassCombination}. The solid lines represent the same as
+in UML: a subtype relation between two classes.
 
 \begin{figure}
 	\centering
@@ -227,13 +222,14 @@ a subtype relation between two classes.
 	\label{fig:subclassCombination}
 \end{figure}
 
-Semantically, a subclass is a break in the subtyping hierarchy, i.e., inheritance
-combines classes without holding the subsumption property \ref{maybe ref... although it should be clear by now}
-. This gives \ooplss
-the possibility to have a class hierarchy whereas in Java complete new classes \todo{types?}
-would be introduced. As illustrated in \Cref{fig:inheritHierarchy}. In Figure
-\ref{fig:javaHierarchy} the types \emph{C'} and \emph{D'} are the combined types
-defined in \ooplss. \todo{I don't understand this...}
+Semantically, a subclass is a break in the subtyping hierarchy,
+i.e., inheritance combines classes without holding the subsumption
+property. This gives \ooplss the possibility to have a class hierarchy
+whereas in Java complete new classes would be introduced as illustrated
+in \Cref{fig:inheritHierarchy}. In Figure \ref{fig:javaHierarchy} the
+classes \emph{C'} and \emph{D'} are the classes \C and \D in Figure
+\ref{fig:ooplssHierarchy} after the combination and how Java sees the
+relation between them.
 
 \begin{figure}
 	\centering
@@ -304,14 +300,13 @@ public class B {
 \todo{Combination operator}
 
 \subsection{Introducing \mytype}
-With subclassing another sort of class combination is introduced
-\todo{Which is actually mentioned before already..?}
-. By
-observing the listings \ref{lst:subclassOf} and \ref{lst:javaTrans}
-one may see something rather strange. While class \A has a recursive
-object type it is not the case for class \B. Since these two classes are
-completely decoupled but the type of the classes' type is not changed from
-\A to \B the expression in Listing \ref{lst:breakSelf} can not be typed.
+Subclassing is an other sort of class combination with an other semantic
+then class extension. Considering the listings \ref{lst:subclassOf} and
+\ref{lst:javaTrans} one may see something rather strange. While class \A
+has a recursive object type it is not the case for class \B. Since these
+two classes are completely decoupled but the type of the classes' type is
+not changed from \A to \B the expression in Listing \ref{lst:breakSelf}
+can not be typed.
 
 \begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
 class A {
@@ -469,26 +464,23 @@ For this the self compatibility is defined as follow:
 \end{defn}
 
 \subsubsection{Binding Moment of \mytype}
-To fit the behaviour described in \Cref{ssec:mytypeInSubtype} in
-a uniform model of extension and inheritance the moment the MyType is bound
-to a real type
-needs to be considered more clearly. Listing
+To fit the behaviour described in \Cref{ssec:mytypeInSubtype} in a
+uniform model of extension and inheritance the moment the MyType is
+bound to a real type needs to be considered more clearly. Listing
 \ref{lst:bindingInMixedHierarchy} shows a mixed class hierarchy in
 \ooplss. First of all \B extends \A. Here the \mytype in method $m$ is
-not rebound in the subtype class, i.e., the \mytype binding in within
-extension is as early as possible done. 
-\todo{This doesn't make sense does it?}
+not rebound in the subtype class, i.e., the \mytype binding in extension
+is performed as early as possible done.
 
-This is fully the notion of
-subtyping. However, in \B, the \mytype is not uniformly bound. Method $f$
-has another bound of \mytype than $m$. This works perfectly fine
-since $B <: A$. Going one step deeper in the hierarchy, inheritance is
-performed. In class \C, every occurrence of \mytype is now rebound to
-type \C. This works as well since the \self-type is defined as in definition
-\ref{def:selfCompatibility}. Now, \C is also extended in \D where method
-$g$ is overridden. Here again, since in extension the binding moment is
-performed as early as possible, this fits well in to \ooplss' model of
-class combination.
+This presents fully the notion of subtyping. However, in \B, the \mytype
+is not uniformly bound. Method $f$ has another bound of \mytype than
+$m$. This works perfectly fine since $B <: A$. Going one step deeper in
+the hierarchy, inheritance is performed. In class \C, every occurrence
+of \mytype is now rebound to type \C. This works as well since the
+\self-type is defined as in definition \ref{def:selfCompatibility}. Now,
+\C is also extended in \D where method $g$ is overridden. Here again,
+since in extension the binding moment is performed as early as possible,
+this fits well in to \ooplss' model of class combination.
 
 \begin{lstlisting}[float,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
 class A {
@@ -524,16 +516,13 @@ class D subtypeOf C {
 }
 \end{lstlisting}
 
-Although everything is now typeable, the question rises whether this 
-code provides mutual
-recursion as wanted?  \todo{Explanation of mutual recursion or ref}
-
-Let's consider a method call of $m$ in \C. The
-method call handle goes correctly to its superclass method $B.m$. Now
-there the next problem may occur. How is the \base reference considered?
-First of all, a \base reference does not make any sense here since
-\C does not have a supertype except \object and \object usually doesn't provide
-a method as wanted.
+Although everything is now typeable, the question rises whether this
+code provides mutual recursion as wanted?  Let's consider a method call
+of $m$ in \C. The method call handle goes correctly to its superclass
+method $B.m$. Now there the next problem may occur. How is the \base
+reference considered?  First of all, a \base reference does not make
+any sense here since \C does not have a supertype except \object and
+\object usually doesn't provide a method as wanted.
 
 \subsubsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
@@ -549,11 +538,10 @@ point of view the extension mechanism has two faces: in a pure
 subtyping hierarchy it is subtyping and in a subclassing hierarchy the
 extension mechanism is inheritance as well.
 
-Knowing this fact generates the hierarchy in
-\Cref{fig:fixedHierarchy} for the type \C. This makes it impossible
-to use a explicit recursive self reference for classes since they are not
-subclass compatible anymore, i.e., the \mytype is used wherever possible.
-\todo{should be used?}
+Knowing this fact generates the hierarchy in \Cref{fig:fixedHierarchy}
+for the type \C. This makes it impossible to use an explicit recursive
+self reference for classes since they are not subclass compatible anymore,
+i.e., the \mytype should be used wherever possible.
 
 \begin{figure}[ht]
 	\centering
@@ -633,17 +621,15 @@ proven for \ooplss.
 \subsection{Class Parametrisation}
 So far the introduction of a \mytype and proper inheritance gives the
 advantage of proper code reuse within the type system and specialisation
-of binary methods compared to other language. At a first glance all
-this looks like not very useful since even generics like that from
-Java does not fit into this model very well. Further more the matching
-relation is not used by method parameters and does not appear yet\todo{where?}. As
+of binary methods compared to other language. At a first glance all this
+looks like not very useful since even generics like that from Java does
+not fit into this model very well. Further more the matching relation is
+not used by method parameters and does not appear yet in the language. As
 seen in \Cref{ctr:makingSubclassingPractical} matching is used in object
-parametrisation and does replaces generics respectively is the foundation
-of Java's or \cs's generics. \todo{Ahja?}
-
-These generics does only allow f-bounds with subtypes but not with
-subclasses what is different in \ooplss because of the matching relation
-between two subclasses.
+parametrisation and does replaces generics respectively is the theoretical
+foundation of Java's or \cs's generics.  These generics does only allow
+f-bounds with subtypes but not with subclasses what is different in
+\ooplss because of the matching relation between two subclasses.
 
 \subsubsection{Translation by Mimic Templates}
 Knowing that \ooplss class parametrisation is not compatible with that
