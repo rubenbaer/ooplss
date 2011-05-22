@@ -116,39 +116,120 @@ family where an appropriate list class family does implement appropriate
 algorithms for efficient list using.
 
 \subsubsection{Schizophrenic Self References}
-\Cref{sec:schizoReferences}
+The last example considered in this chapter deals with schizophrenic self
+references in extension which are introduced in \Cref{sec:schizoReferences}.
+
+This is the most obvious example affected by subclassing and \mytype. 
+
+\begin{lstlisting}[float,language=ooplss,caption=Avoid schizophrenic self references with \mytype.,label=lst:solveSchizo]
+class Vec2D {
+	var x : Int;
+	var y : Int;
+	def identity : MyType {
+		return self;
+	}
+	def equals(vec : MyType) : Bool {
+		return vec.x == self.x && vec.y = self.y;
+	}
+}
+
+class Vec3D subclassOf Vec2D {
+	var z : Int;
+
+	def equals(vec : MyType) : Bool {
+		return base.equals(vec) && self.z == vec.z;
+	}
+}
+\end{lstlisting}
+
+\subsection{Status Quo of Implementation within Project}
 
 \subsection{Comparison with Scala}
 \label{sec:comparisonScala}
-% estimated pages: 6
+% estimated pages: 6$
+
+Explicit self typing
+
+Existential types
 
 \subsection{Future Work}
 \label{sec:futureWork}
+In projects like this one, where years of development could be used for
+further improvements and new techniques. Some of these points are here
+discussed. The section is divided into two fields.  One presents some
+possible language extensions and the other some implementation details
+which would improve a proper use of the language.
 
-\subsubsection{Current State of Implementation}
+\subsubsection{Language Extensions}
+
+\paragraph{Information Hiding}
+
+\paragraph{Interfaces}
+
+\paragraph{Method Overloading and Multiple Inheritance}
+Actually method overloading is not integrated in \ooplss. With this
+comes several problems which could be avoided. On one hand, it is currently
+not possible to provide multiple inheritance since methods overloading is
+essential for usable class combination. Now, the language is restricted
+that inheritance is only allowed as long as no method overloading occurs.
+This extension is considered as straightforward since the exact definition
+which method should be called is already possible with full parent
+specification by the caller. The current restriction is in many problems
+annoying and is just a simplification since it is not a core problem which
+is treated in this thesis project.
+
+\paragraph{Matching as Higher Ordered Subtyping}
+Currently the language uses the matching notion of f-bounded subtyping
+which is a good but not the best option. As earlier mentioned matching
+is also considered as higher ordered subtyping which brings additional
+properties which are preferable. Although this would increase the
+complexity, reflexivity and transitivity brings several advantages to
+the programmer. Parametrised classes would gain expression power since
+it would fit well in a subtyping environment. With this, the use would
+be more flexible of those classes.
+
+\paragraph{Modularisation}
+Modularisation is also missing. With this only very monolithic programs
+are possible where no separate compilation units are supported. For larger
+programs this would increase compilation time and a flexible work between
+developer teams is not supported. This makes \ooplss in its current state
+useless for serious programs although the target platform is widely
+used. Hand in hand supporting multiple files would be inevitable and
+necessary for future developments.  Even simple modularisation would be
+not very difficult a more sophisticated form is proposed where modules are
+higher-order constructs and can be parametrised \cite{dreyer_type_2003}.
+
+However, with the introduction of proper subclasses a simple form of
+modularisation and code reuse is already provided. With this adding
+existing code to classes is very simple and safe.
+
+\paragraph{Top and Bottom Types}
+The language design has some similarities to that of C++ which does
+not have an implicitly superclass which Java and \cs have. With this
+comes one drawback that it is not possible to write methods that accept
+arbitrary objects if not a own superclass is specified and explicitly
+extended. This decision is made because two class combinations are
+possible and an implicit base class would force the programmer to one
+of them at the very beginning of every class.
+
+TODO... Weiter schreiben. Top / Bottom types
+
+\paragraph{Pure Object Orientation}
+
+
 
 \subsubsection{Future Implementation Work}
-Syntax and type inference
-Type and Syntax inference
-Java integration
 
-\subsubsection{Language Extension}
-Method overloading
-Method overload for useful multiple inheritance
-Interfaces
-Top / Bottom-Type
+\paragraph{JDK Integration}
 
-\subsubsection{Dynamic Invokes}
+\paragraph{Subclassing with Dynamic Invokes}
 Consolidate Subclassing and Subtyping with multiple dispatch and mytype (Dynamic invoke in Java 7).
 Method overload with dynamic invokes
 
+\paragraph{Syntax Inference}
 
+\paragraph{Type Inference}
 
-
-
-
-
-Base Object? (Inherited / Extended)
 
 
 
