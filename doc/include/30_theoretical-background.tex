@@ -26,19 +26,24 @@ improper subtyping or otherwise.
 Subtyping is a binary relation, denoted with `<:', which defines
 a substitution relation between two types and is one style of type
 polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
-ensures that $A$ has compatible methods and fields to its \emph{supertype}
-$B$. This implies that wherever type $B$ is expected type $A$ can be used.
+ensures that $A$ has compatible methods and data fields, together simply
+called fields, to its \emph{supertype} $B$. This implies that wherever
+type $B$ is expected type $A$ can be used.
 
 To ensure this type compatibility between $A$ and $B$ subtyping has the
 following properties:
 
 \begin{defn}[Subtype reflexivity]
 	\label{def:subtypeReflexivity}
-	$A <: A$
+	\begin{mathpar}
+		\inferrule*{\\}{A <: A}
+	\end{mathpar}
 \end{defn}
 \begin{defn}[Subtype transitivity]
 	\label{def:subtypeTransitivity}
-	$A <: B$ and $B <: C$ implies $A <: C$
+	\begin{mathpar}
+		\inferrule*{A <: B\\B <: C}{A <: C}
+	\end{mathpar}
 \end{defn}
 
 Type safe subtyping is defined for objects and fields. Subtyping for objects is
@@ -51,8 +56,9 @@ as records -- which are ordered -- in subtyping permutations of those are define
 as equal. 
 \begin{defn}[Object subtyping]
 	\label{def:subtypeObject}
-	$\{l_b : Y_b\} <: \{l_a : X_a\}$ if $A$ contains $a \in \mathbb{N}$ fields, $B$ contains
-	$b \geq a$ fields and for each $i$ it is true that $Y_i <: x_i$.
+	$\{l_b : Y_b\} <: \{l_a : X_a\}$ if $A$ contains $a \in
+	\mathbb{N}$ fields, $B$ contains $b \geq a$ fields and for each
+	$i$ it is true that $Y_i <: x_i$.
 \end{defn}
 
 The relation for fields differs for methods and object variables.
@@ -70,7 +76,9 @@ change in the hierarchy upwards.
 
 \begin{defn}[Method subtyping]
 \label{def:methodSubtyping}
-if $X <: A$ and $B <: Y$ then $A \rightarrow B <: X \rightarrow Y$
+	\begin{mathpar}
+		\inferrule*{X <: A\\B <: Y}{A \rightarrow B <: X \rightarrow Y}
+	\end{mathpar}
 \end{defn}
 
 \subsubsection{Variance}
@@ -85,11 +93,13 @@ terms are introduced in category theory and were adopted to type theory
 	type of $Y$ then the return type of the same method in $A$
 	has to be a subtype of $Y$, e.g., the return type can be $X$
 	or $Y$ because of the reflexivity property of subtyping. For
-	example $Y \rightarrow A$ <: $X \rightarrow A$.
+	example $T \rightarrow Y$ <: $T \rightarrow X$ where $T$ is an 
+	arbitrary type.
 	\item[Contravariance] Contravariance is the opposite of
 	covariance. Type changes are only allowed upwards in the type
 	hierarchy. The type of function parameters are contravariance,
-	e.g., $X \rightarrow A$ <: $X \rightarrow B$ if $B$ <: $A$.
+	e.g., $T \rightarrow A$ <: $T \rightarrow B$ if $B$ <: $A$ where
+	$T$ is an arbitrary type.
 \end{description}
 \todo{This section seems to have errors}
 
@@ -103,33 +113,44 @@ of $T$.' -- Barbara Liskov \cite{liskov_behavioral_1999}
 A formal and strong description of subtyping is given by Barbara
 Liskov with her Liskov Substitution Principle, short LSP. This notion
 of subtyping implies behavioural subtyping where the correctness
-of the given properties should be provable since behavioural
-subtyping would include a proof system which is undecidable
+of the given properties should be provable. Since behavioural
+subtyping would include a proof system which is generally undecidable
 \cite{poll_behavioural_1998}. However, in languages without this strong
-property the type systems can not proof the correctness and this gives
-the possibility to formulate programs which may go wrong. \todo{go wrong sounds familial and isn't quite precise...}
-With the
-strong coupling of subtyping and subclassing in languages like Java,
-\cs or C++ the programmer has to decide between code reuse or proper
-subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this
-problem.
+property, e.g., languages with signature subtyping, the type systems
+can not proof the correctness of the program. In signature subtyping
+the semantic of a program is not considered by the type system. Only 
+the object and method signatures are important and checked by the system.
+
+LSP allows to introduce a subsumption rule for type declarations:
+
+\begin{defn}[Subsumption]
+\label{def:methodSubtyping}
+	\begin{mathpar}
+		\inferrule*{x : A\\A <: B}{x : B}
+	\end{mathpar}
+\end{defn}
+
+% TODO
+%With the strong coupling of subtyping and subclassing in languages like
+%Java, \cs or C++ the programmer has to decide between code reuse or proper
+%subtyping. \Cref{sec:sharingTypes} gives a deeper insight of this problem.
 
 \subsection{Sharing Types Versus Implementation}
 \label{sec:sharingTypes}
 
-Although the term \emph{class} is used in modern class-based object-oriented
-languages like Java and C++, the concept of extension is actually the
-concept of subtypes and not subclasses. The word type is in the sense of data type, such
-as integer, boolean etc., but could also be extended types like objects
-in object-oriented languages. They determine the way data is stored and
-what operations can be perform on them.
+Although the term \emph{class} is used in modern class-based
+object-oriented languages like Java and C++, the concept of extension is
+actually the concept of subtypes and not subclasses. The word type is in
+the sense of data type, such as integer, boolean etc., but could also be
+extended types like objects in object-oriented languages. They determine
+the way data is stored and what operations can be perform on them.
 
 In object-oriented languages like Java and C++, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
 inheritance automatically creates a subtype and there is no escape
 from this. Of a practical point of view however, inheritance is merely
 a mechanism to reuse code in further specialisations of classes. This
-leads us to the first conflict: sharing types vs. the implementation. To
+leads us to the first conflict: sharing types vs implementation. To
 understand this have a look at \Cref{fig:implementationConflict}
 \cite{simons_theory_2003-4}:
 
@@ -179,9 +200,9 @@ understand this have a look at \Cref{fig:implementationConflict}
 
 The left hierarchy expresses the conceptual family: A \emph{Circle}
 is a special kind of \emph{Ellipse}, so is \emph{Square} of
-\emph{Rectangle}. These objects do not actually `extend' their
-parents though, instead, they rather remove properties. For instance, the
-\emph{Circle} removes the property of having two radii.	The hierarchy on
+\emph{Rectangle}. These objects do not actually `extend' their parents
+though, instead, they rather remove properties. For instance, the
+\emph{Circle} removes the property of having two radii. The hierarchy on
 the right on the other hand is conceptual nonsense. It shows, however,
 how one could want to derive and reuse code, in this case the x and
 y coordinates. Because of that, inheritance (and reuse) of code and
@@ -259,7 +280,7 @@ To get rid of this, a language would need to specialise parameters
 covariant. This is possible in Eiffel but this makes the type system
 unsafe. Later, a type safe alternative will be presented.
 
-\subsection{Schizophrenic Self-Reference}
+\subsection{Schizophrenic Self-Reference} \todo{Cite}
 \label{sec:schizoReferences}
 
 \todo{Add bibliography}
@@ -296,7 +317,7 @@ derived object. This makes recursion different between these two models.
 	\label{fig:schizoRecursion}
 \end{figure}
 
-An example of shizophrenic self-reference for the second case could be
+An example of schizophrenic self-reference for the second case could be
 a two dimensional vector type \emph{Vec2D} which has two coordinates
 and the methods \emph{identity} and \emph{equals}. The identity method
 returns the reference to the object itself and the equals method
@@ -344,7 +365,7 @@ This is how the fixation of self-references is done in the subtyping
 concept: before the combination, i.e., inheritance, of the objects. In the
 concept of subclassing however, it is done after the combination.
 
-\subsection{Subclassing}
+\subsection{Subclassing} \todo{Cite}
 The goal of the concept of subclassing is now to provide a somewhat
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
@@ -358,7 +379,7 @@ self-references as described in the first case in \Cref{sec:schizoReferences}.
 
 In subclassing however, the question rises: how should return values and
 arguments be typed (see the second case in \Cref{sec:schizoReferences})
-when defining the methods and fields, since the programmer is not able to
+when defining the methods and data fields, since the programmer is not able to
 know of what type the subclass will be. This is why there has to be some
 sort of placeholder for such cases: the \emph{MyType}. The \emph{MyType}
 placeholder is then substituted with the current type after the

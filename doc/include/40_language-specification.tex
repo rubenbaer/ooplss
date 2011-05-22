@@ -7,12 +7,12 @@ The type system used for \ooplss is similar to that of \emph{TooL}
 \cite{gawecki_tool:_1995}. Many important aspects differ from
 \emph{TooL}. The used principles are these:
 
-\paragraph{Purely object-oriented}
-\ooplss is in contrast to its target platform Java a purely
-object-oriented language. Every program entity is represented by an
-object that can receive messages from other objects. There are no
-primitive data types that are not objects. Computing is performed only
-by message passing between objects. \todo{Integer?}
+%\paragraph{Purely object-oriented}
+%\ooplss is in contrast to its target platform Java a purely
+%object-oriented language. Every program entity is represented by an
+%object that can receive messages from other objects. There are no
+%primitive data types that are not objects. Computing is performed only
+%by message passing between objects. \todo{Integer?}
 
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
@@ -350,7 +350,7 @@ class A {
 	}
 }
 
-class B subclassOf A {
+class B subclassOf A { three different examples were introduced where subtyping forces the programmer to write code that needs unsafe type casts and runtime checks.
 	def m(o : MyType) : MyType {
 		MyType A.m(self); // Works fine as well
 	}
@@ -660,7 +660,7 @@ representing parametric classes.
 
 \begin{quotation}
 `A class generated from a class template is a perfectly ordinary
-class. Thus, use of a template does not imply any run-time mechanisms
+class. Thus, use of a template does not imply any runtime mechanisms
 beyond what is used for an equivalent ``hand-written'' class.' -- Bjarne
 Stroustrup \cite{stroustrup_c++_2000}
 \end{quotation}
@@ -805,16 +805,16 @@ public interface SpecialContainer<X> extends Container<X> {
 \end{lstlisting}
 
 \subsubsection{Avoid Type Erasure}
-The idea of generating extended class instead of using the run-time
+The idea of generating extended class instead of using the runtime
 generic support from Java is not new even the idea is a bit different
 but has the same consequences. Robert Cartwright and Guy Steele proposed
 an other kind of generics in Java as a concurrence to GJ from Odersky
 and Wadler and is presented in \cite{cartwright_compatible_1998}. Their
 project is called NextGen and is build up on Java 1.2. However, since
-no generic types are used at run-time, type parameters are not erased
+no generic types are used at runtime, type parameters are not erased
 like GJ and Java 1.5 it does.
 
-With this the language gains on run-time expressiveness since a
+With this the language gains on runtime expressiveness since a
 \emph{instanceof} operator can be introduced to perform checks on type
 parameters which Java has not. Further the creation of new object would
 also be possible as long as a class does provide a standard constructor.
@@ -873,6 +873,7 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 %\subsection{Constructors}
 %\subsection{Evaluation Order}
 \subsection{Built-in Types}
+
 
 int, float, string, bool, char
 
