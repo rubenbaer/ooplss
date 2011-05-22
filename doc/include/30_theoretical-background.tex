@@ -48,6 +48,8 @@ following properties:
 
 Type safe subtyping is defined for objects and fields. Subtyping for objects is
 quite easy. If $A$ <: $B$ then $A$ needs at least as many fields as $B$
+\todo{It is not quite clear that fields are methods as well, because above
+fields *and* methods are mentioned}
 which are in subtype relation. Further $A$ can contain other fields
 which does not have any correspondence in $B$. Since objects are often considered
 as records -- which are ordered -- in subtyping permutations of those are defined
@@ -99,6 +101,7 @@ terms are introduced in category theory and were adopted to type theory
 	e.g., $T \rightarrow A$ <: $T \rightarrow B$ if $B$ <: $A$ where
 	$T$ is an arbitrary type.
 \end{description}
+\todo{This section seems to have errors}
 
 \subsubsection{Liskov Substitution Principle}
 \begin{quotation}
@@ -279,6 +282,8 @@ unsafe. Later, a type safe alternative will be presented.
 \subsection{Schizophrenic Self-Reference} \todo{Cite}
 \label{sec:schizoReferences}
 
+\todo{Add bibliography}
+
 In objects there has to be some recursion variable that refers to the
 object itself, to be able to call methods or use values on self . In some
 languages this is called \self or \emph{this}, in this explanation,
@@ -387,7 +392,9 @@ Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses do not implicitly define subtypes a more general
 relation is needed -- \emph{matching} -- which is weaker and does
-not support subsumption. Originally \emph{matching} was proposed
+not support subsumption \todo{This word seems to occur for the first time here. Explain}
+
+. Originally \emph{matching} was proposed
 as function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
 subtyping extends simple subtyping with parametrisation which is popular as
 \emph{generics} in well known programming languages like Java or \cs
