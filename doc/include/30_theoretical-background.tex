@@ -282,8 +282,8 @@ unsafe. Later, a type safe alternative will be presented.
 \todo{Add bibliography}
 
 In objects there has to be some recursion variable that refers to the
-object itself, to be able to call methods or use values on self . In some
-languages this is called \self or \emph{this}, in this explanation,
+object itself, to be able to call methods or use values on self. In some
+languages this is called \self or \emph{this}, in \ooplss
 the term \self will be used to refer to this variable. \\
 
 There are two main cases when recursion occurs:
@@ -292,30 +292,36 @@ There are two main cases when recursion occurs:
 	\item When a method has arguments or return values of the same type as the object
 \end{enumerate}
 
-The first case is problematic when objects are derived: it is not quite
-clear to which object the self variable should refer after the derivation.
-In C++ and Java, the self-reference in inherited methods refers to
-the base object that was derived. This means that an object may contain
-many versions of self-references, which is called \emph{schizophrenic
-self-reference}. Other languages like Smalltalk and Eiffel treat the
-self-reference differently: they redirect the self-reference to the
-derived object. This makes recursion different between these two models.
+The first case is problematic when objects are derived; it is not
+quite clear to which object the self variable should refer after
+the derivation.  In C++ and Java, the self-reference in inherited
+methods refers to the base object that was derived. This means that an
+object may contain many versions of self-references, which is called
+\emph{schizophrenic self-reference}. Other languages like Smalltalk
+and Eiffel treat the self-reference differently; they redirect the
+self-reference to the derived object. Consequently both models have
+different semantics in recursion which are called naive respectively
+mutual recursion \cite{cook_denotational_1995}.  Both are illustrated
+in \Cref{fig:schizoRecursion}. $M$ derives $F$ which is a recursive
+function. In the native case the call of the parent method, the recursion
+is not changed which is different by mutual recursion where the recursive
+call in $F$ is returned to the caller $M$.
 
 \begin{figure}
 	\centering
 	\subfloat[Naive recursion]{
 		\includedot[scale=0.7]{dot/naiveRecursion}
 	}
-	\subfloat[mutual recursion]{
+	\subfloat[Mutual recursion]{
 		\includedot[scale=0.7]{dot/mutualRecursion}
 	}
-	\caption{Naive and mutual recursion where M <: F}
+	\caption{Naive and mutual recursion where M <: F \cite{cook_denotational_1995}}
 	\label{fig:schizoRecursion}
 \end{figure}
 
-An example of schizophrenic self-reference for the second case could be
-a two dimensional vector type \emph{Vec2D} which has two coordinates
-and the methods \emph{identity} and \emph{equals}. The identity method
+An example of schizophrenic self-reference for the second case is a
+two dimensional vector type \emph{Vec2D} which has two coordinates and
+the methods \emph{identity} and \emph{equals}. The identity method
 returns the reference to the object itself and the equals method
 compares two objects of this type. It therefore takes an argument
 of the type \emph{Vec2D}. Assuming there is a subtype \emph{Vec3D}
@@ -323,29 +329,29 @@ that inherits all these methods, adds a z-coordinate and overrides the
 equals method. Let us further assume that the rule of contravariance
 does not apply here. Clearly the equals method of \emph{Vec3D} takes
 an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing}
-shows this constellation (in pseudo-code):
+shows this constellation in Java.
 
 \begin{lstlisting}[float,caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
 class Vec2D {
 	int x,y;
 
 	Vec2D identity() {
-		return self; // A Vec2D self variable
+		return this; // A Vec2D self variable
 	}
 
-	bool equals(Vec2D vec) {
-		return vec.x == self.x && vec.y == self.y;
+	boolean equals(Vec2D vec) {
+		return vec.x == this.x && vec.y == this.y;
 	}
 }
 
 class Vec3D extends Vec2D {
 	int z;
 
-	bool equals(Vec2D vec) {
+	boolean equals(Vec2D vec) {
 		// Self is of Vec3D type
 		if (vec instanceof Vec3D)
 			// Uses insecure type casting
-			return super.equals(vec) && self.z == ((Vec3D)vec).z;
+			return super.equals(vec) && this.z == ((Vec3D)vec).z;
 
 		return false;
 	}
@@ -358,11 +364,11 @@ refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
 
 This is how the fixation of self-references is done in the subtyping
-concept: before the combination, i.e., inheritance, of the objects. In the
+concept; before the combination respectively extension of the objects. In the
 concept of subclassing however, it is done after the combination.
 
 \subsection{Subclassing} \todo{Cite}
-The goal of the concept of subclassing is now to provide a somewhat
+The goal of the concept of subclassing is now to provide a
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
 This solves the problem described in \Cref{sec:sharingTypes}. Since
@@ -371,7 +377,7 @@ described in \Cref{sec:recursiveClosure}, is of no relevancy
 anymore. And as already mentioned, the fixation of the self references
 and types is done after the inheritance, so there will be no schizophrenic
 self-references as described in the first case in \Cref{sec:schizoReferences}.  
-\todo{are they cases clear structured?}\\
+\todo{are they cases clear structured?}
 
 In subclassing however, the question rises: how should return values and
 arguments be typed (see the second case in \Cref{sec:schizoReferences})
@@ -397,8 +403,9 @@ like Java or \cs \cite{barron-estrada_inheritance_2003}. An other
 interpretation of \emph{matching} as higher-order subtyping with
 better properties like reflexivity and transitivity was shown in
 \cite{abadi_subtyping_1996}. However, this interpretation is more
-difficult for the users of the language since the semantic does not
-\todo{finish sentence}
+difficult for the users of the language since the semantic is complex
+and not easy to understand in every circumstance because subtyping is
+on object generator level.
 
 %% Already coverded above
 %\subsection{Binary Methods}
@@ -493,7 +500,7 @@ difficult for the users of the language since the semantic does not
 	meanings in different types.' -- \cite{bruce_foundations_2002}
 \end{prop}
 
-An other solution proposed by Bruce \cite{bruce_binary_1995} is
+An solution proposed by Bruce \cite{bruce_binary_1995} is
 \emph{matching}. Matching is a generalised subtyping relation, written
 as `\match', between two types and takes regard to a \emph{MyType} in
 subclasses. An important difference is that the matching relation is only
