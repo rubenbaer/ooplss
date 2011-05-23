@@ -1,11 +1,20 @@
 \chapter{Language Specification}
-
-\todo{Write an introduction explaining what this chapter is about}
+This chapter contains the language specification part of \ooplss.
+In the first section defines the fundamental design principles used in
+further discussion of the language. Afterwards a overview of the syntax
+is given. It is just a abstract definition and differs in some points
+from the real syntax implementation since the implementation does not
+contain left recursion and is specified as LL(2) grammar. This section
+is followed by the largest in this section and contains the language
+semantic. It contains informal as well as formal parts. It reflects the
+development of the language and the ideas behind the concepts. At last
+a section deals with the concrete type rules and presents the current
+basic types available.
 
 \section{Design Principles}
-The type system used for \ooplss is similar to that of \emph{TooL}
-\cite{gawecki_tool:_1995}. Many important aspects differ from
-\emph{TooL}. The used principles are these:
+%The type system used for \ooplss is similar to that of \emph{TooL}
+%\cite{gawecki_tool:_1995}. Many important aspects differ from
+%\emph{TooL}. The used principles are these:
 
 %\paragraph{Purely object-oriented}
 %\ooplss is in contrast to its target platform Java a purely
@@ -99,9 +108,9 @@ implementation.
 \subsection{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The
 definition of names can have different origins and depends on the current
-context of consideration which is given by its scope.
-
-\todo{Method overloading!}
+context of consideration which is given by its scope. Currently no method
+overloading is provided by the language since this not in the focus of this
+project.
 
 \subsection{Scopes}
 \ooplss uses lexical scoping to define the validity of expressions and 
@@ -872,6 +881,9 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 %Class definition
 %\subsection{Constructors}
 %\subsection{Evaluation Order}
+\section{Types}
+\subsection{Type Rules}
+
 \subsection{Built-in Types}
 
 
