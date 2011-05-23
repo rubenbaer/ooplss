@@ -395,100 +395,36 @@ Subtyping is one of the most fundamental and most well known relation
 between recursive types in today's programming languages. In languages
 where subclasses do not implicitly define subtypes a more general
 relation is needed -- \emph{matching} -- which is weaker and does
-not support subsumption . Originally \emph{matching} was proposed as
+not support subsumption. Originally \emph{matching} was proposed as
 function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
 subtyping extends simple subtyping with parametrisation which is
 popular as \emph{generics} in well known programming languages
 like Java or \cs \cite{barron-estrada_inheritance_2003}. An other
 interpretation of \emph{matching} as higher-order subtyping with
 better properties like reflexivity and transitivity was shown in
-\cite{abadi_subtyping_1996}. However, this interpretation is more
+\cite{abadi_subtyping_1996}. This interpretation is more
 difficult for the users of the language since the semantic is complex
 and not easy to understand in every circumstance because subtyping is
-on object generator level.
+on object generator level. However, this is specified for structural
+type systems and not for nominals. Restricting higher-order subtyping
+for nominal type systems makes the semantic more clear less complex in use.
 
-%% Already coverded above
-%\subsection{Binary Methods}
-%A binary method is a method with parameters of the same type as the
-%receiver of the method, i.e., the \self reference in the method. The
-%name has the origins in the fact that such methods are binary relations
-%mapping to a codomain, e.g., \emph{equal} of type $X \times X \rightarrow
-%Boolean$ or \emph{add} of type $Num \times Num \rightarrow Num$. The
-%same behaviour can be observed in homogeneous data structures. Typing
-%such function in functional languages are straightforward and does not
-%rise difficulties. This looks complete different in statically object-oriented
-%languages where subtyping is fundamental \cite{bruce_binary_1995}.
-%
-%\Cref{lst:javaBinary} shows how subtyping can not prevent the
-%possibility to add objects of type \emph{SinglyLinkedNode} in a
-%\emph{DoublyLinkedNode} which is definitely incorrect and has to end
-%in a runtime exception. In subtyping existing object state variables
-%and methods like \emph{setNext} can not be further specialised. The
-%\Cref{lst:javaBinary1} shows how the type system has to be escaped
-%by casts which is unsafe and.	However, these problems does not rise
-%from binary methods them self but in combination with subtyping and
-%inheritance since these concepts are associated with subsumption.
-%
-%\begin{lstlisting}[float,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
-%public class SinglyLinkedNode {
-%	private SinglyLinkedNode next;
-%
-%	public setNext(SinglyLinkedNode next) {
-%		this.next = next;
-%	}
-%
-%	public getNext() SinglyLinkedNode {
-%		return this.next;
-%	}
-%}
-%
-%public class DoublyLinkedNode extends SinglyLinkedNode {
-%	private DoublyLinkedNode prev;
-%	public setPrev(DoublyLinkedNode prev) {
-%		this.prev = prev;
-%		prev.next = this;
-%	}
-%
-%	public DoublyLinkedNode getPrev() {
-%		return this.prev;
-%	}
-%	
-%	// Not typeable expression in Java due to the contravariance rule
-%	public setNext(DoublyLinkedNode next) {
-%			this.next = next;
-%			next.prev = this;
-%	}
-%
-%	// Covariance at return type
-%	public DoublyLinkedNode getNext() {
-%		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
-%	}
-%}
-%\end{lstlisting}
-%
-%Assuming \emph{DoublyLinkedNode} is a subtype of \emph{SinglyLinkedNode},
-%the code in \Cref{lst:break} can create a run time exception. As
-%long as both parameters are objects of the exact same type the code runs
-%without any problem. On the other side if the parameter are from different
-%types an runtime error would occur since the parameter of \emph{setNext}
-%does not provide a \emph{prev} field.
-%
-%\begin{lstlisting}[float,label={lst:break},caption={Breaking a doubly linked node}]
-%pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
-%	one.setNext(other);
-%}
-%\end{lstlisting}
-%
-%Bruce showed in \cite{bruce_binary_1995} some ways out of such problems
-%like avoiding binary methods at all and provide these methods as static
-%functions or providing special pair objects providing these binary
-%methods. One may argue that it should be possible to change the parameters
-%of the objects in a contravariant way, i.e., that \emph{setNext}
-%and \emph{getNext} is typed as a method with parameters of type
-%\emph{DoublyLinkedNode}. As seen in \Cref{chap:subtypingVsSubclassing}
-%this would break the subtyping relation between \emph{SinglyLinkedNode}
-%and \emph{SinglyLinkedNode}. In this case inheritance provides a subclass
-%which is not a subtype.
+\subsection{Nominal and Structural Type Systems}
+Generally two different kinds of type system can be distinguished
+depending on how type relations are determined. The first and most
+flexible technique is provided by a structural type system which is used
+in more sophisticated languages and research topics. Structural type
+system does not take regard to the object combination operators which
+are used but rather take care on the object's structure to determine the
+relations between two objects. The other family of type systems are from
+nominal nature which is used in popular languages like Java, \cs, C++
+and many more. For nominal type systems the type relation between objects
+is specified with keywords that are used for class combination. For
+example, Java provides an 'extends` keyword which does the combination
+and restricts the programmer to define only classes that are in subtype
+relation to its parent. This restriction is not available in structural
+ones which are more complicated in type checking where in nominal the
+relation is specified explicitly.
 
 \subsection{Matching}
 \label{subsec:matching}
@@ -531,7 +467,7 @@ checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to 
 public class SinglyLinkedNode {
 	private SinglyLinkedNode next; %\label{lst:javaBinary0})
 
-	public setNext(SinglyLinkedNode next) {
+	public void setNext(SinglyLinkedNode next) {
 		this.next = next;
 	}
 
@@ -551,13 +487,12 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 		return this.prev;
 	}
 	
-	// Not typeable expression in Java.
-	%\label{lst:javaBinary2})public setNext(DoublyLinkedNode next) {
+	// Overloaded method in Java.
+	%\label{lst:javaBinary2})public void setNext(DoublyLinkedNode next) {
 			this.next = next;
 			next.prev = this;
 	}
 
-	// Legal override in the sense of subtyping. Illegal Java;
 	public DoublyLinkedNode getNext() {
 		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
 	}
@@ -631,7 +566,7 @@ This can now be used to define the fixpoint of $A$ and is written as \[A^*
 \todo{(un)folding property and typing problems, other reference than simons}
 
 \subsection{Matching as F-Bounded Subtyping}
-F-bounded subtyping\footnote{Short form function-bounded subtyping}
+F-bounded subtyping\footnote{Abbreviates function-bounded subtyping}
 is an extension to simple subtyping by adding parametrisation to
 types. F-bounded subtyping relation is often called \emph{generics}
 and is written as $X$<:$B_{Op}(X)$ and gives the information that $X$
@@ -666,7 +601,7 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}$
 \end{defn}
 
-%\subsection{Matching as Higher-Order Subtyping}
+\subsection{Matching as Higher-Order Subtyping}
 %
 %TODO Ruben: write this section
 %\subsection{Example with Matching}
