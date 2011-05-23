@@ -602,6 +602,13 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 \end{defn}
 
 \subsection{Matching as Higher-Order Subtyping}
+
+In this case matching is defined as\cite{abadi_subtyping_1996}
+\begin{defn}[Matching as Higher-Order Subtyping]
+	\label{def:matchingAsBound}
+	$A \textnormal{\match} B := A <: B_{Op}(A)$\\
+	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}$
+\end{defn}
 %
 %TODO Ruben: write this section
 %\subsection{Example with Matching}
