@@ -577,7 +577,7 @@ hierarchies.
 Higher-order subtyping
 
 \subsubsection{Matching Embeds Subtyping}
-Now, after some considerations about matching, lets take a look at
+Now, after some considerations about matching, let's take a look at
 proposition \ref{prop:matching}. Bruce is stated that `matching is
 the same as subtyping in the absence of the MyType construct.' From
 this proposition and definition \ref{def:matchingAsBound} the following
@@ -615,10 +615,11 @@ proven for \ooplss.
 So far the introduction of a \mytype and proper inheritance gives the
 advantage of proper code reuse within the type system and specialisation
 of binary methods compared to other language. At a first glance all this
-looks like not very useful since even generics like that from Java does
-not fit into this model very well. Further more the matching relation is
-not used by method parameters and does not appear yet in the language. As
-seen in \Cref{ctr:makingSubclassingPractical} matching is used in object
+seems not very useful since even generics like those from Java don't
+fit into this model very well. Furthermore, the matching relation is
+not used by method parameters and does not appear yet in the language.
+\todo{where exactly?}
+As seen in \Cref{ctr:makingSubclassingPractical} matching is used in object
 parametrisation and does replaces generics respectively is the theoretical
 foundation of Java's or \cs's generics.  These generics does only allow
 f-bounds with subtypes but not with subclasses what is different in
@@ -626,15 +627,15 @@ f-bounds with subtypes but not with subclasses what is different in
 
 \subsubsection{Translation by Mimic Templates}
 Knowing that \ooplss class parametrisation is not compatible with that
-from Java since Java knows only bounds on subtypes an other more open
-solution is needed.  Using matching as bound provides information that
+from Java since Java only knows bounds on subtypes, so another more open,
+solution is needed.  Using matching as bound provides information whether
 the code within a parametrised class is legal and can be executed on
 objects which are within the bound. The type checker ensures that the
-codes written in \ooplss are type safe and every method call can be
+code written in \ooplss is type safe and every method call can be
 performed without any runtime errors since it is guaranteed that all
 used fields are properly available on the passed objects.
 
-From this thoughts the C++ templates are maybe a good choice for
+From this thoughts, the C++ templates might be a good choice for
 representing parametric classes.
 
 \begin{quotation}
@@ -644,28 +645,36 @@ beyond what is used for an equivalent ``hand-written'' class.' -- Bjarne
 Stroustrup \cite{stroustrup_c++_2000}
 \end{quotation}
 
-Of course, C++ templates have a different semantics and are not equivalent
-with this translation presented for \ooplss but the idea is similar to
+Of course
+\todo{Sounds like spoken... "of course"}
+, C++ templates have different semantics and are not equivalent
+with the translation presented here for \ooplss, but the idea is similar to
 create special classes similar to templates.
+\todo{Was si für special classes gmeint hie...?}
 
-The next Listing \ref{lst:parametrisationOoplss} presents a container
-class that is parametrised with a match-bound of \A. From \A exists an
-extended class \B and a inherited class \C. Following the definition
+Listing \ref{lst:parametrisationOoplss} presents a container
+class that is parametrised with a match-bound 
+\todo{I think this is mentioned here for the first time... if not, reference?}
+of \A. 
+Class \B extends class \A and class \C inherits \A.
+
+Following the definition
 of matching, both derived classes are not allowed as parameters
 of the class \emph{Container} with the type parameter definition
-of $T$ \match \A.  The use of thous classes is presented in Listing
+of $T$ \match \A.  The use of those classes is presented in Listing
 \ref{lst:useParametrisationOoplss}. All of these assignments are typeable
-and sound since all these classes provides the methods assumed by the
+and sound since all of these classes provide the methods assumed by the
 bound. However, Listing \ref{lst:parametrisationJava} shows how this code
 is translated to Java and how the idea of templates is adopted. Like
 in C++ the for every class a new inner class is created with special
 names. These special classes are all sharing the same generic interface
-\emph{Container}. That there is an interface needed, will be presented
-in the next section. One may remarks that the Java interface of
+\emph{Container}.  The fact that an interface is needed will be presented
+in the next section. One may remark that the Java interface of
 \emph{Container} has dropped the f-bound. This is necessary since
 subclassing would not fulfill the extension boundary in Java.
 
  To use this code in Java is straightforward translated in Listing
+\todo{??}
 \ref{lst:useParametrisationJava}.
 
 \begin{lstlisting}[float,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
@@ -745,12 +754,16 @@ public class Main {
 \end{lstlisting}
 
 \subsubsection{Specialising Parametrised Classes}
-As seen, parametrising classes with matching does now fit well in
-the whole model. However, since parametrised classes can be too,
-this is now shown that this is straightforward as well. For the
-sake of simplicity only the translated Java code is presented since
-fields that are not using parameters are translated like in normal
-classes. Listing \ref{lst:extendingContainer} shows an extended version
+As seen in the previous section, parametrising classes with matching 
+now fits well in the model. However, since parametrised classes can be too,
+\todo{can be what?}
+this is now shown that this is straightforward as well. \todo{reformulate}
+
+For the
+sake of simplicity only the translated Java code is presented because
+fields that are not using parameters are translated in the same manner as 
+in normal classes.
+Listing \ref{lst:extendingContainer} shows an extended version
 of the \emph{Container} class.
 
 \begin{lstlisting}[float,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
@@ -784,34 +797,42 @@ public interface SpecialContainer<X> extends Container<X> {
 \end{lstlisting}
 
 \subsubsection{Avoid Type Erasure}
-The idea of generating extended class instead of using the runtime
-generic support from Java is not new even the idea is a bit different
-but has the same consequences. Robert Cartwright and Guy Steele proposed
-an other kind of generics in Java as a concurrence to GJ from Odersky
+The idea of generating extended an class instead of using the runtime
+generic support from Java is not new even though the idea is a bit different
+with the same consequences. Robert Cartwright and Guy Steele proposed
+another kind of generics in Java as a concurrence to GJ\todo{what is GJ?} from Odersky
 and Wadler and is presented in \cite{cartwright_compatible_1998}. Their
-project is called NextGen and is build up on Java 1.2. However, since
+project is called NextGen and is based \todo{Auf Java aufgebaut ist gemeint oder?}
+on Java 1.2. However, since
 no generic types are used at runtime, type parameters are not erased
-like GJ and Java 1.5 it does.
+like in GJ and Java 1.5.
 
-With this the language gains on runtime expressiveness since a
+With this, the language gains on runtime expressiveness since a
 \emph{instanceof} operator can be introduced to perform checks on type
-parameters which Java has not. Further the creation of new object would
-also be possible as long as a class does provide a standard constructor.
+parameters which Java has not. 
+\todo{but java does have an instanceof operator!?}
+Further the creation of new objects would
+also be possible as long as a class provides a standard constructor.
 
-As a drawback of creating all these classes is a more sophisticated 
+As a drawback of creating all these classes a more sophisticated 
 bytecode analysis and engineering if a language would support a modular
-code generation which \ooplss does not have so far. A further but not 
+code generation is needed, which \ooplss does not have so far.
+
+A further but not 
 that relevant problem is the generated code overhead.
 
 \subsubsection{Implicitly Parametrised Classes with \mytype}
-At last in this section about parametrisation lets consider the \mytype
-construct. As seen in \Cref{ctr:theoreticalBackground} the \self variable
-can be bound with its real type by applying recursively the unbound type
-operator. To grasp this notion in \ooplss, classes can be considered
-as implicitly parametrised. Since both, subtyping and subclassing, is
-available, the type parameter is extended in every subtype with one more.
+To conclude
+\todo{fyi: at last heisst ändlech}
+this section about parametrisation let's consider the \mytype
+construct. As seen in \Cref{ctr:theoreticalBackground}, the \self variable
+can be bound to its real type by applying the unbound type
+operator recursively. To grasp this notion in \ooplss, classes can be considered
+as implicitly parametrised. Since both, subtyping and subclassing, are
+available, the type parameter is extended in every subtype with one more
+\todo{with one more what?}.
 Only this makes it possible to derive binary methods in subtypes
-and subclasses as well. An explicit parametrised hypothetical use of
+and subclasses as well. An explicitly parametrised hypothetical use of
 \mytype is presented in Listing \ref{lst:explicitMyType}.
 
 \begin{lstlisting}[float,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
