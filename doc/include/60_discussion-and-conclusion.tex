@@ -152,7 +152,7 @@ Explicit self typing
 
 Existential types
 
-\subsection{Future Work}
+\section{Further Work}
 \label{sec:futureWork}
 In projects like this one, where years of development could be used for
 further improvements and new techniques. Some of these points are here
@@ -160,13 +160,13 @@ discussed. The section is divided into two fields.  One presents some
 possible language extensions and the other some implementation details
 which would improve a proper use of the language.
 
-\subsubsection{Language Extensions}
+\subsection{Language Extensions}
 
-\paragraph{Information Hiding}
+\subsubsection{Information Hiding}
 
-\paragraph{Interfaces}
+\subsubsection{Interfaces}
 
-\paragraph{Method Overloading and Multiple Inheritance}
+\subsubsection{Method Overloading and Multiple Inheritance}
 Actually method overloading is not integrated in \ooplss. With this
 comes several problems which could be avoided. On one hand, it is currently
 not possible to provide multiple inheritance since methods overloading is
@@ -178,7 +178,7 @@ specification by the caller. The current restriction is in many problems
 annoying and is just a simplification since it is not a core problem which
 is treated in this thesis project.
 
-\paragraph{Matching as Higher-Order Subtyping}
+\subsubsection{Matching as Higher-Order Subtyping}
 Currently the language uses the matching notion of f-bounded subtyping
 which is a good but not the best option. As earlier mentioned matching
 is also considered as higher-order subtyping which brings additional
@@ -188,7 +188,7 @@ the programmer. Parametrised classes would gain expression power since
 it would fit well in a subtyping environment. With this, the use would
 be more flexible of those classes.
 
-\paragraph{Modularisation}
+\subsubsection{Modularisation}
 Modularisation is also missing. With this only very monolithic programs
 are possible where no separate compilation units are supported. For larger
 programs this would increase compilation time and a flexible work between
@@ -203,7 +203,7 @@ However, with the introduction of proper subclasses a simple form of
 modularisation and code reuse is already provided. With this adding
 existing code to classes is very simple and safe.
 
-\paragraph{Top and Bottom Types}
+\subsubsection{Top and Bottom Types}
 The language design has some similarities to that of C++ which does
 not have an implicitly superclass which Java and \cs have. With this
 comes one drawback that it is not possible to write methods that accept
@@ -214,21 +214,21 @@ of them at the very beginning of every class.
 
 TODO... Weiter schreiben. Top / Bottom types
 
-\paragraph{Pure Object Orientation}
+\subsubsection{Pure Object Orientation}
 
 
 
-\subsubsection{Future Implementation Work}
+\subsection{Further Implementation Work}
 
-\paragraph{JDK Integration}
+\subsubsection{JDK Integration}
 
-\paragraph{Subclassing with Dynamic Invokes}
+\subsubsection{Subclassing with Dynamic Invokes}
 Consolidate Subclassing and Subtyping with multiple dispatch and mytype (Dynamic invoke in Java 7).
 Method overload with dynamic invokes
 
-\paragraph{Syntax Inference}
+\subsubsection{Syntax Inference}
 
-\paragraph{Type Inference}
+\subsubsection{Type Inference}
 
 
 
