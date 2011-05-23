@@ -480,7 +480,7 @@ public class SymbolTable {
 	 * @return Resolved object type
 	 * @throws UnknownDefinitionException 
 	 */
-	public ClassSymbol resolveObject(OoplssAST obj) throws UnknownDefinitionException {
+	public ClassSymbol resolveClass(OoplssAST obj) throws UnknownDefinitionException {
 		Scope s = obj.getScope();
 		
 		Type t = s.resolveType(obj.getText());

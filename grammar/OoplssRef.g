@@ -169,7 +169,7 @@ newObject		returns [Type type]
 			:	^(NEW name=ID ^(args=METHODARGS .*))
 			{
 				logger.fine("<Ref>Resolving a new statement: " + $name.text);
-				Symbol s = this.symtab.resolveObject($ID);
+				Symbol s = this.symtab.resolveClass($ID);
 				$ID.setSymbol(s);
 				type = s.getType();
 				

@@ -213,7 +213,6 @@ methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 			{
 				logger.fine("<Def>Recording scope of a method call");
 				$ID.setScope(this.currentScope);
-
 			}
 			;
 			
