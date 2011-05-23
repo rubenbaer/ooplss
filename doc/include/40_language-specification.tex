@@ -31,21 +31,11 @@ statement is possible, e.g., sending a division by zero message to a
 number object.  In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
-There are two options how to determine the relation of subtyping
-respectively matching between two types. On one hand there is the
-structural analysis of the given types in the current context and on
-the other there is the analysis of the type hierarchy and restricting
-subtyping and subclassing. For the nominal subtyping special keywords
-like \emph{extends} in Java or \emph{subtypeOf} in \ooplss is necessarily
-and makes subtyping explicit between two object types which structural
-subtyping does not.  Each concept has its assets and drawbacks but both
-can be provided simultaneously \cite{malayeri_integrating_2008}. However,
-\emph{TooL} and \emph{PolyTOIL} use structural subtyping, contrary to
-Java which uses nominal subtyping. \ooplss has a nominal type system
-for a modular type checking. Once the inheritance relations are checked,
-it is easy to determine whether two types are in relation or not. Since
-\ooplss is translated to Java, a similar system is used, i.e., a nominal
-type system is implemented.
+\ooplss has a nominal type system for modular type checking. Once the
+inheritance relations are checked, it is easy to determine whether
+two types are in relation or not. Since \ooplss is translated to Java,
+a similar system is used, i.e., a nominal type system is implemented.
+It also makes matching as higher-order subtyping tractable.
 
 \paragraph{No Information Hiding}
 Since nominal subtyping is used, information hiding has not that impact
@@ -53,10 +43,14 @@ compared to structural subtyping since all fields are automatically
 available. This helps to keep the language small.
 
 \paragraph{No Method Overloading}
+In the current state of specification \ooplss does not provide a mechanism
+for method overloading. Even this makes some class combinations impossible
+it is less confusing at some points where this case can be omitted.
 
 \paragraph{Single Dispatch}
-
-Further details in discussion!
+With the choose of Java as target platform single method dispatch is
+implemented although multiple dispatch would make some translation work 
+more easy and clear. For a more detailed discussion see \Cref{ctr:discussion}
 
 \section{Syntax}
 \subsection{Abstract Syntax}
@@ -168,10 +162,10 @@ unordered record \cite{simons_theory_2002-1}.
 \subsection{Extension as Subtyping}
 'Extension` is one sort of class combination in \ooplss. With extension,
 the concept of nominal subtyping is implemented which is the same as
-\emph{extends} in Java.  Since \ooplss knows two sorts of combiners, a
+\emph{extends} in Java.  Since \ooplss knows two sorts of combination operator, a
 clearly distinguishable keyword is introduced: \emph{subtypeOf}. Subtyping
-can be represented as a record combiner where the recursive type binding
-is performed before the record combination.  However, the combiner does
+can be represented as a record combination operator where the recursive type binding
+is performed before the record combination.  However, the operator does
 not only combine records, it also overrides old fields which are shadowed
 by the new record and renames parent fields \cite{simons_theory_2003-2}.
 
@@ -194,7 +188,7 @@ class B subtypeOf A {
 
 \todo{Base reference}
 
-\subsubsection{Extension Class combiner}
+\subsubsection{Extension Operator}
 \todo{Combination operator (No method overloading)}
 
 \subsection{Inheritance as Subclassing}
@@ -296,7 +290,7 @@ public class B {
 }
 \end{lstlisting}
 
-\subsubsection{Inheritance Class combiner}
+\subsubsection{Inheritance Operator}
 \todo{Combination operator}
 
 \subsection{Introducing \mytype}
@@ -574,14 +568,13 @@ C <\!\!\#~A \\
 C <\!\!\#~B
 \end{align}
 
-%\ref{alg:match} makes problems
-
-%\subsubsection{Matching is Compatible with Subtyping}
-
 Since \ooplss uses a nominal type system and not a structural one,
 matching does only apply on type within the same hierarchy as under
 consideration even if other object types would match types of other
 hierarchies.
+
+\subsubsection{Matching Properties}
+Higher-ordered subtyping
 
 \subsubsection{Matching Embeds Subtyping}
 Now, after some considerations about matching, lets take a look at
@@ -615,8 +608,8 @@ proven for \ooplss.
 %	\inferrule*[Right=foo]{A}{B}
 %\end{mathpar}
 
-\subsection{Class combiners Refined}
-\todo{Give a full specification of class combiners with mytype and base rewriting}
+\subsection{Class Combination Operator Refined}
+\todo{Give a full specification of class combination operator with mytype and base rewriting}
 
 \subsection{Class Parametrisation}
 So far the introduction of a \mytype and proper inheritance gives the
