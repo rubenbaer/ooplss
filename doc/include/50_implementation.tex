@@ -2,7 +2,7 @@
 \section{Design}
 This chapter contains a description of the general compiler. Figure
 \ref{fig:compilerPhase} shows the different parts of the whole compiler
-software. For every phase exists a corresponding section.
+software. There is a section describing each phase.
 
 \begin{figure}[ht]
 	%\centering
@@ -11,31 +11,34 @@ software. For every phase exists a corresponding section.
 	\label{fig:compilerPhase}
 \end{figure}
 
-The compiler of this prototypical language is written in Java using
-ANTLR as parser generator. ANTLR support the generation of the lexical
-and semantical analysis which generates an abstract syntax tree which
-is denoted as intermediate representation. In ANTLR it is possible to
-define both, grammars for string , 1-dimensional, data as well as for
+The compiler of \ooplss is written in Java using
+ANTLR as parser generator. ANTLR supports the generation of code for the lexical
+and semantical analysis, which then generates an abstract syntax tree for
+the intermediate representation of the input. In ANTLR it is possible to
+define both, grammars for string, 1-dimensional, and for
 abstract syntax trees which are 2-dimensional. In ANTLR these are known
 as \emph{tree grammars} which are similar to normal grammars but matches
 abstract syntax tree nodes and not lexer tokens. The lexer and parser
 part is a normal grammar whereas the other phases are all tree grammars
-which are used for tree rewriting. The output process is supported by
+which are used for tree rewriting.
+\todo{The tree is actually only rewritten once, when generating the AST... or what
+is it you mean}
+The output process is supported by
 \st, a project associated to ANTLR.
 
-However, every phase of this compiler design is independently and can 
-replaced arbitrary. This makes corrections within this parts easy and
-does not automatically breaks the whole interface between compiling
+However, every phase of this compiler design is independent and can 
+replaced arbitrarily. This makes corrections within this parts easy and
+does not automatically break the whole interface between the compiling
 phases. Even new phases can be injected between two phases which may 
 perform some further analysis or code optimisation.
 
-Even ANTLR supports different output languages for the parser, Java was
+Even though ANTLR supports different output languages for the parser, Java was
 chosen and consequently the whole compiler is written in Java. Mixing
 the implementation language would unnecessarily increase the effort
-by providing a uniform interface from ANTLR code ant implementation
+by providing a uniform interface from ANTLR code and the implementation
 language.
 
-The output translation back end is a translation unit from the
+The output translation backend is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
 
 \subsection{Software Structure}
@@ -48,45 +51,52 @@ Important class diagrams
 The lexer and parser are both in the same file \emph{Ooplss.g} defined
 since they are strongly connected together. 
 
-The lexer creates token which are feed to the parser. It does simply
-analyse every character in the input string and tries to identify token
-which are used in the parser. The comment and whitespace tokens are all
-skipped and will not get forwarded to the parser phase.
+The lexer creates tokens which are fed to the parser. It simply
+analyses every character in the input string and tries to identify tokens
+that are used in the parser. Some tokens like comments and whitespace characters 
+are skipped and not passed to the parser.
 
-The parser parses the token from left to right and creates a left most
+The parser parses the tokens from left to right and creates a left most
 derivation with a lookahead of two, this is shortly known as LL(2) parser.
-All this is done from top to bottom and produced from the token read an 
-abstract syntax tree. For the sake of simplicity during the debugging
-process of the parser code the lookahead is limited to two while ANTLR
+All this is done from top to bottom and produces  an 
+abstract syntax tree (AST). To make the debugging
+process of the parser code simpler, the lookahead is limited to two although ANTLR
 would support arbitrary lookahead.
 
 After this phase an abstract syntax tree is generated and ready to be visited
-and translated to other trees and output code.
+and to be operated on. The AST already contains the correct operator precedence.
 
-\subsection{Symbol Table Deployment}
-The first part that works on the abstract syntax tree is the deployment of
-the symbol table. This is divided into two separated compiler runs. The
+\subsection{Symbol Table Building}
+The first part that operates on the abstract syntax tree is the building of
+the symbol table. This is divided into two separated compiler runs: the
 first identifies every symbol definition like classes, methods and
-variables used within a program. Since symbols in object-oriented
-languages are context sensitive and can be recursive, this definition
-of two phases is inevitable unless forward declarations are provided
-which are well known in C++.
+variables used within a program. Since fields can be declared anywhere
+in a class two separate runs are necessary, one to track all the defined
+symbols and one to resolve the types, method calls and variable accesses.
 
 The symbol table has four different scope levels. These scopes are nested
 and child scopes can access the symbols in the parent scope.
 \begin{description}
-	\item[Global scope] All classes and basic types
+	\item[Global scope] All classes and built-in types
 	\item[Class scope] All fields of a specific class
 	\item[Method scope] The method parameters and variables
-	\item[Local scope] Local scopes within a method. This scopes
-	define the validity of local defined variables.
+	\item[Local scope] Local scopes within a method. These scopes
+	constrain the validity of local defined variables
 \end{description}
 
+\subsubsection{Built-Ins}
+Built-In symbols are created before walking the tree for the first time.
+They are assigned to the global scope.
+
 \subsubsection{Define Symbols}
-This is the first phase of the symbol table deployment. Every single
-class, method and scope is visited with the depth first strategy and
-tracks every symbols definition and skips the use of the symbols. The
-tree grammar for this can be found in the file \emph{OoplssDef.g}.
+The first phase of the symbol table building is the definition run or
+walk.  Every single class, method and scope is visited with the depth
+first strategy and tracks every symbol definition. The tree grammar for
+this can be found in the file \emph{OoplssDef.g}. Every time a scope
+is entered, this scope is set as the current scope and the one before
+is saved as the parent scope.  Like this, all symbol definitions are
+recorded in the according scope.  Additionally, the current scope is
+recorded to some AST nodes for later referencing.
 
 If a symbol is already defined within the current scope and clashes with
 an existing one, an exception is thrown.
@@ -95,27 +105,97 @@ After this phase a symbol table is created for the whole program where
 every symbol in every scope is tracked. The table is in reality a tree
 which can resolve every valid symbol within a scope.
 
-\subsubsection{Referencing Symbols}
-This is the second phase of the symbol table promotion. Again, every scope
-is visited. However, in this run, the type definitions are resolved and
-promoted to the definition under consideration. Further more the symbols
-used within the code are resolved and does not reference to the correct
-instance within the symbol table. The tree grammar code can be found in
-the file \emph{OoplssRef.g}
 
-All of this is possible since now all definitions are known and available
+\subsubsection{Referencing Symbols}
+In the second phase, the referencing run, mainly every use of a symbol that is 
+not declarative (method call, variable access, super type declaration, types 
+in declarations etc.) is examined and resolved to the according symbol definition. 
+Exceptions are thrown on errors like accessing non-existent variables, calling 
+variables or using types that don't exist.
+\todo{does this need to be precise?}
+
+All of this is possible due to the fact that now all definitions are known and available
 in the tree.
 
+There are different types of resolving the symbols:
+\begin{description}
+\item[Variable referencing]
+Just walks up the scope tree to find the symbol 
+\item[Method calling]
+The same as variable referencing but it has to be a method symbol
+\item[Member accessing]
+Is used when class fields are accessed like x.f; or x.foo();. First it checks
+if the field really is accessed on a class. If not, an according exception
+is thrown. If this is the case, it is checked if a field with such name exists
+in the class. Opposed to normal variable referencing, the search does not walk
+the scope tree upwards, instead, it tries to resolve the names in the super classes
+and scopes if not found.
+\item[Type resolving]
+The same as variable referencing but it also checks whether it's a type or not.
+\item[Special type resolving]
+Resolves special symbols directly in the global scope
+\item[Class resolving (new statement)]
+The same as type resolving but it has to be a user defined class
+\todo{which is wrong, see issue #47}
+\item[Self resolving]
+Resolves to the enclosing class
+\end{description}
+
+The referencing phase also does some special tasks:
+\begin{itemize}
+\item it checks whether a symbol that was not declared in the class scope is defined 
+before being accessed for the first time because forward referencing is only 
+allowed for class fields.
+\item upon leaving a class it checks if there are symbols that override symbols
+declared in super classes or super types. This cannot be done in the definition run
+because only now there is a reference to the super type/class.
+\item when referencing a super type or class it also runs some checks to avoid
+cyclic subtyping or subclassing.
+\end{itemize}
+
 The result of this phase is a fully propagated symbol table. Every symbol can
-now be resolved within this tree with all necessary meta data.
+now be resolved within this tree with all necessary meta data. The tree grammar
+for the reference walker is defined in \emph{OoplssRef.g}
 
 \subsection{Type Checking}
-\todo{TODO!}
+
+The third walk on the abstract syntax tree does the type checking. This
+time the nodes are evaluated in postorder so both sides of an expression
+node are evaluated before the node itself is evaluated. Like this the
+evaluated types are promoted upwards the tree until a violation of the
+typing rules is found.
+
+The basic concept of the type checker is to check if method arguments, 
+both sides of an expression/assignment etc. have the same type. In case
+of basic types this is a bit extended since adding a integer to a float 
+is perfectly valid. In this case, the type checker yields float as evaluation
+type of the addition expression.
+
+In case of method arguments, return statements, new object creation 
+and assignments it is extended as well since the subtyping concept 
+allows assigning values that are of a subtype of the expected value.
+
+The typing rules are explained in detail in \Cref{ctr:typeRules}. The
+type checker grammar can be found in \emph{OoplssTypes.g}
+
 \subsubsection{Decidability}
 \Cref{ctr:typeRules}
 
+\subsection{Standalone statements}
+
+Since \ooplss is translated into Java, there has to be some checking
+done on the statements so the compiler doesn't create erroneous Java
+code. Java has some constraints, for instance meaningless statements
+like accessing a variable without assigning it to another variable
+or passing it to a function is inhibited by the Java compiler.
+
+We solved this particular problem by assigning every statement whether
+it is allowed to stand alone or not. Then the reference walker loops 
+through all statements upon leaving a block. If one is found that cannot
+stand alone, an exception is thrown.
+
 \subsection{Translation}
-Translation is the last stage of the back end from the compiler. It
+Translation is the last stage of the compiler backend. It
 translates an abstract syntax tree which is type checked to the
 output language -- Java. The last tree grammar can be found in the
 file \emph{OoplssGen.g}. Again, a tree grammar is used to perform the
