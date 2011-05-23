@@ -25,18 +25,18 @@ Directory Structure
               simons/      -- Serie of articles by Anthony J.H. Simons
                               in the Journal of Object Technology
     build/      -- Temporary directory for build output
-    dist/        -- Temporary distribution directory for packing
+    dist/       -- Temporary distribution directory for packing
               ooplss.jar  -- Executable JAR
               html        -- Source documentation by doxygen
-              *.pdf        -- Project documentation
+              *.pdf       -- Project documentation
               README      -- README
     doc/        -- Documentation
     grammar/    -- OOPLSS's grammar definition and grammar gunit tests
     minutes/    -- Minutes of our meetings
-    misc/        -- 
+    misc/       -- All stuff that is not in the other folders
     resources/  -- Property files and code generation templates
     src/        -- Source code
-    test/        -- JUnit test code
+    test/       -- JUnit test code
 
 
 A Very Short Introduction to Git
