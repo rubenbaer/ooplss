@@ -602,13 +602,27 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 \end{defn}
 
 \subsection{Matching as Higher-Order Subtyping}
+Higher-order subtyping is the second interpretation of matching
+done by Abadi and Cardelli. It is the counterpart interpretation
+to the f-bounded subtyping interpretation which was the first of
+matching. The main difference is that here the relation is defined
+between the type generators and not between a type which is bound by a
+type generator. Since a type generator can be expressed as lambda term,
+it is formally a subtyping relation between two functions that are
+generating objects and takes types as parameters to bind the self type.
+Consequently these object generators are in proper subtyping relation.
 
 In this case matching is defined as\cite{abadi_subtyping_1996}
 \begin{defn}[Matching as Higher-Order Subtyping]
 	\label{def:matchingAsBound}
-	$A \textnormal{\match} B := A <: B_{Op}(A)$\\
-	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}$
+	$A \textnormal{\match} B := A_{Op} <: B_{Op}(A)$\\
+	$\forall (X \textnormal{\match} A)B\{X\} := \forall (X_{Op} <: A_{Op}(X))B\{X\}$
 \end{defn}
+
+This shows that now on both sides of the subtyping relation is a type
+generator.  Since now there is no fixpoint mixed with the generators
+the same properties as subtyping between to functions, i.e., reflexivity
+and transitivity is true.
 %
 %TODO Ruben: write this section
 %\subsection{Example with Matching}
