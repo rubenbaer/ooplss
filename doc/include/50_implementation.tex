@@ -1,4 +1,92 @@
 \chapter{Implementation}
+
+\begin{figure}[H]
+	\centering
+	\begin{emp}[classdiag](20, 20)
+	Class.SymbolTable("SymbolTable")()();
+
+	Class.Scope("Scope")("enclosingScope:Scope")( "define(Symbol):Void", 
+			"resolve(String):Symbol", "resolveType():Type");
+	classStereotypes.Scope("<<interface>>");
+	Scope.ne = SymbolTable.sw + (-60, -10);
+
+	AbstractClass.Symbol("Symbol")("def:OoplssAST", "type:Type", "scope:Scope")("");
+	Symbol.n = SymbolTable.s + (0, -10);
+
+	drawObjects(SymbolTable, Scope, Symbol);
+
+	Class.BaseScope("BaseScope")()();
+	BaseScope.n = Scope.s + (0, -20);
+
+	Class.GlobalScope("GlobalScope")()();
+	GlobalScope.n = BaseScope.s + (-40, -20);
+
+	Class.LocalScope("LocalScope")()("define(Symbol):void");
+	LocalScope.n = BaseScope.s + (0, -80);
+
+	drawObjects(BaseScope, LocalScope, GlobalScope);
+	link(implements)(BaseScope.n -- Scope.s);
+	link(inheritance)(LocalScope.n -- BaseScope.s);
+	link(inheritance)(pathManhattanY(GlobalScope.n, BaseScope.w));
+
+	AbstractClass.ScopedSymbol("ScopedSymbol")()();
+	ScopedSymbol.n  = Symbol.s + (0, -30);
+
+	drawObjects(ScopedSymbol);
+	link(inheritance)(ScopedSymbol.n -- Symbol.s);
+	link(implements)(pathManhattanY(ScopedSymbol.nw, Scope.se));
+
+	Class.MethodSymbol("MethodSymbol")("arguments:List", "origin:MethodSymbol")();
+	MethodSymbol.n = ScopedSymbol.s + (-60, -30);
+	link(inheritance)(pathManhattanY(MethodSymbol.n, ScopedSymbol.w));
+
+	Class.ClassSymbol("ClassSymbol")
+		("supertype:ClassSymbol", "superclass:ClassSymbol", "constructor:MethodSymbol")
+		("resolve(String):Symbol", "resolveMember(String):Symbol",
+		"resolveSuper(String):Symbol", 
+		"checkMethodArguments():boolean", "checkMethodReturnTypes():boolean",
+		"checkForInheritanceErrors(:boolean)", "checkForOverridings():void",
+		"isSubtypeOf(ClassSymbol):boolean", "isSubclassOf(ClassSymbol):boolean");
+	ClassSymbol.n = ScopedSymbol.s + (0, -80);
+
+	Class.Type("Type")()();
+	classStereotypes.Type("<<interface>>");
+	Type.w = ClassSymbol.e + (40, 0);
+
+	drawObjects(MethodSymbol, ClassSymbol, Type);
+	link(inheritance)(ClassSymbol.n -- ScopedSymbol.s);
+	link(implements)(ClassSymbol.e -- Type.w);
+
+
+	Class.VariableSymbol("VariableSymbol")()();
+	VariableSymbol.w = Symbol.e + (40, 0);
+
+	Class.BuiltIn("BuiltInTypeSymbol")()();
+	BuiltIn.nw = Symbol.se + (40, -30);
+
+	AbstractClass.SpecialSymbol("SpecialSymbol")()();
+	SpecialSymbol.nw = BuiltIn.s + (0, -20);
+
+	Class.ConstructorType("ConstructorType")()();
+	ConstructorType.n = SpecialSymbol.se + (5, -30);
+
+	drawObjects(VariableSymbol, BuiltIn, SpecialSymbol, ConstructorType);
+	link(inheritance)(VariableSymbol.w -- Symbol.e);
+	link(inheritance)(BuiltIn.nw -- Symbol.s);
+	link(implements)(pathStepY(BuiltIn.sw, Type.nw, -70));
+	link(inheritance)(pathStepX(SpecialSymbol.e, Symbol.se, 10));
+	link(implements)(pathStepY(SpecialSymbol.sw, Type.n, -20));
+	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
+
+
+
+
+
+	\end{emp}
+	\caption{Classes of the symbol table}
+	\label{fig:classes}
+\end{figure}
+
 \section{Design}
 This chapter contains a description of the general compiler. Figure
 \ref{fig:compilerPhase} shows the different parts of the whole compiler

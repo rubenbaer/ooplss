@@ -51,6 +51,20 @@ vardef AssociationUniInfo@# =
   @#drawMethod = "drawLine";
 enddef;
 
+vardef ImplementsInfo@# =
+  LinkInfo@#;
+  
+  @#widthA      = 0;
+  @#heightA     = 0;
+  @#drawMethodA = "drawNothing";
+
+  @#widthB      = defaultRelationHeadWidth;
+  @#heightB     = defaultRelationHeadHeight;
+  @#drawMethodB = "drawTriangle";
+  
+  @#drawMethod = "drawLineDashed";
+enddef;
+
 vardef InheritanceInfo@# =
   LinkInfo@#;
   
@@ -166,6 +180,7 @@ enddef;
 AssociationInfo.association;
 AssociationUniInfo.associationUni;
 InheritanceInfo.inheritance;
+ImplementsInfo.implements;
 SubclassofInfo.subclassof;
 AggregationInfo.aggregation;
 AggregationUniInfo.aggregationUni;
