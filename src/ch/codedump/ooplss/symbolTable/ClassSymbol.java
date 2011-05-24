@@ -27,11 +27,6 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	public ClassSymbol(String name, Scope enclosingScope) {
 		super(name,  enclosingScope);
 	}
-
-	@Override
-	public Scope getParentScope() {
-		return this.supertype;
-	}
 	
 	@Override
 	public Symbol resolve(String name) {

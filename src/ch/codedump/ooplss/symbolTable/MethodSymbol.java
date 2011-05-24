@@ -22,12 +22,7 @@ public class MethodSymbol extends ScopedSymbol {
 	public MethodSymbol(String name, Scope encScope) {
 		super(name, encScope);
 	}
-
-	@Override
-	public Scope getParentScope() {
-		return null;
-	}
-
+	
 	/**
 	 * Print all the members of this scope
 	 * 

@@ -12,6 +12,10 @@ public class LocalScope extends BaseScope {
 		super("LOCAL", encScope);
 	}
 	
+	/**
+	 * 
+	 * @Todo document
+	 */
 	@Override
 	public void define(Symbol sym) throws SymbolAlreadyDefinedException {
 		Symbol s = this.resolve(sym.getName());

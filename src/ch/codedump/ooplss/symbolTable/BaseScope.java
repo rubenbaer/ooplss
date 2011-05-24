@@ -101,14 +101,6 @@ public abstract class BaseScope implements Scope {
 		logger.fine(this.toString());
 	}
 	
-	/**
-	 * These scopes don't have a parent scope
-	 */
-	@Override
-	public Scope getParentScope() {
-		return this.getEnclosingScope();
-	}
-	
 	@Override
 	public Scope getEnclosingScope() {
 		return this.enclosingScope;

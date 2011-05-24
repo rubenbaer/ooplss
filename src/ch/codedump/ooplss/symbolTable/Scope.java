@@ -18,12 +18,6 @@ public interface Scope {
 	public Scope getEnclosingScope();
 	
 	/**
-	 * Return the parent or enclosing scope
-	 * @return Parent or enclosing scope
-	 */
-	public Scope getParentScope();
-	
-	/**
 	 * Define a new symbol in this scope
 	 * 
 	 * @param sym
