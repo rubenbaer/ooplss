@@ -310,8 +310,26 @@ Done to java as seen in part III
 \todo{Export code and intermediate code in X\$\$...}
 
 \section{Unit Testing}
-\subsection{GUnit -- A Grammar Testing Framework}
+\subsection{gUnit -- A Grammar Testing Framework}
+
+To be able to run unit tests on the grammar, the gUnit 
+\footnote{http://www.antlr.org/wiki/display/ANTLR3/gUnit+-+Grammar+Unit+Testing}
+feature of ANTLR is used. gUnit tests can be run directly on the grammar files.
+
+There are two types of testing: simple grammar checks and AST checks. The 
+first simply checks whether the input yields an error or not. This is useful
+to test if valid input code is accepted and erroneous code rejected. The
+second type is to check whether the AST tree is rewritten correctly. It is 
+possible to write the expected AST for every rule in the grammar.\\
+
+The gUnit tests can be found in \emph{grammar/test/}.
+
+
 \subsection{JUnit}
+
+The symbol table is checked via JUnit tests. There are various tests that 
+test the symbol table in a certain depth, i.e. the definition walker, the
+reference walker and the type checker.
 
 \subsection{Examples}
 see \Cref{ctr:exampleCode}
