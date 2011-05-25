@@ -1,0 +1,46 @@
+class List[Node <# AbstractNode, Value] {
+  def getNext(node: Node): Node { return null; }
+  def getPrev(node: Node): Node { return null; }
+  def getFirst(): Node { return null; }
+}
+
+class AbstractNode[Value] {
+  var value: Value;
+  def insertAfter(value: Value): MyType { return null; }
+}
+
+class AbstractList[Node <# AbstractNodeImpl, Value] subclassOf List[Node, Value] {
+  def createNode(node: Node, value: Value): Node { return null; }
+  var first: Node;
+  def getFirst(): Node {
+    return first;
+  }
+}
+
+class AbstractNodeImpl[Value] subclassOf AbstractNode[Value] {
+  var list: List[MyType, Value];
+  def insertAfter(value: Value): MyType {
+    return list.createNode(self, value); /* %\label{line:ooplssUseFactory}) */
+  }
+}
+
+class DoublyLinkedList[ValueType] subclassOf AbstractList[DoublyLinkedNode, ValueType] {
+
+  def getNext(node: DoublyLinkedNode): DoublyLinkedNode {
+    return node.next;
+  }
+  def getPrev(node: DoublyLinkedNode): DoublyLinkedNode = {
+    return node.prev;
+  }
+  protected def createNode(node: DoublyLinkedNode, value: Value): DoublyLinkedNode = {
+    return new DoublyLinkedNode(self, node, value);
+  }
+}
+
+class DoublyLinkedNode[Value] subclassOf AbstractNodeImpl[Value] {
+  def __construct(list: List[MyType, Value], node: MyType, value: Value) {
+    // Init code
+  }
+  var prev: MyType;
+  var next: MyType;
+}

@@ -8,12 +8,13 @@ abstract class List {
   abstract class AbstractNode(val value: Value) {
     def insertAfter(value: Value): Node;
   }
+  def getValue(): Value = {
+    return value;
+  }
 }
 
 abstract class AbstractList extends List {
   protected def createNode(node: Node, value: Value): Node; /* \label{line:factory} */
-  def getNext(node: Node): Node;
-  def getPrev(node: Node): Node;
   protected var first: Node = _;
   def getFirst(): Node = {
     return first;
@@ -23,9 +24,6 @@ abstract class AbstractList extends List {
     self: Node => /* \label{line:explicitSelf} */
     def insertAfter(value: Value): Node = {
       return createNode(self, value); /* \label{line:useFactory} */
-    }
-    def getValue(): Value = {
-      return value;
     }
   }
 }
@@ -44,5 +42,6 @@ class DoublyLinkedList[ValueType] extends AbstractList {
     return new DoublyLinkedNode(node.prev, node.next, value)
   }
   protected class DoublyLinkedNode(val prev: Node, val next: Node, value: Value) extends AbstractNodeImpl(value) {
+    // Initialisation code
   }
 }

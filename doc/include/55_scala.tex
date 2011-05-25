@@ -99,12 +99,15 @@ compatible with \emph{DoublyLinkedNode} even though the run-time
 type of self is correct in this example. Using this unsafe structures
 like casts can be avoided.
 
-\lstinputlisting[float,language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]{../misc/sources/scalaList/List.scala}
+\lstinputlisting[language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]{../misc/sources/scalaList/List.scala}
 
-Based in this example code of Scala a corresponding implementation of the 
-doubly linked list in \ooplss will be given.
+Based in this example code of Scala a corresponding implementation
+of the doubly linked list in \ooplss will be given in Listing
+\ref{lst:doublyLinkedList}. It is assumed that the whole specification
+of \ooplss is implemented within the compiler since it makes a lot
+use of class parametrisation.
 
-
+\lstinputlisting[language=ooplss,caption=A doubly linked list in \ooplss,label=lst:doublyLinkedList]{../misc/sources/ooplssList/List.ooplss}
 
 \section{Software Composition with Traits}
 %Traits, Existential types
