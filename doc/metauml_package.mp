@@ -21,6 +21,8 @@ fi;
 _metauml_package_mp:=1;
 
 input metauml_defaults;
+input metauml_note;
+input metauml_plainnote;
 input util_log;
 
 vardef PackageInfo@#=
