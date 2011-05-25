@@ -224,6 +224,51 @@ public class TestMemberResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test 
+	public void testSuperClassVariable() throws Exception {
+		String str = 	"class foo {" +
+						"	var x:Int;" +
+						"}" +
+						"class bar subclassOf foo {" +
+						"	def blubb():Void {" +
+						"		x;" +
+						"	}" +
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testSuperClassMethod() throws Exception {
+		String str = 	"class foo {" +
+						"	def x():Int;" +
+						"}" +
+						"class bar subclassOf foo {" +
+						"	def blubb():Void {" +
+						"		x();" +
+						"	}" +
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testSelfSuperClassVariable() throws Exception {
+		String str = 	"class foo {" +
+						"	var x:Int;" +
+						"}" +
+						"class bar subclassOf foo {" +
+						"	def blubb():Void {" +
+						"		self.x;" +
+						"	}" +
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 

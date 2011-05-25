@@ -44,6 +44,10 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			}
 		}
 		
+		if (this.superclass != null) {
+			return this.superclass.resolve(name);
+		}
+		
 		return null;
 	}
 	
@@ -95,7 +99,14 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		if (this.supertype != null) {
-			return this.supertype.resolveMember(name);
+			s = this.supertype.resolveMember(name);
+			if (s != null) {
+				return s;
+			}
+		}
+		
+		if (this.superclass != null) {
+			return this.superclass.resolveMember(name);
 		}
 		
 		return null;
