@@ -87,6 +87,26 @@
 	\label{fig:classes}
 \end{figure}
 
+
+\begin{figure}[H]
+\centering
+	\begin{emp}[classdiag](20, 20)
+
+	Note.MainN("Main package");
+	Package.MainP("ooplss")(MainN);
+
+	Note.AntlrN("Antlr generated Code");
+	Package.AntlrP("ooplss.antlr")(AntlrN);
+	AntlrP.w = MainP.e + (40, 0);
+
+	drawObjects(MainP, AntlrP);
+	link(subclassof)(MainP.e -- AntlrP.w);
+
+	\end{emp}
+	\caption{Package diagram}
+	\label{fig:classes}
+\end{figure}
+
 \section{Design}
 This chapter contains a description of the general compiler. Figure
 \ref{fig:compilerPhase} shows the different parts of the whole compiler
