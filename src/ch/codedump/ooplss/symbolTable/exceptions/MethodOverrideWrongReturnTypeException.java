@@ -11,7 +11,7 @@ public class MethodOverrideWrongReturnTypeException extends OoplssException {
 		super(sym.getDef().getToken());
 		
 		String err = 	"The method " + sym.getName() + " must have the same return" +
-						"type as declarated in " + resolvedSym.getScope().getName();
+						"type as declared in " + resolvedSym.getScope().getName();
 		this.setError(err);
 	}
 
