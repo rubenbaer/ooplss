@@ -1,113 +1,6 @@
-\chapter{Implementation}
+\chapter{Software Design and Implementation}
 
-\begin{figure}[H]
-	\centering
-	\begin{emp}[classdiag](20, 20)
-	Class.SymbolTable("SymbolTable")()();
-
-	Class.Scope("Scope")("enclosingScope:Scope")( "define(Symbol):Void", 
-			"resolve(String):Symbol", "resolveType():Type");
-	classStereotypes.Scope("<<interface>>");
-	Scope.ne = SymbolTable.sw + (-60, -10);
-
-	AbstractClass.Symbol("Symbol")("def:OoplssAST", "type:Type", "scope:Scope")("");
-	Symbol.n = SymbolTable.s + (0, -10);
-
-	drawObjects(SymbolTable, Scope, Symbol);
-
-	Class.BaseScope("BaseScope")()();
-	BaseScope.n = Scope.s + (0, -20);
-
-	Class.GlobalScope("GlobalScope")()();
-	GlobalScope.n = BaseScope.s + (-40, -20);
-
-	Class.LocalScope("LocalScope")()("define(Symbol):void");
-	LocalScope.n = BaseScope.s + (0, -80);
-
-	drawObjects(BaseScope, LocalScope, GlobalScope);
-	link(implements)(BaseScope.n -- Scope.s);
-	link(inheritance)(LocalScope.n -- BaseScope.s);
-	link(inheritance)(pathManhattanY(GlobalScope.n, BaseScope.w));
-
-	AbstractClass.ScopedSymbol("ScopedSymbol")()();
-	ScopedSymbol.n  = Symbol.s + (0, -30);
-
-	drawObjects(ScopedSymbol);
-	link(inheritance)(ScopedSymbol.n -- Symbol.s);
-	link(implements)(pathManhattanY(ScopedSymbol.nw, Scope.se));
-
-	Class.MethodSymbol("MethodSymbol")("arguments:List", "origin:MethodSymbol")();
-	MethodSymbol.n = ScopedSymbol.s + (-60, -30);
-	link(inheritance)(pathManhattanY(MethodSymbol.n, ScopedSymbol.w));
-
-	Class.ClassSymbol("ClassSymbol")
-		("supertype:ClassSymbol", "superclass:ClassSymbol", "constructor:MethodSymbol")
-		("resolve(String):Symbol", "resolveMember(String):Symbol",
-		"resolveSuper(String):Symbol", 
-		"checkMethodArguments():boolean", "checkMethodReturnTypes():boolean",
-		"checkForInheritanceErrors(:boolean)", "checkForOverridings():void",
-		"isSubtypeOf(ClassSymbol):boolean", "isSubclassOf(ClassSymbol):boolean");
-	ClassSymbol.n = ScopedSymbol.s + (0, -80);
-
-	Class.Type("Type")()();
-	classStereotypes.Type("<<interface>>");
-	Type.w = ClassSymbol.e + (40, 0);
-
-	drawObjects(MethodSymbol, ClassSymbol, Type);
-	link(inheritance)(ClassSymbol.n -- ScopedSymbol.s);
-	link(implements)(ClassSymbol.e -- Type.w);
-
-
-	Class.VariableSymbol("VariableSymbol")()();
-	VariableSymbol.w = Symbol.e + (40, 0);
-
-	Class.BuiltIn("BuiltInTypeSymbol")()();
-	BuiltIn.nw = Symbol.se + (40, -30);
-
-	AbstractClass.SpecialSymbol("SpecialSymbol")()();
-	SpecialSymbol.nw = BuiltIn.s + (0, -20);
-
-	Class.ConstructorType("ConstructorType")()();
-	ConstructorType.n = SpecialSymbol.se + (5, -30);
-
-	drawObjects(VariableSymbol, BuiltIn, SpecialSymbol, ConstructorType);
-	link(inheritance)(VariableSymbol.w -- Symbol.e);
-	link(inheritance)(BuiltIn.nw -- Symbol.s);
-	link(implements)(pathStepY(BuiltIn.sw, Type.nw, -70));
-	link(inheritance)(pathStepX(SpecialSymbol.e, Symbol.se, 10));
-	link(implements)(pathStepY(SpecialSymbol.sw, Type.n, -20));
-	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
-
-
-
-
-
-	\end{emp}
-	\caption{Classes of the symbol table}
-	\label{fig:classes}
-\end{figure}
-
-
-\begin{figure}[H]
-\centering
-	\begin{emp}[classdiag](20, 20)
-
-	Note.MainN("Main package");
-	Package.MainP("ooplss")(MainN);
-
-	Note.AntlrN("Antlr generated Code");
-	Package.AntlrP("ooplss.antlr")(AntlrN);
-	AntlrP.w = MainP.e + (40, 0);
-
-	drawObjects(MainP, AntlrP);
-	link(subclassof)(MainP.e -- AntlrP.w);
-
-	\end{emp}
-	\caption{Package diagram}
-	\label{fig:classes}
-\end{figure}
-
-\section{Design}
+\section{Compiler Design}
 This chapter contains a description of the general compiler. Figure
 \ref{fig:compilerPhase} shows the different parts of the whole compiler
 software. There is a section describing each phase.
@@ -149,12 +42,6 @@ language.
 The output translation backend is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
 
-\subsection{Software Structure}
-Inspired by: \cite{parr_language_2009}
-
-Package diagram
-
-Important class diagrams
 
 \subsection{Lexer and Parser}
 The lexer and parser are both in the same file \emph{Ooplss.g} defined
@@ -320,6 +207,165 @@ equivalence of \ooplss to Java is described in \Cref{ctr:translation}.
 As result the intermediate language representation is translated to the
 output Java code which runs on the Java Virtual Machine.
 
+\section{Software Structure}
+
+\subsection{Package Description}
+
+\begin{figure}[H]
+\centering
+	\begin{emp}[classdiag](20, 20)
+
+	PlainNote.MainN("Main package");
+	Package.MainP("ooplss")(MainN);
+
+	PlainNote.AntlrN("Antlr generated Code");
+	Package.AntlrP("ooplss.antlr")(AntlrN);
+	AntlrP.w = MainP.e + (50, 0);
+
+	PlainNote.SymTabN("The symbol table");
+	Package.SymTabP("ooplss.symbolTable")(SymTabN);
+	SymTabP.n = AntlrP.s + (0, -40);
+
+	PlainNote.TreeN("Customised AST node");
+	Package.TreeP("ooplss.tree")(TreeN);
+	TreeP.n = MainP.s + (-40, -40);
+
+	PlainNote.ExceptionsN("Symbol table exceptions");
+	Package.ExceptionsP("ooplss.symbolTable.exceptions")(ExceptionsN);
+	ExceptionsP.n = SymTabP.s + (0, -40);
+
+	PlainNote.UtilsN("Utils");
+	Package.UtilsP("ooplss.utils")(UtilsN);
+	UtilsP.w = AntlrP.e + (70, 0);
+
+	drawObjects(MainP, AntlrP, SymTabP, TreeP, ExceptionsP, UtilsP);
+	link(subclassof)(MainP.e -- AntlrP.w);
+	link(subclassof)(AntlrP.s -- SymTabP.n);
+	link(subclassof)(AntlrP.w -- TreeP.n);
+	link(doublesubclassof)(TreeP.e -- SymTabP.w);
+	link(subclassof)(SymTabP.s -- ExceptionsP.n);
+	link(subclassof)(ExceptionsP.w -- TreeP.se);
+	link(subclassof)(AntlrP.e -- UtilsP.w);
+	link(subclassof)(pathStepX(AntlrP.e, ExceptionsP.e, 40));
+
+	\end{emp}
+	\caption{Package diagram}
+	\label{fig:classes}
+\end{figure}
+
+
+\begin{description}
+\item[ooplss] This is the main package, containing the main routine of the 
+compiler.
+\item[ooplss.antlr] This package contains the code that is generated from the 
+ANTLR grammars, namely the lexer, parser, definition walker, referencing walker
+type checker and the code generator.
+\item[ooplss.symbolTable] This package contains the whole symbol table including
+all the symbols, types and scopes.
+\item[ooplss.symbolTable.exceptions] This package contains all the exceptions 
+that the symbol table would throw upon finding errors.
+\item[ooplss.tree] It was necessary to implement a customised AST node to be 
+able to add certain information to the nodes. This package contains all the 
+classes necessary.
+\item[ooplss.utils] Contains an error handler to be able to handle the
+exceptions thrown by the symbol table.
+\end{description}
+
+All of these packages are subpackages of \emph{ch.codedump}.
+
+\subsection{Symbol Table Classes}
+
+Following Figure shows the composition of the classes of the symbol table.
+Note that it only shows the important fields; methods like getter, setter or 
+the toString are not enlisted.
+
+\begin{figure}[H]
+	\centering
+	\begin{emp}[classdiag](20, 20)
+	Class.SymbolTable("SymbolTable")()();
+
+	Class.Scope("Scope")("enclosingScope:Scope")( "define(Symbol):Void", 
+			"resolve(String):Symbol", "resolveType():Type");
+	classStereotypes.Scope("<<interface>>");
+	Scope.ne = SymbolTable.sw + (-60, -10);
+
+	AbstractClass.Symbol("Symbol")("def:OoplssAST", "type:Type", "scope:Scope")("");
+	Symbol.n = SymbolTable.s + (0, -10);
+
+	drawObjects(SymbolTable, Scope, Symbol);
+
+	Class.BaseScope("BaseScope")()();
+	BaseScope.n = Scope.s + (0, -20);
+
+	Class.GlobalScope("GlobalScope")()();
+	GlobalScope.n = BaseScope.s + (-40, -20);
+
+	Class.LocalScope("LocalScope")()("define(Symbol):void");
+	LocalScope.n = BaseScope.s + (0, -80);
+
+	drawObjects(BaseScope, LocalScope, GlobalScope);
+	link(implements)(BaseScope.n -- Scope.s);
+	link(inheritance)(LocalScope.n -- BaseScope.s);
+	link(inheritance)(pathManhattanY(GlobalScope.n, BaseScope.w));
+
+	AbstractClass.ScopedSymbol("ScopedSymbol")()();
+	ScopedSymbol.n  = Symbol.s + (0, -30);
+
+	drawObjects(ScopedSymbol);
+	link(inheritance)(ScopedSymbol.n -- Symbol.s);
+	link(implements)(pathManhattanY(ScopedSymbol.nw, Scope.se));
+
+	Class.MethodSymbol("MethodSymbol")("arguments:List", "origin:MethodSymbol")();
+	MethodSymbol.n = ScopedSymbol.s + (-60, -30);
+	link(inheritance)(pathManhattanY(MethodSymbol.n, ScopedSymbol.w));
+
+	Class.ClassSymbol("ClassSymbol")
+		("supertype:ClassSymbol", "superclass:ClassSymbol", "constructor:MethodSymbol")
+		("resolve(String):Symbol", "resolveMember(String):Symbol",
+		"resolveSuper(String):Symbol", 
+		"checkMethodArguments():boolean", "checkMethodReturnTypes():boolean",
+		"checkForInheritanceErrors(:boolean)", "checkForOverridings():void",
+		"isSubtypeOf(ClassSymbol):boolean", "isSubclassOf(ClassSymbol):boolean");
+	ClassSymbol.n = ScopedSymbol.s + (0, -80);
+
+	Class.Type("Type")()();
+	classStereotypes.Type("<<interface>>");
+	Type.w = ClassSymbol.e + (40, 0);
+
+	drawObjects(MethodSymbol, ClassSymbol, Type);
+	link(inheritance)(ClassSymbol.n -- ScopedSymbol.s);
+	link(implements)(ClassSymbol.e -- Type.w);
+
+
+	Class.VariableSymbol("VariableSymbol")()();
+	VariableSymbol.w = Symbol.e + (40, 0);
+
+	Class.BuiltIn("BuiltInTypeSymbol")()();
+	BuiltIn.nw = Symbol.se + (40, -30);
+
+	AbstractClass.SpecialSymbol("SpecialSymbol")()();
+	SpecialSymbol.nw = BuiltIn.s + (0, -20);
+
+	Class.ConstructorType("ConstructorType")()();
+	ConstructorType.n = SpecialSymbol.se + (5, -30);
+
+	drawObjects(VariableSymbol, BuiltIn, SpecialSymbol, ConstructorType);
+	link(inheritance)(VariableSymbol.w -- Symbol.e);
+	link(inheritance)(BuiltIn.nw -- Symbol.s);
+	link(implements)(pathStepY(BuiltIn.sw, Type.nw, -70));
+	link(inheritance)(pathStepX(SpecialSymbol.e, Symbol.se, 10));
+	link(implements)(pathStepY(SpecialSymbol.sw, Type.n, -20));
+	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
+
+
+
+
+
+	\end{emp}
+	\caption{Classes of the symbol table}
+	\label{fig:classes}
+\end{figure}
+
 \section{Translation}
 \label{ctr:translation}
 This chapter deals with the exact translation from \ooplss code segments
@@ -333,8 +379,8 @@ Done to java as seen in part III
 \section{Unit Testing}
 \subsection{gUnit -- A Grammar Testing Framework}
 
-To be able to run unit tests on the grammar, the gUnit
-\footnote{\href{http://www.antlr.org/wiki/display/ANTLR3/gUnit+-+Grammar+Unit+Testing}
+To be able to run unit tests on the grammar, the gUnit\footnote{
+\href{http://www.antlr.org/wiki/display/ANTLR3/gUnit+-+Grammar+Unit+Testing}
 {http://www.antlr.org/wiki/display/ANTLR3/gUnit+-+Grammar+Unit+Testing}}
 feature of ANTLR is used. gUnit tests can be run directly on the grammar files.
 
