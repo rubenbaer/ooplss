@@ -62,6 +62,11 @@ final-book:
 once:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
+mpost:
+	mpost $(JOB) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
+
 debug:
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
