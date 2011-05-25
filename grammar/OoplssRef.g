@@ -219,14 +219,14 @@ selfAccess	returns [Type type]
 
 memberAccess 	returns [Type type]
 			:	^(CALLOPERATOR (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
-					(^(MEMBERACCESS var=ID)|^(METHODCALL var=ID ^(args=METHODARGS .*)))
+					(^(ast=MEMBERACCESS var=ID)|^(ast=METHODCALL var=ID ^(args=METHODARGS .*)))
 				)
 			{
 				logger.fine("<Ref>Accessing a member " + $var.text);
 				Type lefttype = $left.type;
 				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
 				//$var.setScope((ClassSymbol)lefttype);
-				Symbol s = this.symtab.resolveMember(lefttype, $var);
+				Symbol s = this.symtab.resolveMember(lefttype, $var, $ast);
 				$var.setSymbol(s);
 				s.setDef($var);
 				type = s.getType();

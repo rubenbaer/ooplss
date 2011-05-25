@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.antlr.OoplssLexer;
+import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
@@ -19,6 +20,7 @@ import ch.codedump.ooplss.symbolTable.exceptions.StandaloneStatementException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownTypeException;
+import ch.codedump.ooplss.symbolTable.exceptions.VariableIsAMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
@@ -605,11 +607,13 @@ public class SymbolTable {
 	 * 
 	 * Resolve a member symbol. A member symbol
 	 * is of the type x.y or x.y().
+	 * @param type
 	 * @param node
+	 * @param accType The access type, Methodcall or Memberaccess
 	 * @return The type
 	 * @throws IllegalMemberAccessException 
 	 */
-	public Symbol resolveMember(Type type, OoplssAST node) throws OoplssException {
+	public Symbol resolveMember(Type type, OoplssAST node, OoplssAST accType) throws OoplssException {
 		if (!(type instanceof ClassSymbol)) {
 			throw new ClassNeededForMemberAccess(node);
 		}
@@ -619,6 +623,18 @@ public class SymbolTable {
 		Symbol s =  scope.resolveMember(node.getText());
 		if (s == null) {
 			throw new IllegalMemberAccessException(node);
+		}
+		
+		if (accType.token.getType() == OoplssParser.METHODCALL) {
+			if (s instanceof VariableSymbol) { 
+				throw new NotCallableException(node);
+			}
+		}
+		
+		if (accType.token.getType() == OoplssParser.MEMBERACCESS) {
+			if (s instanceof MethodSymbol) {
+				throw new VariableIsAMethodException(node);
+			}
 		}
 		
 		return s;

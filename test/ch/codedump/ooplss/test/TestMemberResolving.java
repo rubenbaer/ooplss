@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
+import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownDefinitionException;
+import ch.codedump.ooplss.symbolTable.exceptions.VariableIsAMethodException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
 
@@ -92,6 +94,7 @@ public class TestMemberResolving extends OoplssTest {
 						"		a;\n" +
 						"	}\n" +
 						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
@@ -190,6 +193,34 @@ public class TestMemberResolving extends OoplssTest {
 						"		m().foo.bar();" +
 						"	}" +
 						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=VariableIsAMethodException.class)
+	public void testMethodAccessAsVar() throws Exception {
+		String str =	"class bar {\n" + 
+						"    var x:bar;\n" + 
+						"    def foo():Void {}\n" + 
+						"    def blubb():Void {\n" + 
+						"        x.foo; // variable access, but is a method\n" + 
+						"   }\n" + 
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=NotCallableException.class)
+	public void testVarAccessAsMethod() throws Exception {
+		String str =	"class bar {\n" + 
+						"    var x:bar;\n" + 
+						"    def foo():Void {}\n" + 
+						"    def blubb():Void {\n" + 
+						"        x.x(); // method call but is a variable\n" + 
+						"   }\n" + 
+						"}";
+		this.symTab.disableStandaloneCheck();
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
