@@ -295,7 +295,7 @@ object may contain many versions of self-references, which is called
 and Eiffel treat the self-reference differently; they redirect the
 self-reference to the derived object. Consequently both models have
 different semantics in recursion which are called naive respectively
-mutual recursion \cite{cook_denotational_1995}.  Both are illustrated
+mutual recursion \cite{cook_denotational_1989}.  Both are illustrated
 in \Cref{fig:schizoRecursion}. $M$ derives $F$ which is a recursive
 function. In the native case the call of the parent method, the recursion
 is not changed which is different by mutual recursion where the recursive
@@ -309,7 +309,7 @@ call in $F$ is returned to the caller $M$.
 	\subfloat[Mutual recursion]{
 		\includedot[scale=0.7]{dot/mutualRecursion}
 	}
-	\caption[Naive and mutual recursion where M <: F]{Naive and mutual recursion where M <: F \cite{cook_denotational_1995}}
+	\caption[Naive and mutual recursion where M <: F]{Naive and mutual recursion where M <: F \cite{cook_denotational_1989}}
 	\label{fig:schizoRecursion}
 \end{figure}
 

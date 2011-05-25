@@ -8,7 +8,7 @@
 % Ruben Bär, Stefan Heinemann
 %******************************************************************************
 \NeedsTeXFormat{LaTeX2e}\relax
-\ProvidesClass{ooplssTemplate}[2011/03/03 Template for OOPLSS Documentation]
+\ProvidesClass{ooplssReport}[2011/03/03 Template for OOPLSS Documentation]
 
 %% Load the book class with the following parameters:
 %% a4 paper, 10pt, two side pages, titlepage
