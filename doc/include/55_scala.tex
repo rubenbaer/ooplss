@@ -1,0 +1,112 @@
+\chapter{Comparison with Scala}
+%\ooplss:Scala -- A Contrasting Juxtaposition
+\label{sec:comparisonScala}
+This chapter presents a comparison of some features of Scala and \ooplss.
+
+INTRODUCTION
+
+\section{Scala -- A Scalable Language}
+Scala is a modern programming language initiated by Martin Odersky,
+director of \emph{Laboratoire de Méthodes de programmation} at the
+\emph{école polytechnique fédérale de Lausanne}. It is a general
+purpose programming language with special remarks on scalability
+and flexibility without dropping the advantages of a static type
+system. Scala provides a multi-paradigm language with support for
+object-oriented and functional programming. As target platform both JVM
+and CLR\footnote{Commmon Language Runtime is the run-time environment
+for Microsoft's .NET technology} can be chosen by the programmer. These
+platforms are seamless integrated to Scala which enables the use of
+existing software and libraries available on these platforms.
+
+During the development of Scala a special remark on the type system
+was given. Consequently it contains many different features that found
+not respectively rarely its way into popular languages with static
+type systems like abstract type definitions in abstract classes,
+explicitly typed self references and traits, software units for proper
+code reuse. It is also remarkable that in Scala provides a nominal
+as well as a structural type system. Anyway, these are not all the
+special features within Scala. Further informations are available in
+\cite{odersky_scala_2010,odersky_programming_2008} or on its website
+\href{http://www.scala-lang.org/}{www.scala-lang.org}.
+
+Since Scala combines a wide range of features in its type system it is
+an optimal language for a comparison of some type features. This gives
+a hands on how a problem can be solved with different approaches.
+
+\section{Abstract Types and Explicitly Typed Self References}
+%Abtract Types and Explicit Self Typig
+%Explicit self typing
+A common concept which is available in many popular object-oriented
+programming languages is the definition of abstract classes which
+provides a partial implementation of a class. Such classes can not be
+instantiated by the user but specialised to concrete classes with a full
+implementation.  In many implementation of this feature, e.g., in C++,
+\cs or D, only abstract methods and properties are supported. Scala goes
+one step further and adds abstract type definitions. An abstract type can
+be used simply as normal type declaration within this class. At last at
+the moment where the abstract class is derived to a concrete class these
+type declarations have to be specified with an existing type, i.e.,
+an abstract type declaration is a type parameter that is not exposed
+like generics do. However, in the following example in Scala, abstract
+types are used since they are more compact in this case. Further are
+inner classes used. In Scala it is possible to nest classes within others.
+
+Listing \ref{lst:abstractType} presents an implementation of a List
+in Scala.  It is not a best implementation of a list possible but shows
+how Scala uses explicitly typed self references and abstract types. It
+shows as well how Scala deals with covariant method parameters by using
+an explicitly typed self reference.
+
+The example is an adaption of the doubly linked node which was introduced
+in \Cref{subsec:matching}. It contains three global classes each
+containing one inner class. The outer classes implements a list and
+the inner classes are the nodes within the list. On the nodes are the
+values. Consequently to the implementation of the doubly linked list is
+a singly linked list possible as well.
+
+The first class is used as abstract interface with the minimum of fields.
+In line \ref{line:abstractType1} and \ref{line:abstractType2} is a
+abstract type declaration where in the first one, a type constraint is
+specified.  In the second class a partial implementation is done but it is
+still abstract since a concrete node implementation is still missing. Line
+\ref{line:factory} defines an abstract factory method for the node
+creation. The factory method needs to create a new node and insert the
+node the given index. Still in the class \emph{AbstractList} the abstract
+types are used. Here the factory method expects a parameter of type
+\emph{Node} and \emph{Value}. In its inner class \emph{AbstractNodeImpl}
+the factory method is used in line \ref{line:useFactory} where the
+self variable is passed to it. And here it is the problem of the self
+reference. However, first take a look at the last and concrete class
+of the list; \emph{DoublyLinkedList}. In line \ref{line:typeInstance1}
+and \ref{line:typeInstance2} the abstract types are instantiated with
+a concrete type. \emph{Node} is now type \emph{DoublyLinkedNode} and
+\emph{Value} is type \emph{ValueType}, a class type parameter. Further all
+remaining methods and class are implemented using a doubly linked node.
+In a singly linked list, the method \emph{getPrev} would be more complex
+in time.
+
+Now lets consider the problem of line \ref{line:useFactory}. As
+seen is the abstract type \emph{Node} now of the concrete
+type \emph{DoublyLinkedNode}.  Consequently the factory
+method \emph{createNode} expects as parameter a value of type
+\emph{DoublyLinkedNode}. What now happened is that this factory has a
+covariant type change in its parameters which does not conform with the
+subtyping rules. To overcome with this problem Scala allows to type the
+self reference explicitly which is done in line \ref{line:explicitSelf}.
+Here self is now typed with the abstract type \emph{Node}. Without this
+line the Scala compiler returns with a typing error since self is not
+compatible with \emph{DoublyLinkedNode} even though the run-time
+type of self is correct in this example. Using this unsafe structures
+like casts can be avoided.
+
+\lstinputlisting[float,language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]{../misc/sources/scalaList/List.scala}
+
+Based in this example code of Scala a corresponding implementation of the 
+doubly linked list in \ooplss will be given.
+
+
+
+\section{Software Composition with Traits}
+%Traits, Existential types
+
+\section{Conclusion}
