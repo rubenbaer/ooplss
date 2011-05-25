@@ -51,6 +51,7 @@ like generics do. However, in the following example in Scala, abstract
 types are used since they are more compact in this case. Further are
 inner classes used. In Scala it is possible to nest classes within others.
 
+\subsection{A List in Scala}
 Listing \ref{lst:abstractType} presents an implementation of a List
 in Scala.  It is not a best implementation of a list possible but shows
 how Scala uses explicitly typed self references and abstract types. It
@@ -101,11 +102,33 @@ like casts can be avoided.
 
 \lstinputlisting[language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]{../misc/sources/scalaList/List.scala}
 
+\subsection{A List in \ooplss}
 Based in this example code of Scala a corresponding implementation
 of the doubly linked list in \ooplss will be given in Listing
 \ref{lst:doublyLinkedList}. It is assumed that the whole specification
-of \ooplss is implemented within the compiler since it makes a lot
-use of class parametrisation.
+of \ooplss is implemented within the compiler since it makes a lot use
+of class parametrisation.
+
+Compared to the solution written in Scala, the same classes exists
+in \ooplss. Since \ooplss does not know inner and abstract classes,
+this example is costlier then that in Scala. First for every method is
+an block obligatory even the implementation does not make sense since
+they return only \emph{null}. Further has every node class its own type
+parameters since they can not be derived from the outer classes. This
+makes the use a bit more difficult since the node has to call the factory
+method \emph{createNode} which is defined within the list class. All
+these drawbacks could be solved by allowing inner and abstract classes.
+
+The major differences are that the classes are derived with
+\emph{subclassing} and not with \emph{subtyping}, that the type
+\emph{Node} is bound by matching and not subtyping and that the
+\mytype is used within the node classes. Lets consider the line
+\ref{line:ooplssUseFactory}. This was the construct which made problems
+at the last time. But this is perfectly typeable in \ooplss since in
+line \ref{line:listMyType} is a list specified which uses \mytype as
+type parameter. This ensures that the list uses the correct node type,
+e.g., a singly linked node respectively doubly linked nodes in singly
+linked lists and doubly linked lists.
 
 \lstinputlisting[language=ooplss,caption=A doubly linked list in \ooplss,label=lst:doublyLinkedList]{../misc/sources/ooplssList/List.ooplss}
 
@@ -113,3 +136,5 @@ use of class parametrisation.
 %Traits, Existential types
 
 \section{Conclusion}
+
+Abstract and inner classes would be useful
