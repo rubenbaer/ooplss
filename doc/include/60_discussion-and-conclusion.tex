@@ -1,3 +1,55 @@
+\chapter{Comparison with Scala}
+%\ooplss:Scala -- A Contrasting Juxtaposition
+\label{sec:comparisonScala}
+This chapter presents a comparison of some features of Scala and \ooplss.
+
+INTRODUCTION
+
+\section{Scala -- A Scalable Language}
+Scala is a modern programming language initiated by Martin Odersky,
+director of \emph{Laboratoire de Méthodes de programmation} at the
+\emph{école polytechnique fédérale de Lausanne}. It is a general
+purpose programming language with special remarks on scalability
+and flexibility without dropping the advantages of a static type
+system. Scala provides a multi-paradigm language with support for
+object-oriented and functional programming. As target platform both JVM
+and CLR\footnote{Commmon Language Runtime is the run-time environment
+for Microsoft's .NET technology} can be chosen by the programmer. These
+platforms are seamless integrated to Scala which enables the use of
+existing software and libraries available on these platforms.
+
+During the development of Scala a special remark on the type system
+was given. Consequently it contains many different features that
+found not respectively rarely its way into popular languages with
+static type systems like abstract type definitions in abstract
+classes, explicitly typed self references and traits, software
+units for proper code reuse.  Anyway, these are not all the
+special features within Scala. Further informations are available in
+\cite{odersky_scala_2010,odersky_programming_2008} or on its website
+\href{http://www.scala-lang.org/}{www.scala-lang.org}.
+
+\section{Abstract Types and Explicitly Typed Self References}
+%Abtract Types and Explicit Self Typig
+%Explicit self typing
+A common concept which is available in many popular object-oriented
+programming languages is the definition of abstract classes which
+provides a partial implementation of a class. Such classes can not be
+instantiated by the user but specialised to concrete classes with a full
+implementation.  In many implementation of this feature, e.g., in C++,
+\cs or D, only abstract methods and properties are supported. Scala goes
+one step further and adds abstract type definitions. An abstract type
+can be used simply as normal type declaration within this class. At last
+at the moment where the abstract class is derived to a concrete class
+these type declarations have to be specified with an existing type.
+
+\begin{lstlisting}[float,language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]
+
+\end{lstlisting}
+
+\section{Software Composition with Traits}
+%Traits, Existential types
+
+
 \chapter{Discussion and Conclusion}
 \section{Discussion}
 \label{ctr:discussion}
@@ -152,14 +204,6 @@ class Vec3D subclassOf Vec2D {
 
 \subsection{Status Quo of Implementation within Project}
 \label{sec:statusQuo}
-
-\subsection{Comparison with Scala}
-\label{sec:comparisonScala}
-% estimated pages: 6$
-
-Explicit self typing
-
-Existential types
 
 \section{Further Work}
 \label{sec:futureWork}
