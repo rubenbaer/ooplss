@@ -62,6 +62,9 @@ input metauml;
 \thispagestyle{empty}
 
 \setcounter{tocdepth}{2}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Contents}
 \tableofcontents
 
 %\newcommand\stdsection{}
@@ -70,11 +73,11 @@ input metauml;
 %\let\stdaddcontentsline\addcontentsline
 %\let\section\subsection
 %\renewcommand\addcontentsline[3]{}
-\clrpage
+\phantomsection
 \addcontentsline{toc}{chapter}{List of Listings} 
 \lstlistoflistings
 
-\clrpage
+\phantomsection
 \addcontentsline{toc}{chapter}{List of Figures}
 \listoffigures
 %\let\section\stdsection
@@ -96,9 +99,9 @@ input metauml;
 
 \include{include/40_language-specification}
 
-\include{include/55_scala}
-
 \include{include/50_implementation}
+
+\include{include/55_scala}
 
 \include{include/60_discussion-and-conclusion}
 
