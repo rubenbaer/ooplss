@@ -110,15 +110,13 @@
 	keywordstyle=\color{blue}\bfseries,
 	identifierstyle=\color{black},
 	commentstyle=\color{commentcolor},
-	stringstyle=\color{red}\ttfamily,
-	float
+	stringstyle=\color{red}\ttfamily
 }
 
 %
 % "define" OOPLSS (Based on scala syntax)
 %
 \lstdefinelanguage{ooplss}{
-	float,
   morekeywords={abstract,case,catch,class,def,%
     do,else,extends,false,final,finally,%
     for,if,implicit,import,match,mixin,%
@@ -139,7 +137,6 @@
 % "define" Scala
 %
 \lstdefinelanguage{scala}{
-	float,
   morekeywords={abstract,case,catch,class,def,%
     do,else,extends,false,final,finally,%
     for,if,implicit,import,match,mixin,%
@@ -174,9 +171,27 @@
 %
 % Nomenclatur
 %
-\usepackage[intoc]{nomencl}
+\usepackage[intoc,refpage]{nomencl}
 \renewcommand{\nomname}{Glossary}
 \renewcommand{\nomlabel}[1]{\textbf{#1}}
+
+\def\@@@nomenclature[#1]#2#3{%
+ \def\@tempa{#2}\def\@tempb{#3}%
+ \protected@write\@nomenclaturefile{}%
+  {\string\nomenclatureentry{#1\nom@verb\@tempa @[{\nom@verb\@tempa}]%
+    |nompageref{\begingroup\nom@verb\@tempb\protect\nomeqref{\theequation}}}%
+    {\thepage}}%
+ \endgroup
+ \@esphack}
+
+\def\nompageref#1#2{%
+  \if@printpageref\pagedeclaration{#2}\else\null\fi
+  \linebreak#1\nomentryend\endgroup}
+
+\def\pagedeclaration#1{\dotfill\nobreakspace#1}
+\def\nomentryend{.}
+\def\nomlabel#1{\textbf{#1}\hfil}
+
 
 \makenomenclature
 
