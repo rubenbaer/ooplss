@@ -23,6 +23,7 @@ or C++, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
 \subsection{Subtyping}
+\nomenclature{Subtyping}{A relation between two type expressions with safe substitutability}
 Subtyping is a binary relation, denoted with `<:', which defines
 a substitution relation between two types and is one style of type
 polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
@@ -119,6 +120,7 @@ the semantic of a program is not considered by the type system. Only
 the object and method signatures are important and checked by the system.
 
 LSP allows to introduce a subsumption rule for type declarations:
+\nomenclature{Subsumption}{Characterises a expression that can be of type \A as well as of type \B if \A is a subtype of \B}
 
 \begin{defn}[Subsumption]
 \label{def:methodSubtyping}
@@ -200,6 +202,7 @@ subtyping should be treated differently.
 
 \subsection{Binary Methods and the Problem of Recursive Closure}
 \label{sec:recursiveClosure}
+\nomenclature{Binary Method}{A method of an object that expects an object of the same type}
 Another problem of the subtyping concept in object-oriented languages is
 the problem of contravariance: the arguments of a method that is derived
 and overwrites the same method in the super type can only have a more
@@ -362,6 +365,7 @@ concept; before the combination respectively extension of the objects. In the
 concept of subclassing however, it is done after the combination.
 
 \subsection{Subclassing} \todo{Cite}
+\nomenclature{Subclassing}{A class combination that does not obey boundaries of a subtype relation}
 The goal of the concept of subclassing is now to provide a
 different kind of inheritance. With this inheritance, the programmer
 should be able to inherit code without automatically creating a subtype.
@@ -404,6 +408,8 @@ type systems and not for nominals. Restricting higher-order subtyping
 for nominal type systems makes the semantic more clear less complex in use.
 
 \subsection{Nominal and Structural Type Systems}
+\nomenclature{Nominal Type System}{\ldots}
+\nomenclature{Structural Type System}{\ldots}
 Generally two different kinds of type system can be distinguished
 depending on how type relations are determined. The first and most
 flexible technique is provided by a structural type system which is used
@@ -426,6 +432,7 @@ to provide both possibilities to the programmer, see
 
 \subsection{Matching}
 \label{subsec:matching}
+\nomenclature{Matching}{A type relation that is the same as subtyping with absence of \mytype but differs in the present of \mytype. Matching does not have the subsumption property}
 \begin{prop}[Matching]
 	\label{prop:matching}
 	Bruce defines matching as `the same as subtyping in the absence
