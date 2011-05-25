@@ -64,6 +64,23 @@ input metauml;
 \setcounter{tocdepth}{2}
 \tableofcontents
 
+%\newcommand\stdsection{}
+%\newcommand\stdaddcontentsline{}
+%\let\stdsection\section
+%\let\stdaddcontentsline\addcontentsline
+%\let\section\subsection
+%\renewcommand\addcontentsline[3]{}
+\clrpage
+\addcontentsline{toc}{chapter}{List of Listings} 
+\lstlistoflistings
+
+\clrpage
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+%\let\section\stdsection
+%\let\addcontentsline\stdaddcontentsline
+
+
 %% New numbering on new page with arabic numbers
 \clrpage
 \pagenumbering{arabic}
