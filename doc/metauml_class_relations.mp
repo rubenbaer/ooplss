@@ -93,6 +93,20 @@ vardef SubclassofInfo@# =
   @#drawMethod = "drawLineDashed";
 enddef;
 
+vardef DoubleSubclassofInfo@# =
+  LinkInfo@#;
+  
+  @#widthA      = defaultRelationHeadWidth;
+  @#heightA     = defaultRelationHeadHeight;
+  @#drawMethodA = "drawArrow";
+
+  @#widthB      = defaultRelationHeadWidth;
+  @#heightB     = defaultRelationHeadHeight;
+  @#drawMethodB = "drawArrow";
+  
+  @#drawMethod = "drawLineDashed";
+enddef;
+
 vardef AggregationInfo@# =
   LinkInfo@#;
   
@@ -182,6 +196,7 @@ AssociationUniInfo.associationUni;
 InheritanceInfo.inheritance;
 ImplementsInfo.implements;
 SubclassofInfo.subclassof;
+DoubleSubclassofInfo.doublesubclassof;
 AggregationInfo.aggregation;
 AggregationUniInfo.aggregationUni;
 CompositionInfo.composition;

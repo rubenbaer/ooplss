@@ -16,4 +16,5 @@ ooplss-print.*
 ooplss-web.*
 !metauml_class.mp
 !metauml_class_relations.mp
+!metauml_note.mp
 !ooplss.tex
