@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.CannotInstanceException;
 import ch.codedump.ooplss.symbolTable.exceptions.CannotUseVoidOnVariableException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
@@ -128,6 +129,20 @@ public class TestBuiltInTypes extends OoplssTest {
 						"	var x:Void;\n" +
 						"}";
 		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=CannotInstanceException.class)
+	public void testIntInstanciating() throws Exception {
+		String str = 	"class foo {\n" +
+						"	var x:Int;\n" +
+						"	def blah():Void {" +
+						"		x = new Int();" +
+						"	}"	+
+						"}";
+		try {
+			this.createTyper(str);
+		} catch (NullPointerException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 }

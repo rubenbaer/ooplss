@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
 import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
+import ch.codedump.ooplss.symbolTable.exceptions.CannotInstanceException;
 import ch.codedump.ooplss.symbolTable.exceptions.ClassNeededForMemberAccess;
 import ch.codedump.ooplss.symbolTable.exceptions.ConditionalException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
@@ -481,13 +482,19 @@ public class SymbolTable {
 	 * @param obj
 	 * @return Resolved object type
 	 * @throws UnknownDefinitionException 
+	 * @throws CannotInstanceException 
 	 */
-	public ClassSymbol resolveClass(OoplssAST obj) throws UnknownDefinitionException {
+	public ClassSymbol resolveClass(OoplssAST obj) throws UnknownDefinitionException, 
+			CannotInstanceException {
 		Scope s = obj.getScope();
 		
 		Type t = s.resolveType(obj.getText());
 		if (t == null) {
 			throw new UnknownDefinitionException(obj);
+		}
+		
+		if (!(t instanceof ClassSymbol)) {
+			throw new CannotInstanceException(obj);
 		}
 		
 		return (ClassSymbol)t;

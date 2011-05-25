@@ -179,7 +179,7 @@ newObject		returns [Type type]
 				}
 			}
 			;
-catch[UnknownDefinitionException e] {
+catch[OoplssException e] {
 	error.reportError(e);
 }
 
