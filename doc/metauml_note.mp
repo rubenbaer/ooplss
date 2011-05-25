@@ -124,7 +124,7 @@ vardef PlainNote_draw@#=
 
   %drawObjectShade(@#);
 
-  fill PlainNote_border.@# withcolor @#info.foreColor;
+  %fill PlainNote_border.@# withcolor @#info.foreColor;
   %draw PlainNote_border.@# withcolor @#info.borderColor;
 
   %draw @#corner withcolor @#info.borderColor;
