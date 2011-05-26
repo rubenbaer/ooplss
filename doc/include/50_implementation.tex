@@ -44,7 +44,7 @@ intermediate abstract syntax tree to pure Java code.
 
 
 \subsection{Lexer and Parser}
-The lexer and parser are both in the same file \emph{Ooplss.g} defined
+The lexer and parser are defined in the same file \emph{Ooplss.g}
 since they are strongly connected together. 
 
 The lexer creates tokens which are fed to the parser. It simply
@@ -77,7 +77,8 @@ and child scopes can access the symbols in the parent scope.
 	\item[Class scope] All fields of a specific class
 	\item[Method scope] The method parameters and variables
 	\item[Local scope] Local scopes within a method. These scopes
-	constrain the validity of local defined variables
+	constrain the validity of local defined variables and can be
+	nested arbitrarily.
 \end{description}
 
 \subsubsection{Built-Ins}
@@ -85,14 +86,17 @@ Built-In symbols are created before walking the tree for the first time.
 They are assigned to the global scope.
 
 \subsubsection{Define Symbols}
-The first phase of the symbol table building is the definition run or
-walk.  Every single class, method and scope is visited with the depth
-first strategy and tracks every symbol definition. The tree grammar for
-this can be found in the file \emph{OoplssDef.g}. Every time a scope
-is entered, this scope is set as the current scope and the one before
-is saved as the parent scope.  Like this, all symbol definitions are
-recorded in the according scope.  Additionally, the current scope is
-recorded to some AST nodes for later referencing.
+The first phase of the symbol table building is the definition run
+or walk.  Every single class, method and scope is visited with the
+depth first strategy and every symbol definition within these scopes
+is tracked.  The tree grammar for this can be found in the file
+\emph{OoplssDef.g}. Every time a scope is entered, this scope is set
+as the current scope and the one before is saved as the parent scope.
+Like this, all symbol definitions are recorded in the according scope.
+Upon leaving a class, the current scope pointer is set to
+the parent scope, similar like the pop operation on a stack.
+Additionally, the current scope is recorded to some AST nodes for later
+referencing.
 
 If a symbol is already defined within the current scope and clashes with
 an existing one, an exception is thrown.
@@ -104,7 +108,7 @@ which can resolve every valid symbol within a scope.
 
 \subsubsection{Referencing Symbols}
 In the second phase, the referencing run, mainly every use of a symbol that is 
-not declarative (method call, variable access, super type declaration, types 
+not declarative (method call, variable access, super type specification, types 
 in declarations etc.) is examined and resolved to the according symbol definition. 
 Exceptions are thrown on errors like accessing non-existent variables, calling 
 variables or using types that don't exist.
@@ -122,29 +126,28 @@ The same as variable referencing but it has to be a method symbol
 \item[Member accessing]
 Is used when class fields are accessed like x.f; or x.foo();. First it checks
 if the field really is accessed on a class. If not, an according exception
-is thrown. If this is the case, it is checked if a field with such name exists
+is thrown. Otherwise it is checked if a field with such name exists
 in the class. Opposed to normal variable referencing, the search does not walk
 the scope tree upwards, instead, it tries to resolve the names in the super classes
-and scopes if not found.
+and super types if not found.
 \item[Type resolving]
 The same as variable referencing but it also checks whether it's a type or not.
 \item[Special type resolving]
 Resolves special symbols directly in the global scope
 \item[Class resolving (new statement)]
 The same as type resolving but it has to be a user defined class
-\todo{which is wrong, see issue 47}
 \item[Self resolving]
 Resolves to the enclosing class
 \end{description}
 
 The referencing phase also does some special tasks:
 \begin{itemize}
-\item it checks whether a symbol that was not declared in the class scope is defined 
-before being accessed for the first time because forward referencing is only 
-allowed for class fields.
+\item it ensures that a symbol that was not declared in the class scope is 
+defined before being accessed for the first time because forward referencing 
+is only allowed for class fields.
 \item upon leaving a class it checks if there are symbols that override symbols
 declared in super classes or super types. This cannot be done in the definition run
-because only now there is a reference to the super type/class.
+because only now there is a resolved reference to the super type/class.
 \item when referencing a super type or class it also runs some checks to avoid
 cyclic subtyping or subclassing.
 \end{itemize}
@@ -183,7 +186,7 @@ Since \ooplss is translated into Java, there has to be some checking
 done on the statements so the compiler doesn't create erroneous Java
 code. Java has some constraints, for instance meaningless statements
 like accessing a variable without assigning it to another variable
-or passing it to a function is inhibited by the Java compiler.
+or passing it to a function are inhibited by the Java compiler.
 
 We solved this particular problem by assigning every statement whether
 it is allowed to stand alone or not. Then the reference walker loops 
@@ -266,7 +269,7 @@ all the symbols, types and scopes.
 that the symbol table would throw upon finding errors.
 \item[ooplss.tree] It was necessary to implement a customised AST node to be 
 able to add certain information to the nodes. This package contains all the 
-classes necessary.
+necessary classes.
 \item[ooplss.utils] Contains an error handler to be able to handle the
 exceptions thrown by the symbol table.
 \end{description}
@@ -276,8 +279,9 @@ All of these packages are subpackages of \emph{ch.codedump}.
 \subsection{Symbol Table Classes}
 
 Following Figure shows the composition of the classes of the symbol table.
-Note that it only shows the important fields; methods like getter, setter or 
-the toString are not enlisted.
+To keep the diagram simple, only the important methods and variables are
+shown. Also, the variables are actually private and can only be accessed through
+getters and setters.
 
 \begin{figure}[H]
 	\centering
@@ -357,14 +361,45 @@ the toString are not enlisted.
 	link(implements)(pathStepY(SpecialSymbol.sw, Type.n, -20));
 	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
 
-
-
-
-
 	\end{emp}
 	\caption{Classes of the symbol table}
 	\label{fig:classes}
 \end{figure}
+
+\subsection{Symbol Table}
+\label{sec:symbolTableDescription}
+
+The class \emph{SymbolTable} is the heart of the whole symbol table structure. 
+On creating the symbol table, it creates the global scope and the built-in 
+types and assigns the types to the global scope. The global scope is the root 
+node for the scope tree.  Most operations triggered by the definition and
+referencing tree grammars go through some method in \emph{SymbolTable}. 
+The operations can be grouped into 3 main kinds of operations:
+
+\paragraph{Simple type checking}
+These methods perform simple type checking on two AST nodes in case of
+arithmetic (+ - * /), relational (< > <= =>) and equality (== !=) operators. 
+There are three tables respectively containing all the possible combinations 
+between the types, whereat these types are either one of the built-in types, 
+\emph{object} in case of a class or \emph{mytype}. These tables contain the 
+result type of the operation with the two given types. For instance, adding
+an integer to a float yields to the type float. In case the result type
+is \emph{void} it means that these types cannot be used with the given 
+operation and an exception is thrown.
+
+Additionally there is a method to check whether a condition is of
+the type \emph{bool}. This is used for if and while statements.
+
+\paragraph{Object type checking}
+In case of variable assignment, method arguments and return statements,
+a more sophisticated type checking is needed because of the possibilities
+of subtyping and subclassing. These methods take care of the checking
+of those cases.
+
+\paragraph{Name resolving}
+There are several methods to resolve different kinds of symbols, namely
+types, classes etc. These methods cover all these different kinds and their
+specialities and prevent from using the symbols in a wrong way.
 
 \section{Translation}
 \label{ctr:translation}
@@ -372,7 +407,6 @@ This chapter deals with the exact translation from \ooplss code segments
 to Java.
 
 Done to java as seen in part III
-% estimated pages: 10
 
 \todo{Export code and intermediate code in X\$\$...}
 
