@@ -12,17 +12,6 @@ a section deals with the concrete type rules and presents the current
 basic types available.
 
 \section{Design Principles}
-%The type system used for \ooplss is similar to that of \emph{TooL}
-%\cite{gawecki_tool:_1995}. Many important aspects differ from
-%\emph{TooL}. The used principles are these:
-
-%\paragraph{Purely object-oriented}
-%\ooplss is in contrast to its target platform Java a purely
-%object-oriented language. Every program entity is represented by an
-%object that can receive messages from other objects. There are no
-%primitive data types that are not objects. Computing is performed only
-%by message passing between objects. \todo{Integer?}
-
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
 programming. \ooplss provides classes as templates for object
@@ -624,10 +613,9 @@ proven for \ooplss.
 So far the introduction of a \mytype and proper inheritance gives the
 advantage of proper code reuse within the type system and specialisation
 of binary methods compared to other language. At a first glance all this
-seems not very useful since even generics like those from Java don't
+seems not very useful since even generics like those from Java do not
 fit into this model very well. Furthermore, the matching relation is
-not used by method parameters and does not appear yet in the language.
-\todo{where exactly?}
+not used by method parameters and is not yet introduced in \ooplss.
 As seen in \Cref{ctr:makingSubclassingPractical} matching is used in object
 parametrisation and does replaces generics respectively is the theoretical
 foundation of Java's or \cs's generics. These generics does only allow
@@ -758,16 +746,13 @@ public class Main {
 
 \subsubsection{Specialising Parametrised Classes}
 As seen in the previous section, parametrising classes with matching
-now fits well in the model. However, since parametrised classes can be too,
-\todo{can be what?}
-this is now shown that this is straightforward as well. \todo{reformulate}
-
-For the
-sake of simplicity only the translated Java code is presented because
-fields that are not using parameters are translated in the same manner as
-in normal classes.
-Listing \ref{lst:extendingContainer} shows an extended version
-of the \emph{Container} class.
+now fits well in the model. However, since parametrised classes
+can be inherited as well, this will now be presented that this
+is straightforward as well.  For the sake of simplicity only the
+translated Java code is presented because fields that are not using
+parameters are translated in the same manner as in normal classes.
+Listing \ref{lst:extendingContainer} shows an extended version of the
+\emph{Container} class.
 
 \begin{lstlisting}[float,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
@@ -800,22 +785,24 @@ public interface SpecialContainer<X> extends Container<X> {
 \end{lstlisting}
 
 \subsubsection{Avoid Type Erasure}
-The idea of generating extended an class instead of using the runtime
-generic support from Java is not new even though the idea is a bit different
-with the same consequences. Robert Cartwright and Guy Steele proposed
-another kind of generics in Java as a concurrence to GJ\todo{what is GJ?} from Odersky
-and Wadler and is presented in \cite{cartwright_compatible_1998}. Their
-project is called NextGen and is based \todo{Auf Java aufgebaut ist gemeint oder?}
-on Java 1.2. However, since
-no generic types are used at runtime, type parameters are not erased
-like in GJ and Java 1.5.
+The idea of generating extended an class instead of using the
+runtime generic support from Java is not new even though the idea
+is a bit different with the same consequences. Robert Cartwright
+and Guy Steele proposed another kind of generics in Java as a
+concurrence to GJ\nomenclature{GJ}{The research language for the Java
+generics. It is a short form of `Generic Java'. Due to copyright law,
+the name is abbreviated} from Odersky and Wadler and is presented in
+\cite{cartwright_compatible_1998}. Their project is called NextGen
+and is based on Java 1.2. In contrast to GJ and the current generics
+implementation in Java, this project provides an extension that is
+not backward compatible to non generic code. However, since no generic
+types are used at runtime, type parameters are not erased like in GJ
+and Java 1.5.
 
 With this, the language gains on runtime expressiveness since a
 \emph{instanceof} operator can be introduced to perform checks on type
-parameters which Java has not.
-\todo{but java does have an instanceof operator!?}
-Further the creation of new objects would
-also be possible as long as a class provides a standard constructor.
+parameters which Java has not.  Further the creation of new objects
+would also be possible as long as a class provides a standard constructor.
 
 As a drawback of creating all these classes a more sophisticated
 bytecode analysis and engineering if a language would support a modular
@@ -825,18 +812,16 @@ A further but not
 that relevant problem is the generated code overhead.
 
 \subsubsection{Implicitly Parametrised Classes with \mytype}
-To conclude
-\todo{fyi: at last heisst ändlech}
-this section about parametrisation let's consider the \mytype
-construct. As seen in \Cref{ctr:theoreticalBackground}, the \self variable
-can be bound to its real type by applying the unbound type
-operator recursively. To grasp this notion in \ooplss, classes can be considered
-as implicitly parametrised. Since both, subtyping and subclassing, are
-available, the type parameter is extended in every subtype with one more
-\todo{with one more what?}.
-Only this makes it possible to derive binary methods in subtypes
-and subclasses as well. An explicitly parametrised hypothetical use of
-\mytype is presented in Listing \ref{lst:explicitMyType}.
+To conclude this section about parametrisation let's consider the
+\mytype construct. As seen in \Cref{ctr:theoreticalBackground}, the
+\self variable can be bound to its real type by applying the unbound
+type operator recursively. To grasp this notion in \ooplss, classes
+can be considered as implicitly parametrised. Since both, subtyping
+and subclassing, is available, the type parameter list is extended in
+every subtype with one additional type parameter Only this makes it
+possible to derive binary methods in subtypes and subclasses as well. An
+explicitly parametrised hypothetical use of \mytype is presented in
+Listing \ref{lst:explicitMyType}.
 
 \begin{lstlisting}[float,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
 class A[MyType <# A] {
@@ -861,20 +846,6 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 }
 \end{lstlisting}
 
-
-%\subsubsection{No \#-Types in \ooplss}
-%Research languages like \emph{LOOM}\cite{bruce_subtyping_1997},
-%its successor \emph{polyToil}\cite{bruce_polytoil:_1995} or
-%$\mathcal{MOOL}$\cite{bruce_foundations_2002} are all showing how
-%matching can be integrated into object-oriented languages. All
-%of them are using a structural type system. However, they also
-%introduced so called \#-types which.
-
-%\todo{Remove this section}
-
-%Class definition
-%\subsection{Constructors}
-%\subsection{Evaluation Order}
 \section{Types}
 \subsection{Type Rules}
 

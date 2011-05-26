@@ -1,11 +1,13 @@
 \chapter{Theoretical Background}
 \label{ctr:theoreticalBackground}
 In modern object-oriented programming languages \emph{subtyping} is the
-fundamental and only concept for class combination. Often but imprecise it
-is called \emph{subclassing} as well. However, this chapter investigates
-the differences between the two concepts of subtyping and subclassing. Even
-subtyping has its own advantages it is also limited in expressiveness if
-binary methods are used and these appear in a programmer's daily work.
+fundamental and only concept for class combination. \nomenclature{Class
+Combination}{Refers to both, subtyping and subclassing. A class
+combination aims to code reuse} Often but imprecise it is called
+\emph{subclassing} as well. However, this chapter investigates the
+differences between the two concepts of subtyping and subclassing. Even
+subtyping has its own advantages it is also limited in expressiveness
+if binary methods are used and these appear in a programmer's daily work.
 
 This parts introduces these concepts mentioned above and where subtyping
 and where subclassing is wanted and explains where the difference are.
@@ -23,13 +25,13 @@ or C++, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
 \subsection{Subtyping}
-\nomenclature{Subtyping}{A relation between two type expressions with safe substitutability}
-Subtyping is a binary relation, denoted with `<:', which defines
-a substitution relation between two types and is one style of type
-polymorphism. Assuming that a type $A$ is a subtype of $B$, then subtyping
-ensures that $A$ has compatible methods and data fields, together simply
-called fields, to its \emph{supertype} $B$. This implies that wherever
-type $B$ is expected type $A$ can be used.
+\nomenclature{Subtyping}{A relation between two type expressions with
+safe substitutability} Subtyping is a binary relation, denoted with
+`<:', which defines a substitution relation between two types and is one
+style of type polymorphism. Assuming that a type $A$ is a subtype of $B$,
+then subtyping ensures that $A$ has compatible methods and data fields,
+together simply called fields, to its \emph{supertype} $B$. This implies
+that wherever type $B$ is expected type $A$ can be used.
 
 To ensure this type compatibility between $A$ and $B$ subtyping has the
 following properties:
@@ -361,17 +363,18 @@ This is how the fixation of self-references is done in the subtyping
 concept; before the combination respectively extension of the objects. In the
 concept of subclassing however, it is done after the combination.
 
-\subsection{Subclassing} \todo{Cite}
-\nomenclature{Subclassing}{A class combination that does not obey boundaries of a subtype relation}
-The goal of the concept of subclassing is now to provide a
-different kind of inheritance. With this inheritance, the programmer
-should be able to inherit code without automatically creating a subtype.
-This solves the problem described in \Cref{sec:sharingTypes}. Since
-subclassing does not create subtypes, the restriction of contravariance,
-described in \Cref{sec:recursiveClosure}, is of no relevancy
-anymore. And as already mentioned, the fixation of the self references
-and types is done after the inheritance, so there will be no schizophrenic
-self-references as described in the first case in \Cref{sec:schizoReferences}.
+\subsection{Subclassing}
+\nomenclature{Subclassing}{A class combination that does not obey
+boundaries of a subtype relation} The goal of the concept of subclassing
+is now to provide a different kind of inheritance. With this inheritance,
+the programmer should be able to inherit code without automatically
+creating a subtype \cite{simons_theory_2002-2}. This tackles the
+problem described in \Cref{sec:sharingTypes}. Since subclassing does
+not create subtypes, the restriction of contravariance, described in
+\Cref{sec:recursiveClosure}, is of no relevancy anymore. And as already
+mentioned, the fixation of the self references and types is done after
+the inheritance, so there will be no schizophrenic self-references as
+described in the first case in \Cref{sec:schizoReferences}.
 
 In subclassing however, the question rises: how should return values and
 arguments be typed (see the second case in \Cref{sec:schizoReferences})
@@ -552,6 +555,7 @@ interpretation especially if modularisation and information hiding is
 considered\cite{cameron_existential_2009,pierce_types_2002}.
 
 \subsection{Type Operators}
+\nomenclature{Type Operator}{Function on type level mapping types to types}
 A type operator is a function on type level mapping types to types. Type
 operators are important for the formal specification of matching and
 understanding of the concepts. In an object-oriented language the object
@@ -634,7 +638,3 @@ This shows that now on both sides of the subtyping relation is a type
 generator. Since now there is no fixpoint mixed with the generators
 the same properties as subtyping between to functions, i.e., reflexivity
 and transitivity is true.
-%
-%TODO Ruben: write this section
-%\subsection{Example with Matching}
-

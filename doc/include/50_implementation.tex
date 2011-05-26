@@ -12,20 +12,17 @@ software. There is a section describing each phase.
 	\label{fig:compilerPhase}
 \end{figure}
 
-The compiler of \ooplss is written in Java using
-ANTLR as parser generator. ANTLR supports the generation of code for the lexical
-and semantical analysis, which then generates an abstract syntax tree for
+The compiler of \ooplss is written in Java using ANTLR as parser
+generator. ANTLR supports the generation of code for the lexical and
+semantical analysis, which then generates an abstract syntax tree for
 the intermediate representation of the input. In ANTLR it is possible to
-define both, grammars for string, 1-dimensional, and for
-abstract syntax trees which are 2-dimensional. In ANTLR these are known
-as \emph{tree grammars} which are similar to normal grammars but matches
-abstract syntax tree nodes and not lexer tokens. The lexer and parser
-part is a normal grammar whereas the other phases are all tree grammars
-which are used for tree rewriting.
-\todo{The tree is actually only rewritten once, when generating the AST... or what
-is it you mean}
-The output process is supported by
-\st, a project associated to ANTLR.
+define both, grammars for string, 1-dimensional, and for abstract syntax
+trees which are 2-dimensional. In ANTLR these are known as \emph{tree
+grammars} which are similar to normal grammars but matches abstract
+syntax tree nodes and not lexer tokens. The lexer and parser part is a
+normal grammar whereas the other phases are all tree grammars which are
+used for tree rewriting respectively tree visiting.  The output process
+is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
 replaced arbitrarily. This makes corrections within this parts easy and
@@ -111,7 +108,7 @@ In the second phase, the referencing run, mainly every use of a symbol that is
 not declarative (method call, variable access, super type specification, types
 in declarations etc.) is examined and resolved to the according symbol definition.
 Exceptions are thrown on errors like accessing non-existent variables, calling
-variables or using types that don't exist.
+variables or using types that do not exist.
 \todo{does this need to be precise?}
 
 All of this is possible due to the fact that now all definitions are known and available
@@ -183,7 +180,7 @@ type checker grammar can be found in \emph{OoplssTypes.g}
 \subsection{Standalone statements}
 
 Since \ooplss is translated into Java, there has to be some checking
-done on the statements so the compiler doesn't create erroneous Java
+done on the statements so the compiler does not create erroneous Java
 code. Java has some constraints, for instance meaningless statements
 like accessing a variable without assigning it to another variable
 or passing it to a function are inhibited by the Java compiler.
