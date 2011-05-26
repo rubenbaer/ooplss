@@ -2,7 +2,7 @@
 \label{ctr:theoreticalBackground}
 In modern object-oriented programming languages \emph{subtyping} is the
 fundamental and only concept for class combination. Often but imprecise it
-is called \emph{subclassing}  as well. However, this chapter investigates
+is called \emph{subclassing} as well. However, this chapter investigates
 the differences between the two concepts of subtyping and subclassing. Even
 subtyping has its own advantages it is also limited in expressiveness if
 binary methods are used and these appear in a programmer's daily work.
@@ -92,7 +92,7 @@ terms are introduced in category theory and were adopted to type theory
 	type of $Y$ then the return type of the same method in $A$
 	has to be a subtype of $Y$, e.g., the return type can be $X$
 	or $Y$ because of the reflexivity property of subtyping. For
-	example $T \rightarrow Y$ <: $T \rightarrow X$ where $T$ is an 
+	example $T \rightarrow Y$ <: $T \rightarrow X$ where $T$ is an
 	arbitrary type.
 	\item[Contravariance] Contravariance is the opposite of
 	covariance. Type changes are only allowed upwards in the type
@@ -116,7 +116,7 @@ subtyping would include a proof system which is generally undecidable
 \cite{poll_behavioural_1998}. However, in languages without this strong
 property, e.g., languages with signature subtyping, the type systems
 can not proof the correctness of the program. In signature subtyping
-the semantic of a program is not considered by the type system. Only 
+the semantic of a program is not considered by the type system. Only
 the object and method signatures are important and checked by the system.
 
 LSP allows to introduce a subsumption rule for type declarations:
@@ -263,7 +263,7 @@ A similar problem arises in the method \emph{Object.equals: Object
 $\rightarrow$ Boolean} in Java. The class \emph{Object} has an
 implementation of the equals method that takes an argument of the type
 \emph{Object}. All objects automatically are of the type \emph{Object}
-in Java.    Because of the constraint of contravariance, it is unsound
+in Java. Because of the constraint of contravariance, it is unsound
 to override this method with a more specific argument type which would
 be reasonable since it does not make any sense to compare two objects
 of different types. Instead, if a programmer wants to implement a new
@@ -275,15 +275,12 @@ unsafe. Later, a type safe alternative will be presented.
 
 \subsection{Schizophrenic Self-Reference}
 \label{sec:schizoReferences}
-
-\todo{Add bibliography}
-
 In objects there has to be some recursion variable that refers to the
 object itself, to be able to call methods or use values on self. In some
 languages this is called \self or \emph{this}, in \ooplss
-the term \self will be used to refer to this variable. \\
+the term \self will be used to refer to this variable. Two main cases when
+recursion occurs can be identified \cite{simons_theory_2003-2}.
 
-There are two main cases when recursion occurs:
 \begin{enumerate}
 	\item When a method accesses methods or properties of the self object
 	\item When a method has arguments or return values of the same type as the object
@@ -291,18 +288,18 @@ There are two main cases when recursion occurs:
 
 The first case is problematic when objects are derived; it is not
 quite clear to which object the self variable should refer after
-the derivation.  In C++ and Java, the self-reference in inherited
+the derivation. In C++ and Java, the self-reference in inherited
 methods refers to the base object that was derived. This means that an
 object may contain many versions of self-references, which is called
 \emph{schizophrenic self-reference}. Other languages like Smalltalk
 and Eiffel treat the self-reference differently; they redirect the
 self-reference to the derived object. Consequently both models have
 different semantics in recursion which are called naive respectively
-mutual recursion \cite{cook_denotational_1989}.  Both are illustrated
+mutual recursion \cite{cook_denotational_1989}. Both are illustrated
 in \Cref{fig:schizoRecursion}. $M$ derives $F$ which is a recursive
 function. In the native case the call of the parent method, the recursion
 is not changed which is different by mutual recursion where the recursive
-call in $F$ is returned to the caller $M$.
+call in $F$ is returned to the caller $M$ \cite{simons_theory_2003-2}.
 
 \begin{figure}
 	\centering
@@ -326,7 +323,7 @@ that inherits all these methods, adds a z-coordinate and overrides the
 equals method. Let us further assume that the rule of contravariance
 does not apply here. Clearly the equals method of \emph{Vec3D} takes
 an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing}
-shows this constellation in Java.
+shows this constellation in Java \cite{simons_theory_2003-2}.
 
 \begin{lstlisting}[float,caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
 class Vec2D {
@@ -355,7 +352,7 @@ class Vec3D extends Vec2D {
 }
 \end{lstlisting}
 
-In the derived class \emph{Vec3D} the self reference in the equals 
+In the derived class \emph{Vec3D} the self reference in the equals
 method refers to a \emph{Vec3D} object while the one in the identity method
 refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
@@ -374,7 +371,7 @@ subclassing does not create subtypes, the restriction of contravariance,
 described in \Cref{sec:recursiveClosure}, is of no relevancy
 anymore. And as already mentioned, the fixation of the self references
 and types is done after the inheritance, so there will be no schizophrenic
-self-references as described in the first case in \Cref{sec:schizoReferences}.  
+self-references as described in the first case in \Cref{sec:schizoReferences}.
 
 In subclassing however, the question rises: how should return values and
 arguments be typed (see the second case in \Cref{sec:schizoReferences})
@@ -456,14 +453,14 @@ definitions which are shown in the definitions
 
 Listing \ref{lst:javaBinary} contains some problems that can not be tackled
 with subtyping. First of all the variable in line \ref{lst:javaBinary0} can
-not be specialised since it is invariant. This entails that even when the 
+not be specialised since it is invariant. This entails that even when the
 method \emph{getNext} can be specialised in the subclass -- which is not possible
-in Java -- a cast operation is necessary to get the correct type in the overridden 
+in Java -- a cast operation is necessary to get the correct type in the overridden
 method on line \ref{lst:javaBinary1}.
 
-The second problem is in line \ref{lst:javaBinary2}. Since there is a covariant 
+The second problem is in line \ref{lst:javaBinary2}. Since there is a covariant
 method parameter the method can not be typed. This implies that there are no statically
-checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a 
+checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a
 \emph{DoublyLinkedNode}.
 
 \begin{lstlisting}[float,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
@@ -502,7 +499,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 }
 \end{lstlisting}
 
-Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping 
+Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping
 would allow covariant parameters.
 
 \begin{lstlisting}[float,label={lst:break},caption={Breaking a doubly linked node}]
@@ -533,23 +530,23 @@ object passed as parameter \emph{node}.
 
 \subsubsection{Match-Bounded Quantification}
 As seen before, Listing \ref{lst:break} is still not correctly typeable
-with the matching relation since knowing that two variables matching 
+with the matching relation since knowing that two variables matching
 the same type is not very expressive. But there is an other scenario
 where matching can show its power; object parametrisation.
 
 A widely used all quantified relation is known as \emph{generics}
 which is formally written as $\forall (X <: A(X))B\{X\}$. Since here
 subtyping is used to bind \X to a range of objects it is called f-bounded
-subtyping.  Now it is possible to replace the subtype relation with
+subtyping. Now it is possible to replace the subtype relation with
 matching $\forall(X <\# B(X))B\{X\}$ which is denoted as match-bounded
 quantification. Depending on the exact definition of matching two
 different interpretations are possible\cite{abadi_subtyping_1996}. Both
 are discussed in more details at the end of the chapter. However, the
 reason why this is useful is given by the fact that when parametrisation
 is used, the type parameter does not longer obey the matching relation
-at method parameters and return types. 
+at method parameters and return types.
 
-Here should be remarked that the quantification can also be done with an 
+Here should be remarked that the quantification can also be done with an
 existential quantifier which has a different but also important
 interpretation especially if modularisation and information hiding is
 considered\cite{cameron_existential_2009,pierce_types_2002}.
@@ -566,7 +563,7 @@ expression is used, from types to types: \[A_{Op} := \lambda X.A(X)
 \] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages
 are recursive since they make heavy use of the self-type. However,
 since a function in the lambda calculus can not be recursive per se
-a special construct is needed \cite{gabriel_why_1988}.  To hide the
+a special construct is needed \cite{gabriel_why_1988}. To hide the
 complexity of the recursion theorem the $\mu$-convection is used. A
 $\mu$-function is to understand similar to a $\lambda$-function
 with the difference that the parameter will get bound recursively
@@ -587,7 +584,7 @@ shows the function in the bound. Considering an example in Java in
 Listing \ref{lst:generics} shows how this concept is implemented in a popular
 programming language. Since every type that satisfies the f-bound can
 be used to replace the type parameter $X$, the formal type of $A$ is
-$\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the 
+$\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the
 type operator!
 
 \begin{lstlisting}[float,caption={Universal quantified f-bound in Java},label={lst:generics}]
@@ -602,7 +599,7 @@ Here, both cases have be considered very carefully. In the f-bounded subtype
 relation where the bound is a real function, i.e., type operator,
 the self reference is not yet bound whereas in generics in Java the self
 reference is already bound. As long as the type operator is not evaluated
-the subtyping relation is easier to hold than afterwards. This enables 
+the subtyping relation is easier to hold than afterwards. This enables
 parametrisation over every extension of an object type and not only over
 every subtype if it.
 
@@ -617,7 +614,7 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 Higher-order subtyping is the second interpretation of matching done
 by Abadi and Cardelli \cite{abadi_subtyping_1996} based on the work of
 of Steffen and Pierce which has defined higher-order subtyping without
-matching.  \cite{steffen_higher-order_1994}. It is the counterpart
+matching \cite{steffen_higher-order_1994}. It is the counterpart
 interpretation to the f-bounded subtyping interpretation which was
 the first of matching. The main difference is that here the relation is
 defined between the type generators and not between a type which is bound
@@ -634,7 +631,7 @@ In this case matching is defined as\cite{abadi_subtyping_1996}
 \end{defn}
 
 This shows that now on both sides of the subtyping relation is a type
-generator.  Since now there is no fixpoint mixed with the generators
+generator. Since now there is no fixpoint mixed with the generators
 the same properties as subtyping between to functions, i.e., reflexivity
 and transitivity is true.
 %
