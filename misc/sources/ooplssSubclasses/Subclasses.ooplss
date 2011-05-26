@@ -32,8 +32,7 @@ class Book subclassOf Literature {
     self.year = year;
   }
   def compare(other: Book): Int {
-    /* \ldots */
-    return 0;
+    return self.year - other.year;
   }
 }
 
@@ -43,7 +42,6 @@ class Journal subclassOf Literature {
     self.year = year;
   }
   def compare(other: Journal): Int {
-    /* \ldots */
-    return 0;
+    return self.year - other.year;
   }
 }
