@@ -1,6 +1,5 @@
 package ch.codedump.ooplss.symbolTable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,15 +24,31 @@ import ch.codedump.ooplss.symbolTable.exceptions.VariableIsAMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * The mighty symbol table
+ */
 public class SymbolTable {
+	/**
+	 * The global scope
+	 */
 	public static Scope GLOBAL;
 	
-	HashMap<String, Type> types = new HashMap<String, Type>();
-	
+	/**
+	 * The logger
+	 */
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
+	/**
+	 * Whether to check for standalone statements or not
+	 */
 	private boolean checkForStandalones = true;
 	
+	/**
+	 * Construct a symbol table
+	 * 
+	 * Create the global scope, the special types
+	 * and the built-in types
+	 */
 	public SymbolTable() {
 		SymbolTable.GLOBAL = new GlobalScope();
 		try {
@@ -46,13 +61,15 @@ public class SymbolTable {
 	
 	/**
 	 * Disable the standalone check
+	 * 
+	 * This is sometimes useful for unit testing
 	 */
 	public void disableStandaloneCheck() {
 		this.checkForStandalones = false;
 	}
 	
 	/**
-	 * The arithmetic result typing
+	 * The types for the primitive type checker
 	 */
 	public static final int tOBJECT = 0;
 	public static final int tINT    = 1;
@@ -263,7 +280,7 @@ public class SymbolTable {
 	/**
 	 * Check if an assignment can be done
 	 * @param var The variable on the left
-	 * @param stmt
+	 * @param stmt The statement on the right
 	 * @throws IllegalAssignmentException 
 	 */
 	public void checkAssignment(OoplssAST assign, OoplssAST var, OoplssAST stmt) 
@@ -289,8 +306,8 @@ public class SymbolTable {
 	/**
 	 * Check the arguments of a method call
 	 * 
-	 * @param method
-	 * @param args
+	 * @param method The method being called
+	 * @param args The arguments 
 	 * @throws ArgumentDoesntMatchException 
 	 */
 	public void checkArguments(MethodSymbol method, List<OoplssAST> givenArgs) 
@@ -315,8 +332,9 @@ public class SymbolTable {
 	
 	/**
 	 * Check the super constructors
-	 * @param supers
-	 * @param constructor
+	 * 
+	 * @param supers A list of the super constructor specifications
+	 * @param constructor The constructor itself
 	 * @throws NoSuperTypeException
 	 * @throws UnknownSuperClassException
 	 */
@@ -335,8 +353,10 @@ public class SymbolTable {
 	
 	/**
 	 * Check if the argument is of the right type
-	 * @param argType
-	 * @param givenArg
+	 * 
+	 * @param argType The argument declaration
+	 * @param givenArg The argument passed 
+	 * @param argCount The position of this argument in the argument list
 	 * @throws ArgumentDoesntMatchException 
 	 */
 	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
@@ -349,8 +369,9 @@ public class SymbolTable {
 	
 	/**
 	 * Check if the return type is correct
-	 * @param ret
-	 * @param retval
+	 * 
+	 * @param ret The declared return type
+	 * @param retval The given value for the return statement
 	 * @throws WrongReturnValueException 
 	 */
 	public void checkReturn(OoplssAST ret, OoplssAST retval) 
@@ -366,7 +387,7 @@ public class SymbolTable {
 	/**
 	 * Check if a void return is correct
 	 *  
-	 * @param ret
+	 * @param ret The declared return type
 	 * @throws WrongReturnValueException 
 	 */
 	public void checkVoidReturn(OoplssAST ret) 
@@ -381,7 +402,8 @@ public class SymbolTable {
 	
 	/**
 	 * Check if there are statements that cannot stand alone
-	 * @param list_stmts
+	 * 
+	 * @param list_stmts The list of statements to check
 	 * @throws StandaloneStatementException 
 	 */
 	public void checkStandloneStatements(List<OoplssAST> list_stmts) 
@@ -444,8 +466,9 @@ public class SymbolTable {
 	
 	/**
 	 * Bind the MyType
-	 * @param node
-	 * @return
+	 * 
+	 * @param node The MyType node
+	 * @return The type that the MyType is bound to
 	 */
 	protected Type bindMyType(OoplssAST node) {
 		OoplssAST methodNode = null;
@@ -476,11 +499,11 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * Resolve an object
+	 * Resolve a class name
 	 * 
-	 * Resolve an object in case of a new statement
-	 * @param obj
-	 * @return Resolved object type
+	 * Resolve a class name in case of a new statement
+	 * @param obj The class to resolve
+	 * @return Resolved class type
 	 * @throws UnknownDefinitionException 
 	 * @throws CannotInstanceException 
 	 */
@@ -503,8 +526,8 @@ public class SymbolTable {
 	/**
 	 * Resolve a name
 	 * 
-	 * @param node
-	 * @return
+	 * @param node The name to be resolved
+	 * @return The resolved symbol
 	 * @throws UnknownDefinitionException
 	 */
 	protected Symbol resolveName(OoplssAST node) throws UnknownDefinitionException {
@@ -532,7 +555,7 @@ public class SymbolTable {
 	 * 
 	 * Resolve a simple variable. Check that the 
 	 * variable is not accessed before it's definition.
-	 * @param node
+	 * @param node The variable to resolve
 	 * @return  The resolved symbol
 	 * @throws UnknownDefinitionException 
 	 */
@@ -548,7 +571,8 @@ public class SymbolTable {
 	
 	/**
 	 * Resolve a method call
-	 * @param node
+	 * 
+	 * @param node The method to resolve
 	 * @return The resolved symbol
 	 * @throws UnknownDefinitionException
 	 * @throws NotCallableException
@@ -566,8 +590,8 @@ public class SymbolTable {
 	/**
 	 * Resolve the type of a variable that is declared
 	 * 
-	 * @param node
-	 * @param type
+	 * @param node The name of the variable
+	 * @param type The declared type of the variable
 	 * @return Type The resolved type
 	 * @throws UnknownTypeException 
 	 */
@@ -580,9 +604,10 @@ public class SymbolTable {
 	
 	/**
 	 * Resolve the type of a variable that is declared
-	 * @param s
-	 * @param type
-	 * @return
+	 * 
+	 * @param s The scope to resolve the variable on
+	 * @param type The type of the declared variable
+	 * @return The resovled type
 	 * @throws UnknownTypeException
 	 */
 	public Type resolveType(Scope s, OoplssAST type) 
@@ -599,9 +624,9 @@ public class SymbolTable {
 	/**
 	 * This is merely a function to be able to pull types
 	 * directly from the globals
-	 * @param node
-	 * @param type
-	 * @return
+	 * 
+	 * @param type The name of the type to resolve
+	 * @return The resolved type
 	 */
 	public Type resolveSpecialType(String type) {
 		Type t = (Type) SymbolTable.GLOBAL.resolve(type);
@@ -614,17 +639,17 @@ public class SymbolTable {
 	 * 
 	 * Resolve a member symbol. A member symbol
 	 * is of the type x.y or x.y().
-	 * @param type
-	 * @param node
+	 * @param leftType The type to resolve the symbol on
+	 * @param node The symbol to resolve 
 	 * @param accType The access type, Methodcall or Memberaccess
-	 * @return The type
+	 * @return The resolved member symbol
 	 * @throws IllegalMemberAccessException 
 	 */
-	public Symbol resolveMember(Type type, OoplssAST node, OoplssAST accType) throws OoplssException {
-		if (!(type instanceof ClassSymbol)) {
+	public Symbol resolveMember(Type leftType, OoplssAST node, OoplssAST accType) throws OoplssException {
+		if (!(leftType instanceof ClassSymbol)) {
 			throw new ClassNeededForMemberAccess(node);
 		}
-		ClassSymbol scope = (ClassSymbol) type;
+		ClassSymbol scope = (ClassSymbol) leftType;
 		node.setScope(scope);
 		
 		Symbol s =  scope.resolveMember(node.getText());
@@ -650,7 +675,7 @@ public class SymbolTable {
 	/**
 	 * Resolve the 'self' keyword
 	 * 
-	 * @param  node
+	 * @param  node The self node
 	 * @return The enclosing class
 	 * @todo   Change this for subclassing i guess
 	 * @throws IllegalMemberAccessException 
@@ -677,7 +702,7 @@ public class SymbolTable {
 	 * 
 	 * Walk up from the given scope until the enclosing
 	 * method scope is found
-	 * @param s
+	 * @param s The scope to start the lookup
 	 * @return
 	 */
 	public MethodSymbol getEnclosingMethodScope(Scope s) {
@@ -693,7 +718,7 @@ public class SymbolTable {
 	 * 
 	 * Walk up from the given scope until the enclosing
 	 * class scope is found
-	 * @param s
+	 * @param s The scope to start the lookup
 	 * @return
 	 */
 	public ClassSymbol getEnclosingClassScope(Scope s) {
@@ -711,7 +736,7 @@ public class SymbolTable {
 	
 	/**
 	 * Returns a format string of the scope
-	 * @param scope
+	 * @param scope 
 	 * @return Scope string
 	 */
 	protected String scopeToString(Scope scope) {

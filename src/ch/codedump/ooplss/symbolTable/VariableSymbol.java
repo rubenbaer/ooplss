@@ -2,18 +2,20 @@ package ch.codedump.ooplss.symbolTable;
 
 import java.util.logging.Logger;
 
+/**
+ * A variable symbol
+ */
 public class VariableSymbol extends Symbol {
-	
+	/**
+	 * The logger
+	 */
 	static Logger logger = Logger.getLogger(VariableSymbol.class.getName());
-	/*
-	public VariableSymbol(String name, Type type) throws Exception {
-		super(name, type);
-		if (type == null) {
-			throw new Exception("Variables must have a type");
-		}
-	}
-	*/
 	
+	/**
+	 * Construct a variable symbol
+	 * @param name The name of the symbol
+	 * @param scope The scope where it is defined
+	 */
 	public VariableSymbol(String name, Scope scope) {
 		super(name, scope);
 	}

@@ -14,20 +14,45 @@ import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * A class symbol
+ */
 public class ClassSymbol extends ScopedSymbol implements Type {
-	
+	/**
+	 * The super type of this class
+	 */
 	protected ClassSymbol supertype;
 	
+	/**
+	 * The super class of this class
+	 */
 	protected ClassSymbol superclass;
 	
+	/**
+	 * The constructor of this class symbol
+	 */
 	protected MethodSymbol constructor;
 	
+	/**
+	 * The logger
+	 */
 	static Logger logger = Logger.getLogger(ClassSymbol.class.getName());
 
+	/**
+	 * Construct a new class symbol
+	 * @param name The name of the class
+	 * @param enclosingScope The scope that this class is defined in
+	 */
 	public ClassSymbol(String name, Scope enclosingScope) {
 		super(name,  enclosingScope);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * Resolve the member hierarchically upwards, that is,
+	 * if not found look in the super type and super class but also
+	 * in the enclosing scope for the definition.
+	 */
 	@Override
 	public Symbol resolve(String name) {
 		Symbol s = super.resolve(name);
@@ -53,8 +78,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Compare the arguments of two method definitions
-	 * @param m1
-	 * @param m2
+	 * 
+	 * @param m1 The first method definition
+	 * @param m2 The second method definition
 	 * @return Whether they have the same argument signature
 	 */
 	protected boolean checkMethodArguments(MethodSymbol m1, MethodSymbol m2) {
@@ -76,8 +102,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Compare the return types of two methods
-	 * @param m1
-	 * @param m2
+	 * 
+	 * @param m1 The first method definition
+	 * @param m2 The second method definition
 	 * @return Whether they have the same return types
 	 */
 	protected boolean checkMethodReturnTypes(MethodSymbol m1, MethodSymbol m2) {
@@ -88,8 +115,11 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	/**
 	 * Resolve a member 
 	 * 
-	 * Resolve a symbol that belongs to this class
-	 * @param name
+	 * Resolve a symbol that belongs to this class. Also
+	 * look in the super type and class for the definition if
+	 * not found. This is slightly different to resolve(), since
+	 * it does not look in the enclosing scope.
+	 * @param name The name to resolve
 	 * @return resolved symbol
 	 */
 	public Symbol resolveMember(String name) {
@@ -118,7 +148,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * Since it is possible to add the super constructors
 	 * after the constructor declaration, these names
 	 * have to be resolved
-	 * @param name
+	 * @param sup The AST node of the super specification
 	 * @throws NoSuperTypeException 
 	 * @throws UnknownSuperClassException 
 	 */
@@ -175,7 +205,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Set the super type of this class
-	 * @param superType
+	 * 
+	 * @param superType The super type
 	 * @throws IllegalSupertype 
 	 * @throws IllegalSuperclass 
 	 */
@@ -187,7 +218,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Set the super class of this class
-	 * @param superClass
+	 * 
+	 * @param superClass The super class
 	 * @throws IllegalSuperclass 
 	 * @throws IllegalSupertype 
 	 */
@@ -222,8 +254,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * If it's an method, check if the signature is the same. If it is, 
 	 * set the override flag of the overriding method, otherwise throw
 	 * exceptions.
-	 * @param scope
-	 * @param sym
+	 * @param scope The class to compare
+	 * @param sym The symbol to be compared
 	 * @throws OoplssException
 	 */
 	protected void checkSymbolOverride(ClassSymbol scope, Symbol sym) throws OoplssException {
@@ -252,6 +284,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Go through the symbols and check for inheritance mistakes
+	 * 
 	 * @throws OoplssException
 	 */
 	public void checkForOverridings () throws OoplssException {
@@ -266,7 +299,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 	
 	/**
-	 * Create a constructor if there is none
+	 * Create a constructor if there was none given explicitly
+	 * 
 	 * @throws OoplssException
 	 */
 	public void checkForConstructor() throws OoplssException {
@@ -276,8 +310,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 	
 	/**
-	 * Return the classes supertype
-	 * @return
+	 * Return the classes super type
+	 * 
+	 * @return The super type of the class
 	 */
 	public ClassSymbol getSupertype() {
 		return this.supertype;
@@ -285,7 +320,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Return the classes superclass
-	 * @return
+	 * 
+	 * @return The super class of the class
 	 */
 	public ClassSymbol getSuperclass() {
 		return this.superclass;
@@ -297,7 +333,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 
 	/**
-	 * Check whether this class is a subtype of the given one
+	 * Check whether this class is a subtype of another one
+	 * 
 	 * @param ClassSymbol
 	 */
 	public boolean isSubtypeOf(ClassSymbol type) {
@@ -312,23 +349,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	}
 	
 	/**
-	 * Set the constructor of this class
-	 * @param c
-	 */
-	public void setConstructor(MethodSymbol c) {
-		this.constructor = c;
-	}
-	
-	/**
-	 * Return the constructor of this class
-	 * @return
-	 */
-	public MethodSymbol getConstructor() {
-		return this.constructor;
-	}
-	
-	/**
 	 * Check whether this class is a subclass of the given one
+	 * 
 	 * @param ClassSymbol
 	 */
 	public boolean isSubclassOf(ClassSymbol type) {
@@ -341,5 +363,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Set the explicit constructor of this class
+	 * 
+	 * @param c The constructor
+	 */
+	public void setConstructor(MethodSymbol c) {
+		this.constructor = c;
+	}
+	
+	/**
+	 * Return the constructor of this class
+	 * 
+	 * @return The class constructor
+	 */
+	public MethodSymbol getConstructor() {
+		return this.constructor;
 	}
 }
