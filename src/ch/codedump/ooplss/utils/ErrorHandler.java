@@ -1,12 +1,29 @@
 package ch.codedump.ooplss.utils;
 
+/**
+ * Error handler for symbol table exceptions
+ */
 public class ErrorHandler {	
+	/**
+	 * The singleton instance
+	 */
 	private static ErrorHandler instance;
 	
+	/**
+	 * The exception that has occured
+	 */
 	private Exception ex;
 	
+	/**
+	 * Whether the execution of the compiler
+	 * should halt on an error 
+	 */
 	private boolean breakOnError = true;
 	
+	/**
+	 * Return the singleton instance
+	 * @return Singleton instance
+	 */
 	public static ErrorHandler getInstance() {
 		if (instance == null) {
 			instance = new ErrorHandler();
@@ -15,13 +32,16 @@ public class ErrorHandler {
 		return instance;
 	}
 	
+	/**
+	 * Prevent from instancing
+	 */
 	private ErrorHandler() {}
 	
 	/**
 	 * Set break on error
 	 * 
 	 * Set whether the execution of the program should be stopped upon an error
-	 * @param v
+	 * @param v Whether to halt on error 
 	 */
 	public void setBreakOnError(boolean v) {
 		this.breakOnError = v;
@@ -29,10 +49,9 @@ public class ErrorHandler {
 	
 	/**
 	 * Report an error 
-	 * @param e
+	 * @param e The error to record
 	 */
 	public void reportError(Exception e) {
-		//this.logger.info(e.toString());
 		System.err.println(e.toString());
 		if (this.breakOnError) {
 			System.exit(100);

@@ -2,6 +2,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * Exception when passing invalid method arguments
+ */
 public class ArgumentDoesntMatchException extends OoplssException {
 	private static final long serialVersionUID = 4977646527530717530L;
 

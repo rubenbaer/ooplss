@@ -2,6 +2,10 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.symbolTable.ClassSymbol;
 
+/**
+ * Exception when subtyping something that is already a superclass
+ * of the supertype
+ */
 public class IllegalSupertype extends OoplssException {
 
 	private static final long serialVersionUID = 2224940920861866450L;

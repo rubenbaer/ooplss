@@ -2,6 +2,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * Exception when providing an unknown type
+ */
 public class UnknownTypeException extends OoplssException {
 	private static final long serialVersionUID = -999828461641521202L;
 	

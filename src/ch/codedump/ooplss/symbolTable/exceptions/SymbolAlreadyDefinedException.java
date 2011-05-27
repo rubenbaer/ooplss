@@ -3,6 +3,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 import ch.codedump.ooplss.symbolTable.Scope;
 import ch.codedump.ooplss.symbolTable.Symbol;
 
+/**
+ * Exception when a symbol is defined twice
+ */
 public class SymbolAlreadyDefinedException extends OoplssException {
 	private static final long serialVersionUID = -8920199663798645768L;
 	private Scope scope;
