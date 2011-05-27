@@ -4,6 +4,9 @@ import org.antlr.runtime.Token;
 
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * Exception when the types in an assignment don't match
+ */
 public class IllegalAssignmentException extends OoplssException {
 	private static final long serialVersionUID = 391683119869604231L;
 

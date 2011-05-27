@@ -3,6 +3,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 import ch.codedump.ooplss.symbolTable.Type;
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * Exception when the types of an expression don't match
+ */
 public class InvalidExpressionException extends OoplssException {
 	private static final long serialVersionUID = 6452984545682744265L;
 

@@ -2,7 +2,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.symbolTable.Symbol;
 
-
+/**
+ * Exception when overriding a method and changing the return type
+ */
 public class MethodOverrideWrongReturnTypeException extends OoplssException {
 
 	private static final long serialVersionUID = -4771433198236773949L;

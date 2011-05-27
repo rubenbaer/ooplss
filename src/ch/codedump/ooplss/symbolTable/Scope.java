@@ -4,6 +4,9 @@ import java.util.Set;
 
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 
+/**
+ * The interface for scopes
+ */
 public interface Scope {
 	/**
 	 * The name of the scope

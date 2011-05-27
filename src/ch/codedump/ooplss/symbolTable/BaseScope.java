@@ -8,17 +8,41 @@ import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.SymbolAlreadyDefinedException;
 
+/**
+ * The base scope for simple scopes like the global or local scope
+ */
 public abstract class BaseScope implements Scope {
+	/**
+	 * The name of the scope
+	 */
 	protected String name;
 	
+	/**
+	 * The scope enclosing this scope
+	 */
 	protected Scope enclosingScope;
 	
+	/**
+	 * The children scope (for debugging)
+	 */
 	protected Set<Scope> children = new HashSet<Scope>();
 	
+	/**
+	 * The symbols defined within this scope
+	 */
 	protected HashMap<String, Symbol> members;
 	
+	/**
+	 * The logger
+	 */
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
+	/**
+	 * Construct a base scope
+	 * 
+	 * @param name The name of the scope
+	 * @param encScope The scope that encloses this scope
+	 */
 	public BaseScope(String name, Scope encScope) {
 		this.name = name;
 		this.enclosingScope = encScope;

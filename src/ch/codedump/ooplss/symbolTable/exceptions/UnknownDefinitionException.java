@@ -2,6 +2,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * Exception when a symbol cannot be resolved
+ */
 public class UnknownDefinitionException extends OoplssException {
 	private static final long serialVersionUID = 1226443128002448569L;
 

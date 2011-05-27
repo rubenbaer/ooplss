@@ -9,7 +9,6 @@ tokens {
   VARDEF;
   CLASSDEF;
   BLOCK;
-  CLASSBODY;
   SUPERTYPE;
   SUPERCLASS;
   METHODDEF;
@@ -18,16 +17,10 @@ tokens {
   MEMBERACCESS;
   METHODCALL;
   METHODARGS;
-  EXPR;
-  INT;
-  STRING;
-  CHAR;
-  BOOL;
   SELF;
   METHODS;
   FIELDS;
   RETURN;
-  PROG;
   ARGUMENTLIST;
   SUBTYPEARG;
   METHODBLOCK;
@@ -173,7 +166,11 @@ argsMethodcall
         -> ^(METHODARGS $arg*)
       ;
 
-
+/**
+ * Return statement
+ *
+ * Return statement with expression or void
+ */
 retStmt
       : 'return' expression
         -> ^(RETURN expression)
@@ -185,6 +182,7 @@ expression
       : orExpr
       | 'null' -> ^(NULL)
       ;
+
 
 orExpr
       : andExpr ('||'^ andExpr)?

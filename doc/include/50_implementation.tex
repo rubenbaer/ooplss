@@ -98,6 +98,10 @@ referencing.
 If a symbol is already defined within the current scope and clashes with
 an existing one, an exception is thrown.
 
+Upon leaving a class, it is checked whether this class has a constructor.
+If not, a default constructor symbol is created and assigned to the
+class.
+
 After this phase a symbol table is created for the whole program where
 every symbol in every scope is tracked. The table is in reality a tree
 which can resolve every valid symbol within a scope.

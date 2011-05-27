@@ -2,6 +2,9 @@ package ch.codedump.ooplss.symbolTable;
 
 import ch.codedump.ooplss.tree.OoplssAST;
 
+/**
+ * A symbol
+ */
 public abstract class Symbol {
 	/**
 	 * The name of the symbol
@@ -14,7 +17,7 @@ public abstract class Symbol {
 	protected Type type;
 	
 	/**
-	 * Point back to the AST	
+	 * Pointer back to the AST where the symbol is defined	
 	 */
 	protected OoplssAST def;
 	
@@ -23,6 +26,12 @@ public abstract class Symbol {
 	 */
 	protected Scope scope;
 	
+	/**
+	 * Construct a symbol
+	 * 
+	 * @param name The symbol's name
+	 * @param scope The scope it is defined in
+	 */
 	public Symbol(String name, Scope scope) {
 		this.name = name;
 		this.scope = scope;
@@ -48,6 +57,7 @@ public abstract class Symbol {
 	
 	/**
 	 * Set the pointer to the AST
+	 * 
 	 * @param Pointer to the AST
 	 */
 	public void setDef(OoplssAST def) {
@@ -56,6 +66,7 @@ public abstract class Symbol {
 	
 	/**
 	 * Return the pointer to the AST
+	 * 
 	 * @return Pointer to the AST
 	 */
 	public OoplssAST getDef() {
@@ -64,6 +75,7 @@ public abstract class Symbol {
 	
 	/**
 	 * Set the type of the symbol
+	 * 
 	 * @param type
 	 */
 	public void setType(Type type) {
@@ -72,6 +84,7 @@ public abstract class Symbol {
 	
 	/**
 	 * Return the type
+	 * 
 	 * @return type
 	 */
 	public Type getType() {
@@ -80,6 +93,7 @@ public abstract class Symbol {
 	
 	/**
 	 * Return the scope this symbol is in
+	 * 
 	 * @return Scope
 	 */
 	public Scope getScope() {

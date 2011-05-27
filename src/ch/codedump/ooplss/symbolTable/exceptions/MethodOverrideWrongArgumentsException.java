@@ -2,6 +2,9 @@ package ch.codedump.ooplss.symbolTable.exceptions;
 
 import ch.codedump.ooplss.symbolTable.Symbol;
 
+/**
+ * Exception when overriding a method and changing the arguments
+ */
 public class MethodOverrideWrongArgumentsException extends OoplssException {
 
 	private static final long serialVersionUID = -8013860900261650621L;
