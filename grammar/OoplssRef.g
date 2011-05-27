@@ -1,9 +1,9 @@
 tree grammar OoplssRef;
 options {
-tokenVocab=Ooplss;
-ASTLabelType=OoplssAST; // use the customised AST node
-filter=true;
-k=1;
+	tokenVocab=Ooplss;
+	ASTLabelType=OoplssAST; // use the customised AST node
+	filter=true;
+	k=1;
 }
 
 @members {
@@ -27,6 +27,9 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
+/**
+ * Rules matching on the way down
+ */
 topdown		:	enterMethod
 			|	varDef
 			|
@@ -43,10 +46,19 @@ topdown		:	enterMethod
 			|	subClass
 			| 	standalones
 			;
-			
+
+/**
+ * Rules matching on the way up
+ */
 bottomup	:	leaveClass
 			|	block;
 
+
+/**
+ * Leaving a block
+ *
+ * Check for invalid standalone statements
+ */
 block		:	(^(BLOCK (stmts+=.)*)|^(METHODBLOCK (stmts+=.)*))
 			{
 				logger.fine("<Ref>Examining block statements");
@@ -56,7 +68,13 @@ block		:	(^(BLOCK (stmts+=.)*)|^(METHODBLOCK (stmts+=.)*))
 catch [OoplssException e] {
 	error.reportError(e);
 }
-			
+
+/**
+ * Resolve the specification of a super type
+ *
+ * Resolve the specification of a super type and set it to the
+ * ClassSymbol. Spawn the checking for cyclic subtypings.
+ */
 subType		: 	^(SUPERTYPE supertype=ID)
 			{
 				logger.fine("<Ref>Resolving a supertype");
@@ -73,6 +91,12 @@ catch[OoplssException e] {
 	error.reportError(e);
 }	
 
+/**
+ * Resolve the specification of a super class
+ *
+ * Resolve the specification of a super class and set it to the
+ * ClassSymbol. Spawn the checking for cyclic subtypings.
+ */
 subClass	: 	^(SUPERCLASS superclass=ID)
 			{
 				logger.fine("<Ref>Resolving a superclass");
@@ -88,7 +112,11 @@ catch[OoplssException e] {
 	error.reportError(e);
 }		
 
- 	
+/**
+ * Entering a method
+ *
+ * Resolve the return type of this method.
+ */
 enterMethod 	
 			:	^(METHODDEF name=ID ^(RETURNTYPE rettype=ID) .*)
 			{
@@ -101,6 +129,12 @@ catch [UnknownTypeException e] {
 	error.reportError(e);
 }			
 		
+/**
+ * Entering a constructor
+ *
+ * Set the type of the constructor to the construct SpecialType.
+ * Check the super constructors for their validity
+ */
 enterConstructor
 			:	^(CONSTRUCTORDEF . (^(SUPER supers+=ID .))* .)
 			{
@@ -116,6 +150,11 @@ catch[OoplssException e] {
 	error.reportError(e);
 }
 	
+/**
+ * Defining a variable
+ *
+ * Resolve the type of a variable definition.
+ */
 varDef		:	^(VARDEF type=ID name=ID)
 			{
 				logger.fine("<Ref>Resolving type of variable declaration " + $name.text + " of type " + $type.text);
@@ -135,19 +174,12 @@ catch[CannotUseVoidOnVariableException e] {
 	error.reportError(e);
 }
 
-
-/*
-arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)
-			{
-				logger.fine("<Ref>Resolving type of array " + $name.text);
-				this.symtab.resolveType($name, $type);
-			}
-			;
-catch [UnknownTypeException e] {
-  logger.info(e.toString());
-}
-*/
-
+/**
+ * Accessing a variable
+ *
+ * Resolve the symbol of a variable access.
+ * @return type The type of the variable
+ */
 varAccess		returns [Type type]
 			:	^(VARACCESS name=ID)
 			{
@@ -165,13 +197,19 @@ catch[UnknownDefinitionException e] {
 	error.reportError(e);
 }
 
-newObject		returns [Type type]
+/**
+ * Creating a new object
+ *
+ * Resolve the class of a new statement. Also record the constructor
+ * scope to the method arguments for later checking.
+ */
+newObject		
 			:	^(NEW name=ID ^(args=METHODARGS .*))
 			{
 				logger.fine("<Ref>Resolving a new statement: " + $name.text);
 				Symbol s = this.symtab.resolveClass($ID);
 				$ID.setSymbol(s);
-				type = s.getType();
+				//type = s.getType();
 				
 				if ($args != null) {
 					logger.fine("<Ref>Set scope of method arguments");
@@ -183,6 +221,13 @@ catch[OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Calling a method
+ *
+ * Resolve the symbol of a method call. Also set the method
+ * as the scope of the arguments for later checking.
+ * @return type The return type of the method being called
+ */
 methodCall		returns [Type type]
 			:	^(METHODCALL name=ID ^(args=METHODARGS .*))
 			{
@@ -207,6 +252,12 @@ catch[OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Access self
+ *
+ * Resolve the self keyword.
+ * @return type The class that self is pointing to
+ */
 selfAccess	returns [Type type]
 			: 	SELF
 			{
@@ -217,6 +268,14 @@ selfAccess	returns [Type type]
 			}
 			;
 
+/**
+ * Accessing a member
+ *
+ * Resolve the symbol within the class that the symbol is accessed on.
+ * In case it is a method that is called, record the method's scope 
+ * to the arguments for later use.
+ * @return type The type of the resolved symbol (return type in case of methods)
+ */
 memberAccess 	returns [Type type]
 			:	^(CALLOPERATOR (left=memberAccess|left=varAccess|left=selfAccess|left=methodCall) 
 					(^(ast=MEMBERACCESS var=ID)|^(ast=METHODCALL var=ID ^(args=METHODARGS .*)))
@@ -244,38 +303,13 @@ memberAccess 	returns [Type type]
 catch[OoplssException e] {
 	error.reportError(e);
 }		
-/*
-methodCall		returns [Type type]
-			:	^(METHODCALL ID .*)
-			{
-				logger.fine("<Ref>Resolving type of method call");
-				if ($ID.getSymbol() != null) {
-					// we have already visited this node
-					return $ID.getSymbol().getType();
-				}
-			}
-			;	
-			*/	
 
-	/*
-arrayAccess
-			:	^(ARRAYACCESS ID .)
-			{
-				logger.fine("<Ref>Accessing an array " + $ID.text);
-				Symbol s = this.symtab.resolveArray($ID);
-				$ID.setSymbol(s);
-			}	
-			;
-catch[UnknownDefinitionException e] {
-	logger.info(e.toString());
-}	
-catch[NotAnArrayException e] {
-	logger.info(e.toString());
-}
-*/
-
-
-
+/**
+ * Method argument declaration
+ *
+ * Resolve the type of a method argument declaration and then record
+ * the argument to the MethodSymbol for later checking.
+ */
 argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
 				logger.fine("<Ref>Resolving an argument: " + $name.text + " of type " + $type.text);
@@ -289,7 +323,11 @@ catch [UnknownTypeException e] {
 	error.reportError(e);
 }
 			
-			
+/**
+ * Leaving a class
+ *
+ * Spawn the checking for overriding methods
+ */
 leaveClass	:	^(CLASSDEF ID .*)
 			{
 				logger.fine("<Ref>Leaving a class, check for errors");
@@ -300,20 +338,12 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
-	/*
-rettype	returns [Type type]
-	:
-	ID
-	{
-		this.debug(Debugger.EXT, "<Ref>Resolving return type");
-		$ID.symbol = this.symtab.resolve($ID);
-		if ($ID.symbol != null) {
-			$type = $ID.symbol;
-		};
-	}
-	;
-	*/
-
+/**
+ * Standalone statements
+ *
+ * Set the standalone field to nodes that are allowed to
+ * stand alone in a method block.
+ */
 standalones
 		:	(s=ASSIGN|s=RETURN|s=IFSTMT|s=WHILESTMT)
 		{
