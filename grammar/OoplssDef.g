@@ -1,21 +1,22 @@
 tree grammar OoplssDef;
 options {
-tokenVocab=Ooplss;
-ASTLabelType=OoplssAST; // use the customised AST node
-filter=true;
-k=1;
+	tokenVocab=Ooplss;
+	ASTLabelType=OoplssAST; // use the customised AST node
+	filter=true;
+	k=1;
 }
 @members{
-SymbolTable symtab;
-Scope currentScope;
-static Logger logger = Logger.getLogger(OoplssRef.class.getName());
-ErrorHandler error = ErrorHandler.getInstance();
-public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
-	this(input);
-	this.symtab = symtab;
-	currentScope = SymbolTable.GLOBAL;
+	SymbolTable symtab;
+	Scope currentScope;
+	static Logger logger = Logger.getLogger(OoplssRef.class.getName());
+	ErrorHandler error = ErrorHandler.getInstance();
+	public OoplssDef(TreeNodeStream input, SymbolTable symtab) {
+		this(input);
+		this.symtab = symtab;
+		currentScope = SymbolTable.GLOBAL;
+	}
 }
-}
+
 @header {
 package ch.codedump.ooplss.antlr;
 
@@ -27,6 +28,9 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
+/**
+ * Rules matching on the way down
+ */
 topdown		:	enterMethod
 			|	enterConstructor
 			|	enterBlock
@@ -35,34 +39,29 @@ topdown		:	enterMethod
 			|	varAccess
 			|	newObject
 			|	selfVarAccess
-			/*|	arrayAccess*/
-			/*|	arrayDef*/
 			|	argument
 			|	methodCall
 			|	superType
 			|	superClass
 			|	returnVoidStmt
 			|	returnStmt
-			|	//import
 			;
 	
+/**
+ * Rules matching on the way up
+ */
 bottomup	:	exitBlock
 			|	exitClass
 			|	exitMethod
 			;
 
-/*	
-import	:	^('import' ID)
-	{
-		logger.fine("<Def>Importing a type");
-		ClassSymbol cs = new ClassSymbol($ID.text, this.currentScope, null);
-		cs.setDef($ID);
-		$ID.setSymbol(cs);
-		this.currentScope.define(cs);
-	}
-	;
-	*/
-	
+/**
+ * Enter a class
+ *
+ * Set the current scope pointer to the class entering here.
+ * Create a new ClassSymbol and set the pointer between the
+ * AST and the symbol.
+ */
 enterClass	:	^(CLASSDEF classname=ID .*)
 			{
 				logger.fine("<Def>Entering  class " + $classname.text);
@@ -77,12 +76,18 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Record the current scope to a super type specification
+ */
 superType	:	SUPERTYPE
 			{
 				logger.fine("<Def>Recording class to supertype");
 				$SUPERTYPE.setScope(this.currentScope);
 			};
 			
+/**
+ * Record the current scope to a super class specification
+ */
 superClass	:	SUPERCLASS
 			{
 				logger.fine("<Def>Recording class to superclass");
@@ -90,6 +95,12 @@ superClass	:	SUPERCLASS
 			}
 			;
 	
+/**
+ * Leaving a class
+ *
+ * Call the check routine for creating the default constructor then
+ * pop off the current scope from the scope stack.
+ */
 exitClass	:	CLASSDEF
 			{
 				logger.fine("<Def>Leaving a class");
@@ -101,6 +112,12 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 	
+/**
+ * Entering a method
+ *
+ * Create a new method symbol, set the pointers between that and the
+ * AST and set the scope pointer to this method.
+ */
 enterMethod 
 			:	^(METHODDEF name=ID .*)
 			{
@@ -116,6 +133,13 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Enter a constructor
+ *
+ * Create a new method symbol with the name "construct", set
+ * the pointer between that and the AST and set the scope pointer
+ * to this constructor.
+ */
 enterConstructor
 			:	^(name=CONSTRUCTORDEF .*)
 			{
@@ -127,7 +151,12 @@ enterConstructor
 				this.currentScope = (Scope)ms;
 			}
 			;
-	
+
+/**
+ * Leaving a method
+ *
+ * Pop off the current scope from the scope stack
+ */
 exitMethod	:	(METHODDEF | CONSTRUCTORDEF)
 			{
 				logger.fine("<Def>Leaving a method");
@@ -135,6 +164,13 @@ exitMethod	:	(METHODDEF | CONSTRUCTORDEF)
 			}
 			;
 	
+/**
+ * Encountering a method argument
+ *
+ * Create a new VariableSymbol for the argument and set the pointers
+ * between that and the AST.
+ * The SUBCLASSARG actually is not used yet.
+ */
 argument	:	(^(SUBTYPEARG name=ID type=ID) | ^(SUBCLASSARG name=ID type=ID))
 			{
 				logger.fine("<Def>Defining a method argument (subtype): " + $name + 
@@ -148,6 +184,11 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Entering a local block
+ *
+ * Create a new LocalScope and push it on the scope stack
+ */
 enterBlock	:	BLOCK
 			{
 				logger.fine("<Def>Entering a block");
@@ -156,6 +197,11 @@ enterBlock	:	BLOCK
 			}
 			;
 	
+/**
+ * Leaving a local block
+ *
+ * Pop the scope off the scope stack
+ */
 exitBlock	:	BLOCK
 			{
 				logger.fine("<Def>Leaving a block");
@@ -163,7 +209,12 @@ exitBlock	:	BLOCK
 			}
 			;
 
-
+/**
+ * Defining a variable
+ *
+ * Create a new VariableSymbol and define it in the current scope. Then
+ * set the pointers between the AST and the symbol.
+ */
 varDef		:	^(VARDEF type=ID name=ID)
 			{
 				logger.fine("<Def>Defining variable " + $name.text + 
@@ -177,22 +228,12 @@ varDef		:	^(VARDEF type=ID name=ID)
 catch [OoplssException e] {
   error.reportError(e);
 }
-/*
-arrayDef	:	^(ARRAYDEF type=ID name=ID size=INTLITERAL)  
-			{
-				logger.fine("<Def>Defining an array " + $name.text + 
-					" of type " + $type.text + " with size " + $size.text);
-				ArraySymbol as = new ArraySymbol($name.text, this.currentScope);
-				as.setDef($name);
-				$name.setSymbol(as);
-				currentScope.define(as);
-			}
-			;
-catch [SymbolAlreadyDefinedException e] {
-	logger.info(e.toString());
-}
-*/
 
+/**
+ * Accessing a variable
+ *
+ * Record the current scope to the AST
+ */
 varAccess	:	^(VARACCESS name=ID)
 			{
 				// record the scope in the variable
@@ -201,6 +242,11 @@ varAccess	:	^(VARACCESS name=ID)
 			}
 			;
 			
+/**
+ * Accessing self
+ *
+ * Record the current scope to the AST
+ */
 selfVarAccess
 			:	SELF
 			{
@@ -209,6 +255,11 @@ selfVarAccess
 			}
 			;
 		
+/**
+ * Calling a method
+ *
+ * Record the current scope to the AST
+ */
 methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 			{
 				logger.fine("<Def>Recording scope of a method call");
@@ -216,6 +267,11 @@ methodCall	:	^(METHODCALL ID (^(args=METHODARGS .*))?)
 			}
 			;
 			
+/**
+ * Creating a new object
+ *
+ * Record the current scope to the AST
+ */
 newObject	:	^(NEW ID .?)
 			{
 				logger.fine("<Def>Recording scope of a new statement");
@@ -223,6 +279,11 @@ newObject	:	^(NEW ID .?)
 			}
 			;
 			
+/**
+ * Returning a value
+ *
+ * Record the enclosing method scope to the AST
+ */
 returnStmt	:	^(RETURN stmt=.)
 			{
 				logger.fine("<Def>Recording scope of return statement");
@@ -232,6 +293,11 @@ returnStmt	:	^(RETURN stmt=.)
 			}
 			;
 			
+/**
+ * Return void
+ *
+ * Record the enclosing method scope to the AST
+ */
 returnVoidStmt
 			:	RETURN
 			{
@@ -239,22 +305,4 @@ returnVoidStmt
 				$RETURN.setScope((Scope)symtab.getEnclosingMethodScope(this.currentScope));
 			}
 			;
-			
-/*			
-memberAccess
-			:	^('.' left=(varAccess|memberAccess) ^(MEMBERACCESS ID))
-			{
-				logger.fine("<Def>Recording scope of a member");
-				$ID.setScope($left.getSymbol());
-			}
-			;
-*/
 
-/*
-arrayAccess	:	^(ARRAYACCESS ID .)
-			{
-				logger.fine("<Def>Recording scope of an array");
-				$ID.setScope(this.currentScope);
-			}
-			;
-*/

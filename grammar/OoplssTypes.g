@@ -1,9 +1,9 @@
 tree grammar OoplssTypes;
 options {
-tokenVocab=Ooplss;
-ASTLabelType=OoplssAST; // use the customised AST node
-filter=true;
-k=2;
+	tokenVocab=Ooplss;
+	ASTLabelType=OoplssAST; // use the customised AST node
+	filter=true;
+	k=2;
 }
 
 @members {
@@ -27,9 +27,11 @@ import ch.codedump.ooplss.utils.*;
 import java.util.logging.Logger;
 }
 
+/**
+ * Rules matching on the way up
+ */
 bottomup	:	
 			 |	memberAccess
-			 //| 	memberAccessMethodCall
 			 |	statement
 			 |	conditionals
 			 |	assignment
@@ -37,6 +39,9 @@ bottomup	:
 			 |	returnStmt
 			;
 			
+/**
+ * All the statements
+ */
 statement		
 			:	varAccess
 			|	selfAccess
@@ -51,7 +56,12 @@ statement
 			| 	newObject
 			;
 			
-
+/**
+ * Accessing a variable
+ *
+ * Set the variable type as the evaluation type of the variable access
+ * @return type The evaluation type
+ */
 varAccess		returns [Type type]
 			:	^((ast=VARACCESS|ast=MEMBERACCESS) ID) 
 			{
@@ -61,6 +71,12 @@ varAccess		returns [Type type]
 			}
 			;
 			
+/**
+ * Creating a new object
+ *
+ * Set the class symbol as the evaluation type of the new statement
+ * @return type The evaluation type
+ */
 newObject		returns [Type type]
 			:	^(NEW ID .*)
 			{
@@ -70,6 +86,12 @@ newObject		returns [Type type]
 			}
 			;
 			
+/**
+ * Accessing self
+ * 
+ * Set the mytype as the evaluation type of the self statement
+ * @return type The evaluation type
+ */
 selfAccess		returns [Type type]
 			:	SELF
 			{
@@ -79,6 +101,13 @@ selfAccess		returns [Type type]
 			}
 			;
 			
+/**
+ * Calling a method
+ *
+ * Set the return type of a method to the evaluation type of the call. 
+ * Set the enclosing class as the real type of the call.
+ * @return type The evaluation type
+ */
 methodCall		returns [Type type]
 			:	^(METHODCALL ID .*)
 			{
@@ -89,6 +118,11 @@ methodCall		returns [Type type]
 			}
 			;
 			
+/**
+ * Method arguments
+ *
+ * Check the arguments of a method call
+ */
 methodArgs	:	^(METHODARGS (arg+=.)*)
 			{
 				logger.fine("<Type>Resolving method arguments");
@@ -100,6 +134,13 @@ catch[OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Or expression
+ *
+ * Set the result type of an or expression as the evaluation type of the
+ * expression
+ * @return type The evaluation type
+ */
 orOperator		returns [Type type]
 			:	^(OROPERATOR left=atom right=atom)
 			{
@@ -112,6 +153,13 @@ catch[OoplssException e] {
 	error.reportError(e);
 }	
 
+/**
+ * And expression
+ *
+ * Set the result type of an and expression as the evaluation type of the
+ * expression
+ * @return type The evaluation type
+ */
 andOperator		returns [Type type]
 			:	^(ANDOPERATOR left=atom right=atom)	
 			{
@@ -126,6 +174,13 @@ catch[OoplssException e] {
 	error.reportError(e);
 }		
 			
+/**
+ * Arithmetic expression
+ *
+ * Set the result type of an arithmetic operation as the evaluation type of
+ * the expression
+ * @return type The evaluation type
+ */
 arithmeticOperator
 				returns [Type type]
 			:	^((op=TIMESOPERATOR|op=PLUSOPERATOR|op=MINUSOPERATOR|op=DIVIDEOPERATOR) 
@@ -145,6 +200,13 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+/**
+ * Equality expression
+ *
+ * Set the result type of an equality expression as the evaluation type of
+ * the expression
+ * @return type The evaluation type
+ */
 equalityOperator
 				returns [Type type]
 			:	^((op=EQ|op=INEQ) left=atom right=atom)
@@ -160,6 +222,13 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+/**
+ * Relational expression
+ *
+ * Set the result type of a relational expression as the evaluation type of
+ * the expression
+ * @return type The evaluation type
+ */
 relationalOperator
 				returns [Type type]
 			: 	^((op=LESS|op=GREATER|op=LEQ|op=GEQ)
@@ -176,6 +245,12 @@ catch [InvalidExpressionException e] {
 	error.reportError(e);
 }
 
+/**
+ * Return the evaluation type of the sub expression
+ *
+ * @return The evaluation type of the sub expression
+ * @TODO probably don't name this atom
+ */
 atom			returns [Type type]
 			:	expr=literal            { type = $expr.type; }
 			|	expr=arithmeticOperator { type = $expr.type; }
@@ -188,6 +263,11 @@ atom			returns [Type type]
 			|	expr=orOperator			{ type = $expr.type; }
 			;			
 
+/**
+ * Return the evaluation type of a literal
+ *
+ * @return The evaluation type of a literal
+ */
 literal			returns [Type type]
 			:	INTLITERAL    { $type = SymbolTable._int;    $INTLITERAL.setEvalType($type); }
 			|	STRINGLITERAL { $type = SymbolTable._string; $STRINGLITERAL.setEvalType($type);}
@@ -196,6 +276,11 @@ literal			returns [Type type]
 			| 	FLOATLITERAL  { $type = SymbolTable._float;  $FLOATLITERAL.setEvalType($type);}
 			;
 			
+/**
+ * Conditional statements
+ *
+ * Check that if and while statements have a statement that evaluated to bool
+ */
 conditionals		
 			:	(^(stmt=IFSTMT cond=. .*)|^(stmt=WHILESTMT cond=. .*))
 			{
@@ -207,6 +292,11 @@ catch [ConditionalException e] {
 	error.reportError(e);
 }
 
+/**
+ * Assignment expression
+ *
+ * Check the types of an assignment
+ */
 assignment 	:	^(ASSIGN var=. stmt=.)
 			{
 				logger.fine("<Type>Checking an assignment");
@@ -217,6 +307,11 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Return statement
+ *
+ * Check the type of a return statement
+ */
 returnStmt	:	^(RETURN stmt=.)
 			{
 				logger.fine("<Type>Checking a return");
@@ -227,6 +322,11 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Void return statement
+ *
+ * Check whether returning void is valid for the given method
+ */
 returnVoidStmt
 			:	RETURN
 			{
@@ -238,6 +338,15 @@ catch [OoplssException e] {
 	error.reportError(e);
 }
 
+/**
+ * Accessing a member
+ *
+ * Set the evaluation type of the right side of this statement
+ * as the evaluation type of the statement. Set the evaluation type
+ * of the left statement as the real type. The real type is used
+ * for MyType resolving.
+ * @return type The evaluation type of the statement
+ */
 memberAccess	returns [Type type]
 			:	^(CALLOPERATOR 
 					(left=varAccess|left=methodCall|left=literal|left=selfAccess) 
@@ -253,20 +362,4 @@ memberAccess	returns [Type type]
 			}
 			;
 	
-	/*
-memberAccessMethodCall
-				returns [Type type]
-			:
-				^(CALLOPERATOR
-					(left=varAccess|left=methodCall|left=literal|left=selfAccess)
-					^(METHODCALL name=ID .*)
-				)
-			{
-				logger.fine("<Type>Determine expression type of memberaccess method call");
-				$CALLOPERATOR.setEvalType($name.getSymbol().getType());
-				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
-				$METHODCALL.setRealType($left.type);
-			}
-			;		
-	
-	*/
+
