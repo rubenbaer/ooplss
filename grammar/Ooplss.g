@@ -57,11 +57,16 @@ prog
       : classDec+
       ;
     
+	/*
 importStmt  
       : 'import' ID ';'
         -> ^('import' ID)
       ;
+	  */
 
+/**
+ * Declaration of a class
+ */
 classDec  
       : 'class' classname=ID 
         ( 'subtypeOf' supertype=ID )?
@@ -79,6 +84,10 @@ classDec
       ;
   
     
+/**
+ * This rule will be necessary when the possibility to assign
+ * values while defining a variable is added
+ */
 varDef
       : normalVarDef 
       ;
@@ -88,6 +97,11 @@ normalVarDef
         -> ^(VARDEF $type $name)
       ;
     
+/**
+ * Declaration of a method or a constructor. 
+ * The constructor is followed by the specification of the
+ * super type constructors to call.
+ */
 methodDef  
       : 'def' (name=ID argumentDeclList ':' rettype=ID) 
         methodBlock
@@ -103,6 +117,9 @@ superConstructorCall
         ->  ^(SUPER ID ^(METHODARGS expression*))
       ;
     
+/**
+ * The list of arguments that a method accepts
+ */
 argumentDeclList   
       : '(' ( argument (',' argument)* )? ')'
         -> ^(ARGUMENTLIST argument*)
@@ -144,10 +161,25 @@ options {
       | varAccess '=' expression ';' -> ^('=' varAccess expression)
       ;
       
+/**
+ * For unit testing a variable access followed by end of line
+ */
 varAccessEOF
       : varAccess EOF
       ;
           
+/**
+ * All different types of accessing variables or calling methods
+ *
+ * e.g.
+ * x
+ * x()
+ * x.foo()
+ * x.foo
+ * x.foo.bar
+ * x.foo.bar()
+ * x.foo().bar
+ */
 varAccess
 	:
 	( ID 
@@ -165,7 +197,10 @@ varAccess
 	  )
 	)*
 ;
-      
+
+/**
+ * The arguments to a method call
+ */
 argsMethodcall
       : '(' (arg+=expression (',' arg+=expression)* )? ')'
         -> ^(METHODARGS $arg*)
