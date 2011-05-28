@@ -1,18 +1,18 @@
 class StrictlyOrdered {
   def compare(other: MyType): Int { return 0; }
-  def greater (other: MyType): Boolean {
+  def greater (other: MyType): Bool {
     return self.compare(other) > 0;
   }
-  def less (other: MyType): Boolean {
+  def less (other: MyType): Bool {
     return self.compare(other) < 0;
   }
 }
 
 class Ordered subclassOf StrictlyOrdered {
-  def geq (other: MyType): Boolean {
+  def geq (other: MyType): Bool {
     return self.compare(other) >= 0;
   }
-  def leq (other: MyType): Boolean {
+  def leq (other: MyType): Bool {
     return self.compare(other) <= 0;
   }
 }
@@ -27,21 +27,21 @@ class Literature subclassOf Ordered {
 }
 
 class Book subclassOf Literature {
-  def __construct(author: String, year: Int) : base(author, year) {
+  def __construct(author: String, year: Int) : Literature(author, year) {
     self.author = author;
     self.year = year;
   }
-  def compare(other: Book): Int {
+  def compare(other: MyType): Int {
     return self.year - other.year;
   }
 }
 
 class Journal subclassOf Literature {
-  def __construct(author: String, year: Int) : base(author, year) {
+  def __construct(author: String, year: Int) : Literature(author, year) {
     self.author = author;
     self.year = year;
   }
-  def compare(other: Journal): Int {
+  def compare(other: MyType): Int {
     return self.year - other.year;
   }
 }
