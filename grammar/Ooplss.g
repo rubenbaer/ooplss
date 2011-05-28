@@ -31,9 +31,11 @@ tokens {
 
 @header {
 package ch.codedump.ooplss.antlr;
+import ch.codedump.ooplss.utils.ErrorHandler;
 }
 @lexer::header {
 package ch.codedump.ooplss.antlr;
+import ch.codedump.ooplss.utils.ErrorHandler;
 }
 
 @members {
@@ -45,6 +47,9 @@ package ch.codedump.ooplss.antlr;
       this.name = name;
       this.type = type;
     }
+  }
+  public void reportError(RecognitionException e) {
+		ErrorHandler.getInstance().reportError(e);
   }
 }
 

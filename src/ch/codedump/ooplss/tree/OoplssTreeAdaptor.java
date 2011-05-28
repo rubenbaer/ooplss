@@ -1,8 +1,6 @@
 package ch.codedump.ooplss.tree;
 
-import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.TreeAdaptor;
 
@@ -23,16 +21,4 @@ public class OoplssTreeAdaptor extends CommonTreeAdaptor implements TreeAdaptor 
 		
 		return this.create(((OoplssAST)t).token);
 	}
-	
-	 @Override
-	public Object errorNode(
-			 TokenStream input, 
-			 Token start, 
-			 Token stop,
-             RecognitionException e
-     ) {
-         OoplssErrorNode t = new OoplssErrorNode(input, start, stop, e);
-         return t;
-	 }
-
 }
