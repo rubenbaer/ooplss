@@ -103,7 +103,7 @@ public class TestMyType extends OoplssTest {
 	@Test
 	public void testMyType() throws Exception {
 		String str = 	"class foo {" +
-						"	x:MyType;" +
+						"	var x:MyType;" +
 						"	def __construct() {" +
 						"		x = new foo();" +
 						"	}" +

@@ -24,8 +24,8 @@ public class TestMemberTyping extends OoplssTest {
 	public void testMemberCallType() throws Exception {
 		String str = 	"class foo {" +
 					 	"	var x:foo;" +
-						"	def blah():Int;" +
-						"	def blubb():foo;" +	
+						"	def blah():Int{}" +
+						"	def blubb():foo{}" +	
 						"	def __construct() {" +
 						"		x.blah();" +
 						"		/*self.blubb();*/" +

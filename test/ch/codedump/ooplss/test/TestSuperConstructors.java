@@ -34,7 +34,7 @@ public class TestSuperConstructors extends OoplssTest {
 	public void testMultipleSuperConstructor() throws Exception {
 		String str = 	"class foo {}" +
 						"class A {}" +
-						"class bar subtypeOf foo supclassOf A {" +
+						"class bar subtypeOf foo subclassOf A {" +
 						"	def __construct() : base(), A() {}" +
 						"}";
 		this.createRef(str);

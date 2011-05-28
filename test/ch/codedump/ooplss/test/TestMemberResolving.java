@@ -115,12 +115,14 @@ public class TestMemberResolving extends OoplssTest {
 	@Test
 	public void testClassMethodAccess() throws Exception {
 		String str = 	"class a {\n" +
-						"	def x():Int;\n" +
+						"	def x():Int {}\n" +
 						"	def __construct() {\n" +
 						"		x();\n" +
 						"	}\n" +
 						"}";
+		try {
 		this.createRef(str);
+		} catch (ClassCastException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -166,7 +168,7 @@ public class TestMemberResolving extends OoplssTest {
 	@Test
 	public void testInheritedMethodCall() throws Exception {
 		String str = 	"class foo {" +
-						"	def blah():Int;" +
+						"	def blah():Int {}" +
 						"}" +
 						"class bar subtypeOf foo {}" +
 						"class third {" +
@@ -243,7 +245,7 @@ public class TestMemberResolving extends OoplssTest {
 	@Test 
 	public void testSuperClassMethod() throws Exception {
 		String str = 	"class foo {" +
-						"	def x():Int;" +
+						"	def x():Int {}" +
 						"}" +
 						"class bar subclassOf foo {" +
 						"	def blubb():Void {" +
