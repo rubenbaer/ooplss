@@ -358,11 +358,18 @@
   \end{figure}
 }
 
+
+% switch back to Latin Modern
+\usepackage[T1]{fontenc}
+
+\usepackage{arev} % What does this package do?
+\usepackage{lmodern}
+
 \usepackage{amsthm}
-\usepackage{ucs}
 \usepackage{amsmath}
-\usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ucs}
 \usepackage{emp}
 \usepackage{xspace}
 
@@ -385,16 +392,20 @@
 \newtheorem*{note}{Note}
 \newtheorem{case}{Case}
 
-
-% 
+%
 % Some shortcuts
 %
-\usepackage{arev}
 \newsavebox{\sharpbox}
 \sbox{\sharpbox}{$\sharp$}
 \def \cs {C\usebox{\sharpbox}\xspace}
 \def \match {<\#\xspace}
 \def \mmatch {<\!\!\#}
+\def \subt {\vartriangleleft}
+\def \subtClosure {\blacktriangleleft}
+%\def \subc {\vartriangleleft\!\!\!\#}
+%\def \subcClosure {\blacktriangleleft\!\!\!\#}
+\def \subc {\diamondsuit}
+\def \subcClosure {\blacklozenge}
 \def \mytype {\emph{MyType}\xspace}
 \def \self {\emph{self}\xspace}
 \def \base {\emph{base}\xspace}
@@ -415,17 +426,6 @@
 \def \st {$\emph{StringTemplate}$\xspace}
 \def \ra {$\rightarrow$\xspace}
 \def \lra {$\longrightarrow$\xspace}
-
-
-% switch back to Latin Modern
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-%\DeclareSymbolFont{operators}{OT1}{cmr}{m}{n}
-%\DeclareSymbolFont{letters}{OML}{cmm}{m}{it}
-%\DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
-%\DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n}
-% Fucking workaround. AMSFonts makes troubles...
-\DeclareMathSymbol{\nless}{\mathbin}{AMSb}{"04}
 
 % this is apparently used for the metauml stuff
 \ifx\pdftexversion\undefined
@@ -466,7 +466,7 @@
 	\end{tikzpicture}
 	%
 	}
-	
+
 	% TODO List
 	\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
 		\newcommand\l@todo[2]

@@ -324,7 +324,7 @@ to the \self variable. Definition \ref{def:selfType} reflects this idea.
 
 \begin{defn}[Self Type]
 	\label{def:selfType}
-	\self <: \mytype
+	\self : \X and \X <: \mytype
 \end{defn}
 
 Listing \ref{lst:fixBreakSelf} fixes the code with the assumption of
@@ -452,7 +452,7 @@ For this the self compatibility is defined as follow:
 
 \begin{defn}[Self is compatible with MyType]
 	\label{def:selfCompatibility}
-	For every class \A it is true that $self : MyType$ but not that $A <: MyType$
+	For every class \A it is true that $self : X$ and $X <: MyType$ but not that $A <: MyType$
 \end{defn}
 
 \subsubsection{Binding Moment of \mytype}
