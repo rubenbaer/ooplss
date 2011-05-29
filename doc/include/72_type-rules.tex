@@ -1,0 +1,69 @@
+\chapter{Type Rules}
+\label{ctr:typeRules}
+\section{Object Generation}
+\section{Higher-Order Subtyping}
+The following definitions for \emph{Oper} and \emph{Type} relation are
+taken form \cite{steffen_higher-order_1994}.
+
+\begin{tabular}{lllr}
+	\oper{X} & $\approx$ & X & \emph{(assuming that X is match-bound)} \\
+	\oper{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
+		& $\approx$
+		& \multicolumn{2}{l}{$\lambda X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
+	\type{X} & $\approx$ & X$^*$ & \emph{(when X is match-bound)} \\
+	\type{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
+		& $\approx$
+		& \multicolumn{2}{l}{$\mu X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
+	\type{X} & $\approx$ & X & \emph{(when X is not match-bound)} \\
+	\type{A $\rightarrow$ B} & $\approx$ & \multicolumn{2}{l}{\type{A} $\rightarrow$ \type{B}} \\
+	\type{$\forall(X \mmatch A)B$} & $\approx$ & \multicolumn{2}{l}{$\forall(X \prec: \text{\oper{A}})$ \type{B}} \\
+	A \match B & $\approx$ & \oper{A} $ \prec:$ \oper{B} & \emph{(for A, B object types)} \\
+\end{tabular}
+
+Using these definitions implies reflexivity and transitivity for matching since this is true for subtyping.
+
+\section{Type Generation}
+
+\section{Type Rules}
+
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
+			\paragraph{Subtyping:}
+				\begin{mathpar}
+					\inferrule*[right=SubT-Ref,rightskip=-1.0cm]{\\}{A <: A}
+					\inferrule*[right=SubT-Trans]{B <: A \\ C <: B}{C <: A}
+				\end{mathpar}
+
+			\paragraph{Subclassing:}
+
+			\paragraph{Matching:}
+				\begin{mathpar}
+					\inferrule*[right=Match-Ref,rightskip=-1.0cm]{\\}{A \mmatch A}
+					\inferrule*[right=Match-Trans]{B \mmatch A \\ C \mmatch B}{C \mmatch A} \\
+					\inferrule*[right=Match-Adopt,rightskip=-1.0cm]{B <: A \\ C \mmatch B}{C \mmatch A}
+					\inferrule*[right=Match-Adopt]{B <: A \\ C \mmatch B}{B \mmatch A} \\
+					\inferrule*[right=Match-Embed-SubT]{B <: A}{B \mmatch A}
+				\end{mathpar}
+    \end{minipage}
+  }
+	\caption{foo}
+	\label{fig:rule}
+\end{figure}
+
+\begin{itemize}
+\item Product Introduction
+\item Product Elimination
+\item Function Introduction
+\item Function Elimination
+\item Record Introduction
+\item Record Elimination
+\item Record Subtyping
+\item Function Subtyping
+\item Product Subtyping
+\item Record Extension
+\item Record Overriding
+\item Recursive Subtype
+\item Subclass
+\item Classify
+\end{itemize}
