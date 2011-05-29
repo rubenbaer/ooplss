@@ -393,6 +393,7 @@
 \sbox{\sharpbox}{$\sharp$}
 \def \cs {C\usebox{\sharpbox}\xspace}
 \def \match {<\#\xspace}
+\def \mmatch {<\!\!\#}
 \def \mytype {\emph{MyType}\xspace}
 \def \self {\emph{self}\xspace}
 \def \base {\emph{base}\xspace}
@@ -479,3 +480,8 @@
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
+%
+% Type rule definition
+%
+\newcommand{\oper}[1]{\textit{Oper}$\langle$#1$\rangle$}
+\newcommand{\type}[1]{\textit{Type}$\langle$#1$\rangle$}
