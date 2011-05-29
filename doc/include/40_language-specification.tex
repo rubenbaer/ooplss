@@ -110,7 +110,7 @@ supertypes. Local scopes exist within methods and can be nested arbitrary.
 Nested local scopes can not shadow already bound variables, i.e., definitions
 like that in Listing \ref{lst:illegalNesting} are not allowed.
 
-\begin{lstlisting}[float,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
+\begin{lstlisting}[float=h,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
 class A {
 	var x : B;
 
@@ -172,7 +172,7 @@ makes a straightforward implementation possible and easy to use for
 current Java programmers. Listing \ref{lst:subtypeOf} shows an example
 of subtyping in \ooplss.
 
-\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
+\begin{lstlisting}[float=h,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
 class A {
 	// Defines a method with parameter of type A.
 	def m(p : A) : ReturnType { %\ldots) }
@@ -241,7 +241,7 @@ Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in Listing
 \ref{lst:subclassOf} and Listing \ref{lst:javaTrans}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
+\begin{lstlisting}[float=h,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
 class A {
 	var a : A;
 
@@ -263,7 +263,7 @@ Listing \ref{lst:javaTrans} presents the code that was translated from Listing
 the subtyping hierarchy since the whole content of class \A is modified
 and copied to class \B.
 
-\begin{lstlisting}[float,caption=Subclassing translated to Java,label=lst:javaTrans]
+\begin{lstlisting}[float=h,caption=Subclassing translated to Java,label=lst:javaTrans]
 public class A {
 	public A a;
 
@@ -300,7 +300,7 @@ two classes are completely decoupled but the type of the classes' type is
 not changed from \A to \B the expression in Listing \ref{lst:breakSelf}
 can not be typed.
 
-\begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
+\begin{lstlisting}[float=h,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
 class A {
 	def m(o : A) : A {
 		return m(self); //Works fine in Java
@@ -330,7 +330,7 @@ to the \self variable. Definition \ref{def:selfType} reflects this idea.
 Listing \ref{lst:fixBreakSelf} fixes the code with the assumption of
 definition \ref{def:selfType}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
+\begin{lstlisting}[float=h,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self); //Works well
@@ -359,7 +359,7 @@ provides a proper possibility for mutual recursion mentioned in
 programmers the possibility to take full control over the recursion
 and correct program flow.
 
-\begin{lstlisting}[float,caption=Subclassing with \mytype translated to Java,label=lst:javaTransMyTypeSubclassing]
+\begin{lstlisting}[float=h,caption=Subclassing with \mytype translated to Java,label=lst:javaTransMyTypeSubclassing]
 public class A {
 	public A m(A o) {
 		m(this);
@@ -386,7 +386,7 @@ with extension as well. This problem is illustrated in Listing
 \ref{lst:myTypeSubtyping}: it is not sure what type the parameter
 $o$ should have in class \B, type \B or type \A?
 
-\begin{lstlisting}[float,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
+\begin{lstlisting}[float=h,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -424,7 +424,7 @@ If this code segment would be combined in class \C, \self would now be of type
 	\label{fig:hierarchy}
 \end{figure}
 
-\begin{lstlisting}[float,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
+\begin{lstlisting}[float=h,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -474,7 +474,7 @@ of \mytype is now rebound to type \C. This works as well since the
 since in extension the binding moment is performed as early as possible,
 this fits well in to \ooplss' model of class combination.
 
-\begin{lstlisting}[float,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
+\begin{lstlisting}[float=h,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
 class A {
 	def m(o : MyType) : MyType { // o : A
 		return m(self);
@@ -668,7 +668,7 @@ The Java code that uses the parametrised classes defined in \ooplss is
 then done straightforward by replacing the square brackets to dollar
 signs as presented in Listing \ref{lst:useParametrisationJava}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
+\begin{lstlisting}[float=h,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
 class Container[T %\match) A] {
 	def m(t1 : T, t2 : T) : T {
 		t.someAction(t2);
@@ -694,7 +694,7 @@ class C subclassOf A {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=ooplss,caption=Valid use of a match-bound container,label=lst:useParametrisationOoplss]
+\begin{lstlisting}[float=h,language=ooplss,caption=Valid use of a match-bound container,label=lst:useParametrisationOoplss]
 class Main {
 	def run() : Void {
 		var foo : Container[Foo] = new Container[Foo]();
@@ -707,7 +707,7 @@ class Main {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
+\begin{lstlisting}[float=h,language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
 public interface Container<T> {
 	public T m(t T);
 
@@ -731,7 +731,7 @@ public interface Container<T> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=java,caption=Use of parametised classes in Java,label=lst:useParametrisationJava]
+\begin{lstlisting}[float=h,language=java,caption=Use of parametised classes in Java,label=lst:useParametrisationJava]
 public class Main {
 	public void run() {
 		Container<Foo> foo = new Container.Container$Foo$();
@@ -754,7 +754,7 @@ parameters are translated in the same manner as in normal classes.
 Listing \ref{lst:extendingContainer} shows an extended version of the
 \emph{Container} class.
 
-\begin{lstlisting}[float,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
+\begin{lstlisting}[float=h,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
 	public X f(X x);
 
@@ -823,7 +823,7 @@ possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
 Listing \ref{lst:explicitMyType}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
+\begin{lstlisting}[float=h,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
 class A[MyType <# A] {
 	def m(o : MyType) MyType {
 		// Self is explicitly typed in the method.
