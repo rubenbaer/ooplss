@@ -4,26 +4,26 @@
 \section{Higher-Order Subtyping}
 The following definitions for \emph{Oper} and \emph{Type} relation are
 taken form \cite{steffen_higher-order_1994}.
-
-\begin{tabular}{lllr}
-	\oper{X} & $\approx$ & X & \emph{(when X is match-bound)} \\
-	\oper{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
-		& $\approx$
-		& \multicolumn{2}{l}{$\lambda X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
-	\type{X} & $\approx$ & X$^*$ & \emph{(when X is match-bound)} \\
-	\type{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
-		& $\approx$
-		& \multicolumn{2}{l}{$\mu X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
-	\type{X} & $\approx$ & X & \emph{(when X is not match-bound)} \\
-	\type{A $\rightarrow$ B} & $\approx$ & \multicolumn{2}{l}{\type{A} $\rightarrow$ \type{B}} \\
-	\type{$\forall(X \mmatch A)B$} & $\approx$ & \multicolumn{2}{l}{$\forall(X \prec: \text{\oper{A}})$ \type{B}} \\
-	A \match B & $\approx$ & \oper{A} $ \prec:$ \oper{B} & \emph{(for A, B object types)} \\
-\end{tabular}
-
+\begin{table}[H]
+	\begin{tabular}{lllr}
+		\oper{X} & $\approx$ & X & \emph{(when X is match-bound)} \\
+		\oper{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
+			& $\approx$
+			& \multicolumn{2}{l}{$\lambda X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
+		\type{X} & $\approx$ & X$^*$ & \emph{(when X is match-bound)} \\
+		\type{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
+			& $\approx$
+			& \multicolumn{2}{l}{$\mu X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
+		\type{X} & $\approx$ & X & \emph{(when X is not match-bound)} \\
+		\type{A $\rightarrow$ B} & $\approx$ & \multicolumn{2}{l}{\type{A} $\rightarrow$ \type{B}} \\
+		\type{$\forall(X \mmatch A)B$} & $\approx$ & \multicolumn{2}{l}{$\forall(X \prec: \text{\oper{A}})$ \type{B}} \\
+		A \match B & $\approx$ & \oper{A} $ \prec:$ \oper{B} & \emph{(for A, B object types)} \\
+	\end{tabular}
+\end{table}
 Using these definitions implies reflexivity and transitivity for matching
 since this is true for subtyping.
-
-\section{Type Generation}
+%
+%\section{Type Generation}
 
 \section{Type Rules}
 For the sake of comprehensibility the following convention is used within
@@ -52,7 +52,6 @@ TODO:
 It is assumed that the implicit binding of \mytype is done as described in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary parameters are introduced by the type combination to bind \mytype correctly.
 
 %$\subcClosure$ $\subtClosure$
-
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
@@ -69,7 +68,15 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
 					\inferrule*[right=SubT-Trans]{B \subtc A \\ C \subtc B}{C \subtc A} \\
 					\inferrule*[right=SubT-Intro]{\text{class }A[\overline{X \mmatch N}] \subt B[\overline{T}] \{\ldots\}}{A \subtc B}
 				\end{mathpar}
+    \end{minipage}
+  }
+	\caption{Basic rules}
+	\label{fig:basicRules}
+\end{figure}
 
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
 			\paragraph{Field lookup:}
 				\begin{mathpar}
 					\inferrule*[right=F-Empty]{\\}{fields(\emptyset) = \emptyset} \\
@@ -89,36 +96,106 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
 							\text{def } m(\overline{U x}): R \{ \ldots \} \in \overline{M}}
-						{fields(A[\overline{T}]) = \overline{U g}, \overline{V h}, [\overline{T \backslash X}]\overline{S f} }
+						{mtype(m, A[\overline{T}]) = [\overline{T/X}](\overline{U} \rightarrow R)} \\
+
+					\inferrule*[right=MT-Supertype]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							m \in B[\overline{T}] \\ m \notin \overline{M}}
+						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]B)}\\
+
+					\inferrule*[right=MT-Superclass]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							m \in C[\overline{T}] \\ m \notin \overline{M}}
+						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]C)}\\
 				\end{mathpar}
 
-			\paragraph{Matching:}
+			\paragraph{Method body lookup:}
 				\begin{mathpar}
-					\inferrule*[right=Match-Ref,rightskip=-1.0cm]{\\}{A \mmatch A}
-					\inferrule*[right=Match-Trans]{B \mmatch A \\ C \mmatch B}{C \mmatch A} \\
-					\inferrule*[right=Match-Adopt,rightskip=-1.0cm]{B <: A \\ C \mmatch B}{C \mmatch A}
-					\inferrule*[right=Match-Adopt]{B <: A \\ C \mmatch B}{B \mmatch A} \\
-					\inferrule*[right=Match-Embed-SubT]{B <: A}{B \mmatch A}
+					\inferrule*[right=MT-Class]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							\text{def } m(\overline{U x}): R \{ e_i^n (n \in \mathbb{N}) \} \in \overline{M}}
+						{mbody(m, A[\overline{T}]) = \overline{X}.[\overline{T/X}].e_i^n (n \in \mathbb{N})} \\
+
+					\inferrule*[right=MT-Supertype]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							m \in B[\overline{T}] \\ m \notin \overline{M}}
+						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]B)}\\
+
+					\inferrule*[right=MT-Superclass]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							m \in C[\overline{T}] \\ m \notin \overline{M}}
+						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]C)}\\
 				\end{mathpar}
     \end{minipage}
   }
-	\caption{foo}
-	\label{fig:rule}
+	\caption{Auxiliary functions}
+	\label{fig:auxFunctions}
 \end{figure}
 
-\begin{itemize}
-\item Product Introduction
-\item Product Elimination
-\item Function Introduction
-\item Function Elimination
-\item Record Introduction
-\item Record Elimination
-\item Record Subtyping
-\item Function Subtyping
-\item Product Subtyping
-\item Record Extension
-\item Record Overriding
-\item Recursive Subtype
-\item Subclass
-\item Classify
-\end{itemize}
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
+			\paragraph{Matching:}
+				\begin{mathpar}
+					\inferrule*[right=Match-Ref,rightskip=-1.0cm]{\\}{\Delta \vdash A \mmatch A}
+					\inferrule*[right=Match-Trans]{B \mmatch A \\ C \mmatch B}{C \mmatch A} \\
+					\inferrule*[right=Match-Adopt,rightskip=-1.0cm]{B <: A \\ C \mmatch B}{C \mmatch A}
+					\inferrule*[right=Match-Embed-SubT]{B <: A}{B \mmatch A}
+				\end{mathpar}
+
+			\paragraph{Subtyping:}
+				\begin{mathpar}
+					\inferrule*[right=Subtype-Ref,rightskip=-1.0cm]{\\}{A <: A}
+					\inferrule*[right=Subtype-Trans]{B <: A \\ C <: B}{C <: A} \\
+					\inferrule*[right=Subtype-Adopt]{B <: A \\ C <: B}{C <: A}
+				\end{mathpar}
+		\end{minipage}
+	}
+	\caption{Type relation rules}
+	\label{fig:typeRelationsRules}
+\end{figure}
+
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
+		\end{minipage}
+	}
+	\caption{Subclassing type rules}
+	\label{fig:matchingRules}
+\end{figure}
+
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
+		\end{minipage}
+	}
+	\caption{Subtyping type rules}
+	\label{fig:matchingRules}
+\end{figure}
+
+%\begin{itemize}
+%\item Product Introduction
+%\item Product Elimination
+%\item Function Introduction
+%\item Function Elimination
+%\item Record Introduction
+%\item Record Elimination
+%\item Record Subtyping
+%\item Function Subtyping
+%\item Product Subtyping
+%\item Record Extension
+%\item Record Overriding
+%\item Recursive Subtype
+%\item Subclass
+%\item Classify
+%\end{itemize}
