@@ -6,7 +6,7 @@ The following definitions for \emph{Oper} and \emph{Type} relation are
 taken form \cite{steffen_higher-order_1994}.
 
 \begin{tabular}{lllr}
-	\oper{X} & $\approx$ & X & \emph{(assuming that X is match-bound)} \\
+	\oper{X} & $\approx$ & X & \emph{(when X is match-bound)} \\
 	\oper{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
 		& $\approx$
 		& \multicolumn{2}{l}{$\lambda X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
@@ -20,35 +20,77 @@ taken form \cite{steffen_higher-order_1994}.
 	A \match B & $\approx$ & \oper{A} $ \prec:$ \oper{B} & \emph{(for A, B object types)} \\
 \end{tabular}
 
-Using these definitions implies reflexivity and transitivity for matching since this is true for subtyping.
+Using these definitions implies reflexivity and transitivity for matching
+since this is true for subtyping.
 
 \section{Type Generation}
 
 \section{Type Rules}
-For the sake of comprehensibility the following convention is used within the type rules described in this section.
+For the sake of comprehensibility the following convention is used within
+the type rules described in this section:
 
-\begin{description}
-	\item[Type Variables] $X, Y, Z$
-	\item[Type Arguments] $T, U, V, W$
-	\item[Constructor Type] $K$
-	\item[Object Types] $A - J \ F$
-	\item[Method Types] $M - P$
-	\item[Field Type] $F$
-	\item[Type Boundary] $N$
-\end{description}
+\begin{table}[H]
+	\begin{tabular}{ll}
+		\textit{Type Variables} & $X, Y, Z$ \\
+		\textit{Type Arguments} & $T, U, V, W$ \\
+		\textit{Constructor Type} & $K$ \\
+		\textit{Object Types} & $A - E, G - J$ \\
+		\textit{Field Type} & $F$ \\
+		\textit{Method Types} & $M - P$ \\
+		\textit{Type Boundary} & $N$
+	\end{tabular}
+\end{table}
 
-For more compactness the following abbreviations and symbols are used; the keywords \emph{subtypeOf} and \emph{subclassOf} are expressed with $\subt$ and $\subc$ $\subcClosure$ $\subtClosure$
+For more compactness the following abbreviations and symbols are used; the
+keywords \emph{subtypeOf} and \emph{subclassOf} are expressed with $\subt$
+and $\subc$. The reflexive and transitive closure for subtyping and
+subclassing is denoted by $\subtc$ and $\underline{\blacktriangleleft}$.
+To specify a list of length $0\ldots n$ a over line is used, e.g.,
+$\overline{X \mmatch N}$ is a list of match bounds.
+
+TODO:
+It is assumed that the implicit binding of \mytype is done as described in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary parameters are introduced by the type combination to bind \mytype correctly.
+
+%$\subcClosure$ $\subtClosure$
 
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
-			\paragraph{Subtyping:}
+			\paragraph{Subclassing:}
 				\begin{mathpar}
-					\inferrule*[right=SubT-Ref,rightskip=-1.0cm]{\\}{A <: A}
-					\inferrule*[right=SubT-Trans]{B <: A \\ C <: B}{C <: A}
+					\inferrule*[right=SubC-Ref,rightskip=-1.0cm]{\\}{A \subcc A}
+					\inferrule*[right=SubC-Trans]{B \subcc A\\C \subcc B}{C \subcc A} \\
+					\inferrule*[right=SubC-Intro]{\text{class }A[\overline{X \mmatch N}] \subc B[\overline{T}] \{\ldots\}}{A \subcc B}
 				\end{mathpar}
 
-			\paragraph{Subclassing:}
+			\paragraph{Subtyping:}
+				\begin{mathpar}
+					\inferrule*[right=SubT-Ref,rightskip=-1.0cm]{\\}{A \subtc A}
+					\inferrule*[right=SubT-Trans]{B \subtc A \\ C \subtc B}{C \subtc A} \\
+					\inferrule*[right=SubT-Intro]{\text{class }A[\overline{X \mmatch N}] \subt B[\overline{T}] \{\ldots\}}{A \subtc B}
+				\end{mathpar}
+
+			\paragraph{Field lookup:}
+				\begin{mathpar}
+					\inferrule*[right=F-Empty]{\\}{fields(\emptyset) = \emptyset} \\
+					\inferrule*[right=F-Class]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							fields([\overline{T \backslash X}]B)=\overline{U g} \\\\
+							fields([\overline{T \backslash X}]C)=\overline{V h}}
+						{fields(A[\overline{T}]) = \overline{U g}, \overline{V h}, [\overline{T \backslash X}]\overline{S f} }
+				\end{mathpar}
+
+			\paragraph{Method type lookup:}
+				\begin{mathpar}
+					\inferrule*[right=MT-Class]
+						{\text{class } A[\overline{X \mmatch N}]
+								\subt B[\overline{T}]
+								\subc C[\overline{U}] \{\overline{S f}; K \overline{M}\} \\\\
+							\text{def } m(\overline{U x}): R \{ \ldots \} \in \overline{M}}
+						{fields(A[\overline{T}]) = \overline{U g}, \overline{V h}, [\overline{T \backslash X}]\overline{S f} }
+				\end{mathpar}
 
 			\paragraph{Matching:}
 				\begin{mathpar}

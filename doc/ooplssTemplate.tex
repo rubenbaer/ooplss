@@ -15,6 +15,7 @@
 \usepackage[british]{babel}
 \usepackage{etex}
 \usepackage{tocbasic}
+\usepackage[utf8x]{inputenc}
 \pdfminorversion=5
 
 %
@@ -46,16 +47,9 @@
 \fi
 
 %
-% Margin width
-%
-%\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
-
-%
 % Package for headers
 %
 \usepackage{fancyhdr}
-
-\usepackage[utf8x]{inputenc}
 
 %
 % include graphics
@@ -157,7 +151,7 @@
 
 %
 % Package for links (ref and cite), no box and blue
-% 
+%
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
 
@@ -206,20 +200,6 @@
 %
 \usepackage{wrapfig}
 \usepackage{float}
-% Produces some floating problems within text
-%\usepackage{floatflt}
-
-%
-% font (sans serif)
-%
-%\usepackage{helvet}
-%\renewcommand{\familydefault}{\sfdefault}
-%\selectfont
-
-%
-% Remove paragraph indenting
-%
-%\setlength\parindent{0cm}
 
 %
 % Numbering style
@@ -361,10 +341,7 @@
 
 % switch back to Latin Modern
 \usepackage[T1]{fontenc}
-
-\usepackage{arev} % What does this package do?
 \usepackage{lmodern}
-
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -399,13 +376,11 @@
 \sbox{\sharpbox}{$\sharp$}
 \def \cs {C\usebox{\sharpbox}\xspace}
 \def \match {<\#\xspace}
-\def \mmatch {<\!\!\#}
+\def \mmatch {<\!\!\#~}
 \def \subt {\vartriangleleft}
-\def \subtClosure {\blacktriangleleft}
-%\def \subc {\vartriangleleft\!\!\!\#}
-%\def \subcClosure {\blacktriangleleft\!\!\!\#}
-\def \subc {\diamondsuit}
-\def \subcClosure {\blacklozenge}
+\def \subc {\blacktriangleleft}
+\def \subtc {\trianglelefteq} % Closure
+\def \subcc {~\underline{\blacktriangleleft}~} % Closure
 \def \mytype {\emph{MyType}\xspace}
 \def \self {\emph{self}\xspace}
 \def \base {\emph{base}\xspace}
@@ -426,6 +401,8 @@
 \def \st {$\emph{StringTemplate}$\xspace}
 \def \ra {$\rightarrow$\xspace}
 \def \lra {$\longrightarrow$\xspace}
+\newcommand{\oper}[1]{\textit{Oper}$\langle$#1$\rangle$}
+\newcommand{\type}[1]{\textit{Type}$\langle$#1$\rangle$}
 
 % this is apparently used for the metauml stuff
 \ifx\pdftexversion\undefined
@@ -436,14 +413,14 @@
 \fi
 
 %
-% TODO List
+% A TO DO List
 %
 \ifx \showtodo \undefined
   \newcommand{\todo}[1]{}
 	\newcommand{\listoftodos}{}
 \else
 	\newcommand{\todo}[1]{
-	% Add to todo list
+	% Add to to do list
 	\addcontentsline{tdo}{todo}{\protect{#1}}
 	%
 	\begin{tikzpicture}[remember picture, baseline=-0.75ex]
@@ -467,7 +444,7 @@
 	%
 	}
 
-	% TODO List
+	% TO DO List
 	\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
 		\newcommand\l@todo[2]
 		{\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
@@ -481,8 +458,3 @@
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
-%
-% Type rule definition
-%
-\newcommand{\oper}[1]{\textit{Oper}$\langle$#1$\rangle$}
-\newcommand{\type}[1]{\textit{Type}$\langle$#1$\rangle$}
