@@ -21,7 +21,7 @@ raises the language to function-bounded typing with recursive self types.
 In this chapter we want you to get familiar with the terms subtyping
 and subclassing and their differences. Both concepts exist in some of
 the widely known object oriented programming languages like Java, Eiffel
-or C++, but are usually mixed up. Either subclassing is supported with
+or \cpp, but are usually mixed up. Either subclassing is supported with
 improper subtyping or otherwise.
 
 \subsection{Subtyping}
@@ -135,13 +135,13 @@ LSP allows to introduce a subsumption rule for type declarations:
 \label{sec:sharingTypes}
 
 Although the term \emph{class} is used in modern class-based
-object-oriented languages like Java and C++, the concept of extension is
+object-oriented languages like Java and \cpp, the concept of extension is
 actually the concept of subtypes and not subclasses. The word type is in
 the sense of data type, such as integer, boolean etc., but could also be
 extended types like objects in object-oriented languages. They determine
 the way data is stored and what operations can be perform on them.
 
-In object-oriented languages like Java and C++, the type hierarchy
+In object-oriented languages like Java and \cpp, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
 inheritance automatically creates a subtype and there is no escape from
 this. Of a practical point of view however, inheritance is merely a
@@ -290,7 +290,7 @@ recursion occurs can be identified \cite{simons_theory_2003-2}.
 
 The first case is problematic when objects are derived; it is not
 quite clear to which object the self variable should refer after
-the derivation. In C++ and Java, the self-reference in inherited
+the derivation. In \cpp and Java, the self-reference in inherited
 methods refers to the base object that was derived. This means that an
 object may contain many versions of self-references, which is called
 \emph{schizophrenic self-reference}. Other languages like Smalltalk
@@ -421,7 +421,7 @@ in more sophisticated languages and research topics. Structural type
 system does not take regard to the object combination operators which
 are used but rather take care on the object's structure to determine the
 relations between two objects. The other family of type systems are from
-nominal nature which is used in popular languages like Java, \cs, C++
+nominal nature which is used in popular languages like Java, \cs, \cpp
 and many more. For nominal type systems the type relation between objects
 is specified with keywords that are used for class combination. For
 example, Java provides an `\emph{extends}' keyword which does the combination
@@ -545,7 +545,7 @@ A widely used all quantified relation is known as \emph{generics}
 which is formally written as $\forall (X <: A(X))B\{X\}$. Since here
 subtyping is used to bind \X to a range of objects it is called f-bounded
 subtyping. Now it is possible to replace the subtype relation with
-matching $\forall(X <\# B(X))B\{X\}$ which is denoted as match-bounded
+matching $\forall(X \mmatch B(X))B\{X\}$ which is denoted as match-bounded
 quantification. Depending on the exact definition of matching two
 different interpretations are possible\cite{abadi_subtyping_1996}. Both
 are discussed in more details at the end of the chapter. However, the

@@ -350,6 +350,7 @@
 \usepackage{ucs}
 \usepackage{emp}
 \usepackage{xspace}
+\usepackage{relsize}
 
 %
 % Theorem environments
@@ -370,12 +371,27 @@
 \newtheorem*{note}{Note}
 \newtheorem{case}{Case}
 
+%c C plus plus
+\def\cpp{%
+\if monospace%
+    C++%
+\else%
+    C\kern-.1667em\raise.30ex\hbox{\smaller{++}}%
+\fi%
+\xspace }
+
+%c C sharp
+\def\cs{%
+\if monospace%
+    C$\sharp$%
+\else%
+    C\raise.30ex\hbox{\smaller{$\sharp$}}%
+\fi%
+\xspace }
+
 %
 % Some shortcuts
 %
-\newsavebox{\sharpbox}
-\sbox{\sharpbox}{$\sharp$}
-\def \cs {C\usebox{\sharpbox}\xspace}
 \def \match {<\#\xspace}
 \def \mmatch {<\!\!\#~}
 \def \subt {\vartriangleleft}

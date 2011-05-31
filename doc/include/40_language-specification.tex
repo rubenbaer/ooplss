@@ -1,4 +1,4 @@
-Inference \chapter{Language Specification}
+\chapter{Language Specification}
 \label{ctr:languageSpecification}
 This chapter contains the language specification part of \ooplss.
 In the first section defines the fundamental design principles used in
@@ -144,7 +144,7 @@ Two kinds of comments are possible. The C-style multi-line comment which
 starts with `/*' and ends with `*/'. Everything between these two delimiters
 is ignored by the parser. One specialty to note is, that these kind of comments
 can not be nested.
-The second kind is in the C++-style and is a single- line comment which starts
+The second kind is in the \cpp-style and is a single- line comment which starts
 with `//'. The character sequence between this token and the next newline
 is ignored.
 
@@ -633,7 +633,7 @@ code written in \ooplss is type safe and every method call can be
 performed without any runtime errors since it is guaranteed that all
 used fields are properly available on the passed objects.
 
-From this thoughts, the C++ templates might be a good choice for
+From this thoughts, the \cpp templates might be a good choice for
 representing parametric classes.
 
 \begin{quotation}
@@ -643,7 +643,7 @@ beyond what is used for an equivalent ``hand-written'' class.' -- Bjarne
 Stroustrup \cite{stroustrup_c++_2000}
 \end{quotation}
 
-Even C++ templates have different semantics and are not equivalent with
+Even \cpp templates have different semantics and are not equivalent with
 the translation presented here for \ooplss, but the idea is similar
 to create specially named classes similar to templates. Listing
 \ref{lst:parametrisationOoplss} presents a container class that is
@@ -658,7 +658,7 @@ of $T$ \match \A. The use of those classes is presented in Listing
 and sound since all of these classes provide the methods assumed by the
 bound. However, Listing \ref{lst:parametrisationJava} shows how this code
 is translated to Java and how the idea of templates is adopted. Like
-in C++ the for every class a new inner class is created with special
+in \cpp the for every class a new inner class is created with special
 names. These special classes are all sharing the same generic interface
 \emph{Container}. The fact that an interface is needed will be presented
 in the next section. One may remark that the Java interface of
@@ -825,7 +825,7 @@ possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
 Listing \ref{lst:explicitMyType}.
 
-\begin{lstlisting}[float=h,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
+\begin{lstlisting}[float=h,language=ooplss,caption=Explicit \mytype parametrisation,label=lst:explicitMyType]
 class A[MyType <# A] {
 	def m(o : MyType) MyType {
 		// Self is explicitly typed in the method.
