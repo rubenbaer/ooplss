@@ -614,7 +614,16 @@ with the difference that the parameter will get bound recursively
 This can now be used to define the fixpoint of $A$ and is written as \[A^*
 := \mu X.A_{Op}(X).\]
 
-\todo{(un)folding property and typing problems, other reference than simons}
+Now, the problem of such recursive definition is to know whether two
+types are equivalent or not. Replacing recursively the type parameter with
+the type definition it self is undecidable when the type diverges. To tackle
+this problem an explicit type isomorphism for type can be defined \cite{abadi_subtyping_1996}
+
+\begin{defn}[(Un)folding isomorphism]
+	\label{def:foldUnfold}
+	\[fold : A\{\mu(X)A\{X\}\} \rightarrow \mu(X)A\{X\}\]
+	\[unfold : \mu(X)A\{X\} \rightarrow A\{\mu(X)A\{X\}\}\]
+\end{defn}
 
 \subsection{Matching as F-Bounded Subtyping}
 F-bounded subtyping\footnote{Abbreviates function-bounded subtyping}
