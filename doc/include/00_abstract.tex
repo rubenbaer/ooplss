@@ -8,12 +8,46 @@
 % Bär Ruben, Heinemann Stefan
 %**********************************************************************************
 \subsection*{Abstract}
-English abstract....
+Subtyping is one of the best known type relation in object-oriented
+programming languages and is an important aspect of these languages
+to support sound type polymorphism. To support type polymorphism
+subtyping has to restrict the subtype declaration to allow only safe type
+substitutions. This prohibits to specialise binary method declarations in
+subtypes. In many popular object-oriented programming languages the type
+hierarchy is implicitly the same as the implementation hierarchy. This
+contradicts the notion of inheritance as code reuse and subtyping as type
+substitution. To solve this problem type parametrisation got introduced in
+different languages which is also known as generics. But these does not
+tackle recursive types used for binary methods. To solve this problem
+the concept of subclassing with a special type variable \mytype got
+introduced which is an implicit type parameter. But languages supporting
+the \mytype variable does not allow the programmer to choose the correct
+binding of the variable that fits most to the problem under consideration.
 
-\vfill
-%\subsection*{Zusammenfassung}
-\selectlanguage{ngerman}
-Hier kommt der deutsche Abstract
+Specialising binary methods without bypassing the type system with
+unsafe constructs like casts is often not possible since subtyping is
+too restrictive even though it is not required for every problem.
 
-\selectlanguage{british}
-\vfill
+This thesis project presents a solution that allows the programmer to
+choose the accurate model that fits the problem. This is presented with
+the prototypical programming languages \ooplss. To test the assumptions an
+implementation of some of the features were created within this project.
+
+It could be shown that subclassing and subtyping is not a contrary model
+that can fit in one language. It avoids complex structures for typing
+binary methods and includes the possibility of safe software composition
+with less restrictions than subtyping.
+
+%What is the problem or question that the work addresses?
+%Why is it important?
+%How was the investigation undertaken?
+%What was found and what does it mean?
+
+
+%\vfill
+%%\subsection*{Zusammenfassung}
+%\selectlanguage{ngerman}
+%Hier kommt der deutsche Abstract
+%
+%\selectlanguage{british}
+%\vfill
