@@ -5,7 +5,7 @@ fundamental and only concept for class combination. \nomenclature{Class
 Combination}{Refers to both, subtyping and subclassing. A class
 combination aims to code reuse} Often but imprecise it is called
 \emph{subclassing} as well. However, this chapter investigates the
-differences between the two concepts of subtyping and subclassing. Even
+differences between the two concepts of subtyping and subclassing. Even though
 subtyping has its own advantages it is also limited in expressiveness
 if binary methods are used and these appear in a programmer's daily work.
 
@@ -13,16 +13,53 @@ This parts introduces these concepts mentioned above and where subtyping
 and where subclassing is wanted and explains where the difference are.
 Subtyping is used for polymorphism in object-oriented languages,
 whereas subclassing is not. But to make subclassing practical at work
-an additional relation needs to be introduced: \emph{matching}. Matching
-raises the language to function-bounded typing with recursive self types.
+an additional relation needs to be introduced: \emph{matching}. Quantification
+with the matching relation extends the language with function-bounded subtyping
+or with higher-order subtyping. Depending on the interpretation of matching
+itself where the second has better properties than the first one. The benefit
+of using matching for type quantification is it takes special regards on
+recursive type definitions.
+
+\section{Nominal and Structural Type Systems}
+\nomenclature{Nominal Type System}{Nominal or nominative type system are name
+based type systems. The relation between two types is explicitly specified
+with the use of keywords. In \ooplss \emph{subtypeOf} and \emph{subclassOf}}
+
+\nomenclature{Structural Type System}{Structural type systems are the counterpart
+of nominal type systems. Type relations are implicitly specified and determined
+by the type system it self. Nevertheless both can be combined within one model}
+
+Generally two different kinds of type system can be distinguished
+depending on how type relations are determined. The first and most
+flexible technique is provided by a structural type system which is used
+in more sophisticated languages and research topics. Structural type
+system does not take regard to the object combination operators which
+are used but rather take care on the object's structure to determine the
+relations between two objects. The other family of type systems are from
+nominal nature which is used in popular languages like Java, \cs, \cpp
+and many more. For nominal type systems the type relation between objects
+is specified with keywords that are used for class combination. For
+example, Java provides an `\emph{extends}' keyword which does the combination
+and restricts the programmer to define only classes that are in subtype
+relation to its parent. This restriction is not available in structural
+ones which are more complicated in type checking where in nominal the
+relation is specified explicitly \cite{malayeri_integrating_2008,pierce_types_2002}.
+
+In current research some approaches are performed
+to provide both possibilities to the programmer, see
+\cite{findler_semantic_2004,gil_whiteoak:_2008,malayeri_integrating_2008}.
 
 \section{Subtyping and Subclassing}
 \label{chap:subtypingVsSubclassing}
-In this chapter we want you to get familiar with the terms subtyping
-and subclassing and their differences. Both concepts exist in some of
-the widely known object oriented programming languages like Java, Eiffel
-or \cpp, but are usually mixed up. Either subclassing is supported with
-improper subtyping or otherwise.
+In this chapter we want to get familiar with the terms subtyping and
+subclassing and their differences. Both concepts exist in some of the
+widely known object oriented programming languages like Java, Eiffel
+or \cpp, but are usually mixed up in the used terminology. For proper
+distinguation the following terminology is used: \emph{extension} is
+used for subtyping and \emph{inheritance} for subclassing. The termin
+\emph{derivation}\nomenclature{Derivation}{Refers to both, extension and
+inheritance. A class combination aims to code reuse} is used to refer
+to both concepts without referencing one in special.
 
 \subsection{Subtyping}
 \nomenclature{Subtyping}{A relation between two type expressions with
@@ -30,8 +67,10 @@ safe substitutability} Subtyping is a binary relation, denoted with
 `<:', which defines a substitution relation between two types and is one
 style of type polymorphism. Assuming that a type $A$ is a subtype of $B$,
 then subtyping ensures that $A$ has compatible methods and data fields,
-together simply called fields, to its \emph{supertype} $B$. This implies
-that wherever type $B$ is expected type $A$ can be used.
+together simply called \emph{fields}\nomenclature{Field}{Is a field
+within a record respectively a map and can be both, a method or a data
+field representing the object's state}, to its \emph{supertype} $B$. This
+implies that wherever type $B$ is expected type $A$ can be used.
 
 To ensure this type compatibility between $A$ and $B$ subtyping has the
 following properties:
@@ -57,16 +96,15 @@ are often considered as records -- which are ordered -- in subtyping
 permutations of those are defined as equal.
 \begin{defn}[Object subtyping]
 	\label{def:subtypeObject}
-	$\{l_b : Y_b\} <: \{l_a : X_a\}$ if $A$ contains $a \in
-	\mathbb{N}$ fields, $B$ contains $b \geq a$ fields and for each
-	$i$ it is true that $Y_i <: x_i$.
+	If $B := \{l_b : Y_b\} and A := \{l_a : X_a\}$, $B <: A$ anand $A$
+	contains $a \in \mathbb{N}$ fields, $B$ contains $b \geq a$
+	fields and for each $i$ it is true that $Y_i <: X_i$.
 \end{defn}
 
-The relation for fields differs for methods and object variables.
+The relation for fields differs for methods and object field.
 
-Variables needs to be type invariant in a subtyping context since
-subtyping is not symmetric, i.e. $A$ <: $B$ does not imply $B$ <: $A$
-if $A \neq B$.
+Object fields needs to be type invariant in a subtyping context since
+subtyping is antisymmetric, i.e. $A$ <: $B$ and $A \neq B$ imply $B \nless: A$.
 
 Subtyping method types, denoted as $A \rightarrow B$ for a function with
 domain $A$ and codomain $B$, are a bit more complicated since parameters
@@ -135,19 +173,23 @@ LSP allows to introduce a subsumption rule for type declarations:
 \label{sec:sharingTypes}
 
 Although the term \emph{class} is used in modern class-based
-object-oriented languages like Java and \cpp, the concept of extension is
-actually the concept of subtypes and not subclasses. The word type is in
-the sense of data type, such as integer, boolean etc., but could also be
-extended types like objects in object-oriented languages. They determine
-the way data is stored and what operations can be perform on them.
+object-oriented languages like Java and \cpp, the concept of extension
+is actually the concept of subtypes and not subclasses. The word type
+in type theory is similar to sets in set theory. A type system contains
+usually two kinds of types. Primitive types, e.g., integers, booleans
+in Java or \cpp or object types defined with classes in class based
+object-oriented languages. They determine the possible states of an
+object and what operations can be perform on them respectively which
+messages they can receive.
 
 In object-oriented languages like Java and \cpp, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
-inheritance automatically creates a subtype and there is no escape from
-this. Of a practical point of view however, inheritance is merely a
-mechanism to reuse code in further specialisations of classes. This leads
-us to the first conflict: types vs implementation. To understand this have
-a look at \Cref{fig:implementationConflict} \cite{simons_theory_2003-4}:
+derivation automatically creates a subtype and there is no escape from
+this. Of a practical point of view however, derivation is merely a
+mechanism to reuse code in further specialisations of types. This leads
+us to the first conflict of types and implementation. This problem of
+the mixed hierarchy is illustrated in \Cref{fig:implementationConflict}
+\cite{simons_theory_2003-4}.
 
 \begin{figure}[H]
 	\centering
@@ -192,7 +234,7 @@ a look at \Cref{fig:implementationConflict} \cite{simons_theory_2003-4}:
 	\label{fig:implementationConflict}
 \end{figure}
 
-The left hierarchy expresses the conceptual family: A \emph{Circle}
+The left hierarchy expresses the conceptual family; a \emph{Circle}
 is a special kind of \emph{Ellipse}, so is \emph{Square} of
 \emph{Rectangle}. These objects do not actually `extend' their parents
 though, instead, they rather remove properties. For instance, the
@@ -290,7 +332,7 @@ recursion occurs can be identified \cite{simons_theory_2003-2}.
 
 The first case is problematic when objects are derived; it is not
 quite clear to which object the self variable should refer after
-the derivation. In \cpp and Java, the self-reference in inherited
+the derivation. In \cpp and Java, the self-reference in extended
 methods refers to the base object that was derived. This means that an
 object may contain many versions of self-references, which is called
 \emph{schizophrenic self-reference}. Other languages like Smalltalk
@@ -298,7 +340,7 @@ and Eiffel treat the self-reference differently; they redirect the
 self-reference to the derived object. Consequently both models have
 different semantics in recursion which are called naive respectively
 mutual recursion \cite{cook_denotational_1989}. Both are illustrated
-in \Cref{fig:schizoRecursion}. $M$ derives $F$ which is a recursive
+in \Cref{fig:schizoRecursion} where $M$ derives $F$ which is a recursive
 function. In the native case the call of the parent method, the recursion
 is not changed which is different by mutual recursion where the recursive
 call in $F$ is returned to the caller $M$ \cite{simons_theory_2003-2}.
@@ -321,7 +363,7 @@ the methods \emph{identity} and \emph{equals}. The identity method
 returns the reference to the object itself and the equals method
 compares two objects of this type. It therefore takes an argument
 of the type \emph{Vec2D}. Assuming there is a subtype \emph{Vec3D}
-that inherits all these methods, adds a z-coordinate and overrides the
+that derives all these methods, adds a z-coordinate and overrides the
 equals method. Let us further assume that the rule of contravariance
 does not apply here. Clearly the equals method of \emph{Vec3D} takes
 an argument of the type \emph{vec3D}. Listing \ref{fig:schizoListing}
@@ -364,27 +406,43 @@ concept; before the combination respectively extension of the objects. In the
 concept of subclassing however, it is done after the combination.
 
 \subsection{Subclassing}
-\nomenclature{Subclassing}{A class combination that does not obey
-boundaries of a subtype relation} The goal of the concept of subclassing
-is now to provide a different kind of inheritance. With this inheritance,
-the programmer should be able to inherit code without automatically
-creating a subtype \cite{simons_theory_2002-2}. This tackles the
-problem described in \Cref{sec:sharingTypes}. Since subclassing does
-not create subtypes, the restriction of contravariance, described in
-\Cref{sec:recursiveClosure}, is of no relevancy anymore. And as already
-mentioned, the fixation of the self references and types is done after
-the inheritance, so there will be no schizophrenic self-references as
-described in the first case in \Cref{sec:schizoReferences}.
+\nomenclature{Subclassing}{A class combination that does not
+obey boundaries of a subtype relation} The goal of the concept of
+subclassing is now to provide a different kind of derivation which
+is called inheritance. With inheritance, the programmer should
+be able to inherit code without automatically creating a subtype
+\cite{simons_theory_2002-2}. This tackles the problem described in
+\Cref{sec:sharingTypes}. Since subclassing does not create subtypes, the
+restriction of contravariance, described in \Cref{sec:recursiveClosure},
+is of no relevancy anymore. And as already mentioned, the fixation of
+the self references and types is done after class combination, so there
+will be no schizophrenic self-references.\footnote{See first case in
+\Cref{sec:schizoReferences}} Now, since subclassing is less restrictive
+then subtyping, the new class is also less limited in its behaviour and
+can exceed the behavioural expectation of the superclass which is not
+the case for subtyping \cite{simons_theory_2002-2}.
 
-In subclassing however, the question rises: how should return values and
-arguments be typed (see the second case in \Cref{sec:schizoReferences})
-when defining the methods and data fields, since the programmer is not
-able to know of what type the subclass will be. This is why there has
-to be some sort of placeholder for such cases: the \emph{MyType}. The
-\emph{MyType} placeholder is a type parameter that is substituted with
-the current type after the inheritance respectively after extension in
-a subtyping environment.
-\todo{Some further explanations are necessary}
+One possibility of subclassing is extending subtyping with type
+parametrisation which enables the possibility of contravariant
+method types since they can be specified later, after the class
+definition. Subtyping parametrised types can not define a transitive
+closure as long as the type parameters are not annotated how the
+type variables can be used. Java introduced wildcard parameters and
+\cs input and output parameters to allow subtyping polymorphism
+of parametrised types. These solutions still suffers from on one
+problem. How to type recursive types where the fields have to be
+compatible with the \emph{self}-reference.\footnote{See second case in
+\Cref{sec:schizoReferences}} Here, the problem is that passing the own
+type as type parameter needs a recursive type declaration which can not
+be declared by hand.
+
+To tackle this issue, the type parametrisation can be performed implicitly
+by introducing the generic type variable \emph{MyType}. Since it is
+possible to have infinite recursive types using the fixed point theorem
+\cite{pierce_types_2002} it is possible to declare recursive types
+implicitly. In subclassing is the \mytype variable get bound after the
+class combination is performed similar to normal non-recursive type
+parameters which is different in a subtyping environment.
 
 \section{Making Subclassing Practical}
 \label{ctr:makingSubclassingPractical}
@@ -405,44 +463,18 @@ difficult for the users of the language since the semantic is complex
 and not easy to understand in every circumstance because subtyping is
 on object generator level. However, this is specified for structural
 type systems and not for nominals. Restricting higher-order subtyping
-for nominal type systems makes the semantic more clear less complex in use.
-
-\subsection{Nominal and Structural Type Systems}
-\nomenclature{Nominal Type System}{Nominal or nominative type system are name
-based type systems. The relation between two types is explicitly specified
-with the use of keywords. In \ooplss \emph{subtypeOf} and \emph{subclassOf}}
-\nomenclature{Structural Type System}{Structural type systems are the counterpart
-of nominal type systems. Type relations are implicitly specified and determined
-by the type system it self. Nevertheless both can be combined within one model}
-Generally two different kinds of type system can be distinguished
-depending on how type relations are determined. The first and most
-flexible technique is provided by a structural type system which is used
-in more sophisticated languages and research topics. Structural type
-system does not take regard to the object combination operators which
-are used but rather take care on the object's structure to determine the
-relations between two objects. The other family of type systems are from
-nominal nature which is used in popular languages like Java, \cs, \cpp
-and many more. For nominal type systems the type relation between objects
-is specified with keywords that are used for class combination. For
-example, Java provides an `\emph{extends}' keyword which does the combination
-and restricts the programmer to define only classes that are in subtype
-relation to its parent. This restriction is not available in structural
-ones which are more complicated in type checking where in nominal the
-relation is specified explicitly \cite{malayeri_integrating_2008,pierce_types_2002}.
-
-In current research some approaches are performed
-to provide both possibilities to the programmer, see
-\cite{findler_semantic_2004,gil_whiteoak:_2008,malayeri_integrating_2008}.
+for nominal type systems makes the semantic less complex in use.
 
 \subsection{Matching}
 \label{subsec:matching}
 \nomenclature{Matching}{A type relation that is the same as subtyping with absence of \mytype but differs in the present of \mytype. Matching does not have the subsumption property}
 \begin{prop}[Matching]
 	\label{prop:matching}
-	Bruce defines matching as `the same as subtyping in the absence
+	Bruce defines matching as:
+	\quote{`the same as subtyping in the absence
 	of the \emph{MyType} construct, but differs in the presence of
 	\emph{MyType}, because \emph{MyType} implicitly has different
-	meanings in different types.' -- \cite{bruce_foundations_2002}
+	meanings in different types.' -- \cite{bruce_foundations_2002}}
 \end{prop}
 
 An solution proposed by Bruce \cite{bruce_binary_1995} is
@@ -493,7 +525,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 	public DoublyLinkedNode getPrev() {
 		return this.prev;
 	}
-	
+
 	// Overloaded method in Java.
 	%\label{lst:javaBinary2})public void setNext(DoublyLinkedNode next) {
 			this.next = next;
@@ -535,7 +567,7 @@ One can see that in this case matching is too weak. Without subsumption
 the type system can not know that \emph{other} is compatible with the
 object passed as parameter \emph{node}.
 
-\subsubsection{Match-Bounded Quantification}
+\subsection{Match-Bounded Quantification}
 As seen before, Listing \ref{lst:break} is still not correctly typeable
 with the matching relation since knowing that two variables matching
 the same type is not very expressive. But there is an other scenario
@@ -569,11 +601,13 @@ every type is fully specified an expression can be typed with a type
 variable. For this a type operator is a function, the lambda-calculus
 expression is used, from types to types: \[A_{Op} := \lambda X.A(X)
 \] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages
-are recursive since they make heavy use of the self-type. However,
-since a function in the lambda calculus can not be recursive per se
-a special construct is needed \cite{gabriel_why_1988}. To hide the
-complexity of the recursion theorem the $\mu$-convection is used. A
-$\mu$-function is to understand similar to a $\lambda$-function
+are recursive since they make heavy use of the \mytype. However,
+since a function in the lambda calculus can not be recursive
+per se a special construct is needed. With the use of a fixed
+point combinator it is possible to find a type's fix point without
+evaluating an infinite recursive call \cite{gabriel_why_1988}. To
+hide the complexity of the recursion theorem the $\mu$-convection is
+used. A $\mu$-function is to understand similar to a $\lambda$-function
 with the difference that the parameter will get bound recursively
 \cite{pierce_types_2002,simons_theory_2002-3}.
 
