@@ -583,7 +583,7 @@ this proposition and definition \ref{def:matchingAsBound} the following
 theorem is formulated that subtyping is embedded into matching which is
 proven for \ooplss.
 
-\begin{prop}[Matching as subtyping]
+\begin{prop}[Matching embeds subtyping]
 	\label{prop:matchinIsSubtyping}
 	if $B <: A \rightarrow B$ \match $A$
 \end{prop}
@@ -592,8 +592,8 @@ proven for \ooplss.
 	For this one may recall how subtyping is to understand.\footnote{See
 	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
 
-	Let $B <: A$, $X := \mu self.\{m :
-	B \times self \rightarrow C \} $ and $Y := \mu X. $\todo{Formal Class combiners first needed}
+	Let $B <: A$, $X := \mu \mytype.\{m :
+	B \times \mytype \rightarrow C \} $ and $Y := \mu X. $\todo{Formal Class combiners first needed}
 
 %	\begin{enumerate}
 %		\item From definition \ref{def:subtypeObject}
