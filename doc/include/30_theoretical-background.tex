@@ -145,7 +145,7 @@ terms are introduced in category theory and were adopted to type theory
 \begin{quotation}
 `Let $q(x)$ be a property provable about objects $x$ of type $T$. Then
 $q(y)$ should be true for objects $y$ of type $S$ where $S$ is a subtype
-of $T$.' -- Barbara Liskov \cite{liskov_behavioral_1999}
+of $T$.' -- Barbara Liskov \cite{liskov_behavioral_2001}
 \end{quotation}
 
 A formal and strong description of subtyping is given by Barbara
@@ -163,7 +163,7 @@ LSP allows to introduce a subsumption rule for type declarations:
 \nomenclature{Subsumption}{Characterises a expression that can be of type \A as well as of type \B if \A is a subtype of $B$}
 
 \begin{defn}[Subsumption]
-\label{def:methodSubtyping}
+\label{def:subsumption}
 	\begin{mathpar}
 		\inferrule*{x : A\\A <: B}{x : B}
 	\end{mathpar}

@@ -487,3 +487,12 @@
 
 \newcommand{\squishend}{
   \end{itemize}  }
+
+
+\makeatletter
+\renewcommand*{\dotfill}{%
+  \leavevmode\leaders
+  \hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
+  \hfill\kern\z@
+} 
+\makeatother
