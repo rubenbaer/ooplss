@@ -5,7 +5,7 @@ FINAL := final
 DRAFT := draft
 VIEWER := evince
 SHELL := /bin/bash
-CLEAN_EXT := nls,ilg,aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dvi
+CLEAN_EXT := nls,ilg,aux,log,idx,out,glo,toc,lot,tex~,backup,bbl,blg,1,2,3,4,5,6,7,8,9,10,dvi,ooplss*mp,nlo,tdo,dvi,lof,lol
 NONSTOP := -interaction=nonstopmode
 REDIRECT := 1> /dev/null
 TEXINPUTS := ".:./latex"
@@ -18,8 +18,7 @@ view: build
 build: man draft
 
 man:
-	cd ../misc/
-	groff -Tps -man ooplss.1 | ps2pdf - manpage.pdf
+	pdfroff -P-pa4 --no-toc --no-ref -man ../misc/ooplss.1 --pdf-output=manpage.pdf
 
 draft:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
@@ -94,4 +93,3 @@ clean:
 # also removes output documents
 distclean: clean
 	rm -f *.pdf
-	rm ../misc/manpage.pdf
