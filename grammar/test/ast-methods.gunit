@@ -7,7 +7,7 @@ package ch.codedump.ooplss.antlr;
 superConstructorCall:
 <<
 A(foo)
->> -> (SUPER A (VARACCESS foo))
+>> -> (SUPER A (METHODARGS (VARACCESS foo)))
 
 
 methodDef:
@@ -46,7 +46,7 @@ def foo(x#y):bar {
 
 <<
 def __construct() : foo(bar), dings(bums, foo) {}
->> -> (CONSTRUCTORDEF ARGUMENTLIST (SUPER foo (VARACCESS bar)) (SUPER dings (VARACCESS bums) (VARACCESS foo)) METHODBLOCK)
+>> -> (CONSTRUCTORDEF ARGUMENTLIST (SUPER foo (METHODARGS (VARACCESS bar))) (SUPER dings (METHODARGS (VARACCESS bums) (VARACCESS foo))) METHODBLOCK)
 
 
 block:
