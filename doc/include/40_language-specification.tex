@@ -135,7 +135,6 @@ class A {
 	}
 }
 \end{lstlisting}
-%Literals, Delimiters,
 \subsection{Whitespace and Comments}
 Whitespace characters and comments separate single tokens in \ooplss. A
 whitespace can either be a blank, a tab or a newline character.
@@ -171,7 +170,8 @@ by the new record and renames parent fields \cite{simons_theory_2003-2}.
 This record extension is semantically equivalent to that of Java. This
 makes a straightforward implementation possible and easy to use for
 current Java programmers. Listing \ref{lst:subtypeOf} shows an example
-of subtyping in \ooplss.
+of subtyping in \ooplss. Since this is not an important property for the
+implementation, this features is abandoned in the concrete implementation.
 
 \begin{lstlisting}[float=ht,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
 class A {
@@ -185,10 +185,19 @@ class B subtypeOf A {
 }
 \end{lstlisting}
 
-\todo{Base reference}
+In most of the programming languages exists a keyword \base or
+\emph{super} to referencing explicitly a field in the parent class. Since
+\ooplss has two derivation operators, it is not possible to give the
+keyword a distinct meaning. To access a parent field, the parents type
+name can be used as reference to it.
 
-\subsubsection{Extension Operator}
-\todo{Combination operator (No method overloading)}
+%\subsubsection{Extension Operator}
+%An extension operator is a binary operator merging a superclass type operator
+%in a new type operator. Informally it is used to combine to classes to a new one
+%which combines a class to a record which is a subtype of the original record.
+%
+%
+%\todo{Combination operator (No method overloading)}
 
 \subsection{Inheritance as Subclassing}
 Inheritance is the second class object combination operator in
@@ -289,8 +298,8 @@ public class B {
 }
 \end{lstlisting}
 
-\subsubsection{Inheritance Operator}
-\todo{Combination operator}
+%\subsubsection{Inheritance Operator}
+%\todo{Combination operator}
 
 \subsection{Introducing \mytype}
 Subclassing is an other sort of class combination with an other semantic
@@ -396,7 +405,7 @@ class A {
 
 class B subtypeOf A {
 	def m(o : MyType) : MyType {
-		return base.m(self);
+		return A.m(self);
 	}
 }
 \end{lstlisting}
@@ -434,7 +443,7 @@ class A {
 
 class B subtypeOf A {
 	def m(o : MyType) : MyType {
-		return base.m(self);
+		return A.m(self);
 	}
 
 	def m(o : A) : MyType {
@@ -484,7 +493,7 @@ class A {
 
 class B subtypeOf A {
 	def m(o : MyType) : MyType { // o : A
-		return base.m(self);
+		return A.m(self);
 	}
 
 	def f(o : MyType) : MyType { // o : B
@@ -509,13 +518,18 @@ class D subtypeOf C {
 }
 \end{lstlisting}
 
-Although everything is now typeable, the question rises whether this
-code provides mutual recursion as wanted? Let's consider a method call
-of $m$ in \C. The method call handle goes correctly to its superclass
-method $B.m$. Now there the next problem may occur. How is the \base
-reference considered? First of all, a \base reference does not make
-any sense here since \C does not have a supertype except \object and
-\object usually does not provide a method as wanted.
+Although everything is now typeable, the question rises whether this code
+provides mutual recursion as wanted? Let's consider a method call of $m$
+in \C. The method call handle goes correctly to its superclass method
+$B.m$. Now there the next problem may occur. Since the base reference
+to the supertype is explicit given by the supertype's name, the base call
+is passed uniformly to the supertype class which is now a superclass as well.
+
+%
+%How is the \base
+%reference considered? First of all, a \base reference does not make
+%any sense here since \C does not have a supertype except \object and
+%\object usually does not provide a method as wanted.
 
 \subsubsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
@@ -573,27 +587,27 @@ consideration even if other object types would match types of other
 hierarchies.
 
 \subsubsection{Matching Properties}
-Higher-order subtyping
+\todo{Higher-order subtyping}
 
 \subsubsection{Matching Embeds Subtyping}
 Now, after some considerations about matching, let's take a look at
-proposition \ref{prop:matching}. Bruce is stated that `matching is
-the same as subtyping in the absence of the MyType construct.' From
-this proposition and definition \ref{def:matchingAsBound} the following
-theorem is formulated that subtyping is embedded into matching which is
-proven for \ooplss.
+proposition \ref{prop:matching}. Bruce is stated that `matching is the
+same as subtyping in the absence of the MyType construct.' From this
+proposition and definition \ref{def:matchingAsBound} the following theorem
+is formulated that subtyping is embedded into matching. That this is true,
+follows directly from its definition.
 
 \begin{prop}[Matching embeds subtyping]
 	\label{prop:matchinIsSubtyping}
 	if $B <: A \rightarrow B$ \match $A$
 \end{prop}
-
-\begin{proof}
-	For this one may recall how subtyping is to understand.\footnote{See
-	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
-
-	Let $B <: A$, $X := \mu \mytype.\{m :
-	B \times \mytype \rightarrow C \} $ and $Y := \mu X. $\todo{Formal Class combiners first needed}
+%
+%\begin{proof}
+%	For this one may recall how subtyping is to understand.\footnote{See
+%	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
+%
+%	Let $B <: A$, $X := \mu \mytype.\{m :
+%	B \times \mytype \rightarrow C \} $ and $Y := \mu X. $\todo{Formal Class combiners first needed}
 
 %	\begin{enumerate}
 %		\item From definition \ref{def:subtypeObject}
@@ -601,14 +615,10 @@ proven for \ooplss.
 %
 %		\item
 %	\end{enumerate}
-\end{proof}
+%\end{proof}
 
-%\begin{mathpar}
-%	\inferrule*[Right=foo]{A}{B}
-%\end{mathpar}
-
-\subsection{Class Combination Operator Refined}
-\todo{Give a full specification of class combination operator with mytype and base rewriting}
+%\subsection{Class Combination Operator Refined}
+%\todo{Give a full specification of class combination operator with mytype and base rewriting}
 
 \subsection{Class Parametrisation}
 So far the introduction of a \mytype and proper inheritance gives the
@@ -749,7 +759,7 @@ public class Main {
 As seen in the previous section, parametrising classes with matching
 now fits well in the model. However, since parametrised classes
 can be inherited as well, this will now be presented that this
-is straightforward as well.  For the sake of simplicity only the
+is straightforward as well. For the sake of simplicity only the
 translated Java code is presented because fields that are not using
 parameters are translated in the same manner as in normal classes.
 Listing \ref{lst:extendingContainer} shows an extended version of the
@@ -802,7 +812,7 @@ and Java 1.5.
 
 With this, the language gains on runtime expressiveness since a
 \emph{instanceof} operator can be introduced to perform checks on type
-parameters which Java has not.  Further the creation of new objects
+parameters which Java has not. Further the creation of new objects
 would also be possible as long as a class provides a standard constructor.
 
 As a drawback of creating all these classes a more sophisticated
