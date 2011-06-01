@@ -15,7 +15,11 @@ default: build
 view: build
 	$(VIEWER) $(JOB).pdf
 
-build: draft
+build: man draft
+
+man:
+	cd ../misc/
+	groff -Tps -man ooplss.1 | ps2pdf - manpage.pdf
 
 draft:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
@@ -30,10 +34,10 @@ final: REDIRECT=
 final: NONSTOP=
 final: final-short
 
-final-short: clean final-report-web final-report-print final-book
+final-short: clean man final-report-web final-report-print final-book
 	rm -f ooplss.pdf
 
-final-report-web:
+final-report-web: man
 	pdflatex -jobname $(JOB)-web -shell-escape $(NONSTOP) $(FINAL)-report-web $(REDIRECT)
 	mpost $(JOB)-web $(REDIRECT)
 	bibtex $(JOB)-web $(REDIRECT)
@@ -42,7 +46,7 @@ final-report-web:
 	pdflatex -jobname $(JOB)-web -shell-escape $(NONSTOP) $(FINAL)-report-web $(REDIRECT)
 	pdflatex -jobname $(JOB)-web -shell-escape $(NONSTOP) $(FINAL)-report-web $(REDIRECT)
 
-final-report-print:
+final-report-print: man
 	pdflatex -jobname $(JOB)-print -shell-escape $(NONSTOP) $(FINAL)-report-print $(REDIRECT)
 	mpost $(JOB)-print $(REDIRECT)
 	bibtex $(JOB)-print $(REDIRECT)
@@ -51,7 +55,7 @@ final-report-print:
 	pdflatex -jobname $(JOB)-print -shell-escape $(NONSTOP) $(FINAL)-report-print $(REDIRECT)
 	pdflatex -jobname $(JOB)-print -shell-escape $(NONSTOP) $(FINAL)-report-print $(REDIRECT)
 
-final-book:
+final-book: man
 	pdflatex -jobname $(JOBBOOK) -shell-escape $(NONSTOP) $(FINAL)-book $(REDIRECT)
 	mpost $(JOBBOOK) $(REDIRECT)
 	bibtex $(JOBBOOK) $(REDIRECT)
@@ -90,3 +94,4 @@ clean:
 # also removes output documents
 distclean: clean
 	rm -f *.pdf
+	rm ../misc/manpage.pdf

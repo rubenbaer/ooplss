@@ -1,0 +1,4 @@
+#!/bin/bash
+
+java -cp lib/antlr3.jar:lib/commons-cli-1.2.jar -jar ooplss.jar
+

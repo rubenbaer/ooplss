@@ -122,7 +122,7 @@
 	<target name="doc" depends="latex,javadoc">
 	</target>
 
-	<target name="latex" depends="latex-draft">
+	<target name="latex" depends="latex-final">
 	</target>
 
 	<target name="latex-draft">
@@ -164,7 +164,7 @@
 		</shellscript>
 	</target>
 
-	<target name="build-dist">
+	<target name="build-dist" depends="jar,doc">
 		<mkdir dir="${dist}" />
 		<mkdir dir="${dist}/lib" />
 		<move file="${destjar}" todir="${dist}" />
@@ -178,9 +178,13 @@
 		<copy file="${antlrjar}" tofile="${dist}/lib/antlr3.jar" />
 		<copy file="${clijar}" tofile="${dist}/lib/commons-cli-1.2.jar" />
 		<copy todir="${dist}" file="misc/README" />
+		<copy todir="${dist}" file="misc/ooplss" />
+		<copy todir="${dist}" file="misc/ooplss.cmd" />
+		<copy todir="${dist}" file="misc/ooplss.1" />
+		<copy todir="${dist}" file="misc/manpage.pdf" />
 	</target>
 
-	<target name="jar" depends="build,run-tests">
+	<target name="jar" depends="build,run-tests" >
 		<tstamp>
 			<format property="TODAY" pattern="d-MMMM-yyyy hh:mm aa" locale="en,UK"/>
 		</tstamp>
@@ -200,7 +204,7 @@
 				<attribute name="Class-Path" value="lib/antlr3.jar lib/commons-cli-1.2.jar" />
 			</manifest>
 		</jar>
-	</target>
+	</target>	
 
 	<!-- Testing -->
 	<target name="run-tests" depends="gunit,junit">
