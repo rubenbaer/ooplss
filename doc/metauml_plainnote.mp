@@ -15,13 +15,13 @@
 % along with this program; if not, write to the Free Software
 % Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-if known _metauml_note_mp:
+if known _metauml_plainnote_mp:
   expandafter endinput
 fi;
-_metauml_note_mp:=1;
+_metauml_plainnote_mp:=1;
 
 % def metauml_note_debug text txt=log txt enddef;
-def metauml_note_debug text txt= enddef;
+def metauml_plainnote_debug text txt= enddef;
 
 input metauml_defaults;
 input util_log;
@@ -124,7 +124,7 @@ vardef PlainNote_draw@#=
 
   %drawObjectShade(@#);
 
-  fill PlainNote_border.@# withcolor @#info.foreColor;
+  %fill PlainNote_border.@# withcolor @#info.foreColor;
   %draw PlainNote_border.@# withcolor @#info.borderColor;
 
   %draw @#corner withcolor @#info.borderColor;

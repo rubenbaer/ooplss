@@ -1,6 +1,5 @@
-\section{Conclusion}
-
 \chapter{Discussion and Conclusion}
+\label{ctr:discussionConclusion}
 \section{Discussion}
 \label{ctr:discussion}
 The discussion contains three section. The first takes the examples from
@@ -47,7 +46,7 @@ is not not available the code of Circle could be reused and with the
 matching relation, new parametrised classes can get introduced that can
 handle with both classes properly even when they are not interchangeable.
 
-\begin{lstlisting}[float,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
 class Circle {
 	var width : Float;
 	def setWidth(widht : Float) : Void { self.width = widht; }
@@ -65,7 +64,7 @@ class Ellipse subclassOf Circle {
 
 \subsubsection{Cats and Dogs and Linked Lists}
 The example presented in \Cref{sec:recursiveClosure} deals with the
-problem of binary methods and consequently with object families. 
+problem of binary methods and consequently with object families.
 
 In the first case are binary methods considered. In a subtyping environment
 binary methods arguments are not changeable with the type hierarchy. This
@@ -79,7 +78,7 @@ The second case is strongly connected with binary methods and this
 restriction for subtyping. It deals with the implementation of multiple
 object hierarchies with a strong connection between them. There are two
 examples that presents this very well. First, suppose simultaneously to
-an element object hierarchy an hierarchy of operations are defined. For 
+an element object hierarchy an hierarchy of operations are defined. For
 the \emph{visitor pattern} by Erich Gamma et al. \cite{gamma_design_1995}
 is a good solution for a pure subtyping environment and where subsumption
 is important. However, if the operations are designed for homogeneous
@@ -129,9 +128,9 @@ algorithms for efficient list using.
 The last example considered in this chapter deals with schizophrenic self
 references in extension which are introduced in \Cref{sec:schizoReferences}.
 
-This is the most obvious example affected by subclassing and \mytype. 
+This is the most obvious example affected by subclassing and \mytype.
 
-\begin{lstlisting}[float,language=ooplss,caption=Avoid schizophrenic self references with \mytype.,label=lst:solveSchizo]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Avoid schizophrenic self references with \mytype.,label=lst:solveSchizo]
 class Vec2D {
 	var x : Int;
 	var y : Int;
@@ -159,7 +158,7 @@ class Vec3D subclassOf Vec2D {
 \label{sec:futureWork}
 In projects like this one, where years of development could be used for
 further improvements and new techniques. Some of these points are here
-discussed. The section is divided into two fields.  One presents some
+discussed. The section is divided into two fields. One presents some
 possible language extensions and the other some implementation details
 which would improve a proper use of the language.
 
@@ -171,10 +170,10 @@ of wide use all these extensions should be considered as important.
 
 \subsubsection{Pure Object Orientation}
 For an straightforward use of numbers and strings with all its available
-operators they are implemented as primitive data types. This makes the 
+operators they are implemented as primitive data types. This makes the
 implementation easier since the operations does not have to be translated
 to method calls. But this makes then a special treatment of these types
-and less extensional since these operators are only available for these 
+and less extensional since these operators are only available for these
 types. For a more coherent language these native operators and types could
 be dropped for a more sophisticated language where these operators can be
 implemented by arbitrary classes. This would have the advantage that it
@@ -210,7 +209,7 @@ programs this would increase compilation time and a flexible work between
 developer teams is not supported. This makes \ooplss in its current state
 useless for serious programs although the target platform is widely
 used. Hand in hand supporting multiple files would be inevitable and
-necessary for future developments.  Even simple modularisation would be
+necessary for future developments. Even simple modularisation would be
 not very difficult a more sophisticated form is proposed where modules are
 higher-order constructs and can be parametrised \cite{dreyer_type_2003}.
 
@@ -220,24 +219,24 @@ existing code to classes is very simple and safe.
 
 \subsubsection{Interfaces}
 In addition to information hiding with access modifiers and information
-hiding a sort of interfaces or abstract classes can be introduced. In 
+hiding a sort of interfaces or abstract classes can be introduced. In
 contrast to this would be the introduction of a flexible modularisation
 with the possibility to define an external interface.
 
 \subsubsection{Top and Bottom Types}
-The language design has a similarity to that of C++ which does
+The language design has a similarity to that of \cpp which does
 not have an implicitly superclass comparing to Java and \cs. With this
 comes one drawback that it is not possible to write methods that accept
 arbitrary objects if not a own superclass is specified and explicitly
 extended. This decision is made because two class combinations are
 possible and an implicit base class would force the programmer to one
-of them at the very beginning of every class. 
+of them at the very beginning of every class.
 
 Anyway, one proposal to enable the possibility of passing respectively
 returning arbitrary objects would be to introduce a special \emph{Top}
 type which contains every possible type. The idea is similar to an
 \emph{Object} type but without any \mytype and recursive fields. Actually
-it is free to every programmer to introduce an own type which is used 
+it is free to every programmer to introduce an own type which is used
 as general base type.
 
 %\subsubsection{Higher-Order Functions}
@@ -249,7 +248,7 @@ for daily work.
 
 \subsubsection{Implementing the Specification}
 As presented in \Cref{sec:statusQuo} the compiler does not provide the
-full language which was specified. This would be the next step in the 
+full language which was specified. This would be the next step in the
 implementation that should be done since parametrisation is not supported
 yet.
 
@@ -261,22 +260,22 @@ known and enormous framework would automatically get available to
 \ooplss programmers. The problem of this extension would be to integrate
 both derivation possibilities which is different to Java. However,
 this would may come hand in hand with the direct translation to JDK
-Bytecode which is more flexible then the Java language. 
+Bytecode which is more flexible then the Java language.
 
 \subsubsection{Subclassing with Dynamic Invokes}
 The translation from \ooplss to Java is now not very straightforward since
 explicit class combinations are necessary. However in JDK 7 which will
-be released in summer 2011 the JDK will get some major changes. One 
-of this is the introduction of the \emph{dynamicinvoke} command on 
+be released in summer 2011 the JDK will get some major changes. One
+of this is the introduction of the \emph{dynamicinvoke} command on
 Bytecode level. This would support dynamically typed language on the
 platform where the most suitable method would be called depending on the
 runtime type of the parameter types. Since \ooplss has an own type
-checker it would be safe to use dynamic code. With a dynamic method 
+checker it would be safe to use dynamic code. With a dynamic method
 lookup the subclassing relation would be much more simple.
 
 \subsubsection{Type Inference}
-In many cases the types of a method or variable can be predicted 
-by the type system with a type inference algorithm. This helps 
+In many cases the types of a method or variable can be predicted
+by the type system with a type inference algorithm. This helps
 the programmer to write less and provide more compact and readable
 programs. Without changing \ooplss' semantic, such type inference
 could be implemented as a next further step.

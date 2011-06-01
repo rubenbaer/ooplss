@@ -12,9 +12,10 @@
 %% load other packets or define new environements (\newenvironment).
 %\RequirePackage{remreset}
 
-\usepackage[british]{babel}
+\usepackage[ngerman,british]{babel}
 \usepackage{etex}
 \usepackage{tocbasic}
+\usepackage[utf8x]{inputenc}
 \pdfminorversion=5
 
 %
@@ -46,16 +47,9 @@
 \fi
 
 %
-% Margin width
-%
-%\usepackage[left=3cm, right=2.2cm, bottom=3.5cm]{geometry}
-
-%
 % Package for headers
 %
 \usepackage{fancyhdr}
-
-\usepackage[utf8x]{inputenc}
 
 %
 % include graphics
@@ -90,6 +84,7 @@
 \definecolor{lbcolor}{rgb}{0.90,0.90,0.90}
 \definecolor{commentcolor}{rgb}{0.0,0.80,0.0}
 \lstset{ %
+	float=h,
   language=Java,
   basicstyle=\footnotesize,
   numbers=left,
@@ -110,15 +105,13 @@
 	keywordstyle=\color{blue}\bfseries,
 	identifierstyle=\color{black},
 	commentstyle=\color{commentcolor},
-	stringstyle=\color{red}\ttfamily,
-	float
+	stringstyle=\color{red}\ttfamily
 }
 
 %
 % "define" OOPLSS (Based on scala syntax)
 %
 \lstdefinelanguage{ooplss}{
-	float,
   morekeywords={abstract,case,catch,class,def,%
     do,else,extends,false,final,finally,%
     for,if,implicit,import,match,mixin,%
@@ -139,7 +132,6 @@
 % "define" Scala
 %
 \lstdefinelanguage{scala}{
-	float,
   morekeywords={abstract,case,catch,class,def,%
     do,else,extends,false,final,finally,%
     for,if,implicit,import,match,mixin,%
@@ -159,9 +151,10 @@
 
 %
 % Package for links (ref and cite), no box and blue
-% 
+%
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
+\usepackage{nameref}
 
 %
 % Rename "fig." to figure
@@ -174,9 +167,27 @@
 %
 % Nomenclatur
 %
-\usepackage[intoc]{nomencl}
+\usepackage[intoc,refpage]{nomencl}
 \renewcommand{\nomname}{Glossary}
 \renewcommand{\nomlabel}[1]{\textbf{#1}}
+
+\def\@@@nomenclature[#1]#2#3{%
+ \def\@tempa{#2}\def\@tempb{#3}%
+ \protected@write\@nomenclaturefile{}%
+  {\string\nomenclatureentry{#1\nom@verb\@tempa @[{\nom@verb\@tempa}]%
+    |nompageref{\begingroup\nom@verb\@tempb\protect\nomeqref{\theequation}}}%
+    {\thepage}}%
+ \endgroup
+ \@esphack}
+
+\def\nompageref#1#2{%
+  \if@printpageref\pagedeclaration{#2}\else\null\fi
+  \linebreak#1\nomentryend\endgroup}
+
+\def\pagedeclaration#1{\dotfill\nobreakspace#1}
+\def\nomentryend{.}
+\def\nomlabel#1{\textbf{#1}\hfil}
+
 
 \makenomenclature
 
@@ -190,20 +201,6 @@
 %
 \usepackage{wrapfig}
 \usepackage{float}
-% Produces some floating problems within text
-%\usepackage{floatflt}
-
-%
-% font (sans serif)
-%
-%\usepackage{helvet}
-%\renewcommand{\familydefault}{\sfdefault}
-%\selectfont
-
-%
-% Remove paragraph indenting
-%
-%\setlength\parindent{0cm}
 
 %
 % Numbering style
@@ -342,13 +339,18 @@
   \end{figure}
 }
 
+
+% switch back to Latin Modern
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{amsthm}
-\usepackage{ucs}
 \usepackage{amsmath}
-\usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ucs}
 \usepackage{emp}
 \usepackage{xspace}
+\usepackage{relsize}
 
 %
 % Theorem environments
@@ -369,15 +371,33 @@
 \newtheorem*{note}{Note}
 \newtheorem{case}{Case}
 
+%c C plus plus
+\def\cpp{%
+\if monospace%
+    C++%
+\else%
+    C\kern-.1667em\raise.30ex\hbox{\smaller{++}}%
+\fi%
+\xspace }
 
-% 
+%c C sharp
+\def\cs{%
+\if monospace%
+    C$\sharp$%
+\else%
+    C\raise.30ex\hbox{\smaller{$\sharp$}}%
+\fi%
+\xspace }
+
+%
 % Some shortcuts
 %
-\usepackage{arev}
-\newsavebox{\sharpbox}
-\sbox{\sharpbox}{$\sharp$}
-\def \cs {C\usebox{\sharpbox}\xspace}
 \def \match {<\#\xspace}
+\def \mmatch {<\!\!\#~}
+\def \subt {\vartriangleleft}
+\def \subc {\blacktriangleleft}
+\def \subtc {\trianglelefteq} % Closure
+\def \subcc {~\underline{\blacktriangleleft}~} % Closure
 \def \mytype {\emph{MyType}\xspace}
 \def \self {\emph{self}\xspace}
 \def \base {\emph{base}\xspace}
@@ -398,17 +418,8 @@
 \def \st {$\emph{StringTemplate}$\xspace}
 \def \ra {$\rightarrow$\xspace}
 \def \lra {$\longrightarrow$\xspace}
-
-
-% switch back to Latin Modern
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-%\DeclareSymbolFont{operators}{OT1}{cmr}{m}{n}
-%\DeclareSymbolFont{letters}{OML}{cmm}{m}{it}
-%\DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
-%\DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n}
-% Fucking workaround. AMSFonts makes troubles...
-\DeclareMathSymbol{\nless}{\mathbin}{AMSb}{"04}
+\newcommand{\oper}[1]{\textit{Oper}$\langle$#1$\rangle$}
+\newcommand{\type}[1]{\textit{Type}$\langle$#1$\rangle$}
 
 % this is apparently used for the metauml stuff
 \ifx\pdftexversion\undefined
@@ -419,14 +430,14 @@
 \fi
 
 %
-% TODO List
+% A TO DO List
 %
 \ifx \showtodo \undefined
   \newcommand{\todo}[1]{}
 	\newcommand{\listoftodos}{}
 \else
 	\newcommand{\todo}[1]{
-	% Add to todo list
+	% Add to to do list
 	\addcontentsline{tdo}{todo}{\protect{#1}}
 	%
 	\begin{tikzpicture}[remember picture, baseline=-0.75ex]
@@ -449,8 +460,8 @@
 	\end{tikzpicture}
 	%
 	}
-	
-	% TODO List
+
+	% TO DO List
 	\makeatletter \newcommand \listoftodos{\section*{Todo list} \@starttoc{tdo}}
 		\newcommand\l@todo[2]
 		{\par\noindent \textit{#2}, \parbox{10cm}{#1}\par} \makeatother
@@ -464,3 +475,15 @@
       \setlength{\parskip}{0pt}}%
   {\end{itemize}}
 
+
+\newcommand{\squishlist}{
+ \begin{itemize}
+   \setlength{\itemsep}{0pt}
+   \setlength{\parsep}{2pt}
+   \setlength{\topsep}{2pt}
+   \setlength{\partopsep}{0pt}
+   \setlength{\labelsep}{0.5em} 
+	}
+
+\newcommand{\squishend}{
+  \end{itemize}  }

@@ -55,6 +55,7 @@ input metauml;
 
 \listoftodos
 
+\clrpage
 \includepdf[pagecommand={\thispagestyle{plain}}]{../misc/erklaerung}
 
 \include{include/00_abstract}
@@ -69,13 +70,15 @@ input metauml;
 
 \clrpage
 \phantomsection
-\addcontentsline{toc}{chapter}{List of Listings} 
-\lstlistoflistings
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
 
 \clrpage
 \phantomsection
-\addcontentsline{toc}{chapter}{List of Figures}
-\listoffigures
+\addcontentsline{toc}{chapter}{List of Listings}
+\lstlistoflistings
+
+\input{include/nomenclature.tex}
 
 %% New numbering on new page with arabic numbers
 \clrpage
@@ -99,8 +102,6 @@ input metauml;
 \include{include/60_discussion-and-conclusion}
 
 \include{include/70_appendix}
-
-\input{include/nomenclature.tex}
 
 \bibliography{bib/ooplss,bib/simons}
 

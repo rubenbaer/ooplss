@@ -1,4 +1,5 @@
 \chapter{Language Specification}
+\label{ctr:languageSpecification}
 This chapter contains the language specification part of \ooplss.
 In the first section defines the fundamental design principles used in
 further discussion of the language. Afterwards a overview of the syntax
@@ -12,17 +13,6 @@ a section deals with the concrete type rules and presents the current
 basic types available.
 
 \section{Design Principles}
-%The type system used for \ooplss is similar to that of \emph{TooL}
-%\cite{gawecki_tool:_1995}. Many important aspects differ from
-%\emph{TooL}. The used principles are these:
-
-%\paragraph{Purely object-oriented}
-%\ooplss is in contrast to its target platform Java a purely
-%object-oriented language. Every program entity is represented by an
-%object that can receive messages from other objects. There are no
-%primitive data types that are not objects. Computing is performed only
-%by message passing between objects. \todo{Integer?}
-
 \paragraph{Class Based}
 Creating new objects are an essential part in object-oriented
 programming. \ooplss provides classes as templates for object
@@ -37,7 +27,7 @@ and strongly typed. Every message sent to an object that is legal within
 the type system can not create exceptions on runtime. Nonetheless runtime
 exceptions can occur since the type system does not prove that every
 statement is possible, e.g., sending a division by zero message to a
-number object.  In this case, an appropriate exception will be thrown.
+number object. In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 \ooplss has a nominal type system for modular type checking. Once the
@@ -58,7 +48,7 @@ it is less confusing at some points where this case can be omitted.
 
 \paragraph{Single Dispatch}
 With the choose of Java as target platform single method dispatch is
-implemented although multiple dispatch would make some translation work 
+implemented although multiple dispatch would make some translation work
 more easy and clear. For a more detailed discussion see \Cref{ctr:discussion}
 
 \section{Syntax}
@@ -85,13 +75,13 @@ implementation.
 		TYPEVAR & \lra & ID \\
 		& | & \mytype \\
 		VARDEF & \lra & `var' ID `:' TYPE `;' \\
-		METHODDEF & \lra & `def' ID `(' PARAMS? `) :' TYPE `\{' EXPR* `\}'  \\
+		METHODDEF & \lra & `def' ID `(' PARAMS? `) :' TYPE `\{' EXPR* `\}' \\
 		CONSTR & \lra & `def \_\_construct (' PARAMS? `) \{' EXPR* `\}' \\
 		EXPR & \lra & VARDEF \\
 		& | & BLOCK \\
 		& | & ID = EXPR `;' \\
 		& | & VARDEF = EXPR `;' \\
-		& | & `if (' EXPR `)' EXPR $\langle$ `else' EXPR $\rangle$?  \\
+		& | & `if (' EXPR `)' EXPR $\langle$ `else' EXPR $\rangle$? \\
 		& | & `while (' EXPR `)' EXPR \\
 		& | & `new' TYPENAME `(' METHODPARAMS? `)' \\
 		& | & EXPR `.' EXPR \\
@@ -113,7 +103,7 @@ overloading is provided by the language since this not in the focus of this
 project.
 
 \subsection{Scopes}
-\ooplss uses lexical scoping to define the validity of expressions and 
+\ooplss uses lexical scoping to define the validity of expressions and
 variables which is similar to that of Java. Generally there exists a global
 scope wherein the class definitions are. Within each class is a class-scope
 that contains all fields, which includes the definition of superclasses and
@@ -121,7 +111,7 @@ supertypes. Local scopes exist within methods and can be nested arbitrary.
 Nested local scopes can not shadow already bound variables, i.e., definitions
 like that in Listing \ref{lst:illegalNesting} are not allowed.
 
-\begin{lstlisting}[float,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
 class A {
 	var x : B;
 
@@ -130,7 +120,7 @@ class A {
 	}
 
 	def f() : Void {
-		var x : A; 
+		var x : A;
 		{
 			var x : B; // Illegal variable definition. Shadows local variable.
 		}
@@ -140,12 +130,12 @@ class A {
 		{
 			var x: A;
 		}
-		var x : B; // Legal variable definition since x : A is not 
+		var x : B; // Legal variable definition since x : A is not
 							 // valid anymore.
 	}
 }
 \end{lstlisting}
-%Literals, Delimiters, 
+%Literals, Delimiters,
 \subsection{Whitespace and Comments}
 Whitespace characters and comments separate single tokens in \ooplss. A
 whitespace can either be a blank, a tab or a newline character.
@@ -153,8 +143,8 @@ whitespace can either be a blank, a tab or a newline character.
 Two kinds of comments are possible. The C-style multi-line comment which
 starts with `/*' and ends with `*/'. Everything between these two delimiters
 is ignored by the parser. One specialty to note is, that these kind of comments
-can not be nested. 
-The second kind is in the C++-style and is a single- line comment which starts 
+can not be nested.
+The second kind is in the \cpp-style and is a single- line comment which starts
 with `//'. The character sequence between this token and the next newline
 is ignored.
 
@@ -171,10 +161,10 @@ unordered record \cite{simons_theory_2002-1}.
 \subsection{Extension as Subtyping}
 'Extension` is one sort of class combination in \ooplss. With extension,
 the concept of nominal subtyping is implemented which is the same as
-\emph{extends} in Java.  Since \ooplss knows two sorts of combination operator, a
+\emph{extends} in Java. Since \ooplss knows two sorts of combination operator, a
 clearly distinguishable keyword is introduced: \emph{subtypeOf}. Subtyping
 can be represented as a record combination operator where the recursive type binding
-is performed before the record combination.  However, the operator does
+is performed before the record combination. However, the operator does
 not only combine records, it also overrides old fields which are shadowed
 by the new record and renames parent fields \cite{simons_theory_2003-2}.
 
@@ -183,7 +173,7 @@ makes a straightforward implementation possible and easy to use for
 current Java programmers. Listing \ref{lst:subtypeOf} shows an example
 of subtyping in \ooplss.
 
-\begin{lstlisting}[float,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
 class A {
 	// Defines a method with parameter of type A.
 	def m(p : A) : ReturnType { %\ldots) }
@@ -203,11 +193,11 @@ class B subtypeOf A {
 \subsection{Inheritance as Subclassing}
 Inheritance is the second class object combination operator in
 \ooplss. It is postulated by Simons' Theory of Classification for
-\cite{simons_theory_2004-2}.  This combination is not only a sort of class
+\cite{simons_theory_2004-2}. This combination is not only a sort of class
 extension with code reuse where the new class needs to follow subtyping
 rules but also avoids the problem of schizophrenic self-reference since
 the self-variable binding is performed after the class combination
-and follows the notion of inheritance in the classical sense.  \ooplss
+and follows the notion of inheritance in the classical sense. \ooplss
 integrates this second form of combination within the nominal subtyping
 model which is used as well. This dual possibility is unseen in current
 programming languages.
@@ -252,7 +242,7 @@ Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in Listing
 \ref{lst:subclassOf} and Listing \ref{lst:javaTrans}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
 class A {
 	var a : A;
 
@@ -269,12 +259,12 @@ class B subclassOf A {
 }
 \end{lstlisting}
 
-Listing \ref{lst:javaTrans} presents the code that was translated from Listing 
-\ref{lst:subclassOf} to Java. It demonstrates the clear cut within 
+Listing \ref{lst:javaTrans} presents the code that was translated from Listing
+\ref{lst:subclassOf} to Java. It demonstrates the clear cut within
 the subtyping hierarchy since the whole content of class \A is modified
 and copied to class \B.
 
-\begin{lstlisting}[float,caption=Subclassing translated to Java,label=lst:javaTrans]
+\begin{lstlisting}[float=ht,caption=Subclassing translated to Java,label=lst:javaTrans]
 public class A {
 	public A a;
 
@@ -311,7 +301,7 @@ two classes are completely decoupled but the type of the classes' type is
 not changed from \A to \B the expression in Listing \ref{lst:breakSelf}
 can not be typed.
 
-\begin{lstlisting}[float,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
 class A {
 	def m(o : A) : A {
 		return m(self); //Works fine in Java
@@ -335,13 +325,13 @@ to the \self variable. Definition \ref{def:selfType} reflects this idea.
 
 \begin{defn}[Self Type]
 	\label{def:selfType}
-	\self <: \mytype
+	\self : \X and \X <: \mytype
 \end{defn}
 
 Listing \ref{lst:fixBreakSelf} fixes the code with the assumption of
 definition \ref{def:selfType}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self); //Works well
@@ -355,13 +345,13 @@ class B subclassOf A { three different examples were introduced where subtyping 
 }
 \end{lstlisting}
 
-The demo in Listing \ref{lst:fixBreakSelf} shows how \mytype works 
-in \ooplss.  Semantically this works because every occurrence of \mytype
+The demo in Listing \ref{lst:fixBreakSelf} shows how \mytype works
+in \ooplss. Semantically this works because every occurrence of \mytype
 is replaced with the new type of class \B. In other words, \mytype is
 replaced after the classes are combined.
 
 Listing \ref{lst:fixBreakSelf} shows the translation into the corresponding
-Java code in \ref{lst:javaTransMyTypeSubclassing}. 
+Java code in \ref{lst:javaTransMyTypeSubclassing}.
 
 The recursive
 method calls in method $m(o : MyType)$ makes clear that subclassing
@@ -370,7 +360,7 @@ provides a proper possibility for mutual recursion mentioned in
 programmers the possibility to take full control over the recursion
 and correct program flow.
 
-\begin{lstlisting}[float,caption=Subclassing with \mytype translated to Java,label=lst:javaTransMyTypeSubclassing]
+\begin{lstlisting}[float=ht,caption=Subclassing with \mytype translated to Java,label=lst:javaTransMyTypeSubclassing]
 public class A {
 	public A m(A o) {
 		m(this);
@@ -395,9 +385,9 @@ The \mytype was introduced to fix typing problems occurring with
 inheritance. This raises the question whether a \mytype is suitable
 with extension as well. This problem is illustrated in Listing
 \ref{lst:myTypeSubtyping}: it is not sure what type the parameter
-$o$ should have in class \B, type \B or type \A? 
+$o$ should have in class \B, type \B or type \A?
 
-\begin{lstlisting}[float,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
+\begin{lstlisting}[float=ht,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -415,16 +405,16 @@ Let consider the consequences if $o : B$ in class \B. First of all this
 method definition would necessarily require that \ooplss would support
 method overloading which it does not. But there are other consequences which
 are considerably more problematic like that $B.m$ would not be a subtype method of the one
-provided from class \A. Knowing that $B.m$ is not a subtype if $A.m$ 
+provided from class \A. Knowing that $B.m$ is not a subtype if $A.m$
 makes it impossible to create mutual recursion which is provided by inheritance
 and only naive recursion would be possible within extension. This means
-that if method $A.m$ is called there is no possibility to come back to object \B 
-within this recursion as long as no dynamic dispatch is available since \B can 
+that if method $A.m$ is called there is no possibility to come back to object \B
+within this recursion as long as no dynamic dispatch is available since \B can
 not provide a own implementation of $m$ with $o : A$. However, even \B would
 provide two implementations of $m$, one with $o : A$ and one with $o : B$ this
 would lead to a contradiction if \B is used as a superclass. For this one may
 consider \Cref{fig:hierarchy} and its corresponding code in Listing
-\ref{lst:mixedHierarchy}. The problem is in line \ref{lst:mixedHierarchy1}. 
+\ref{lst:mixedHierarchy}. The problem is in line \ref{lst:mixedHierarchy1}.
 If this code segment would be combined in class \C, \self would now be of type
 \C which is not a subtype of \A.
 
@@ -435,7 +425,7 @@ If this code segment would be combined in class \C, \self would now be of type
 	\label{fig:hierarchy}
 \end{figure}
 
-\begin{lstlisting}[float,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -447,7 +437,7 @@ class B subtypeOf A {
 		return base.m(self);
 	}
 
-	def m(o : A) : MyType { 
+	def m(o : A) : MyType {
 		return o.m(self); // Not typeable in class C %\label{lst:mixedHierarchy1})
 	}
 }
@@ -463,7 +453,7 @@ For this the self compatibility is defined as follow:
 
 \begin{defn}[Self is compatible with MyType]
 	\label{def:selfCompatibility}
-	For every class \A it is true that $self : MyType$ but not that $A <: MyType$
+	For every class \A it is true that $self : X$ and $X <: MyType$ but not that $A <: MyType$
 \end{defn}
 
 \subsubsection{Binding Moment of \mytype}
@@ -485,10 +475,10 @@ of \mytype is now rebound to type \C. This works as well since the
 since in extension the binding moment is performed as early as possible,
 this fits well in to \ooplss' model of class combination.
 
-\begin{lstlisting}[float,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
 class A {
 	def m(o : MyType) : MyType { // o : A
-		return m(self); 
+		return m(self);
 	}
 }
 
@@ -497,8 +487,8 @@ class B subtypeOf A {
 		return base.m(self);
 	}
 
-	def f(o : MyType) : MyType {  // o : B
-		return o.f(self); 
+	def f(o : MyType) : MyType { // o : B
+		return o.f(self);
 	}
 }
 
@@ -520,19 +510,19 @@ class D subtypeOf C {
 \end{lstlisting}
 
 Although everything is now typeable, the question rises whether this
-code provides mutual recursion as wanted?  Let's consider a method call
+code provides mutual recursion as wanted? Let's consider a method call
 of $m$ in \C. The method call handle goes correctly to its superclass
 method $B.m$. Now there the next problem may occur. How is the \base
-reference considered?  First of all, a \base reference does not make
+reference considered? First of all, a \base reference does not make
 any sense here since \C does not have a supertype except \object and
 \object usually does not provide a method as wanted.
 
 \subsubsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
 Let's consider the extension and inheritance hierarchy in \Cref{fig:hierarchy}
-again. It is clear that \C inherits \B. But what about the extension of \A 
+again. It is clear that \C inherits \B. But what about the extension of \A
 with \B? As seen before, inheritance breaks the hierarchy and only
-provides a possibility of class combination. This rises the question how the 
+provides a possibility of class combination. This rises the question how the
 relation between \A and \B is considered when a subclass of \B exists. If
 the self type in \A would be bound before the record combination to
 \C, unsafe type constructs could be possible since a
@@ -593,7 +583,7 @@ this proposition and definition \ref{def:matchingAsBound} the following
 theorem is formulated that subtyping is embedded into matching which is
 proven for \ooplss.
 
-\begin{prop}[Matching as subtyping]
+\begin{prop}[Matching embeds subtyping]
 	\label{prop:matchinIsSubtyping}
 	if $B <: A \rightarrow B$ \match $A$
 \end{prop}
@@ -602,14 +592,14 @@ proven for \ooplss.
 	For this one may recall how subtyping is to understand.\footnote{See
 	definitions \ref{def:subtypeObject} and \ref{def:methodSubtyping}}.
 
-	Let $B <: A$, $X := \mu self.\{m :
-	B \times self \rightarrow C \} $ and $Y := \mu X.  $\todo{Formal Class combiners first needed}
+	Let $B <: A$, $X := \mu \mytype.\{m :
+	B \times \mytype \rightarrow C \} $ and $Y := \mu X. $\todo{Formal Class combiners first needed}
 
 %	\begin{enumerate}
 %		\item From definition \ref{def:subtypeObject}
 %		follows directly that $Y <: X$.
 %
-%		\item 
+%		\item
 %	\end{enumerate}
 \end{proof}
 
@@ -624,27 +614,26 @@ proven for \ooplss.
 So far the introduction of a \mytype and proper inheritance gives the
 advantage of proper code reuse within the type system and specialisation
 of binary methods compared to other language. At a first glance all this
-seems not very useful since even generics like those from Java don't
+seems not very useful since even generics like those from Java do not
 fit into this model very well. Furthermore, the matching relation is
-not used by method parameters and does not appear yet in the language.
-\todo{where exactly?}
+not used by method parameters and is not yet introduced in \ooplss.
 As seen in \Cref{ctr:makingSubclassingPractical} matching is used in object
 parametrisation and does replaces generics respectively is the theoretical
-foundation of Java's or \cs's generics.  These generics does only allow
+foundation of Java's or \cs's generics. These generics does only allow
 f-bounds with subtypes but not with subclasses what is different in
 \ooplss because of the matching relation between two subclasses.
 
 \subsubsection{Translation by Mimic Templates}
 Knowing that \ooplss class parametrisation is not compatible with that
 from Java since Java only knows bounds on subtypes, so another more open,
-solution is needed.  Using matching as bound provides information whether
+solution is needed. Using matching as bound provides information whether
 the code within a parametrised class is legal and can be executed on
 objects which are within the bound. The type checker ensures that the
 code written in \ooplss is type safe and every method call can be
 performed without any runtime errors since it is guaranteed that all
 used fields are properly available on the passed objects.
 
-From this thoughts, the C++ templates might be a good choice for
+From this thoughts, the \cpp templates might be a good choice for
 representing parametric classes.
 
 \begin{quotation}
@@ -654,39 +643,33 @@ beyond what is used for an equivalent ``hand-written'' class.' -- Bjarne
 Stroustrup \cite{stroustrup_c++_2000}
 \end{quotation}
 
-Of course
-\todo{Sounds like spoken... "of course"}
-, C++ templates have different semantics and are not equivalent
-with the translation presented here for \ooplss, but the idea is similar to
-create special classes similar to templates.
-\todo{Was si für special classes gmeint hie...?}
-
-Listing \ref{lst:parametrisationOoplss} presents a container
-class that is parametrised with a match-bound 
-\todo{I think this is mentioned here for the first time... if not, reference?}
-of \A. 
-Class \B extends class \A and class \C inherits \A.
+Even \cpp templates have different semantics and are not equivalent with
+the translation presented here for \ooplss, but the idea is similar
+to create specially named classes similar to templates. Listing
+\ref{lst:parametrisationOoplss} presents a container class that is
+parametrised with a match-bound of \A. Class \B extends class \A and
+class \C inherits \A.
 
 Following the definition
 of matching, both derived classes are not allowed as parameters
 of the class \emph{Container} with the type parameter definition
-of $T$ \match \A.  The use of those classes is presented in Listing
+of $T$ \match \A. The use of those classes is presented in Listing
 \ref{lst:useParametrisationOoplss}. All of these assignments are typeable
 and sound since all of these classes provide the methods assumed by the
 bound. However, Listing \ref{lst:parametrisationJava} shows how this code
 is translated to Java and how the idea of templates is adopted. Like
-in C++ the for every class a new inner class is created with special
+in \cpp the for every class a new inner class is created with special
 names. These special classes are all sharing the same generic interface
-\emph{Container}.  The fact that an interface is needed will be presented
+\emph{Container}. The fact that an interface is needed will be presented
 in the next section. One may remark that the Java interface of
 \emph{Container} has dropped the f-bound. This is necessary since
 subclassing would not fulfill the extension boundary in Java.
 
- To use this code in Java is straightforward translated in Listing
-\todo{??}
-\ref{lst:useParametrisationJava}.
+The Java code that uses the parametrised classes defined in \ooplss is
+then done straightforward by replacing the square brackets to dollar
+signs as presented in Listing \ref{lst:useParametrisationJava}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
 class Container[T %\match) A] {
 	def m(t1 : T, t2 : T) : T {
 		t.someAction(t2);
@@ -712,7 +695,7 @@ class C subclassOf A {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=ooplss,caption=Valid use of a match-bound container,label=lst:useParametrisationOoplss]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Valid use of a match-bound container,label=lst:useParametrisationOoplss]
 class Main {
 	def run() : Void {
 		var foo : Container[Foo] = new Container[Foo]();
@@ -725,7 +708,7 @@ class Main {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
+\begin{lstlisting}[float=ht,language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
 public interface Container<T> {
 	public T m(t T);
 
@@ -749,7 +732,7 @@ public interface Container<T> {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float,language=java,caption=Use of parametised classes in Java,label=lst:useParametrisationJava]
+\begin{lstlisting}[float=ht,language=java,caption=Use of parametised classes in Java,label=lst:useParametrisationJava]
 public class Main {
 	public void run() {
 		Container<Foo> foo = new Container.Container$Foo$();
@@ -763,40 +746,37 @@ public class Main {
 \end{lstlisting}
 
 \subsubsection{Specialising Parametrised Classes}
-As seen in the previous section, parametrising classes with matching 
-now fits well in the model. However, since parametrised classes can be too,
-\todo{can be what?}
-this is now shown that this is straightforward as well. \todo{reformulate}
+As seen in the previous section, parametrising classes with matching
+now fits well in the model. However, since parametrised classes
+can be inherited as well, this will now be presented that this
+is straightforward as well.  For the sake of simplicity only the
+translated Java code is presented because fields that are not using
+parameters are translated in the same manner as in normal classes.
+Listing \ref{lst:extendingContainer} shows an extended version of the
+\emph{Container} class.
 
-For the
-sake of simplicity only the translated Java code is presented because
-fields that are not using parameters are translated in the same manner as 
-in normal classes.
-Listing \ref{lst:extendingContainer} shows an extended version
-of the \emph{Container} class.
-
-\begin{lstlisting}[float,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
+\begin{lstlisting}[float=ht,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
 	public X f(X x);
 
-	static public class SpecialContainer$Foo$ 
-			extends Container$Foo$ 
+	static public class SpecialContainer$Foo$
+			extends Container$Foo$
 			implements SpecialContainer<Foo> {
 		public Foo m(Foo x) {
 			return x;
 		}
 	}
 
-	static public class SpecialContainer$Bar$ 
-			extends Container$Bar$ 
+	static public class SpecialContainer$Bar$
+			extends Container$Bar$
 			implements SpecialContainer<Bar> {
 		public Bar m(Bar x) {
 			return x;
 		}
 	}
 
-	static public class SpecialContainer$FooBar$ 
-			extends Container$FooBar$ 
+	static public class SpecialContainer$FooBar$
+			extends Container$FooBar$
 			implements SpecialContainer<FooBar> {
 		public FooBar m(FooBar x) {
 			return x;
@@ -806,45 +786,46 @@ public interface SpecialContainer<X> extends Container<X> {
 \end{lstlisting}
 
 \subsubsection{Avoid Type Erasure}
-The idea of generating extended an class instead of using the runtime
-generic support from Java is not new even though the idea is a bit different
-with the same consequences. Robert Cartwright and Guy Steele proposed
-another kind of generics in Java as a concurrence to GJ\todo{what is GJ?} from Odersky
-and Wadler and is presented in \cite{cartwright_compatible_1998}. Their
-project is called NextGen and is based \todo{Auf Java aufgebaut ist gemeint oder?}
-on Java 1.2. However, since
-no generic types are used at runtime, type parameters are not erased
-like in GJ and Java 1.5.
+The idea of generating extended an class instead of using the
+runtime generic support from Java is not new even though the idea
+is a bit different with the same consequences. Robert Cartwright
+and Guy Steele proposed another kind of generics in Java as a
+concurrence to GJ\nomenclature{GJ}{The research language for the Java
+generics. It is a short form of `Generic Java'. Due to copyright law,
+the name is abbreviated} from Odersky and Wadler and is presented in
+\cite{cartwright_compatible_1998}. Their project is called NextGen
+and is based on Java 1.2. In contrast to GJ and the current generics
+implementation in Java, this project provides an extension that is
+not backward compatible to non generic code. However, since no generic
+types are used at runtime, type parameters are not erased like in GJ
+and Java 1.5.
 
 With this, the language gains on runtime expressiveness since a
 \emph{instanceof} operator can be introduced to perform checks on type
-parameters which Java has not. 
-\todo{but java does have an instanceof operator!?}
-Further the creation of new objects would
-also be possible as long as a class provides a standard constructor.
+parameters which Java has not.  Further the creation of new objects
+would also be possible as long as a class provides a standard constructor.
 
-As a drawback of creating all these classes a more sophisticated 
+As a drawback of creating all these classes a more sophisticated
 bytecode analysis and engineering if a language would support a modular
 code generation is needed, which \ooplss does not have so far.
 
-A further but not 
+A further but not
 that relevant problem is the generated code overhead.
 
 \subsubsection{Implicitly Parametrised Classes with \mytype}
-To conclude
-\todo{fyi: at last heisst ändlech}
-this section about parametrisation let's consider the \mytype
-construct. As seen in \Cref{ctr:theoreticalBackground}, the \self variable
-can be bound to its real type by applying the unbound type
-operator recursively. To grasp this notion in \ooplss, classes can be considered
-as implicitly parametrised. Since both, subtyping and subclassing, are
-available, the type parameter is extended in every subtype with one more
-\todo{with one more what?}.
-Only this makes it possible to derive binary methods in subtypes
-and subclasses as well. An explicitly parametrised hypothetical use of
-\mytype is presented in Listing \ref{lst:explicitMyType}.
+\label{sec:implicitlyMyType}
+To conclude this section about parametrisation let's consider the
+\mytype construct. As seen in \Cref{ctr:theoreticalBackground}, the
+\self variable can be bound to its real type by applying the unbound
+type operator recursively. To grasp this notion in \ooplss, classes
+can be considered as implicitly parametrised. Since both, subtyping
+and subclassing, is available, the type parameter list is extended in
+every subtype with one additional type parameter Only this makes it
+possible to derive binary methods in subtypes and subclasses as well. An
+explicitly parametrised hypothetical use of \mytype is presented in
+Listing \ref{lst:explicitMyType}.
 
-\begin{lstlisting}[float,language=ooplss,caption=Explicit \mytype,label=lst:explicitMyType]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Explicit \mytype parametrisation,label=lst:explicitMyType]
 class A[MyType <# A] {
 	def m(o : MyType) MyType {
 		// Self is explicitly typed in the method.
@@ -867,20 +848,6 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 }
 \end{lstlisting}
 
-
-%\subsubsection{No \#-Types in \ooplss}
-%Research languages like \emph{LOOM}\cite{bruce_subtyping_1997},
-%its successor \emph{polyToil}\cite{bruce_polytoil:_1995} or
-%$\mathcal{MOOL}$\cite{bruce_foundations_2002} are all showing how
-%matching can be integrated into object-oriented languages. All
-%of them are using a structural type system. However, they also 
-%introduced so called \#-types which. 
-
-%\todo{Remove this section}
-
-%Class definition
-%\subsection{Constructors}
-%\subsection{Evaluation Order}
 \section{Types}
 \subsection{Type Rules}
 

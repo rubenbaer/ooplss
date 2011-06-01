@@ -161,7 +161,8 @@
 		\ganttfontsize #2%
   };
   \setkeys{ganttbarx}{#1}{%
-  \draw[pattern=\ganttbarpattern,pattern color=\ganttbarcolor] (\gantttmpa,\value{ganttnum}+0.1) rectangle (\gantttmpb,\value{ganttnum}+0.5);
+  %\draw[pattern=\ganttbarpattern,pattern color=\ganttbarcolor] (\gantttmpa,\value{ganttnum}+0.1) rectangle (\gantttmpb,\value{ganttnum}+0.5);
+  \shade[shading=axis,shading angle=90,right color=black!10] (\gantttmpa,\value{ganttnum}+0.1) rectangle (\gantttmpb,\value{ganttnum}+0.5);
   }
   \setlength{\ganttlastx}{\gantttmpb}
   \addtocounter{ganttnum}{-1}

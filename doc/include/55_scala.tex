@@ -1,9 +1,10 @@
 \chapter{Comparison with Scala}
-%\ooplss:Scala -- A Contrasting Juxtaposition
 \label{sec:comparisonScala}
 This chapter presents a comparison of some features of Scala and \ooplss.
-
-INTRODUCTION
+One examples is about typing the \self-variable in subclassing for
+\ooplss and explicitly typing in Scala. The second takes regard of the
+issue of software composition. Scala provides a flexible method with
+traits which have some similarities to subclasses in \ooplss.
 
 \section{Scala -- A Scalable Language}
 Scala is a modern programming language initiated by Martin Odersky,
@@ -33,14 +34,14 @@ Since Scala combines a wide range of features in its type system it is
 an optimal language for a comparison of some type features. This gives
 a hands on how a problem can be solved with different approaches.
 
-\section{Abstract Types and Explicitly Typed Self References}
+\section{Self-Reference in Covariant Change}
 %Abtract Types and Explicit Self Typig
 %Explicit self typing
 A common concept which is available in many popular object-oriented
 programming languages is the definition of abstract classes which
 provides a partial implementation of a class. Such classes can not be
 instantiated by the user but specialised to concrete classes with a full
-implementation.  In many implementation of this feature, e.g., in C++,
+implementation. In many implementation of this feature, e.g., in \cpp,
 \cs or D, only abstract methods and properties are supported. Scala goes
 one step further and adds abstract type definitions. An abstract type can
 be used simply as normal type declaration within this class. At last at
@@ -51,8 +52,9 @@ like generics do. However, in the following example in Scala, abstract
 types are used since they are more compact in this case. Further are
 inner classes used. In Scala it is possible to nest classes within others.
 
+\subsection{A List in Scala}
 Listing \ref{lst:abstractType} presents an implementation of a List
-in Scala.  It is not a best implementation of a list possible but shows
+in Scala. It is not a best implementation of a list possible but shows
 how Scala uses explicitly typed self references and abstract types. It
 shows as well how Scala deals with covariant method parameters by using
 an explicitly typed self reference.
@@ -67,7 +69,7 @@ a singly linked list possible as well.
 The first class is used as abstract interface with the minimum of fields.
 In line \ref{line:abstractType1} and \ref{line:abstractType2} is a
 abstract type declaration where in the first one, a type constraint is
-specified.  In the second class a partial implementation is done but it is
+specified. In the second class a partial implementation is done but it is
 still abstract since a concrete node implementation is still missing. Line
 \ref{line:factory} defines an abstract factory method for the node
 creation. The factory method needs to create a new node and insert the
@@ -87,7 +89,7 @@ in time.
 
 Now lets consider the problem of line \ref{line:useFactory}. As
 seen is the abstract type \emph{Node} now of the concrete
-type \emph{DoublyLinkedNode}.  Consequently the factory
+type \emph{DoublyLinkedNode}. Consequently the factory
 method \emph{createNode} expects as parameter a value of type
 \emph{DoublyLinkedNode}. What now happened is that this factory has a
 covariant type change in its parameters which does not conform with the
@@ -99,17 +101,125 @@ compatible with \emph{DoublyLinkedNode} even though the run-time
 type of self is correct in this example. Using this unsafe structures
 like casts can be avoided.
 
-\lstinputlisting[language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]{../misc/sources/scalaList/List.scala}
+\lstinputlisting
+[language=scala,caption=Abstract type declaration in Scala,label=lst:abstractType]
+{../misc/sources/scalaList/List.scala}
 
+\subsection{A List in \ooplss}
 Based in this example code of Scala a corresponding implementation
 of the doubly linked list in \ooplss will be given in Listing
 \ref{lst:doublyLinkedList}. It is assumed that the whole specification
-of \ooplss is implemented within the compiler since it makes a lot
-use of class parametrisation.
+of \ooplss is implemented within the compiler since it makes a lot use
+of class parametrisation.
 
-\lstinputlisting[language=ooplss,caption=A doubly linked list in \ooplss,label=lst:doublyLinkedList]{../misc/sources/ooplssList/List.ooplss}
+Compared to the solution written in Scala, the same classes exists
+in \ooplss. Since \ooplss does not know inner and abstract classes,
+this example is costlier then that in Scala. First for every method is
+an block obligatory even the implementation does not make sense since
+they return only \emph{null}. Further has every node class its own type
+parameters since they can not be derived from the outer classes. This
+makes the use a bit more difficult since the node has to call the factory
+method \emph{createNode} which is defined within the list class. All
+these drawbacks could be solved by allowing inner and abstract classes.
 
-\section{Software Composition with Traits}
-%Traits, Existential types
+The major differences are that the classes are derived with
+\emph{subclassing} and not with \emph{subtyping}, that the type
+\emph{Node} is bound by matching and not subtyping and that the
+\mytype is used within the node classes. Lets consider the line
+\ref{line:ooplssUseFactory}. This was the construct which made problems
+at the last time. But this is perfectly typeable in \ooplss since in
+line \ref{line:listMyType} is a list specified which uses \mytype as
+type parameter. This ensures that the list uses the correct node type,
+e.g., a singly linked node respectively doubly linked nodes in singly
+linked lists and doubly linked lists.
+
+\lstinputlisting
+[language=ooplss,caption=A doubly linked list in \ooplss,label=lst:doublyLinkedList]
+{../misc/sources/ooplssList/List.ooplss}
+
+\section{Software Composition}
+One of the largest problem in designing a software structure is how the
+software should be composited from smaller parts to larger ones where every
+statement is type safe, comprehensible, reusable and changeable. For this
+many different approaches and methodologies were developed.
+
+One method of object combination is then multiple inheritance
+\cite{taivalsaari_notion_1996}. Although this is nothing
+bad about multiple inheritance it is difficult to do it well
+\cite{wegner_panel_1987}. The problem is that inheritance of code
+and code reuse is mixed within the same class combination. Further
+it is often said that multiple inheritance is too complex for good use.
+This can be supported when the trend of current programming languages are
+observed. Java and \cs does completely give up multiple inheritance for
+the sake of simplicity and introduced interfaces. However, this makes
+code reuse more difficult since the programmer can not simply restructure
+a class to smaller pieces without changing the type semantic.
+
+To overcome this problem some approaches were done where all
+have the target to build software units which can be easily
+combined to new ones. Already in the $80^{th}$ the concept of
+\emph{mixins}\nomenclature{Mixin}{A class that can be reused by a
+subclass. A separate instantiation is not possible} were introduced
+in a Lisp extension \cite{moon_object-oriented_1986}. The benefit
+of this semantic is that mixins does not define a subtypes which is
+done in multiple inheritance. A further development of mixins are
+traits\nomenclature{Trait}{An extended model of mixins for composable
+software units}. Traits differs in this sense that they provide a more
+sophisticated combination semantics which contains renaming and shadowing
+\cite{schaerli_traits:_2003}. The reason is that traits use flattening
+when combining multiple traits in a full type hierarchy where mixins
+use linearisation.
+
+\subsection{Class Composition with Traits in Scala}
+In this section a new example is introduced. It shows how reusable code
+segments for ordering can be defined.
+
+Listing \ref{lst:scalaTraits} contains a definition for two traits. The
+first defined a strictly ordered relation. As type parameter is \mytype
+chosen. This should not be confused with that of \ooplss. However, it
+in this example it is comparable. This trait lefts the implementation
+of \emph{compare} abstract for later implementation. Within this trait,
+two relations are defined. On is the greater and the other the less then
+relation. This trait is then further specialised in the ordered trait
+introducing a non strict ordering. Together they are the same as the Scala
+provided \emph{Ordered} trait which is available in the preload package.
+
+After line \ref{line:literatureScala} three classes are provided. The
+first is an abstract class defining literature containing the author
+and the year of publish. This class can not get in order since it does
+not use the traits already defined. Based on this class two others are
+derived: \emph{Book} and \emph{Journal}. Now both classes contain the
+ability to get ordered. But what would happen, if \emph{Literature} would
+already be defined as orderable? Would it be possible for \emph{Book}
+and \emph{Journal} to specialise the ordered implementation? This question
+have to be answered with no. If \emph{Literature} would be defined as
+orderable, the other trait extensions would clash with the from their
+superclass since the type parameters are different.
+
+\lstinputlisting
+[language=scala,caption=Code reuse with traits in Scala,label=lst:scalaTraits]
+{../misc/sources/scalaTraits/Traits.scala}
+
+\subsection{Class Composition in \ooplss}
+Consequently in this section, a solution in \ooplss is proposed in Listing
+\ref{lst:ooplssSubclasses}. The differences compared to the solution in
+Scala is that no type parametrisation is necessary since this happens
+implicitly by \mytype. Since \ooplss does not know traits and abstract
+class, all are fully defined classes.
+
+However, here is subclassing used as derivation and the class
+\emph{Literature} contains already the definitions for ordering.
+
+\lstinputlisting
+[language=ooplss,caption=Code reuse with subclasses in \ooplss,label=lst:ooplssSubclasses]
+{../misc/sources/ooplssSubclasses/Subclasses.ooplss}
 
 \section{Conclusion}
+In this chapter two examples were presented. The first was a list
+implementation and the second a ordered library. Both presented
+different difficulties within software composition and typing. Even
+though \ooplss can not stick with Scala, however, theses examples shows
+that some problems in other languages can be tackled by Scala as well
+as by \ooplss. With the possibility of subclassing a mechanism for
+software combination is introduced which can be used very powerful in
+suitable situations.

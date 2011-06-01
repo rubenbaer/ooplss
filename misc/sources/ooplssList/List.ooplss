@@ -18,9 +18,9 @@ class AbstractList[Node <# AbstractNodeImpl, Value] subclassOf List[Node, Value]
 }
 
 class AbstractNodeImpl[Value] subclassOf AbstractNode[Value] {
-  var list: List[MyType, Value];
+  var list: List[MyType, Value]; %\label{line:listMyType})
   def insertAfter(value: Value): MyType {
-    return list.createNode(self, value); /* %\label{line:ooplssUseFactory}) */
+    return list.createNode(self, value); %\label{line:ooplssUseFactory})
   }
 }
 
@@ -29,7 +29,7 @@ class DoublyLinkedList[ValueType] subclassOf AbstractList[DoublyLinkedNode, Valu
   def getNext(node: DoublyLinkedNode): DoublyLinkedNode {
     return node.next;
   }
-  def getPrev(node: DoublyLinkedNode): DoublyLinkedNode = {
+  def getPrev(node: DoublyLinkedNode): DoublyLinkedNode {
     return node.prev;
   }
   protected def createNode(node: DoublyLinkedNode, value: Value): DoublyLinkedNode = {

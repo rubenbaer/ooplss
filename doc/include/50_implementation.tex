@@ -1,4 +1,5 @@
 \chapter{Software Design and Implementation}
+\label{ctr:swDesignImplementation}
 
 \section{Compiler Design}
 This chapter contains a description of the general compiler. Figure
@@ -12,25 +13,22 @@ software. There is a section describing each phase.
 	\label{fig:compilerPhase}
 \end{figure}
 
-The compiler of \ooplss is written in Java using
-ANTLR as parser generator. ANTLR supports the generation of code for the lexical
-and semantical analysis, which then generates an abstract syntax tree for
+The compiler of \ooplss is written in Java using ANTLR as parser
+generator. ANTLR supports the generation of code for the lexical and
+semantical analysis, which then generates an abstract syntax tree for
 the intermediate representation of the input. In ANTLR it is possible to
-define both, grammars for string, 1-dimensional, and for
-abstract syntax trees which are 2-dimensional. In ANTLR these are known
-as \emph{tree grammars} which are similar to normal grammars but matches
-abstract syntax tree nodes and not lexer tokens. The lexer and parser
-part is a normal grammar whereas the other phases are all tree grammars
-which are used for tree rewriting.
-\todo{The tree is actually only rewritten once, when generating the AST... or what
-is it you mean}
-The output process is supported by
-\st, a project associated to ANTLR.
+define both, grammars for string, 1-dimensional, and for abstract syntax
+trees which are 2-dimensional. In ANTLR these are known as \emph{tree
+grammars} which are similar to normal grammars but matches abstract
+syntax tree nodes and not lexer tokens. The lexer and parser part is a
+normal grammar whereas the other phases are all tree grammars which are
+used for tree rewriting respectively tree visiting.  The output process
+is supported by \st, a project associated to ANTLR.
 
-However, every phase of this compiler design is independent and can 
+However, every phase of this compiler design is independent and can
 replaced arbitrarily. This makes corrections within this parts easy and
 does not automatically break the whole interface between the compiling
-phases. Even new phases can be injected between two phases which may 
+phases. Even new phases can be injected between two phases which may
 perform some further analysis or code optimisation.
 
 Even though ANTLR supports different output languages for the parser, Java was
@@ -45,16 +43,16 @@ intermediate abstract syntax tree to pure Java code.
 
 \subsection{Lexer and Parser}
 The lexer and parser are defined in the same file \emph{Ooplss.g}
-since they are strongly connected together. 
+since they are strongly connected together.
 
 The lexer creates tokens which are fed to the parser. It simply
 analyses every character in the input string and tries to identify tokens
-that are used in the parser. Some tokens like comments and whitespace characters 
+that are used in the parser. Some tokens like comments and whitespace characters
 are skipped and not passed to the parser.
 
 The parser parses the tokens from left to right and creates a left most
 derivation with a lookahead of two, this is shortly known as LL(2) parser.
-All this is done from top to bottom and produces  an 
+All this is done from top to bottom and produces an
 abstract syntax tree (AST). To make the debugging
 process of the parser code simpler, the lookahead is limited to two although ANTLR
 would support arbitrary lookahead.
@@ -62,7 +60,7 @@ would support arbitrary lookahead.
 After this phase an abstract syntax tree is generated and ready to be visited
 and to be operated on. The AST already contains the correct operator precedence.
 
-\subsection{Symbol Table Building}
+\subsection{Symbol Table Propagation}
 The first part that operates on the abstract syntax tree is the building of
 the symbol table. This is divided into two separated compiler runs: the
 first identifies every symbol definition like classes, methods and
@@ -87,9 +85,9 @@ They are assigned to the global scope.
 
 \subsubsection{Define Symbols}
 The first phase of the symbol table building is the definition run
-or walk.  Every single class, method and scope is visited with the
+or walk. Every single class, method and scope is visited with the
 depth first strategy and every symbol definition within these scopes
-is tracked.  The tree grammar for this can be found in the file
+is tracked. The tree grammar for this can be found in the file
 \emph{OoplssDef.g}. Every time a scope is entered, this scope is set
 as the current scope and the one before is saved as the parent scope.
 Like this, all symbol definitions are recorded in the according scope.
@@ -111,11 +109,11 @@ which can resolve every valid symbol within a scope.
 
 
 \subsubsection{Referencing Symbols}
-In the second phase, the referencing run, mainly every use of a symbol that is 
-not declarative (method call, variable access, super type specification, types 
-in declarations etc.) is examined and resolved to the according symbol definition. 
-Exceptions are thrown on errors like accessing non-existent variables, calling 
-variables or using types that don't exist.
+In the second phase, the referencing run, mainly every use of a symbol that is
+not declarative (method call, variable access, super type specification, types
+in declarations etc.) is examined and resolved to the according symbol definition.
+Exceptions are thrown on errors like accessing non-existent variables, calling
+variables or using types that do not exist.
 \todo{does this need to be precise?}
 
 All of this is possible due to the fact that now all definitions are known and available
@@ -124,7 +122,7 @@ in the tree.
 There are different types of resolving the symbols:
 \begin{description}
 \item[Variable referencing]
-Just walks up the scope tree to find the symbol 
+Just walks up the scope tree to find the symbol
 \item[Method calling]
 The same as variable referencing but it has to be a method symbol
 \item[Member accessing]
@@ -146,8 +144,8 @@ Resolves to the enclosing class
 
 The referencing phase also does some special tasks:
 \begin{itemize}
-\item it ensures that a symbol that was not declared in the class scope is 
-defined before being accessed for the first time because forward referencing 
+\item it ensures that a symbol that was not declared in the class scope is
+defined before being accessed for the first time because forward referencing
 is only allowed for class fields.
 \item upon leaving a class it checks if there are symbols that override symbols
 declared in super classes or super types. This cannot be done in the definition run
@@ -168,14 +166,14 @@ node are evaluated before the node itself is evaluated. Like this the
 evaluated types are promoted upwards the tree until a violation of the
 typing rules is found.
 
-The basic concept of the type checker is to check if method arguments, 
+The basic concept of the type checker is to check if method arguments,
 both sides of an expression/assignment etc. have the same type. In case
-of basic types this is a bit extended since adding a integer to a float 
+of basic types this is a bit extended since adding a integer to a float
 is perfectly valid. In this case, the type checker yields float as evaluation
 type of the addition expression.
 
-In case of method arguments, return statements, new object creation 
-and assignments it is extended as well since the subtyping concept 
+In case of method arguments, return statements, new object creation
+and assignments it is extended as well since the subtyping concept
 allows assigning values that are of a subtype of the expected value.
 
 The typing rules are explained in detail in \Cref{ctr:typeRules}. The
@@ -187,13 +185,13 @@ type checker grammar can be found in \emph{OoplssTypes.g}
 \subsection{Standalone statements}
 
 Since \ooplss is translated into Java, there has to be some checking
-done on the statements so the compiler doesn't create erroneous Java
+done on the statements so the compiler does not create erroneous Java
 code. Java has some constraints, for instance meaningless statements
 like accessing a variable without assigning it to another variable
 or passing it to a function are inhibited by the Java compiler.
 
 We solved this particular problem by assigning every statement whether
-it is allowed to stand alone or not. Then the reference walker loops 
+it is allowed to stand alone or not. Then the reference walker loops
 through all statements upon leaving a block. If one is found that cannot
 stand alone, an exception is thrown.
 
@@ -227,7 +225,7 @@ output Java code which runs on the Java Virtual Machine.
 
 	PlainNote.AntlrN("Antlr generated Code");
 	Package.AntlrP("ooplss.antlr")(AntlrN);
-	AntlrP.w = MainP.e + (50, 0);
+	AntlrP.w = MainP.e + (40, 0);
 
 	PlainNote.SymTabN("The symbol table");
 	Package.SymTabP("ooplss.symbolTable")(SymTabN);
@@ -262,17 +260,17 @@ output Java code which runs on the Java Virtual Machine.
 
 
 \begin{description}
-\item[ooplss] This is the main package, containing the main routine of the 
+\item[ooplss] This is the main package, containing the main routine of the
 compiler.
-\item[ooplss.antlr] This package contains the code that is generated from the 
+\item[ooplss.antlr] This package contains the code that is generated from the
 ANTLR grammars, namely the lexer, parser, definition walker, referencing walker
 type checker and the code generator.
 \item[ooplss.symbolTable] This package contains the whole symbol table including
 all the symbols, types and scopes.
-\item[ooplss.symbolTable.exceptions] This package contains all the exceptions 
+\item[ooplss.symbolTable.exceptions] This package contains all the exceptions
 that the symbol table would throw upon finding errors.
-\item[ooplss.tree] It was necessary to implement a customised AST node to be 
-able to add certain information to the nodes. This package contains all the 
+\item[ooplss.tree] It was necessary to implement a customised AST node to be
+able to add certain information to the nodes. This package contains all the
 necessary classes.
 \item[ooplss.utils] Contains an error handler to be able to handle the
 exceptions thrown by the symbol table.
@@ -292,7 +290,7 @@ getters and setters.
 	\begin{emp}[classdiag](20, 20)
 	Class.SymbolTable("SymbolTable")()();
 
-	Class.Scope("Scope")("enclosingScope:Scope")( "define(Symbol):Void", 
+	Class.Scope("Scope")("enclosingScope:Scope")( "define(Symbol):Void",
 			"resolve(String):Symbol", "resolveType():Type");
 	classStereotypes.Scope("<<interface>>");
 	Scope.ne = SymbolTable.sw + (-60, -10);
@@ -317,7 +315,7 @@ getters and setters.
 	link(inheritance)(pathManhattanY(GlobalScope.n, BaseScope.w));
 
 	AbstractClass.ScopedSymbol("ScopedSymbol")()();
-	ScopedSymbol.n  = Symbol.s + (0, -30);
+	ScopedSymbol.n = Symbol.s + (0, -30);
 
 	drawObjects(ScopedSymbol);
 	link(inheritance)(ScopedSymbol.n -- Symbol.s);
@@ -330,7 +328,7 @@ getters and setters.
 	Class.ClassSymbol("ClassSymbol")
 		("supertype:ClassSymbol", "superclass:ClassSymbol", "constructor:MethodSymbol")
 		("resolve(String):Symbol", "resolveMember(String):Symbol",
-		"resolveSuper(String):Symbol", 
+		"resolveSuper(String):Symbol",
 		"checkMethodArguments():boolean", "checkMethodReturnTypes():boolean",
 		"checkForInheritanceErrors(:boolean)", "checkForOverridings():void",
 		"isSubtypeOf(ClassSymbol):boolean", "isSubclassOf(ClassSymbol):boolean");
@@ -373,22 +371,22 @@ getters and setters.
 \subsection{Symbol Table}
 \label{sec:symbolTableDescription}
 
-The class \emph{SymbolTable} is the heart of the whole symbol table structure. 
-On creating the symbol table, it creates the global scope and the built-in 
-types and assigns the types to the global scope. The global scope is the root 
-node for the scope tree.  Most operations triggered by the definition and
-referencing tree grammars go through some method in \emph{SymbolTable}. 
+The class \emph{SymbolTable} is the heart of the whole symbol table structure.
+On creating the symbol table, it creates the global scope and the built-in
+types and assigns the types to the global scope. The global scope is the root
+node for the scope tree. Most operations triggered by the definition and
+referencing tree grammars go through some method in \emph{SymbolTable}.
 The operations can be grouped into 3 main kinds of operations:
 
 \paragraph{Simple type checking}
 These methods perform simple type checking on two AST nodes in case of
-arithmetic (+ - * /), relational (< > <= =>) and equality (== !=) operators. 
-There are three tables respectively containing all the possible combinations 
-between the types, whereat these types are either one of the built-in types, 
-\emph{object} in case of a class or \emph{mytype}. These tables contain the 
+arithmetic (+ - * /), relational (< > <= =>) and equality (== !=) operators.
+There are three tables respectively containing all the possible combinations
+between the types, whereat these types are either one of the built-in types,
+\emph{object} in case of a class or \emph{mytype}. These tables contain the
 result type of the operation with the two given types. For instance, adding
 an integer to a float yields to the type float. In case the result type
-is \emph{void} it means that these types cannot be used with the given 
+is \emph{void} it means that these types cannot be used with the given
 operation and an exception is thrown.
 
 Additionally there is a method to check whether a condition is of
@@ -405,14 +403,14 @@ There are several methods to resolve different kinds of symbols, namely
 types, classes etc. These methods cover all these different kinds and their
 specialities and prevent from using the symbols in a wrong way.
 
-\section{Translation}
-\label{ctr:translation}
-This chapter deals with the exact translation from \ooplss code segments
-to Java.
-
-Done to java as seen in part III
-
-\todo{Export code and intermediate code in X\$\$...}
+%\section{Translation}
+%\label{ctr:translation}
+%This chapter deals with the exact translation from \ooplss code segments
+%to Java.
+%
+%Done to java as seen in part III
+%
+%\todo{Export code and intermediate code in X\$\$...}
 
 \section{Unit Testing}
 \subsection{gUnit -- A Grammar Testing Framework}
@@ -422,10 +420,10 @@ To be able to run unit tests on the grammar, the gUnit\footnote{
 {http://www.antlr.org/wiki/display/ANTLR3/gUnit+-+Grammar+Unit+Testing}}
 feature of ANTLR is used. gUnit tests can be run directly on the grammar files.
 
-There are two types of testing: simple grammar checks and AST checks. The 
+There are two types of testing: simple grammar checks and AST checks. The
 first simply checks whether the input yields an error or not. This is useful
 to test if valid input code is accepted and erroneous code rejected. The
-second type is to check whether the AST tree is rewritten correctly. It is 
+second type is to check whether the AST tree is rewritten correctly. It is
 possible to write the expected AST for every rule in the grammar.\\
 
 The gUnit tests can be found in \emph{grammar/test/}.
@@ -433,7 +431,7 @@ The gUnit tests can be found in \emph{grammar/test/}.
 
 \subsection{JUnit}
 
-The symbol table is checked via JUnit tests. There are various tests that 
+The symbol table is checked via JUnit tests. There are various tests that
 test the symbol table in a certain depth, i.e. the definition walker, the
 reference walker and the type checker.
 
