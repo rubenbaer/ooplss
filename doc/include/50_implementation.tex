@@ -361,13 +361,17 @@ private and can only be accessed through getters and setters.
 		"isSubtypeOf(ClassSymbol):boolean", "isSubclassOf(ClassSymbol):boolean");
 	ClassSymbol.n = ScopedSymbol.s + (0, -80);
 
+	Class.SuperVariableSymbol("SuperVariableSymbol")()();
+	SuperVariableSymbol.e = ClassSymbol.w + (-40, 0);
+
 	Class.Type("Type")()();
 	classStereotypes.Type("<<interface>>");
 	Type.w = ClassSymbol.e + (40, 0);
 
-	drawObjects(MethodSymbol, ClassSymbol, Type);
+	drawObjects(MethodSymbol, ClassSymbol, Type, SuperVariableSymbol);
 	link(inheritance)(ClassSymbol.n -- ScopedSymbol.s);
 	link(implements)(ClassSymbol.e -- Type.w);
+	link(inheritance)(SuperVariableSymbol.e -- ClassSymbol.w);
 
 
 	Class.VariableSymbol("VariableSymbol")()();
