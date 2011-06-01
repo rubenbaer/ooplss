@@ -308,12 +308,11 @@ public class Main {
 	}
 	
 	/**
-	 * Remove trailing slash from the output dir and save it to 
+	 * Remove trailing slash from the output dir and return it
 	 * @return Output dir
-	 * @todo actually do this 
 	 */
 	private String getOutputdir() {
-		return this.outputDir;
+		return this.outputDir.replaceAll("\\/$", "");
 	}
 
 	/**
