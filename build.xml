@@ -10,6 +10,7 @@
 	<property name="antlr-outputdir" location="${src}/ch/codedump/ooplss/antlr/" />
 	<property name="lib" location="lib"/>
 	<property name="antlrjar" location="${lib}/antlr-3.3.1-snapshot.jar"/>
+	<property name="clijar" location="${lib}/commons-cli-1.2.jar"/>
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
@@ -175,6 +176,7 @@
 		</copy>
 		<copy file="doxygen/latex/refman.pdf" tofile="${dist}/source.pdf" />
 		<copy file="${antlrjar}" tofile="${dist}/lib/antlr3.jar" />
+		<copy file="${clijar}" tofile="${dist}/lib/commons-cli-1.2.jar" />
 		<copy todir="${dist}" file="misc/README" />
 	</target>
 
@@ -195,7 +197,7 @@
 					<attribute name="Implementation-Version" value="1.0 ${TODAY}" />
 					<attribute name="Implementation-Vendor" value="codedump.ch" />
 				</section>
-				<attribute name="Class-Path" value="lib/antlr3.jar" />
+				<attribute name="Class-Path" value="lib/antlr3.jar lib/commons-cli-1.2.jar" />
 			</manifest>
 		</jar>
 	</target>
