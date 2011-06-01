@@ -5,29 +5,46 @@ ooplss \- Object oriented programming language with subtyping and subclassing
 .SH SYNOPSIS
 
 .B ooplss
-[\-h] [\-o \fIdirectory\fP] [\-f \fPfile\fP]
+[\-h] [\-o \fIdirectory\fP] [\-f \fPfile\fP] [\-n]
 
 .SH DESCRIPTION
 
 \fBooplss\fP translates ooplss source code into a Java class file. It either reads
-from the standard input or from the specified \fIfile\fP.
+from the standard input or from the specified \fIfile\fP. If no output \fIdirectory\fP
+was specified, the code is translated only to Java and then printed to the standard
+output, otherwise a file called App.class is created in the output \fIdirectory\fP 
+containing the translated bytecode. If the output \fIdirectory\fP is specified and
+the \-n option is present, the code is also translated to Java only, but written
+into the file App.java in the output \fIdirectory\fP.
+
+Note that for \fBooplss\fP to work either the classpath has to be set correctly 
+to find antl3.jar and commons-cli-1.2.jar or it has to be run in the same 
+working directory as the lib/ folder (which contains those two jar packages).
 
 .SH OPTIONS
 .TP
-\-h
+\-h, \-\-help
 Show the help
 
 .TP
-\-o \fIdirectory\fP
+\-o, \-\-output=\fIdirectory\fP
 Specify the output directory of the translated class file
 
 .TP
-\-f \fIfile\fP
+\-f, \-\-file=\fIfile\fP
 Specify the input file to translate
+
+.TP
+\-n, \-\-no\-translation
+Translate only to Java 
 
 .SH AUTHORS
 
 Ruben Baer <ruben.baer@codedump.ch>
 .PP
 Stefan Heinemann <stefan.heinemann@codedump.ch>
+
+.SH SEE ALSO
+
+For further information see http://ooplss.codedump.ch.
 
