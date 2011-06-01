@@ -99,7 +99,7 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	*/
-	
+	/*
 	@Test
 	public void testMyType() throws Exception {
 		String str = 	"class foo {" +
@@ -111,4 +111,5 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	*/
 }
