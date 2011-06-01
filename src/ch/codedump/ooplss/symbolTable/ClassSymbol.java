@@ -49,13 +49,14 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * Resolve the member hierarchically upwards, that is,
 	 * if not found look in the super type and super class but also
 	 * in the enclosing scope for the definition.
 	 */
 	@Override
 	public Symbol resolve(String name) {
-		Symbol s = super.resolve(name);
+		Symbol s = members.get(name);
 		
 		if (s != null) {
 			return s;
@@ -71,6 +72,10 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		
 		if (this.superclass != null) {
 			return this.superclass.resolve(name);
+		}
+		
+		if (enclosingScope != null) {
+			return enclosingScope.resolve(name);
 		}
 		
 		return null;
