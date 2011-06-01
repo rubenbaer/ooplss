@@ -554,7 +554,7 @@ public class SymbolTable {
 	 * Resolve a variable 
 	 * 
 	 * Resolve a simple variable. Check that the 
-	 * variable is not accessed before it's definition.
+	 * variable is not accessed before its definition.
 	 * @param node The variable to resolve
 	 * @return  The resolved symbol
 	 * @throws UnknownDefinitionException 
@@ -562,7 +562,7 @@ public class SymbolTable {
 	public Symbol resolveVar(OoplssAST node) throws UnknownDefinitionException {
 		Symbol s = this.resolveName(node);
 		
-		if (!(s instanceof VariableSymbol)) {
+		if (!(s instanceof VariableSymbol) && !(s instanceof SuperVariableSymbol)) {
 			throw new UnknownDefinitionException(node);
 		}
 		
