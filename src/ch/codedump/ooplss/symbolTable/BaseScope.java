@@ -56,6 +56,7 @@ public abstract class BaseScope implements Scope {
 	
 	/**
 	 * Resolve hierarchically
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
