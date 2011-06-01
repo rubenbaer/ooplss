@@ -271,6 +271,36 @@ public class TestMemberResolving extends OoplssTest {
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test
+	public void testMyTypeMemberResolving() throws Exception {
+		String str = 	"class Literature {\n" + 
+						"  var year: Int;\n" + 
+						"}\n" + 
+						"\n" + 
+						"class Book subclassOf Literature {\n" + 
+						"  def compare(other: MyType): Int {\n" + 
+						"    return self.year - other.year;\n" + 
+						"  }\n" + 
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalMemberAccessException.class)
+	public void testInvalidMyTypeMemberResolving() throws Exception {
+		String str = 	"class Literature {\n" + 
+						"  var year: Int;\n" + 
+						"}\n" + 
+						"\n" + 
+						"class Book subclassOf Literature {\n" + 
+						"  def compare(other: MyType): Int {\n" + 
+						"    return self.year - other.yea;\n" + 
+						"  }\n" + 
+						"}";
+		this.createRef(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
 
 

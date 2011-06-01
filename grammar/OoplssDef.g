@@ -45,6 +45,7 @@ topdown		:	enterMethod
 			|	superClass
 			|	returnVoidStmt
 			|	returnStmt
+			|   memberAccess
 			;
 	
 /**
@@ -306,3 +307,16 @@ returnVoidStmt
 			}
 			;
 
+
+/**
+ * Memberaccess
+ *
+ * Record the enclosing scope to the AST
+ */
+ memberAccess
+ 			:	CALLOPERATOR
+ 			{
+ 				logger.fine("<Def>Recording scope of call operator");
+ 				$CALLOPERATOR.setScope((Scope)symtab.getEnclosingClassScope(this.currentScope));
+ 			}
+ 			;

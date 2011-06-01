@@ -285,7 +285,7 @@ memberAccess 	returns [Type type]
 				Type lefttype = $left.type;
 				logger.fine("<Ref>Setting the scope of this member to " + lefttype.getName());
 				//$var.setScope((ClassSymbol)lefttype);
-				Symbol s = this.symtab.resolveMember(lefttype, $var, $ast);
+				Symbol s = this.symtab.resolveMember(lefttype, $var, $ast, (ClassSymbol)$CALLOPERATOR.getScope());
 				$var.setSymbol(s);
 				s.setDef($var);
 				type = s.getType();
@@ -350,6 +350,4 @@ standalones
 			$s.setStandalone();
 		}
 		;
-		
-		
 		

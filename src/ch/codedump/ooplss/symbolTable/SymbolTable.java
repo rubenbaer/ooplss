@@ -642,14 +642,22 @@ public class SymbolTable {
 	 * @param leftType The type to resolve the symbol on
 	 * @param node The symbol to resolve 
 	 * @param accType The access type, Methodcall or Memberaccess
+	 * @param enclosingScope The class scope enclosing this member access
 	 * @return The resolved member symbol
 	 * @throws IllegalMemberAccessException 
 	 */
-	public Symbol resolveMember(Type leftType, OoplssAST node, OoplssAST accType) throws OoplssException {
-		if (!(leftType instanceof ClassSymbol)) {
-			throw new ClassNeededForMemberAccess(node);
+	public Symbol resolveMember(Type leftType, OoplssAST node, OoplssAST accType, ClassSymbol enclosingScope) 
+			throws OoplssException {
+		ClassSymbol scope = null;
+		if (leftType.getTypeIndex() == SymbolTable.tMYTYPE) {
+			// special case here
+			scope = enclosingScope;
+		} else {
+			if (!(leftType instanceof ClassSymbol)) {
+				throw new ClassNeededForMemberAccess(node);
+			}
+			scope = (ClassSymbol) leftType;
 		}
-		ClassSymbol scope = (ClassSymbol) leftType;
 		node.setScope(scope);
 		
 		Symbol s =  scope.resolveMember(node.getText());
