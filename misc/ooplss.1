@@ -1,11 +1,11 @@
 .TH ooplss 1
 .SH NAME
-ooplss \- Object oriented programming language with subtyping and subclassing
+ooplss \- Object\-oriented programming language with subtyping and subclassing
 
 .SH SYNOPSIS
 
 .B ooplss
-[\-h] [\-o \fIdirectory\fP] [\-f \fPfile\fP] [\-n]
+[\-h] [\-o \fIdirectory\fP] [\-f \fPfile\fP] [\-n] [\-k]
 
 .SH DESCRIPTION
 
@@ -18,7 +18,7 @@ the \-n option is present, the code is also translated to Java only, but written
 into the file App.java in the output \fIdirectory\fP.
 
 Note that for \fBooplss\fP to work either the classpath has to be set correctly 
-to find antl3.jar and commons-cli-1.2.jar or it has to be run in the same 
+to find antlr3.jar and commons-cli-1.2.jar or it has to be run in the same 
 working directory as the lib/ folder (which contains those two jar packages).
 
 .SH OPTIONS
@@ -37,6 +37,10 @@ Specify the input file to translate
 .TP
 \-n, \-\-no\-translation
 Translate only to Java 
+
+.TP
+\-k, \-\-keep-java
+Do not delete the temporary Java output file
 
 .SH AUTHORS
 

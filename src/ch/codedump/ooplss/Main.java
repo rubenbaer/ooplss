@@ -1,12 +1,16 @@
 package ch.codedump.ooplss;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringBufferInputStream;
+import java.io.Writer;
 import java.util.logging.Logger;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -44,11 +48,14 @@ public class Main {
 	private static final String FOOTER = "For more instructions, see our website at: http://ooplss.codedump.ch";
 	private String outputDir = null;
 	private InputStream inputStream = null;
+	private boolean noTranslate = false;
+	private boolean keepJava = false;
+	private File javaFile;
 
 	static Logger logger = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) throws RecognitionException,
-			IOException {
+			IOException, InterruptedException {
 		Main m = new Main();
 		m.run(args);
 	}
@@ -60,8 +67,9 @@ public class Main {
 	 *            JVM Arguments
 	 * @throws RecognitionException
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	private void run(String[] args) throws RecognitionException, IOException {
+	private void run(String[] args) throws RecognitionException, IOException, InterruptedException {
 		Options opts = defineOptions();
 		if (!processArguments(args, opts)) {
 			printUsage(opts);
@@ -79,9 +87,10 @@ public class Main {
 	 *            Code input stream
 	 * @throws IOException
 	 * @throws RecognitionException
+	 * @throws InterruptedException 
 	 */
 	private void compile(InputStream in) throws IOException,
-			RecognitionException {
+			RecognitionException, InterruptedException {
 		assert (in != null);
 
 		ANTLRInputStream input = new ANTLRInputStream(readInput(in));
@@ -211,7 +220,7 @@ public class Main {
 	}
 
 	private void codeGeneration(Tree t, CommonTreeNodeStream nodes)
-			throws IOException, RecognitionException {
+			throws IOException, RecognitionException, InterruptedException {
 		logger.fine("Code generation");
 		// InputStreamReader in = new InputStreamReader(
 		// getClass().getResourceAsStream("/Ooplss.stg"));
@@ -233,7 +242,78 @@ public class Main {
 		gen.setTemplateLib(templates);
 		OoplssGen.prog_return ret = gen.prog();
 
-		logger.finer(ret.getTemplate().toString());
+		this.output(ret.getTemplate().toString());
+	}
+
+	/**
+	 * Output the translated code
+	 * 
+	 * Decide what type of output was specified and 
+	 * based on that either write it to files
+	 * or print it to stdout
+	 * @param string
+	 * @throws IOException
+	 * @throws InterruptedException 
+	 */
+	private void output(String string) throws IOException, InterruptedException {
+		if (this.outputDir != null) {
+			this.outputJava(string);
+			if (!this.noTranslate) {
+				this.outputByteCode();
+				if (!this.keepJava) {
+					this.javaFile.delete();
+				}
+			}
+		} else {
+			System.out.println(string);
+		}
+	}
+
+	/**
+	 * Invoke the java compiler 
+	 * @throws IOException 
+	 * @throws InterruptedException 
+	 */
+	private void outputByteCode() throws IOException, InterruptedException {
+		String infile = this.getOutputdir() + "/App.java";
+		Process p = Runtime.getRuntime().exec("javac " + infile);
+		p.waitFor();
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream())); 
+		String line = reader.readLine(); 
+		while(line != null) { 
+			System.out.println(line); 
+			line = reader.readLine(); 
+		} 
+		
+		reader = new BufferedReader(new InputStreamReader(p.getErrorStream())); 
+		line=reader.readLine(); 
+		while(line != null) { 
+			System.err.println(line); 
+			line = reader.readLine(); 
+		} 
+	}
+
+	/**
+	 * Write the ooplss output to a java file
+	 * 
+	 * @param string The output
+	 * @throws IOException
+	 */
+	private void outputJava(String string) throws IOException {
+		 this.javaFile = new File(this.getOutputdir() + "/App.java");
+		 Writer output = new BufferedWriter(new FileWriter(javaFile));
+		 output.write(string);
+		 output.close();
+	}
+	
+	/**
+	 * Remove trailing slash from the output dir and save it to 
+	 * @return Output dir
+	 * @todo actually do this 
+	 */
+	private String getOutputdir() {
+		return this.outputDir;
 	}
 
 	/**
@@ -270,6 +350,9 @@ public class Main {
 			} else {
 				this.inputStream = System.in;
 			}
+			
+			this.keepJava = cli.hasOption('k');
+			this.noTranslate = cli.hasOption('n');
 
 			// Create output directory structure
 			if (this.outputDir != null) {
@@ -307,6 +390,8 @@ public class Main {
 		options.addOption("o", "output", true, "Output directory");
 		options.addOption("f", "file", true, "Input file");
 		options.addOption("h", "help", false, "Print usage message");
+		options.addOption("n", "no-translation", false, "Don't translate to bytecode");
+		options.addOption("k", "keep-java", false, "Keep the temporary java file");
 
 		return options;
 	}
