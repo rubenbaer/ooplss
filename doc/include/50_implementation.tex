@@ -17,12 +17,12 @@ The compiler of \ooplss is written in Java using ANTLR as parser
 generator. ANTLR supports the generation of code for the lexical and
 semantical analysis, which then generates an abstract syntax tree for
 the intermediate representation of the input. In ANTLR it is possible to
-define both, grammars for string, 1-dimensional, and for abstract syntax
-trees which are 2-dimensional. In ANTLR these are known as \emph{tree
+define both, grammars for string, 1-dimensional data, and for abstract syntax
+trees which are 2-dimensional. In ANTLR the latter are known as \emph{tree
 grammars} which are similar to normal grammars but matches abstract
 syntax tree nodes and not lexer tokens. The lexer and parser part is a
 normal grammar whereas the other phases are all tree grammars which are
-used for tree rewriting respectively tree visiting.  The output process
+used for tree rewriting and tree visiting.  The output process
 is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
@@ -51,11 +51,14 @@ that are used in the parser. Some tokens like comments and whitespace characters
 are skipped and not passed to the parser.
 
 The parser parses the tokens from left to right and creates a left most
-derivation with a lookahead of two, this is shortly known as LL(2) parser.
+derivation with a lookahead of two, which is shortly known as LL(2) parsing.
 All this is done from top to bottom and produces an
-abstract syntax tree (AST). To make the debugging
-process of the parser code simpler, the lookahead is limited to two although ANTLR
-would support arbitrary lookahead.
+abstract syntax tree (AST)\nomenclature{AST}{Abstract syntax tree which is an 
+intermediate representation of the input. Opposed to the parse tree, it is 
+already cleared of unnecessary information and also operator precedence is 
+already encoded}. To make the debugging process of the parser code simpler, 
+the lookahead is limited to two even though ANTLR would support arbitrary 
+lookahead.
 
 After this phase an abstract syntax tree is generated and ready to be visited
 and to be operated on. The AST already contains the correct operator precedence.
@@ -65,7 +68,7 @@ The first part that operates on the abstract syntax tree is the building of
 the symbol table. This is divided into two separated compiler runs: the
 first identifies every symbol definition like classes, methods and
 variables used within a program. Since fields can be declared anywhere
-in a class two separate runs are necessary, one to track all the defined
+in a class, two separate runs are necessary, one to track all the defined
 symbols and one to resolve the types, method calls and variable accesses.
 
 The symbol table has four different scope levels. These scopes are nested
@@ -79,13 +82,32 @@ and child scopes can access the symbols in the parent scope.
 	nested arbitrarily.
 \end{description}
 
-\subsubsection{Built-Ins}
-Built-In symbols are created before walking the tree for the first time.
-They are assigned to the global scope.
+To keep the translation to Java simple, the scoping rules are implemented
+like in Java. This means that shadowing variables in methods is not possible.
+Listing \ref{lst:shadowing} shows this in more detail.
+
+\begin{lstlisting}[float=ht,language=ooplss,caption=Shadowing variables,label=lst:shadowing]
+
+def foo(x:Int) {
+	var x:Int; // not possible, shadowing the argument
+	var y:Int;
+	{ // a local scope
+		var y:Int; // not possible, shadowing the variable above
+		var z:Int;
+	}
+	var z:Int; // no problem here
+}
+\end{lstlisting}
+
+\subsubsection{Built-In Types}
+Built-in types are created before walking the tree for the first time.
+They are assigned to the global scope, which is created upon creating the symbol
+table. The built-in types are documented in the language specification 
+(\Cref{sec:builtinTypes}).
 
 \subsubsection{Define Symbols}
-The first phase of the symbol table building is the definition run
-or walk. Every single class, method and scope is visited with the
+The first phase of the symbol table building is the \emph{definition run}
+or \emph{walk}. Each class, method and scope is visited with the
 depth first strategy and every symbol definition within these scopes
 is tracked. The tree grammar for this can be found in the file
 \emph{OoplssDef.g}. Every time a scope is entered, this scope is set
@@ -100,26 +122,27 @@ If a symbol is already defined within the current scope and clashes with
 an existing one, an exception is thrown.
 
 Upon leaving a class, it is checked whether this class has a constructor.
-If not, a default constructor symbol is created and assigned to the
-class.
+If not, an empty default constructor symbol is created and assigned to the
+class. This simplifies the type checking when creating new instances
+of this class.
 
-After this phase a symbol table is created for the whole program where
-every symbol in every scope is tracked. The table is in reality a tree
-which can resolve every valid symbol within a scope.
-
+After this phase has finished, a symbol table was be created for the whole 
+program where every symbol in every scope is tracked. The table is in reality 
+a tree of scopes which can resolve every valid symbol.
 
 \subsubsection{Referencing Symbols}
-In the second phase, the referencing run, mainly every use of a symbol that is
-not declarative (method call, variable access, super type specification, types
-in declarations etc.) is examined and resolved to the according symbol definition.
-Exceptions are thrown on errors like accessing non-existent variables, calling
-variables or using types that do not exist.
-\todo{does this need to be precise?}
+In the second phase, the \emph{referencing run}, mainly every use of a symbol 
+that is not declarative (method call, variable access, super type specification
+, types in declarations etc.) is examined and resolved to the according symbol 
+definition.  Exceptions are thrown on errors like accessing non-existent 
+variables, calling variables or using types that do not exist.
 
-All of this is possible due to the fact that now all definitions are known and available
-in the tree.
+All of this is possible due to the fact that now all definitions are known 
+and available in the tree. Since the current scope was recorded to the AST 
+nodes, it is clear to the walker where to start resolving the symbols.\\
 
-There are different types of resolving the symbols:
+
+\noindent There are different types of resolving the symbols:
 \begin{description}
 \item[Variable referencing]
 Just walks up the scope tree to find the symbol
@@ -142,14 +165,17 @@ The same as type resolving but it has to be a user defined class
 Resolves to the enclosing class
 \end{description}
 
-The referencing phase also does some special tasks:
+\noindent The referencing phase also does some special tasks:
 \begin{itemize}
 \item it ensures that a symbol that was not declared in the class scope is
 defined before being accessed for the first time because forward referencing
 is only allowed for class fields.
 \item upon leaving a class it checks if there are symbols that override symbols
-declared in super classes or super types. This cannot be done in the definition run
-because only now there is a resolved reference to the super type/class.
+declared in super classes or super types. This cannot be done in the definition 
+run because only now there is a resolved reference to the super type/class.
+In case of a variable override, an exception is thrown since this is not 
+possible. In case of a method override, the return type and the arguments
+are checked, since they have to be the same.
 \item when referencing a super type or class it also runs some checks to avoid
 cyclic subtyping or subclassing.
 \end{itemize}
@@ -177,7 +203,8 @@ and assignments it is extended as well since the subtyping concept
 allows assigning values that are of a subtype of the expected value.
 
 The typing rules are explained in detail in \Cref{ctr:typeRules}. The
-type checker grammar can be found in \emph{OoplssTypes.g}
+type checker grammar can be found in \emph{OoplssTypes.g}. Most work
+is actually delegated to the SymbolTable (\ref{sec:symbolTableDescription}).
 
 \subsubsection{Decidability}
 \Cref{ctr:typeRules}
@@ -281,9 +308,9 @@ All of these packages are subpackages of \emph{ch.codedump}.
 \subsection{Symbol Table Classes}
 
 Following Figure shows the composition of the classes of the symbol table.
-To keep the diagram simple, only the important methods and variables are
-shown. Also, the variables are actually private and can only be accessed through
-getters and setters.
+To keep the diagram simple, this is only an abstract representation, i.e. only 
+the important methods and variables are shown. Also, the variables are actually 
+private and can only be accessed through getters and setters.
 
 \begin{figure}[H]
 	\centering
@@ -385,7 +412,7 @@ There are three tables respectively containing all the possible combinations
 between the types, whereat these types are either one of the built-in types,
 \emph{object} in case of a class or \emph{mytype}. These tables contain the
 result type of the operation with the two given types. For instance, adding
-an integer to a float yields to the type float. In case the result type
+an integer to a float yields the type float. If the result type
 is \emph{void} it means that these types cannot be used with the given
 operation and an exception is thrown.
 
@@ -434,6 +461,14 @@ The gUnit tests can be found in \emph{grammar/test/}.
 The symbol table is checked via JUnit tests. There are various tests that
 test the symbol table in a certain depth, i.e. the definition walker, the
 reference walker and the type checker.
+
+For now these unit tests are rather rudimentary, they can only check whether
+code is run without errors or with expected exceptions. To test everything
+properly, it is also required to watch the debugging output.
+If there were more time, we would implement unit testing methods that can 
+actually examine the created contents and state of the symbol table or the
+generated Java output.
+
 
 \subsection{Examples}
 see \Cref{ctr:exampleCode}
