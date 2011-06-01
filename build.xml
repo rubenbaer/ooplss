@@ -158,7 +158,7 @@
 			git archive --format=tar --prefix=ooplss/ HEAD | tar x
 			cp -R dist ooplss
 			zip -r ooplss ooplss
-			tar --posix -czvf ooplss.tgz ooplss/
+			tar --posix -pczvf ooplss.tgz ooplss/
 			rm -R ooplss
 			rm -R dist
 		</shellscript>
@@ -178,10 +178,13 @@
 		<copy file="${antlrjar}" tofile="${dist}/lib/antlr3.jar" />
 		<copy file="${clijar}" tofile="${dist}/lib/commons-cli-1.2.jar" />
 		<copy todir="${dist}" file="misc/README" />
-		<copy todir="${dist}" file="misc/ooplss" />
+		<exec executable="cp">
+			<arg value="misc/ooplss" />
+			<arg value="${dist}" />
+		</exec>
 		<copy todir="${dist}" file="misc/ooplss.cmd" />
 		<copy todir="${dist}" file="misc/ooplss.1" />
-		<copy todir="${dist}" file="misc/manpage.pdf" />
+		<copy todir="${dist}" file="doc/manpage.pdf" />
 	</target>
 
 	<target name="jar" depends="build,run-tests" >
