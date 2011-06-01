@@ -39,7 +39,7 @@ import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 public class Main {
 	private static final int READ_BUFFER_SIZE = 1024;
 	private static final int INITIAL_BUFFER_SIZE = 1024;
-	private static final String USAGE = "[-h] [-d <directory>] [-f <file]";
+	private static final String USAGE = "[-h] [-o <directory>] [-f <file]";
 	private static final String HEADER = "OOPLSS - Object-Oriented Programming Language with Subtyping and Subclassing";
 	private static final String FOOTER = "For more instructions, see our website at: http://ooplss.codedump.ch";
 	private String outputDir = null;
