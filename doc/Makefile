@@ -63,7 +63,7 @@ final-book: man
 	pdflatex -jobname $(JOBBOOK) -shell-escape $(NONSTOP) $(FINAL)-book $(REDIRECT)
 	pdflatex -jobname $(JOBBOOK) -shell-escape $(NONSTOP) $(FINAL)-book $(REDIRECT)
 
-once:
+once: man
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
 mpost:
@@ -74,7 +74,7 @@ mpost:
 debug:
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
-full-debug: clean
+full-debug: clean man
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 	mpost $(JOB)
 	bibtex $(JOB)

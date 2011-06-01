@@ -53,6 +53,8 @@ input metauml;
 
 \maketitle
 
+\renewcommand*{\partpagestyle}{empty}
+
 \listoftodos
 
 \clrpage
@@ -60,7 +62,7 @@ input metauml;
 
 \include{include/00_abstract}
 
-\thispagestyle{empty}
+%\thispagestyle{empty}
 
 \setcounter{tocdepth}{2}
 
@@ -85,8 +87,6 @@ input metauml;
 \pagenumbering{arabic}
 
 %% No page numbers on part pages
-\renewcommand*{\partpagestyle}{empty}
-
 \include{include/10_introduction}
 
 \include{include/20_project-managment}
