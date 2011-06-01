@@ -158,7 +158,7 @@
 			git archive --format=tar --prefix=ooplss/ HEAD | tar x
 			cp -R dist ooplss
 			zip -r ooplss ooplss
-			tar --posix -pczvf ooplss.tgz ooplss/
+			tar --posix -czvf ooplss.tgz ooplss/
 			rm -R ooplss
 			rm -R dist
 		</shellscript>

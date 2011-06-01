@@ -79,6 +79,9 @@ scope {
                       fields={$f},
                       methods={$m})
       ;
+      catch[FailedPredicateException e] {
+        logger.fine("Semantic predicate detected system class definition.");
+      }
       
 /// BEGIN: METHOD
 /// BEGIN: METHOD DEFINITION
