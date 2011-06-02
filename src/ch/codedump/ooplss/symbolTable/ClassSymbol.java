@@ -9,7 +9,6 @@ import ch.codedump.ooplss.symbolTable.exceptions.IllegalSupertype;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidMemberRedefinitionException;
 import ch.codedump.ooplss.symbolTable.exceptions.MethodOverrideWrongArgumentsException;
 import ch.codedump.ooplss.symbolTable.exceptions.MethodOverrideWrongReturnTypeException;
-import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.tree.OoplssAST;
@@ -157,22 +156,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws NoSuperTypeException 
 	 * @throws UnknownSuperClassException 
 	 */
-	public void resolveSuper(OoplssAST sup) throws NoSuperTypeException, UnknownSuperClassException {
+	public void resolveSuper(OoplssAST sup) throws UnknownSuperClassException {
 		String name = sup.getText();
-		if (name.equals("base")) {
-			if (this.supertype == null) {
-				throw new NoSuperTypeException(sup);
+		
+		if (this.supertype != null) {
+			if (this.supertype.getName().equals(name)) {
+				sup.setSymbol(this.supertype);
+				return;
 			}
-			sup.setSymbol(this.supertype);
-		} else 	{
-			if (this.superclass != null) {
-				if (this.superclass.getName().equals(name)) {
-					sup.setSymbol(this.superclass);
-					return;
-				}
-			}
-			throw new UnknownSuperClassException(sup);
 		}
+		
+		if (this.superclass != null) {
+			if (this.superclass.getName().equals(name)) {
+				sup.setSymbol(this.superclass);
+				return;
+			}
+		}
+		throw new UnknownSuperClassException(sup);
 	}
 	
 	/**
@@ -219,6 +219,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			throws OoplssException {
 		this.supertype = superType;
 		this.checkForInheritanceErrors();
+		this.define(
+			new SuperVariableSymbol(this.supertype)
+		);
 	}
 	
 	/**

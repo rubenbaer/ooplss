@@ -82,6 +82,9 @@ newObject		returns [Type type]
 			{
 				logger.fine("<Type>Determining type of new");
 				type = (Type)$ID.getSymbol();
+				if (type instanceof SuperVariableSymbol) {
+					type = (Type)((SuperVariableSymbol)type).getWrappedSymbol();
+				}
 				$NEW.setEvalType(type);
 			}
 			;
