@@ -4,81 +4,81 @@
 Many different software development processes have risen since the
 breakthrough of software developing. Two major trends can be recognised;
 Sequential and iterative design processes. Although iterative processes
-have many advantages compared to the others, it is difficult to follow
-strictly this design method in this context for this project. On one
-hand the development time is very short for regular iterations on the
+have many advantages compared to the sequential ones, it are difficult to follow
+this design method strictly in the context of this project. On one
+hand the development time are very short for regular iterations on the
 other hand the project includes many non standard design and development
-parts where such a process is difficult to perform. For example, extending
-subsequently the grammar may end in major changes in a language. However,
-a not very strict iterative model is chosen.
+parts where such a process is difficult to perform. For example,
+subsequently extending the grammar may lead to major changes in a language. However,
+a not very strict iterative model was chosen.
 
 \subsection{Implementation Project}
-The project aims to show how subclassing and subtyping can be brought
-together uniformly. For this a language specification is provided which
-is implemented in a prototypical way. Using this implementation and
-specification a comparison between \ooplss and Scala will be done to
-show where some advantages or drawbacks come with the ideas implemented
-in this project thesis.
+The project aims at showing how subclassing and subtyping can be brought
+together uniformly. With this intension, a language specification is provided which
+was implemented in a prototypical way. Using this implementation and
+specification \ooplss and Scala will be compared to
+show which advantages and which drawbacks come about with the ideas implemented
+in this thesis project.
 
 \subsection{Iterative and Agile Development}
-This project was build iteratively in the sense of continuous
-refinement in the definition of the language. The language definition and
-implementation goes hand in hand and gives direct feedback. This makes it
-possible to test the definition on a concrete implementation. Further
-parts from extreme programming are used. Mainly the concept of pair
-programming for critical parts which provide interfaces between the
-compiler stages. Further is a small not every feature proposed implemented.
-First of all a core language needs to be fully enrolled which will be refined
-step by step.
+This project was built iteratively in terms of continuous refinement
+of the language definition. The language definition and implementation
+went hand in hand and gave direct feedback to each other. This enables us
+to test the definition on a concrete implementation. Further parts from
+extreme programming have been used. Mainly the concept of pair programming
+for critical parts which provide interfaces between the compiler
+stages. Further is a small not every feature proposed implemented.
+First of all a simple core language needed to be implemented which was
+refined step by step.
 
-However, the fact that the project team are not full time students and have
-to work beside the study and project work, it is very difficult to plan
-reasonable iterations.
+However, due the fact that the project team members are not full time
+students and have to work besides the studying, it was very difficult
+to plan reasonable iterations.
 
 \subsection{Test-Driven Development}
 A major goal is to provide a good and robust code basis. To ensure that
-this claim holds, test-driven development is performed. With the use of
-unit tests code breaking changes can be easily detected. This is inevitable
+this claim is hold, test-driven development was performed. With the use of
+unit tests, code breaking changes could easily be detected. This is inevitable
 since many parts are highly fragile, e.g., small changes in the grammar can
 cause many changes in the code since the grammar will recognise a complete
-other language.
+different language.
 
 \subsection{Regular Meetings}
-The Bern University of Applied Science does not provide a major in
-topics used in this thesis. To ensure success regular meetings with the
-supervisors are hold. With this early divergence and loss of target should
-be prevented. A meeting between the students team and the supervisor
-should be at least every two weeks.
+As before mentioned, the Bern University of Applied Science does not provide a major in
+topics used in this thesis. To ensure success, regular meetings with the
+supervisor have been hold. Through this, early divergence and loss of target could
+be prevented. A meeting between the student team and the supervisor
+was held at least every second week.
 
 \section{Project Schedule}
 \subsection{Tasks}
 \paragraph{Kick-Off}
-In this first phase the tasks will be identified and shortly
-described. Since the prior knowledge of type systems and programming
-languages is needed to understand the task of this project, some
-knowledge exchange has to be done. Important papers will get reviewed
+In this first phase the tasks was identified and shortly
+described. Since prior formal knowledge of type systems and programming
+languages is needed to comprehend the task of this project, some
+knowledge exchange had to be undertaken. Important papers were reviewed
 and discussed.
 
 \paragraph{Documentation Chapters 2 and 3}
-Chapter 2 shows the used project management methodology. It has to be
+Chapter 2 shows the project management methodology used. It had to be
 evaluated how an iterative model can be adopted to be usable in this
 subject. Chapter 3 shows the current problems within object-oriented
-languages with subtyping and no subclassing. Further the project idea
-will get stated along with the benefits that the language will have. Next
+languages with subtyping and no subclassing. Further more, the project idea
+was stated along with the benefits that the language will have. Next
 to the normal writing work the used tools has to be evaluated
 
 \paragraph{Grammar and Lexer}
-Here an abstract syntax is defined. With the chosen parser generator
-the lexer part will be defined for the parser work.
+An abstract syntax was defined. With the chosen parser generator
+the lexer part was be defined for the parser work.
 
 \paragraph{Types}
-Parallel to the parser the supported type constructs have to be
-defined. Detailed type rules are not yet necessary but needed for the
+Parallel to the parser the supported type constructs had to be
+defined. Detailed type rules were not yet necessary but needed for the
 translation definition from the source language to the target language.
 
 \paragraph{Parser}
-Based on the used lexer a parser that builds an abstract syntax tree
-(AST) needs to be written. Without this tree no further work is possible.
+Based on the lexer used a parser that builds an abstract syntax tree
+(AST) needed to be written. Without this tree no further work was possible.
 
 \paragraph{Tree Walker}
 For the subsequent tasks a tree walker is inevitable. Without this
@@ -86,7 +86,7 @@ neither a symbol table nor a type checker can be built.
 
 \paragraph{Code Translation Definition}
 Since the target language does not natively support all the type
-constructs used in \ooplss, a strategy needs to be found
+constructs used in \ooplss, a strategy was needed to be found
 how the source code can be translated to the target language to make it
 compile there.
 
@@ -95,14 +95,14 @@ The symbol table contains the necessary type context information for
 type checking the environment under investigation.
 
 \paragraph{Type Checker}
-This phase contains two tasks. First the type rules have to be identified
-and written down. Consequently, the rules have to be implemented and tested.
+This phase contained two tasks. First the type rules had to be identified
+and written down. Consequently, the rules had to be implemented and tested.
 
 \paragraph{Code Translation}
-After some type checking the code can be translated to the target language.
+After some type checking the code was translated to the target language.
 
 \paragraph{Documentation}
-All over the project work the documentation will be extended and reflect the work done.
+All over the project work the documentation was extended to reflect the work done.
 
 \subsection{Project Flow Diagram}
 \begin{figure}[H]
@@ -116,12 +116,12 @@ All over the project work the documentation will be extended and reflect the wor
 \end{figure}
 
 The Gantt chart in \Cref{fig:gantt} shows the different major parts performed
-during the project. This can \emph{not} be understand as a classical Gantt for
-sequential design process. It is not intended to show where exactly tasks are
-beginning and finishing. However, it shows at which time of the project we had
-the major focus of implementation. For example, it is essential to see that some
-work will on the parser will be done even during the implementation of the type
-checker. This rises the opportunity to add sequential new features to the
+during the project. This can \emph{not} be understood as a classical Gantt for
+sequential design process. It is not intended to show where exactly tasks were
+began and finished. However, it shows at which time of the project we had
+which major implementation focus. For example, it is essential to see that
+the parser was refined still during the implementation of the type
+checker. This gives the opportunity to sequentially add new features to the
 language.
 
 \section{Technologies}
@@ -149,18 +149,18 @@ language.
 	of the compiler.
 	\item[JUnit] Unit testing framework for Java source code.
 	\item[\LaTeX] A macro collection for the \TeX system. Used for
-	the documentation. Everything is written with \LaTeX.
+	the documentation. The documentation is written with \LaTeX.
 	\item[Subversion] Source control system with linear history. Used
 	in the first weeks.
 \end{description}
 
 \subsection{Standards and Guidelines}
-The source code of \ooplss, which is written in Java, follows the official
-guidelines from Oracle.\footnote{\href{http://www.oracle.com/technetwork/java/codeconv-138413.html}{http://www.oracle.com/technetwork/java/codeconv-138413.html}}
+The source code of \ooplss, which is written
+in Java, follows the official guidelines from
+Oracle.\footnote{\href{http://www.oracle.com/technetwork/java/codeconv-138413.html}{http://www.oracle.com/technetwork/java/codeconv-138413.html}}
 
-For the project structure an appropriate structure for us was chosen.
-A detailed explanation is found in the project root's README
-respectively in Listing \ref{lst:README}.
+An appropriate project structure was chosen, which is explained in the
+project root's README.md, respectively in Listing \ref{lst:README}.
 
 \begin{listing}
 	\VerbatimInput[frame=single,numbers=left,firstline=19,lastline=40]{../README.md}
