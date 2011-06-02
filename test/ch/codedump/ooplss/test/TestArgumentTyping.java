@@ -50,7 +50,7 @@ public class TestArgumentTyping extends OoplssTest {
 						"		func(3);" +
 						"	}" +
 						"}";
-		this.createTyper(str);
+		this.createArgTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -62,7 +62,7 @@ public class TestArgumentTyping extends OoplssTest {
 						"		func(\"blah\");" +
 						"	}" +
 						"}";
-		this.createTyper(str);
+		this.createArgTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -75,7 +75,7 @@ public class TestArgumentTyping extends OoplssTest {
 						"		dd(new bar());" +
 						"	}" +
 						"}";
-		this.createTyper(str);
+		this.createArgTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 }
