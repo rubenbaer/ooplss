@@ -80,6 +80,22 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
+	@Test
+	public void testSomeMyTyping() throws Exception {
+		String str =	"class StrictlyOrdered {\n" + 
+						"   def compare(other: MyType): Int { return 0; }\n" +
+						"	def foo(a:MyType):Void {}" +
+						"	var x:StrictlyOrdered;" + 
+						"   def greater (other: MyType): Bool {\n" + 
+						"   	//return self.compare(other) > 0;\n" +
+						"		//self.foo(3);\n" +
+						"		x.foo(3);" +  
+						"  	}\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
 	/*
 	@Test
 	public void testMyTypeClassInheritance() throws Exception {

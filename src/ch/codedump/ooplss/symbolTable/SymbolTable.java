@@ -482,7 +482,7 @@ public class SymbolTable {
 						
 		if (methodNode != null) {
 			logger.fine("Dealing with a method call");
-			// check if we have a subtype here
+			// check if we have a sub type here
 			ClassSymbol cl = (ClassSymbol)node.getRealType();
 			if (cl.getSupertype() != null) {
 				logger.fine("We have a subtype");

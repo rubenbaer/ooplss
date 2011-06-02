@@ -13,7 +13,11 @@ ErrorHandler error = ErrorHandler.getInstance();
 public OoplssTypes(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
-}    
+}  
+public class Retval {
+	public Type type;
+	public OoplssAST node;
+}  
 }
 
 @header {
@@ -37,6 +41,7 @@ bottomup	:
 			 |	assignment
 			 |	returnVoidStmt
 			 |	returnStmt
+			 |	methodArgs
 			;
 			
 /**
@@ -46,7 +51,6 @@ statement
 			:	varAccess
 			|	selfAccess
 			|	methodCall
-			|	methodArgs
 			|	orOperator
 			|	andOperator
 			|	arithmeticOperator
@@ -62,12 +66,15 @@ statement
  * Set the variable type as the evaluation type of the variable access
  * @return type The evaluation type
  */
-varAccess		returns [Type type]
+varAccess		returns [Retval retval]
 			:	^((ast=VARACCESS|ast=MEMBERACCESS) ID) 
 			{
 				logger.fine("<Type>Determining expression type of varaccess");
-				type = $ID.getSymbol().getType();
+				Type type = $ID.getSymbol().getType();
 				$ast.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $ast;
 			}
 			;
 			
@@ -77,12 +84,15 @@ varAccess		returns [Type type]
  * Set the class symbol as the evaluation type of the new statement
  * @return type The evaluation type
  */
-newObject		returns [Type type]
+newObject		returns [Retval retval]
 			:	^(NEW ID .*)
 			{
 				logger.fine("<Type>Determining type of new");
-				type = (Type)$ID.getSymbol();
+				Type type = (Type)$ID.getSymbol();
 				$NEW.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $NEW;
 			}
 			;
 			
@@ -92,12 +102,15 @@ newObject		returns [Type type]
  * Set the mytype as the evaluation type of the self statement
  * @return type The evaluation type
  */
-selfAccess		returns [Type type]
+selfAccess		returns [Retval retval]
 			:	SELF
 			{
 				logger.fine("<Type>Determining type of self");
 				$SELF.setEvalType(symtab._myType);
-				type = symtab._myType;
+				Type type = symtab._myType;
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $SELF;
 			}
 			;
 			
@@ -108,31 +121,19 @@ selfAccess		returns [Type type]
  * Set the enclosing class as the real type of the call.
  * @return type The evaluation type
  */
-methodCall		returns [Type type]
+methodCall		returns [Retval retval]
 			:	^(METHODCALL ID .*)
 			{
 				logger.fine("<Type>Determining expression type of method call " + $ID.text);
-				type = $ID.getSymbol().getType();
+				Type type = $ID.getSymbol().getType();
 				$METHODCALL.setEvalType(type);
 				$METHODCALL.setRealType(symtab.getEnclosingClassScope($ID.getScope()));
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $METHODCALL;
 			}
 			;
-			
-/**
- * Method arguments
- *
- * Check the arguments of a method call
- */
-methodArgs	:	^(METHODARGS (arg+=.)*)
-			{
-				logger.fine("<Type>Resolving method arguments");
-				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				symtab.checkArguments(method, list_arg);
-			}
-			;
-catch[OoplssException e] {
-	error.reportError(e);
-}
+
 
 /**
  * Or expression
@@ -141,12 +142,15 @@ catch[OoplssException e] {
  * expression
  * @return type The evaluation type
  */
-orOperator		returns [Type type]
+orOperator		returns [Retval retval]
 			:	^(OROPERATOR left=atom right=atom)
 			{
 				logger.fine("<TypeResolving or operator expression type");
-				type = symtab.orOPType($left.type, $right.type, $OROPERATOR);
+				Type type = symtab.orOPType($left.type, $right.type, $OROPERATOR);
 				$OROPERATOR.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $OROPERATOR;
 			}
 			;
 catch[OoplssException e] {
@@ -160,14 +164,17 @@ catch[OoplssException e] {
  * expression
  * @return type The evaluation type
  */
-andOperator		returns [Type type]
+andOperator		returns [Retval retval]
 			:	^(ANDOPERATOR left=atom right=atom)	
 			{
 				logger.fine("<Type>Determining and operator expression type");
 				
-				type = symtab.andOPType($left.type, $right.type, $ANDOPERATOR);
+				Type type = symtab.andOPType($left.type, $right.type, $ANDOPERATOR);
 				
 				$ANDOPERATOR.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $ANDOPERATOR;
 			}
 			;
 catch[OoplssException e] {
@@ -182,7 +189,7 @@ catch[OoplssException e] {
  * @return type The evaluation type
  */
 arithmeticOperator
-				returns [Type type]
+				returns [Retval retval]
 			:	^((op=TIMESOPERATOR|op=PLUSOPERATOR|op=MINUSOPERATOR|op=DIVIDEOPERATOR) 
 					left=atom right=atom)  
 			{
@@ -190,10 +197,13 @@ arithmeticOperator
 				logger.fine("<Type>Type of the left expr is " + $left.type);
 				logger.fine("<Type>Type of the right expr is " + $right.type);
 				
-				type = symtab.arithmeticType($left.type, $right.type, $op);
+				Type type = symtab.arithmeticType($left.type, $right.type, $op);
 				
 				logger.fine("<Type>Result type is " + type);
 				$op.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $op;
 			}
 			;
 catch [InvalidExpressionException e] {
@@ -208,14 +218,17 @@ catch [InvalidExpressionException e] {
  * @return type The evaluation type
  */
 equalityOperator
-				returns [Type type]
+				returns [Retval retval]
 			:	^((op=EQ|op=INEQ) left=atom right=atom)
 			{
 				logger.fine("<Type>Determining equality expression type");
-				type = symtab.equalityType($left.type, $right.type, $op);
+				Type type = symtab.equalityType($left.type, $right.type, $op);
 				
 				logger.fine("<Type>Result type is " + type);
 				$op.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $op;
 			}
 			;
 catch [InvalidExpressionException e] {
@@ -230,15 +243,18 @@ catch [InvalidExpressionException e] {
  * @return type The evaluation type
  */
 relationalOperator
-				returns [Type type]
+				returns [Retval retval]
 			: 	^((op=LESS|op=GREATER|op=LEQ|op=GEQ)
 					left=atom right=atom)
 			{
 				logger.fine("<Type>Determining relational expression type");
-				type = symtab.relationalType($left.type, $right.type, $op);
+				Type type = symtab.relationalType($left.type, $right.type, $op);
 				
 				logger.fine("<Type>Result type is " + type);
 				$op.setEvalType(type);
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $op;
 			}
 			;
 catch [InvalidExpressionException e] {
@@ -252,15 +268,15 @@ catch [InvalidExpressionException e] {
  * @TODO probably don't name this atom
  */
 atom			returns [Type type]
-			:	expr=literal            { type = $expr.type; }
-			|	expr=arithmeticOperator { type = $expr.type; }
-			|	expr=equalityOperator 	{ type = $expr.type; }
-			|	expr=relationalOperator { type = $expr.type; }
-			|	expr=varAccess          { type = $expr.type; }
-			|   expr=methodCall         { type = $expr.type; }
-			|	expr=memberAccess		{ type = $expr.type; }
-			|	expr=andOperator		{ type = $expr.type; }
-			|	expr=orOperator			{ type = $expr.type; }
+			:	expr=literal            { type = $expr.retval.type; }
+			|	expr=arithmeticOperator { type = $expr.retval.type; }
+			|	expr=equalityOperator 	{ type = $expr.retval.type; }
+			|	expr=relationalOperator { type = $expr.retval.type; }
+			|	expr=varAccess          { type = $expr.retval.type; }
+			|   expr=methodCall         { type = $expr.retval.type; }
+			|	expr=memberAccess		{ type = $expr.retval.type; }
+			|	expr=andOperator		{ type = $expr.retval.type; }
+			|	expr=orOperator			{ type = $expr.retval.type; }
 			;			
 
 /**
@@ -268,12 +284,32 @@ atom			returns [Type type]
  *
  * @return The evaluation type of a literal
  */
-literal			returns [Type type]
-			:	INTLITERAL    { $type = SymbolTable._int;    $INTLITERAL.setEvalType($type); }
-			|	STRINGLITERAL { $type = SymbolTable._string; $STRINGLITERAL.setEvalType($type);}
-			| 	CHARLITERAL   { $type = SymbolTable._char;   $CHARLITERAL.setEvalType($type);}
-			|	BOOLLITERAL   { $type = SymbolTable._bool;   $BOOLLITERAL.setEvalType($type);}
-			| 	FLOATLITERAL  { $type = SymbolTable._float;  $FLOATLITERAL.setEvalType($type);}
+literal			returns [Retval retval]
+			:	INTLITERAL    { 
+					retval = new Retval(); 
+					$retval.type = SymbolTable._int;    
+					$INTLITERAL.setEvalType($retval.type); 
+				}
+			|	STRINGLITERAL { 
+					retval = new Retval(); 
+					$retval.type = SymbolTable._string; 
+					$STRINGLITERAL.setEvalType($retval.type);
+				}
+			| 	CHARLITERAL   { 
+					retval = new Retval();
+					$retval.type = SymbolTable._char;   
+					$CHARLITERAL.setEvalType($retval.type);
+				}
+			|	BOOLLITERAL   { 
+					retval = new Retval();
+					$retval.type = SymbolTable._bool;   
+					$BOOLLITERAL.setEvalType($retval.type);
+				}
+			| 	FLOATLITERAL  { 
+					retval = new Retval();
+					$retval.type = SymbolTable._float;  
+					$FLOATLITERAL.setEvalType($retval.type);
+				}
 			;
 			
 /**
@@ -347,19 +383,43 @@ catch [OoplssException e] {
  * for MyType resolving.
  * @return type The evaluation type of the statement
  */
-memberAccess	returns [Type type]
+memberAccess	returns [Retval retval]
 			:	^(CALLOPERATOR 
 					(left=varAccess|left=methodCall|left=literal|left=selfAccess) 
 					(right=varAccess|right=literal|right=methodCall)
 				)
 			{
 				logger.fine("<Type>Determine expression type of memberaccess");
-				$CALLOPERATOR.setEvalType($right.type);
-				logger.fine("<Type>Memberaccess expression type is " + $right.type.getName());
-				type = $right.type;
-				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.type.getName());
-				$CALLOPERATOR.setRealType($left.type);
+				$CALLOPERATOR.setEvalType($right.retval.type);
+				logger.fine("<Type>Memberaccess expression type is " + $right.retval.type.getName());
+				Type type = $right.retval.type;
+				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.retval.type.getName());
+				$CALLOPERATOR.setRealType($left.retval.type);
+				// check for methodcall, then assign the real type to the nodes or something
+				/*
+				if (right.retval.node ) {
+				
+				}
+				*/
+				retval = new Retval();
+				retval.type = type;
+				retval.node = $CALLOPERATOR;
 			}
 			;
 	
 
+/**
+ * Method arguments
+ *
+ * Check the arguments of a method call
+ */
+methodArgs	:	^(METHODARGS (arg+=.)*)
+			{
+				logger.fine("<Type>Resolving method arguments");
+				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
+				symtab.checkArguments(method, list_arg);
+			}
+			;
+catch[OoplssException e] {
+	error.reportError(e);
+}
