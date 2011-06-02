@@ -32,5 +32,18 @@ import java.util.logging.Logger;
  */
 bottomup	: methodArgs;
 
-methodArgs : ;
-
+/**
+ * Method arguments
+ *
+ * Check the arguments of a method call
+ */
+methodArgs	:	^(METHODARGS (arg+=.)*)
+			{
+				logger.fine("<Type>Resolving method arguments");
+				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
+				symtab.checkArguments(method, list_arg);
+			}
+			;
+catch[OoplssException e] {
+	error.reportError(e);
+}

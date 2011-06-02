@@ -41,7 +41,7 @@ bottomup	:
 			 |	assignment
 			 |	returnVoidStmt
 			 |	returnStmt
-			 |	methodArgs
+			 /*|	methodArgs*/
 			;
 			
 /**
@@ -399,11 +399,9 @@ memberAccess	returns [Retval retval]
 				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.retval.type.getName());
 				$CALLOPERATOR.setRealType($left.retval.type);
 				// check for methodcall, then assign the real type to the nodes or something
-				/*
-				if (right.retval.node ) {
-				
+				if ($right.retval.node.token.getType() == OoplssLexer.METHODCALL) {
+					symtab.setMethodArgRealTypes(((OoplssAST)$right.retval.node.getChild(1)), $left.retval.type);
 				}
-				*/
 				retval = new Retval();
 				retval.type = type;
 				retval.node = $CALLOPERATOR;
@@ -411,18 +409,3 @@ memberAccess	returns [Retval retval]
 			;
 	
 
-/**
- * Method arguments
- *
- * Check the arguments of a method call
- */
-methodArgs	:	^(METHODARGS (arg+=.)*)
-			{
-				logger.fine("<Type>Resolving method arguments");
-				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				symtab.checkArguments(method, list_arg);
-			}
-			;
-catch[OoplssException e] {
-	error.reportError(e);
-}

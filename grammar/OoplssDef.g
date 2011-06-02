@@ -240,6 +240,7 @@ varAccess	:	^(VARACCESS name=ID)
 				// record the scope in the variable
 				logger.fine("<Def>Recording scope of a variable: " + $name);
 				$ID.setScope(this.currentScope);
+				$VARACCESS.setScope(this.currentScope); // for the mytype binder
 			}
 			;
 			

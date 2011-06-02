@@ -89,10 +89,10 @@ public class TestMyType extends OoplssTest {
 						"   def greater (other: MyType): Bool {\n" + 
 						"   	//return self.compare(other) > 0;\n" +
 						"		//self.foo(3);\n" +
-						"		x.foo(3);" +  
+						"		x.foo(other);" +  
 						"  	}\n" + 
 						"}";
-		this.createTyper(str);
+		this.createArgTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
