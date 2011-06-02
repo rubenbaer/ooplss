@@ -219,6 +219,9 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			throws OoplssException {
 		this.supertype = superType;
 		this.checkForInheritanceErrors();
+		this.define(
+			new SuperVariableSymbol(this.supertype)
+		);
 	}
 	
 	/**
