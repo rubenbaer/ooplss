@@ -71,7 +71,7 @@ mpost:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 
-debug:
+debug: man
 	pdflatex -jobname $(JOB) -shell-escape $(DRAFT)
 
 full-debug: clean man
