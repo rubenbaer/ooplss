@@ -22,7 +22,7 @@ trees which are 2-dimensional. In ANTLR the latter are known as \emph{tree
 grammars} which are similar to normal grammars but matches abstract
 syntax tree nodes and not lexer tokens. The lexer and parser part is a
 normal grammar whereas the other phases are all tree grammars which are
-used for tree rewriting and tree visiting.  The output process
+used for tree rewriting and tree visiting. The output process
 is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
@@ -40,7 +40,6 @@ language.
 The output translation backend is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
 
-
 \subsection{Lexer and Parser}
 The lexer and parser are defined in the same file \emph{Ooplss.g}
 since they are strongly connected together.
@@ -53,11 +52,11 @@ are skipped and not passed to the parser.
 The parser parses the tokens from left to right and creates a left most
 derivation with a lookahead of two, which is shortly known as LL(2) parsing.
 All this is done from top to bottom and produces an
-abstract syntax tree (AST)\nomenclature{AST}{Abstract syntax tree which is an 
-intermediate representation of the input. Opposed to the parse tree, it is 
-already cleared of unnecessary information and also operator precedence is 
-already encoded}. To make the debugging process of the parser code simpler, 
-the lookahead is limited to two even though ANTLR would support arbitrary 
+abstract syntax tree (AST)\nomenclature{AST}{Abstract syntax tree which is an
+intermediate representation of the input. Opposed to the parse tree, it is
+already cleared of unnecessary information and also operator precedence is
+already encoded}. To make the debugging process of the parser code simpler,
+the lookahead is limited to two even though ANTLR would support arbitrary
 lookahead.
 
 After this phase an abstract syntax tree is generated and ready to be visited
@@ -102,8 +101,8 @@ def foo(x:Int) {
 \subsubsection{Built-In Types}
 Built-in types are created before walking the tree for the first time.
 They are assigned to the global scope, which is created upon creating the symbol
-table. The built-in types are documented in the language specification 
-(\Cref{sec:builtinTypes}).
+table. The built-in types are documented in the language specification in
+\Cref{sec:builtinTypes}.
 
 \subsubsection{Define Symbols}
 The first phase of the symbol table building is the \emph{definition run}
@@ -126,21 +125,20 @@ If not, an empty default constructor symbol is created and assigned to the
 class. This simplifies the type checking when creating new instances
 of this class.
 
-After this phase has finished, a symbol table was be created for the whole 
-program where every symbol in every scope is tracked. The table is in reality 
+After this phase has finished, a symbol table was be created for the whole
+program where every symbol in every scope is tracked. The table is in reality
 a tree of scopes which can resolve every valid symbol.
 
 \subsubsection{Referencing Symbols}
-In the second phase, the \emph{referencing run}, mainly every use of a symbol 
+In the second phase, the \emph{referencing run}, mainly every use of a symbol
 that is not declarative (method call, variable access, super type specification
-, types in declarations etc.) is examined and resolved to the according symbol 
-definition.  Exceptions are thrown on errors like accessing non-existent 
+, types in declarations etc.) is examined and resolved to the according symbol
+definition. Exceptions are thrown on errors like accessing non-existent
 variables, calling variables or using types that do not exist.
 
-All of this is possible due to the fact that now all definitions are known 
-and available in the tree. Since the current scope was recorded to the AST 
+All of this is possible due to the fact that now all definitions are known
+and available in the tree. Since the current scope was recorded to the AST
 nodes, it is clear to the walker where to start resolving the symbols.\\
-
 
 \noindent There are different types of resolving the symbols:
 \begin{description}
@@ -171,9 +169,9 @@ Resolves to the enclosing class
 defined before being accessed for the first time because forward referencing
 is only allowed for class fields.
 \item upon leaving a class it checks if there are symbols that override symbols
-declared in super classes or super types. This cannot be done in the definition 
+declared in super classes or super types. This cannot be done in the definition
 run because only now there is a resolved reference to the super type/class.
-In case of a variable override, an exception is thrown since this is not 
+In case of a variable override, an exception is thrown since this is not
 possible. In case of a method override, the return type and the arguments
 are checked, since they have to be the same.
 \item when referencing a super type or class it also runs some checks to avoid
@@ -189,7 +187,6 @@ now be resolved within this tree with all necessary meta data. The tree grammar
 for the reference walker is defined in \emph{OoplssRef.g}
 
 \subsection{Type Checking}
-
 The third walk on the abstract syntax tree does the type checking. This
 time the nodes are evaluated in postorder so both sides of an expression
 node are evaluated before the node itself is evaluated. Like this the
@@ -233,9 +230,9 @@ the SymbolTable (\ref{sec:symbolTableDescription}).
 
 \subsubsection{Decidability}
 \Cref{ctr:typeRules}
+\todo{Still open}
 
 \subsection{Standalone statements}
-
 Since \ooplss is translated into Java, there has to be some checking
 done on the statements so the compiler does not create erroneous Java
 code. Java has some constraints, for instance meaningless statements
@@ -262,8 +259,7 @@ The code translation is template driven, i.e., appropriate templates
 were created which cover the used language structures in Java. The
 templates are written in \st which is a dynamically typed and functional
 programming language. Matches in the abstract syntax tree does directly
-call a template which generates appropriate code. The detailed syntax
-equivalence of \ooplss to Java is described in \Cref{ctr:translation}.
+call a template which generates appropriate code.
 
 As result the intermediate language representation is translated to the
 output Java code which runs on the Java Virtual Machine.
@@ -311,7 +307,7 @@ output Java code which runs on the Java Virtual Machine.
 
 	\end{emp}
 	\caption{Package diagram}
-	\label{fig:classes}
+	\label{fig:packages}
 \end{figure}
 
 
@@ -337,8 +333,8 @@ All of these packages are subpackages of \emph{ch.codedump}.
 \subsection{Symbol Table Classes}
 
 Following Figure shows the composition of the classes of the symbol table.
-To keep the diagram simple, this is only an abstract representation, i.e. only 
-the important methods and variables are shown. Also, the variables are actually 
+To keep the diagram simple, this is only an abstract representation, i.e. only
+the important methods and variables are shown. Also, the variables are actually
 private and can only be accessed through getters and setters.
 
 \begin{figure}[H]
@@ -504,7 +500,6 @@ The gUnit tests can be found in \emph{grammar/test/}.
 
 
 \subsection{JUnit}
-
 The symbol table is checked via JUnit tests. There are various tests that
 test the symbol table in a certain depth, i.e. the definition walker, the
 reference walker and the type checker.
@@ -512,7 +507,7 @@ reference walker and the type checker.
 For now these unit tests are rather rudimentary, they can only check whether
 code is run without errors or with expected exceptions. To test everything
 properly, it is also required to watch the debugging output.
-If there were more time, we would implement unit testing methods that can 
+If there were more time, we would implement unit testing methods that can
 actually examine the created contents and state of the symbol table or the
 generated Java output.
 
