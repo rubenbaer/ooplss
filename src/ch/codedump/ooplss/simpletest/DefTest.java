@@ -10,6 +10,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
 
+import ch.codedump.ooplss.antlr.OoplssArgTypes;
 import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
@@ -54,5 +55,9 @@ public class DefTest {
 		logger.fine("\n\nType checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
+		
+		logger.fine("Argument type checking");
+		OoplssArgTypes argTypes = new OoplssArgTypes(nodes, symTab);
+		argTypes.downup(t);
 	}
 }
