@@ -498,7 +498,14 @@ public class SymbolTable {
 			return SymbolTable._myType;
 		}
 		
-		return node.getRealType();
+		Type realType = node.getRealType();
+		if (realType == null) {
+			// it doesn't have a realType... assume stand alone access
+			// TODO should probably considered further if this is correct
+			return this.getEnclosingClassScope(node.getScope());
+		}
+		
+		return realType;
 	}
 	
 	/**

@@ -63,8 +63,7 @@ public class Main {
 	/**
 	 * Runs ooplss compiler
 	 * 
-	 * @param args
-	 *            JVM Arguments
+	 * @param args JVM Arguments
 	 * @throws RecognitionException
 	 * @throws IOException
 	 * @throws InterruptedException 
