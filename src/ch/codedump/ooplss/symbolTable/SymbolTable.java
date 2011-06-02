@@ -95,17 +95,17 @@ public class SymbolTable {
 	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void		myType */
+		/*             object	int		float	   string	    char	  bool	  void		myType */
 		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
-		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	  _float,	_void,	 _int,	  _void,  _void,	_void},
 		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void,	_void},
 		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void,	_void},
 		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void,	_void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* bool   */	{_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
 		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_myType}
 	};
-	
+
 	/**
 	 * The mappings of relational expressions like < > <= >=
 	 */
@@ -120,13 +120,13 @@ public class SymbolTable {
 		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
 		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void, 	_void}
 	};
-	
+
 	/**
 	 * The mappings of equality expressions like == !=
 	 */
 	protected final Type[][] equalityResultType = new Type[][] {
 		/*				object	int		float	string	 char	  bool	  void 		myType */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* object */	{_bool, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
 		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
 		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
 		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void,	_void},
