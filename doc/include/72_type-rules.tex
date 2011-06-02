@@ -263,13 +263,39 @@ correctly.
 							fields(N) = \overline{T f} \\
 							\Delta; \Gamma \vdash \overline{e : S} \\
 							\Delta \vdash \overline{S <: T}}
-						{\Delta; \Gamma \vdash new N(\overline{e}) : N}
+						{\Delta; \Gamma \vdash \text{new }N(\overline{e}) : N}
 				\end{mathpar}
 		\end{minipage}
 	}
 	\caption{Expression type rules}
 	\label{fig:expressionRuleexpressionRules}
 \end{figure}
+
+\begin{figure}[H]
+ \fbox{
+    \begin{minipage}{\linewidth}
+			\paragraph{Method typing:}
+				\begin{mathpar}
+					\inferrule*[right=Method]
+						{\Delta; \overline{x:T}; \text{self}:C[\overline{T}] \vdash e_n : S \\
+							\Delta \vdash S <: T \\
+							\text{class } A[\overline{X \mmatch N}] \subt B \subc C \{\ldots\} \\
+							(m : \overline{T} \rightarrow T) \in (B \cup C)}
+						{\text{def }m(\overline{T x}):U \{\overline{e}; \text{return } e_n;\}~ok~in~A[\overline{X \mmatch N}]}
+				\end{mathpar}
+
+			\paragraph{Class typing:}
+				\begin{mathpar}
+					\inferrule*[right=Class]
+						{}
+						{}
+				\end{mathpar}
+		\end{minipage}
+	}
+	\caption{Method and Class type rules}
+	\label{fig:methodClassRules}
+\end{figure}
+\todo{Check method rules, class rules and add mytype rules}
 
 %\begin{figure}[H]
 % \fbox{
