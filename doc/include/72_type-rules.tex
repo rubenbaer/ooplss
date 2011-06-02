@@ -48,25 +48,49 @@ subclassing is denoted by $\subtc$ and $\underline{\blacktriangleleft}$.
 To specify a list of length $0\ldots n$ a over line is used, e.g.,
 $\overline{X \mmatch N}$ is a list of match bounds.
 
-TODO:\todo{TODO}
-It is assumed that the implicit binding of \mytype is done as described in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary parameters are introduced by the type combination to bind \mytype correctly.
+Since type parameters are used, two environments are introduced. The
+notion used within the type inference rules are similar to them from
+\emph{Featherweight Java}\nomenclature{Featherweight Java}{A minimal
+core calculus for Java and GJ}. `An environment $\Gamma$ is a finite
+mapping from variables to types, written $\overline{x}:\overline{T}$;
+a type environment $\Delta$ is a finite mapping from type variables to
+nonvariable types, wirtten $\overline{X}<:\overline{N}$, which takes each
+type variable to its bound' \cite{igarashi_featherweight_1999}. In contrast
+to Featherweight Java, the bound is specified by \match and the bound is
+specified by the type operator.
 
-%$\subcClosure$ $\subtClosure$
+It is assumed that the implicit binding of \mytype is done as described
+in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary
+parameters are introduced by the type combination to bind \mytype
+correctly.
+
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
 			\paragraph{Subclassing:}
 				\begin{mathpar}
-					\inferrule*[right=SubC-Ref,rightskip=-1.0cm]{\\}{A \subcc A}
-					\inferrule*[right=SubC-Trans]{B \subcc A\\C \subcc B}{C \subcc A} \\
-					\inferrule*[right=SubC-Intro]{\text{class }A[\overline{X \mmatch N}] \subc B[\overline{T}] \{\ldots\}}{A \subcc B}
+					\inferrule*[right=SubC-Ref,rightskip=-1.0cm]
+						{\\}
+						{A \subcc A}
+					\inferrule*[right=SubC-Trans]
+						{B \subcc A\\C \subcc B}
+						{C \subcc A} \\
+					\inferrule*[right=SubC-Intro]
+						{\text{class }A[\overline{X \mmatch N}] \subc B[\overline{T}] \{\ldots\}}
+						{A \subcc B}
 				\end{mathpar}
 
 			\paragraph{Subtyping:}
 				\begin{mathpar}
-					\inferrule*[right=SubT-Ref,rightskip=-1.0cm]{\\}{A \subtc A}
-					\inferrule*[right=SubT-Trans]{B \subtc A \\ C \subtc B}{C \subtc A} \\
-					\inferrule*[right=SubT-Intro]{\text{class }A[\overline{X \mmatch N}] \subt B[\overline{T}] \{\ldots\}}{A \subtc B}
+					\inferrule*[right=SubT-Ref,rightskip=-1.0cm]
+						{\\}
+						{A \subtc A}
+					\inferrule*[right=SubT-Trans]
+						{B \subtc A \\ C \subtc B}
+						{C \subtc A} \\
+					\inferrule*[right=SubT-Intro]
+						{\text{class }A[\overline{X \mmatch N}] \subt B[\overline{T}] \{\ldots\}}
+						{A \subtc B}
 				\end{mathpar}
     \end{minipage}
   }
@@ -79,7 +103,9 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
     \begin{minipage}{\linewidth}
 			\paragraph{Field lookup:}
 				\begin{mathpar}
-					\inferrule*[right=F-Empty]{\\}{fields(\emptyset) = \emptyset} \\
+					\inferrule*[right=F-Empty]
+						{\text{class }A[X \mmatch N] \{ \}}
+						{fields(A[T]) = \emptyset} \\
 					\inferrule*[right=F-Class]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
@@ -136,6 +162,10 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
 							m \in C[\overline{T}] \\ m \notin \overline{M}}
 						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]C)}\\
 				\end{mathpar}
+
+			\paragraph{Bound of types:}
+					\[bound_\Delta(X) = \Delta(X) \]
+					\[bound_\Delta(A) = A \]
     \end{minipage}
   }
 	\caption{Auxiliary functions}
@@ -145,19 +175,40 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
-			\paragraph{Matching:}
+			\paragraph{Subclassing:}
 				\begin{mathpar}
-					\inferrule*[right=Match-Ref,rightskip=-1.0cm]{\\}{\Delta \vdash A \mmatch A}
-					\inferrule*[right=Match-Trans]{B \mmatch A \\ C \mmatch B}{C \mmatch A} \\
-					\inferrule*[right=Match-Adopt,rightskip=-1.0cm]{B <: A \\ C \mmatch B}{C \mmatch A}
-					\inferrule*[right=Match-Embed-SubT]{B <: A}{B \mmatch A}
+					\inferrule*[right=Subclass-Ref,rightskip=-1.0cm]
+						{\\}
+						{\Delta \vdash A \mmatch A}
+					\inferrule*[right=Subclass-Trans]
+						{\Delta \vdash B \mmatch A \\ \Delta \vdash C \mmatch B}
+						{\Delta \vdash C \mmatch A} \\
+					\inferrule*[right=Subclass-Adopt,rightskip=-1.0cm]
+						{\Delta \vdash B <: A \\ \Delta \vdash C \mmatch B}
+						{\Delta \vdash C \mmatch A}
+					\inferrule*[right=Subclass-Embed-SubT]
+						{\Delta \vdash B <: A}
+						{\Delta \vdash B \mmatch A} \\
+					\inferrule*[right=Subclass-Var]
+						{\\}
+						{\Delta \vdash X \mmatch \Delta(X)} \\
+					\inferrule*[right=Subclass-Class]
+						{\text{class }X[\overline{X \mmatch N}] \subt B \subc C \{\ldots\}}
+						{\Delta \vdash A[\overline{T}] \mmatch [\overline{T/X}]B\\
+						\Delta \vdash A[\overline{T}] \mmatch [\overline{T/X}]C}
 				\end{mathpar}
 
 			\paragraph{Subtyping:}
 				\begin{mathpar}
-					\inferrule*[right=Subtype-Ref,rightskip=-1.0cm]{\\}{A <: A}
-					\inferrule*[right=Subtype-Trans]{B <: A \\ C <: B}{C <: A} \\
-					\inferrule*[right=Subtype-Adopt]{B <: A \\ C <: B}{C <: A}
+					\inferrule*[right=Subtype-Ref,rightskip=-1.0cm]
+						{\\}
+						{\Delta \vdash A <: A}
+					\inferrule*[right=Subtype-Trans]
+						{\Delta \vdash B <: A \\ \Delta \vdash C <: B}
+						{\Delta \vdash C <: A} \\
+					\inferrule*[right=Subtype-Class]
+						{\text{class }X[\overline{X \mmatch N}] \subt B \subc C \{\ldots\}}
+						{\Delta \vdash A[\overline{T}] <: [\overline{T/X}]B}
 				\end{mathpar}
 		\end{minipage}
 	}
@@ -168,20 +219,66 @@ It is assumed that the implicit binding of \mytype is done as described in \Cref
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
+			\paragraph{Well-formed types:}
+				\begin{mathpar}
+					\inferrule*[right=WF-Env,rightskip=-1.0cm]
+						{\\}
+						{\Delta \vdash ok}
+					\inferrule*[right=WF-VarType]
+						{X \in dom(\Delta)}
+						{\Delta \vdash X~ok}\\
+					\inferrule*[right=WF-Class]
+						{\text{class }A[\overline{X \mmatch N}]
+								\subt B
+								\subc C \{\ldots\}\\\\
+							\Delta \vdash \overline{T}~ok \\
+							\Delta \vdash \overline{T \mmatch [\overline{T/X}]N}
+						}
+						{\Delta \vdash C[\overline{T}]~ok}
+				\end{mathpar}
 		\end{minipage}
 	}
-	\caption{Subclassing type rules}
-	\label{fig:subclassingRules}
+	\caption{Wellformed type rules}
+	\label{fig:wellformed}
 \end{figure}
 
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
+			\paragraph{Expression typing:}
+				\begin{mathpar}
+					\inferrule*[right=Var]
+						{\\}
+						{\Delta; \Gamma \vdash x : \Gamma(x)} \\
+					\inferrule*[right=Field]
+						{\Delta; \Gamma \vdash e_i : T_i \\ fields(bound_\Delta(T_i)) = \overline{T f}}
+						{\Delta; \Gamma \vdash e_i.f_j : T_j} \\
+					\inferrule*[right=Invk]
+						{\Delta; \Gamma \vdash e_i : T_i \\\\
+							mtype(m, bound_\Delta(T_i)) = \overline{U} \rightarrow U \\\\
+							\Delta; \Gamma \vdash \overline{e : S} \\ \Gamma \vdash \overline{S <: U}}
+						{\Delta; \Gamma \vdash e_i.m(\overline{e}) : U} \\
+					\inferrule*[right=New]
+						{\Delta \vdash N~ok \\
+							fields(N) = \overline{T f} \\
+							\Delta; \Gamma \vdash \overline{e : S} \\
+							\Delta \vdash \overline{S <: T}}
+						{\Delta; \Gamma \vdash new N(\overline{e}) : N}
+				\end{mathpar}
 		\end{minipage}
 	}
-	\caption{Subtyping type rules}
-	\label{fig:subtypingRules}
+	\caption{Expression type rules}
+	\label{fig:expressionRuleexpressionRules}
 \end{figure}
+
+%\begin{figure}[H]
+% \fbox{
+%    \begin{minipage}{\linewidth}
+%		\end{minipage}
+%	}
+%	\caption{Subtyping type rules}
+%	\label{fig:subtypingRules}
+%\end{figure}
 
 %\begin{itemize}
 %\item Product Introduction
