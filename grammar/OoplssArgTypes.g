@@ -41,7 +41,7 @@ methodArgs	:	^(METHODARGS (arg+=.)*)
 			{
 				logger.fine("<Type>Resolving method arguments");
 				MethodSymbol method = (MethodSymbol)$METHODARGS.getScope();
-				symtab.checkArguments(method, list_arg);
+				symtab.checkArguments($METHODARGS, method, list_arg);
 			}
 			;
 catch[OoplssException e] {

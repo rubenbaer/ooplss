@@ -85,8 +85,6 @@ public class TestMyType extends OoplssTest {
 	public void testSomeMyTyping() throws Exception {
 		String str =	"class StrictlyOrdered {\n" + 
 						"   def compare(other: MyType): Int { return 0; }\n" +
-						"	def foo(a:MyType):Void {}" +
-						"	var x:StrictlyOrdered;" + 
 						"   def greater (other: MyType): Bool {\n" + 
 						"   	return self.compare(other) > 0;\n" +
 						"  	}\n" + 
@@ -144,4 +142,27 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
+	@Test
+	public void testInheritedMyTyping() throws Exception {
+		String str = 	"class StrictlyOrdered {\n" + 
+						"  def compare(other: MyType): Int { return 0; }\n" + 
+						"  def greater (other: MyType): Bool {\n" + 
+						"    return self.compare(other) > 0;\n" + 
+						"  }\n" + 
+						"  def less (other: MyType): Bool {\n" + 
+						"    return self.compare(other) < 0;\n" + 
+						"  }\n" + 
+						"}\n" + 
+						"\n" + 
+						"class Ordered subclassOf StrictlyOrdered {\n" + 
+						"  def geq (other: MyType): Bool {\n" + 
+						"    return self.compare(other) >= 0;\n" + 
+						"  }\n" + 
+						"  def leq (other: MyType): Bool {\n" + 
+						"    return self.compare(other) <= 0;\n" + 
+						"  }\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
