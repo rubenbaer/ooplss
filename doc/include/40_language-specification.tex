@@ -660,26 +660,15 @@ to create specially named classes similar to templates. Listing
 parametrised with a match-bound of \A. Class \B extends class \A and
 class \C inherits \A.
 
-Following the definition
-of matching, both derived classes are not allowed as parameters
-of the class \emph{Container} with the type parameter definition
-of $T$ \match \A. The use of those classes is presented in Listing
-\ref{lst:useParametrisationOoplss}. All of these assignments are typeable
-and sound since all of these classes provide the methods assumed by the
-bound. However, Listing \ref{lst:parametrisationJava} shows how this code
-is translated to Java and how the idea of templates is adopted. Like
-in \cpp the for every class a new inner class is created with special
-names. These special classes are all sharing the same generic interface
-\emph{Container}. The fact that an interface is needed will be presented
-in the next section. One may remark that the Java interface of
-\emph{Container} has dropped the f-bound. This is necessary since
-subclassing would not fulfill the extension boundary in Java.
+Following the definition of matching, both derived classes are not
+allowed as parameters of the class \emph{Container} with the type
+parameter definition of $T$ \match \A. The use of those classes
+is presented in Line \ref{line:useParametrisationOoplss} in Listing
+\ref{lst:parametrisationOoplss}. All of these assignments are typeable
+and sound since all of these classes provide the methods assumed
+by the bound.
 
-The Java code that uses the parametrised classes defined in \ooplss is
-then done straightforward by replacing the square brackets to dollar
-signs as presented in Listing \ref{lst:useParametrisationJava}.
-
-\begin{lstlisting}[float=ht,language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
+\begin{lstlisting}[language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
 class Container[T %\match) A] {
 	def m(t1 : T, t2 : T) : T {
 		t.someAction(t2);
@@ -703,10 +692,8 @@ class C subclassOf A {
 		return self;
 	}
 }
-\end{lstlisting}
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Valid use of a match-bound container,label=lst:useParametrisationOoplss]
-class Main {
+class Main { %\label{line:useParametrisationOoplss})
 	def run() : Void {
 		var foo : Container[Foo] = new Container[Foo]();
 		var bar : Container[Bar] = new Container[Bar]();
@@ -718,7 +705,21 @@ class Main {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[float=ht,language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
+However, Listing \ref{lst:parametrisationJava} shows
+how this code is translated to Java and how the idea of templates is
+adopted. Like in \cpp the for every class a new inner class is created
+with special names. These special classes are all sharing the same generic
+interface \emph{Container}. The fact that an interface is needed will be
+presented in the next section. One may remark that the Java interface
+of \emph{Container} has dropped the f-bound. This is necessary since
+subclassing would not fulfill the extension boundary in Java.
+
+The Java code that uses the parametrised classes defined in \ooplss is
+then done straightforward by replacing the square brackets to dollar
+signs as presented in Line \ref{line:useParametrisationJava} of Listing
+\ref{lst:parametrisationJava}
+
+\begin{lstlisting}[language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
 public interface Container<T> {
 	public T m(t T);
 
@@ -740,10 +741,8 @@ public interface Container<T> {
 		}
 	}
 }
-\end{lstlisting}
 
-\begin{lstlisting}[float=ht,language=java,caption=Use of parametised classes in Java,label=lst:useParametrisationJava]
-public class Main {
+public class Main { /*\label{line:useParametrisationOoplss}*/
 	public void run() {
 		Container<Foo> foo = new Container.Container$Foo$();
 		Container<Bar> bar = new Container.Container$Bar$();
@@ -765,7 +764,7 @@ parameters are translated in the same manner as in normal classes.
 Listing \ref{lst:extendingContainer} shows an extended version of the
 \emph{Container} class.
 
-\begin{lstlisting}[float=ht,language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
+\begin{lstlisting}[language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
 	public X f(X x);
 
@@ -835,7 +834,7 @@ possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
 Listing \ref{lst:explicitMyType}.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Explicit \mytype parametrisation,label=lst:explicitMyType]
+\begin{lstlisting}[language=ooplss,caption=Explicit \mytype parametrisation,label=lst:explicitMyType]
 class A[MyType <# A] {
 	def m(o : MyType) MyType {
 		// Self is explicitly typed in the method.
@@ -858,15 +857,93 @@ class D[MyType <# D] subclassOf B[MyType, MyType] {
 }
 \end{lstlisting}
 
-\section{Types}
-\subsection{Type Rules}
-
-\subsection{Built-in Types}
+\section{Built-in Types}
 \label{sec:builtinTypes}
+Within \ooplss exists some built-in types. Even they are represented
+as objects they have no methods and can not be derived. They are
+similar in use to primitive data types and are defined as such types
+to provide simple data types that can be used intuitively. Table
+\ref{table:builtinOperations} presents the operators supported by
+the types. For an easier treatment of the basic types, the tables
+\ref{table:arithmeticOp} - \ref{table:equalityOp} shows the type
+compatibilities between two different types using these operators.
 
+To provide simple interaction between \ooplss and the user a \emph{System}
+class is introduced that is shipped with every program written in
+\ooplss. It has five non-static methods: \textit{print, println,
+printlnInt, readln readfile}.
 
-int, float, string, bool, char
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|>{\bfseries}c|c|c|c|c|c|c|c|c|c|c|} \hline
+	& $+$ & $-$ & $*$ & $/$ & $<$ & $>$ & $<=$ & $>=$ & $==$ & $!=$ \\ \hline
+	Object & & & & & & & & & $\bullet$ & $\bullet$ \\ \hline
+	Int & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+	Float & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+	String & $\bullet$ & & & & & & & & $\bullet$ & $\bullet$ \\ \hline
+	Char & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
+	Bool & & & & & & & & & $\bullet$ & $\bullet$ \\ \hline
+	\end{tabular}
+	\caption{Built-in type operations}
+	\label{table:builtinOperations}
+\end{table}
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|>{\bfseries}?c|!c|!c|!c|!c|!c|} \hline
+	\rowstyle{\bfseries}
+	        & Int   & Float & String & Char  & Bool  \\ \hline
+	Int     & Int   & Float &        & Int   &       \\ \hline
+	Float   & Float & Float &        & Float &       \\ \hline
+	String  &       &       & String & String&       \\ \hline
+	Char    & Int   & Float & String & Char  &       \\ \hline
+	Bool    &       &       &        &       &       \\ \hline
+	\end{tabular}
+	\caption{Type compatibility of arithmetic operators $-, *$ and $/$}
+	\label{table:arithmeticOp}
+\end{table}
 
-Some build in types within the basic framework\ldots
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|>{\bfseries}?c|!c|!c|!c|!c|!c|} \hline
+	\rowstyle{\bfseries}
+	        & Int   & Float & String & Char  & Bool  \\ \hline
+	Int     & Int   & Float &        & Int   &       \\ \hline
+	Float   & Float & Float &        & Float &       \\ \hline
+	String  & String& String& String & String&String \\ \hline
+	Char    & Int   & Float & String & Char  &       \\ \hline
+	Bool    &       &       &        &       &       \\ \hline
+	\end{tabular}
+	\caption{Type compatibility of arithmetic operators $+$}
+	\label{table:plusOp}
+\end{table}
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|>{\bfseries}?c|!c|!c|!c|!c|!c|} \hline
+	\rowstyle{\bfseries}
+	        & Int   & Float & String & Char  & Bool  \\ \hline
+	Int     & Bool  & Bool  &        & Bool  &       \\ \hline
+	Float   & Bool  & Bool  &        & Bool  &       \\ \hline
+	String  &       &       &        &       &       \\ \hline
+	Char    & Bool  & Bool  &        & Bool  &       \\ \hline
+	Bool    &       &       &        &       &       \\ \hline
+	\end{tabular}
+	\caption{Type compatibility of relational operators $<, >, <=$ and $>=$}
+	\label{table:relationalOp}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|>{\bfseries}?c|!c|!c|!c|!c|!c|} \hline
+	\rowstyle{\bfseries}
+	        & Int   & Float & String & Char  & Bool  \\ \hline
+	Int     & Bool  & Bool  &        & Bool  &       \\ \hline
+	Float   & Bool  & Bool  &        & Bool  &       \\ \hline
+	String  &       &       & Bool   &       &       \\ \hline
+	Char    & Bool  & Bool  &        & Bool  &       \\ \hline
+	Bool    &       &       &        &       & Bool  \\ \hline
+	\end{tabular}
+	\caption{Type compatibility of equality operators $==$ and $!=$}
+	\label{table:equalityOp}
+\end{table}
