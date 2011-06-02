@@ -40,7 +40,6 @@ language.
 The output translation backend is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
 
-
 \subsection{Lexer and Parser}
 The lexer and parser are defined in the same file \emph{Ooplss.g}
 since they are strongly connected together.
@@ -102,8 +101,8 @@ def foo(x:Int) {
 \subsubsection{Built-In Types}
 Built-in types are created before walking the tree for the first time.
 They are assigned to the global scope, which is created upon creating the symbol
-table. The built-in types are documented in the language specification
-(\Cref{sec:builtinTypes}).
+table. The built-in types are documented in the language specification in
+\Cref{sec:builtinTypes}.
 
 \subsubsection{Define Symbols}
 The first phase of the symbol table building is the \emph{definition run}
@@ -140,7 +139,6 @@ variables, calling variables or using types that do not exist.
 All of this is possible due to the fact that now all definitions are known
 and available in the tree. Since the current scope was recorded to the AST
 nodes, it is clear to the walker where to start resolving the symbols.\\
-
 
 \noindent There are different types of resolving the symbols:
 \begin{description}
@@ -185,7 +183,6 @@ now be resolved within this tree with all necessary meta data. The tree grammar
 for the reference walker is defined in \emph{OoplssRef.g}
 
 \subsection{Type Checking}
-
 The third walk on the abstract syntax tree does the type checking. This
 time the nodes are evaluated in postorder so both sides of an expression
 node are evaluated before the node itself is evaluated. Like this the
@@ -208,9 +205,9 @@ is actually delegated to the SymbolTable (\ref{sec:symbolTableDescription}).
 
 \subsubsection{Decidability}
 \Cref{ctr:typeRules}
+\todo{Still open}
 
 \subsection{Standalone statements}
-
 Since \ooplss is translated into Java, there has to be some checking
 done on the statements so the compiler does not create erroneous Java
 code. Java has some constraints, for instance meaningless statements
@@ -456,7 +453,6 @@ The gUnit tests can be found in \emph{grammar/test/}.
 
 
 \subsection{JUnit}
-
 The symbol table is checked via JUnit tests. There are various tests that
 test the symbol table in a certain depth, i.e. the definition walker, the
 reference walker and the type checker.
