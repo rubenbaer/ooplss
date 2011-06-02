@@ -43,7 +43,7 @@ topdown		:	enterMethod
 			|	argument
 			|	enterConstructor
 			|	subType
-			|	subClass
+			|	subClass5
 			| 	standalones
 			;
 

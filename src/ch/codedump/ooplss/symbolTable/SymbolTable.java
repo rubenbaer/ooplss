@@ -13,7 +13,6 @@ import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
-import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.StandaloneStatementException;
@@ -339,7 +338,7 @@ public class SymbolTable {
 	 * @throws UnknownSuperClassException
 	 */
 	public void checkSuperConstructors(List<OoplssAST> supers, OoplssAST constructor) 
-			throws NoSuperTypeException, UnknownSuperClassException {
+		throws UnknownSuperClassException {
 		if (supers != null) {
 			for (OoplssAST sup: supers) {
 				((ClassSymbol)constructor.getSymbol().getScope()).resolveSuper((OoplssAST)sup);

@@ -3,7 +3,6 @@ package ch.codedump.ooplss.test;
 import org.junit.Test;
 
 import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
-import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
@@ -13,16 +12,16 @@ public class TestSuperConstructors extends OoplssTest {
 	public void testSuperConstructor() throws Exception {
 		String str = 	"class foo {}" +
 						"class bar subtypeOf foo {" +
-						"	def __construct() : base() {}" +
+						"	def __construct() : foo() {}" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=NoSuperTypeException.class)
+	@Test (expected=UnknownSuperClassException.class)
 	public void testInvalidSuperConstructor() throws Exception {
 		String str = 	"class bar {" +
-						"	def __construct() : base() {}" +
+						"	def __construct() : bar() {}" +
 						"}";
 		try {
 			this.createTyper(str);
@@ -35,7 +34,7 @@ public class TestSuperConstructors extends OoplssTest {
 		String str = 	"class foo {}" +
 						"class A {}" +
 						"class bar subtypeOf foo subclassOf A {" +
-						"	def __construct() : base(), A() {}" +
+						"	def __construct() : foo(), A() {}" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -45,7 +44,7 @@ public class TestSuperConstructors extends OoplssTest {
 	public void testIllegalMultipleSuperConstructor() throws Exception {
 		String str = 	"class foo {}" +
 						"class bar subtypeOf foo {" +
-						"	def __construct() : base(), A() {}" +
+						"	def __construct() : foo(), A() {}" +
 						"}";
 		this.createRef(str);
 		ErrorHandler.getInstance().throwException();
@@ -57,7 +56,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"	def __construct(o:String) {}" +
 						"}" +
 						"class bar subtypeOf foo {" +
-						"	def __construct(): base(\"abc\") {}" +
+						"	def __construct(): foo(\"abc\") {}" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
@@ -81,7 +80,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"	def __construct(o:String) {}" +
 						"}" +
 						"class bar subtypeOf foo {" +
-						"	def __construct(): base(3) {}" +
+						"	def __construct(): foo(3) {}" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
@@ -93,20 +92,20 @@ public class TestSuperConstructors extends OoplssTest {
 						"	def __construct(o:String) {}" +
 						"}" +
 						"class bar subtypeOf foo {" +
-						"	def __construct(): base() {}" +
+						"	def __construct(): foo() {}" +
 						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
 	}
 	
-	@Test (expected=NoSuperTypeException.class)
+	@Test (expected=ArgumentDoesntMatchException.class)
 	public void testNoSuperTypeException() throws Exception {
 		
 		String str = 	"class foo {" +
 						"	def __construct(o:String) {}" +
 						"}" +
 						"class bar subclassOf foo {" +
-						"	def __construct(): base() {}" +
+						"	def __construct(): foo() {}" +
 						"}";
 		try {
 			this.createTyper(str);
