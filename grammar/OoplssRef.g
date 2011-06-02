@@ -122,6 +122,9 @@ enterMethod
 			{
 				logger.fine("<Ref>Entering method " + $name.text);
 				Type t = this.symtab.resolveType($name, $rettype);
+				if (t instanceof SuperVariableSymbol) {
+					t = (Type)((SuperVariableSymbol)t).getWrappedSymbol();
+				}
 				$name.getSymbol().setType(t);
 			}
 			;

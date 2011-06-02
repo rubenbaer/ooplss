@@ -360,7 +360,11 @@ public class SymbolTable {
 	 */
 	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
 			throws ArgumentDoesntMatchException {
- 		argType.setEvalType(argType.getSymbol().getType()); //this might be a bit ugly
+		Type type = argType.getSymbol().getType();
+		if (type instanceof SuperVariableSymbol) {
+			type = (Type)((SuperVariableSymbol)type).getWrappedSymbol();
+		}
+ 		argType.setEvalType(type); //this might be a bit ugly
 		if (!this.canAssignTo(argType, givenArg)) {
 			throw new ArgumentDoesntMatchException(givenArg, argCount);
 		}
