@@ -89,6 +89,9 @@ newObject		returns [Retval retval]
 			{
 				logger.fine("<Type>Determining type of new");
 				Type type = (Type)$ID.getSymbol();
+				if (type instanceof SuperVariableSymbol) {
+					type = (Type)((SuperVariableSymbol)type).getWrappedSymbol();
+				}
 				$NEW.setEvalType(type);
 				retval = new Retval();
 				retval.type = type;

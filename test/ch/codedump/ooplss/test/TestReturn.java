@@ -33,7 +33,7 @@ public class TestReturn extends OoplssTest {
 	public void testPolymorphReturn() throws Exception {
 		String str = 	"class bar {}" +
 						"class foo subtypeOf bar {" +
-						"	def bar():bar {" +
+						"	def bara():bar {" +
 						"		return new foo();" +
 						"	}" +
 						"}";
@@ -45,7 +45,7 @@ public class TestReturn extends OoplssTest {
 	public void testWrongPolymorphReturn() throws Exception {
 		String str = 	"class bar {}" +
 						"class foo subtypeOf bar {" +
-						"	def bar():foo {" +
+						"	def bara():foo {" +
 						"		return new bar();" +
 						"	}" +
 						"}";
