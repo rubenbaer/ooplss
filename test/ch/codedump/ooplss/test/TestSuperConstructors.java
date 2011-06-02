@@ -58,7 +58,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"class bar subtypeOf foo {" +
 						"	def __construct(): foo(\"abc\") {}" +
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
 	}
 	
@@ -70,7 +70,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"class bar subclassOf foo {" +
 						"	def __construct(): foo(\"abc\") {}" +
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
 	}
 	
@@ -82,7 +82,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"class bar subtypeOf foo {" +
 						"	def __construct(): foo(3) {}" +
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
 	}
 	
@@ -94,7 +94,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"class bar subtypeOf foo {" +
 						"	def __construct(): foo() {}" +
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();				
 	}
 	
@@ -108,7 +108,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"	def __construct(): foo() {}" +
 						"}";
 		try {
-			this.createArgTyper(str);
+			this.createTyper(str);
 		} catch (NullPointerException e) {}
 		
 		ErrorHandler.getInstance().throwException();				
@@ -124,7 +124,7 @@ public class TestSuperConstructors extends OoplssTest {
 						"	def __construct(): foo() {}" +
 						"}";
 		try {
-			this.createArgTyper(str);
+			this.createTyper(str);
 		} catch (NullPointerException e) {}
 		
 		ErrorHandler.getInstance().throwException();				

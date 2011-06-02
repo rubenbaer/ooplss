@@ -91,7 +91,7 @@ public class TestMyType extends OoplssTest {
 						"   	return self.compare(other) > 0;\n" +
 						"  	}\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	

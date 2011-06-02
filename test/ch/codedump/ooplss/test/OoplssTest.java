@@ -85,7 +85,7 @@ public abstract class OoplssTest {
 		return ref;
 	}
 	
-	protected OoplssTypes createTyper(String code) throws RecognitionException {
+	protected OoplssArgTypes createTyper(String code) throws RecognitionException {
 		if (this.ref == null) {
 			this.createRef(code);
 		}
@@ -93,14 +93,6 @@ public abstract class OoplssTest {
 		logger.info("\n\nRunning the type walker");
 		this.typer = new OoplssTypes(nodes, symTab);
 		typer.downup(t);
-		
-		return typer;
-	}
-	
-	protected OoplssArgTypes createArgTyper(String code) throws RecognitionException {
-		if (this.typer == null) {
-			this.createTyper(code);
-		}
 		
 		logger.info("\n\nRunning the argument type walker");
 		this.argtyper = new OoplssArgTypes(nodes, symTab);

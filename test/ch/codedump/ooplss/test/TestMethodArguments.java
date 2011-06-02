@@ -22,7 +22,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        f.m(\"Bar\"); // Here is a typeing error\n" +  
 						"    }\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -41,7 +41,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        f.m(s);\n" + 
 						"    }\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -60,7 +60,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        m(s);\n" + 
 						"    }\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -79,7 +79,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        m(f);\n" + 
 						"    }\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -92,7 +92,7 @@ public class TestMethodArguments extends OoplssTest {
 						"    }\n" + 
 						"}";
 		this.symTab.disableStandaloneCheck();
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
@@ -104,7 +104,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        blah();\n" + 
 						"    }\n" + 
 						"}";
-		this.createArgTyper(str);
+		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 }
