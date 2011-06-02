@@ -22,7 +22,7 @@ trees which are 2-dimensional. In ANTLR the latter are known as \emph{tree
 grammars} which are similar to normal grammars but matches abstract
 syntax tree nodes and not lexer tokens. The lexer and parser part is a
 normal grammar whereas the other phases are all tree grammars which are
-used for tree rewriting and tree visiting.  The output process
+used for tree rewriting and tree visiting. The output process
 is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
@@ -133,7 +133,7 @@ a tree of scopes which can resolve every valid symbol.
 In the second phase, the \emph{referencing run}, mainly every use of a symbol
 that is not declarative (method call, variable access, super type specification
 , types in declarations etc.) is examined and resolved to the according symbol
-definition.  Exceptions are thrown on errors like accessing non-existent
+definition. Exceptions are thrown on errors like accessing non-existent
 variables, calling variables or using types that do not exist.
 
 All of this is possible due to the fact that now all definitions are known
