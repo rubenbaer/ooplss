@@ -29,6 +29,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import ch.codedump.ooplss.antlr.OoplssArgTypes;
 import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssGen;
 import ch.codedump.ooplss.antlr.OoplssLexer;
@@ -63,8 +64,7 @@ public class Main {
 	/**
 	 * Runs ooplss compiler
 	 * 
-	 * @param args
-	 *            JVM Arguments
+	 * @param args JVM Arguments
 	 * @throws RecognitionException
 	 * @throws IOException
 	 * @throws InterruptedException 
@@ -119,6 +119,10 @@ public class Main {
 		logger.fine("Type checking");
 		OoplssTypes types = new OoplssTypes(nodes, symTab);
 		types.downup(t);
+		
+		logger.fine("Argument type checking");
+		OoplssArgTypes argTypes = new OoplssArgTypes(nodes, symTab);
+		argTypes.downup(t);
 
 		codeGeneration(t, nodes);
 

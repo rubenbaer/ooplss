@@ -14,5 +14,4 @@ public class WrongReturnValueException extends OoplssException {
 		String err = "The return statement has the wrong type";
 		this.setError(err);
 	}
-
 }
