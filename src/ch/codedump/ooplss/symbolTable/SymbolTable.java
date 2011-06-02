@@ -305,11 +305,12 @@ public class SymbolTable {
 	/**
 	 * Check the arguments of a method call
 	 * 
+	 * @param argsNode The node of the arguments
 	 * @param method The method being called
 	 * @param args The arguments 
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	public void checkArguments(MethodSymbol method, List<OoplssAST> givenArgs) 
+	public void checkArguments(OoplssAST argsNode, MethodSymbol method, List<OoplssAST> givenArgs) 
 			throws ArgumentDoesntMatchException {
 		List<Symbol> definedArgs = method.getArguments();
 		
@@ -323,7 +324,8 @@ public class SymbolTable {
 				this.checkArgumentType(
 					method.getArgument(i, (OoplssAST) givenArgs.get(i)).getDef(), 
 					(OoplssAST)(givenArgs.get(i)),
-					i
+					i,
+					argsNode.getRealType()
 				);
 			}
 		}
@@ -356,15 +358,17 @@ public class SymbolTable {
 	 * @param argType The argument declaration
 	 * @param givenArg The argument passed 
 	 * @param argCount The position of this argument in the argument list
+	 * @param realType 
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
+	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount, Type realType) 
 			throws ArgumentDoesntMatchException {
 		Type type = argType.getSymbol().getType();
 		if (type instanceof SuperVariableSymbol) {
 			type = (Type)((SuperVariableSymbol)type).getWrappedSymbol();
 		}
  		argType.setEvalType(type); //this might be a bit ugly
+ 		argType.setRealType(realType);
 		if (!this.canAssignTo(argType, givenArg)) {
 			throw new ArgumentDoesntMatchException(givenArg, argCount);
 		}
@@ -486,7 +490,7 @@ public class SymbolTable {
 						
 		if (methodNode != null) {
 			logger.fine("Dealing with a method call");
-			// check if we have a subtype here
+			// check if we have a sub type here
 			ClassSymbol cl = (ClassSymbol)node.getRealType();
 			if (cl.getSupertype() != null) {
 				logger.fine("We have a subtype");
@@ -764,5 +768,26 @@ public class SymbolTable {
 			str.append(scopeToString(s));
 		
 		return str.toString();
+	}
+	
+	/**
+	 * Set the real type to the method arguments
+	 * @param args The node of the arguments
+	 * @param realtype The realtype to set
+	 * @param leftNode The left node
+	 */
+	public void setMethodArgRealTypes(OoplssAST args, Type realType, OoplssAST leftNode) {
+		if (leftNode.token.getType() == OoplssLexer.SELF) {
+			realType = this.getEnclosingClassScope(leftNode.getScope());
+		}
+		args.setRealType(realType);
+		/*
+		for (int i = 0; i < args.getChildCount(); i++) {
+			MethodSymbol method = (MethodSymbol)args.getScope();
+			for (Symbol s :method.arguments) {
+				s.getDef().setRealType(realType);
+			}
+		}
+		*/
 	}
 }
