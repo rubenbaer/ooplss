@@ -87,9 +87,7 @@ public class TestMyType extends OoplssTest {
 						"	def foo(a:MyType):Void {}" +
 						"	var x:StrictlyOrdered;" + 
 						"   def greater (other: MyType): Bool {\n" + 
-						"   	//return self.compare(other) > 0;\n" +
-						"		//self.foo(3);\n" +
-						"		x.foo(other);" +  
+						"   	return self.compare(other) > 0;\n" +
 						"  	}\n" + 
 						"}";
 		this.createArgTyper(str);

@@ -499,7 +499,7 @@ public class SymbolTable {
 		}
 		
 		Type realType = node.getRealType();
-		if (realType == null) {
+		if (realType == null || realType.getTypeIndex() == SymbolTable.tMYTYPE) {
 			// it doesn't have a realType... assume standalone access
 			// maybe?
 			return this.getEnclosingClassScope(node.getScope());
@@ -769,8 +769,12 @@ public class SymbolTable {
 	 * Set the real type to the method arguments
 	 * @param args The node of the arguments
 	 * @param realtype The realtype to set
+	 * @param leftNode The left node
 	 */
-	public void setMethodArgRealTypes(OoplssAST args, Type realType) {
+	public void setMethodArgRealTypes(OoplssAST args, Type realType, OoplssAST leftNode) {
+		if (leftNode.token.getType() == OoplssLexer.SELF) {
+			realType = this.getEnclosingClassScope(leftNode.getScope());
+		}
 		for (int i = 0; i < args.getChildCount(); i++) {
 			MethodSymbol method = (MethodSymbol)args.getScope();
 			for (Symbol s :method.arguments) {

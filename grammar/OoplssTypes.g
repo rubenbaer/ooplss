@@ -400,7 +400,11 @@ memberAccess	returns [Retval retval]
 				$CALLOPERATOR.setRealType($left.retval.type);
 				// check for methodcall, then assign the real type to the nodes or something
 				if ($right.retval.node.token.getType() == OoplssLexer.METHODCALL) {
-					symtab.setMethodArgRealTypes(((OoplssAST)$right.retval.node.getChild(1)), $left.retval.type);
+					symtab.setMethodArgRealTypes(
+						((OoplssAST)$right.retval.node.getChild(1)), 
+						$left.retval.type,
+						$left.retval.node
+					);
 				}
 				retval = new Retval();
 				retval.type = type;
