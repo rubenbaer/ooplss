@@ -8,6 +8,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.Tree;
 
+import ch.codedump.ooplss.antlr.OoplssArgTypes;
 import ch.codedump.ooplss.antlr.OoplssDef;
 import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.antlr.OoplssParser;
@@ -31,6 +32,7 @@ public abstract class OoplssTest {
 	OoplssDef def;
 	OoplssRef ref;
 	OoplssTypes typer;
+	private OoplssArgTypes argtyper;
 	
 	
 	/**
@@ -83,7 +85,7 @@ public abstract class OoplssTest {
 		return ref;
 	}
 	
-	protected OoplssTypes createTyper(String code) throws RecognitionException {
+	protected OoplssArgTypes createTyper(String code) throws RecognitionException {
 		if (this.ref == null) {
 			this.createRef(code);
 		}
@@ -92,6 +94,10 @@ public abstract class OoplssTest {
 		this.typer = new OoplssTypes(nodes, symTab);
 		typer.downup(t);
 		
-		return typer;
+		logger.info("\n\nRunning the argument type walker");
+		this.argtyper = new OoplssArgTypes(nodes, symTab);
+		argtyper.downup(t);
+		
+		return argtyper;
 	}
 }

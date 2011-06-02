@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
@@ -80,11 +81,41 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	/*
+	@Test
+	public void testSomeMyTyping() throws Exception {
+		String str =	"class StrictlyOrdered {\n" + 
+						"   def compare(other: MyType): Int { return 0; }\n" +
+						"   def greater (other: MyType): Bool {\n" + 
+						"   	return self.compare(other) > 0;\n" +
+						"  	}\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	
 	@Test
 	public void testMyTypeClassInheritance() throws Exception {
 		String str = 	"class foo {\n" +
-						"	def blah():MyType;\n" +
+						"	def blah():MyType {}\n" +
+						"}\n" +
+						"class bar subclassOf foo {}\n" +
+						"class third {\n" +
+						"	var x:foo;\n" +
+						"	var y:bar;\n" +
+						"	def __construct() {\n" +
+						"		//x = y.blah();\n" +
+						"		y = y.blah();\n" +
+						"	}\n" +
+						"}\n";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testInvalidMyTypeClassInheritance() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def blah():MyType {}\n" +
 						"}\n" +
 						"class bar subclassOf foo {}\n" +
 						"class third {\n" +
@@ -92,14 +123,13 @@ public class TestMyType extends OoplssTest {
 						"	var y:bar;\n" +
 						"	def __construct() {\n" +
 						"		x = y.blah();\n" +
-						"		y = y.blah();\n" +
+						"		//y = y.blah();\n" +
 						"	}\n" +
 						"}\n";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
-	*/
-	/*
+	
 	@Test
 	public void testMyType() throws Exception {
 		String str = 	"class foo {" +
@@ -111,5 +141,28 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
-	*/
+	
+	@Test
+	public void testInheritedMyTyping() throws Exception {
+		String str = 	"class StrictlyOrdered {\n" + 
+						"  def compare(other: MyType): Int { return 0; }\n" + 
+						"  def greater (other: MyType): Bool {\n" + 
+						"    return self.compare(other) > 0;\n" + 
+						"  }\n" + 
+						"  def less (other: MyType): Bool {\n" + 
+						"    return self.compare(other) < 0;\n" + 
+						"  }\n" + 
+						"}\n" + 
+						"\n" + 
+						"class Ordered subclassOf StrictlyOrdered {\n" + 
+						"  def geq (other: MyType): Bool {\n" + 
+						"    return self.compare(other) >= 0;\n" + 
+						"  }\n" + 
+						"  def leq (other: MyType): Bool {\n" + 
+						"    return self.compare(other) <= 0;\n" + 
+						"  }\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }

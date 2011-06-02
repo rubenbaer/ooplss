@@ -1,5 +1,6 @@
 package ch.codedump.ooplss.symbolTable.exceptions;
 
+import ch.codedump.ooplss.antlr.OoplssLexer;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 /**
@@ -10,6 +11,11 @@ public class ArgumentDoesntMatchException extends OoplssException {
 
 	public ArgumentDoesntMatchException(OoplssAST node, int argCount) {
 		super(node.token);
+		if (node.token.getType() == OoplssLexer.VARACCESS) {
+			this.token = ((OoplssAST)node.getChild(0)).token;
+		}
+		
+		// add more possibilities...
 		
 		String err = "Argument " + argCount + " does not match "
 			+ "the method";

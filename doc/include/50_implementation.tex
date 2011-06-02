@@ -22,7 +22,7 @@ trees which are 2-dimensional. In ANTLR the latter are known as \emph{tree
 grammars} which are similar to normal grammars but matches abstract
 syntax tree nodes and not lexer tokens. The lexer and parser part is a
 normal grammar whereas the other phases are all tree grammars which are
-used for tree rewriting and tree visiting.  The output process
+used for tree rewriting and tree visiting. The output process
 is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
@@ -39,7 +39,6 @@ language.
 
 The output translation backend is a translation unit from the
 intermediate abstract syntax tree to pure Java code.
-
 
 \subsection{Lexer and Parser}
 The lexer and parser are defined in the same file \emph{Ooplss.g}
@@ -102,8 +101,8 @@ def foo(x:Int) {
 \subsubsection{Built-In Types}
 Built-in types are created before walking the tree for the first time.
 They are assigned to the global scope, which is created upon creating the symbol
-table. The built-in types are documented in the language specification
-(\Cref{sec:builtinTypes}).
+table. The built-in types are documented in the language specification in
+\Cref{sec:builtinTypes}.
 
 \subsubsection{Define Symbols}
 The first phase of the symbol table building is the \emph{definition run}
@@ -134,13 +133,12 @@ a tree of scopes which can resolve every valid symbol.
 In the second phase, the \emph{referencing run}, mainly every use of a symbol
 that is not declarative (method call, variable access, super type specification
 , types in declarations etc.) is examined and resolved to the according symbol
-definition.  Exceptions are thrown on errors like accessing non-existent
+definition. Exceptions are thrown on errors like accessing non-existent
 variables, calling variables or using types that do not exist.
 
 All of this is possible due to the fact that now all definitions are known
 and available in the tree. Since the current scope was recorded to the AST
 nodes, it is clear to the walker where to start resolving the symbols.\\
-
 
 \noindent There are different types of resolving the symbols:
 \begin{description}
@@ -178,6 +176,10 @@ possible. In case of a method override, the return type and the arguments
 are checked, since they have to be the same.
 \item when referencing a super type or class it also runs some checks to avoid
 cyclic subtyping or subclassing.
+\item when specifying a supertype or superclass, a \emph{SuperVariableSymbol}
+is created and defined in the class scope. This class is a wrapper for the 
+according superclass or supertype. With this symbol in the class scope, it
+is possible to address the supertype or superclass explicitly.
 \end{itemize}
 
 The result of this phase is a fully propagated symbol table. Every symbol can
@@ -185,7 +187,6 @@ now be resolved within this tree with all necessary meta data. The tree grammar
 for the reference walker is defined in \emph{OoplssRef.g}
 
 \subsection{Type Checking}
-
 The third walk on the abstract syntax tree does the type checking. This
 time the nodes are evaluated in postorder so both sides of an expression
 node are evaluated before the node itself is evaluated. Like this the
@@ -195,22 +196,43 @@ typing rules is found.
 The basic concept of the type checker is to check if method arguments,
 both sides of an expression/assignment etc. have the same type. In case
 of basic types this is a bit extended since adding a integer to a float
-is perfectly valid. In this case, the type checker yields float as evaluation
-type of the addition expression.
+is perfectly valid. In this case, the type checker yields float as 
+evaluation type of the addition expression.
 
 In case of method arguments, return statements, new object creation
 and assignments it is extended as well since the subtyping concept
-allows assigning values that are of a subtype of the expected value.
+allows assigning values that are of a subtype of the expected value.\\
+
+Additionally to the evaluation type, there is also the type that the
+MyType has to be bound to, which we call the \emph{real type}. Opposed
+to the evaluation type, it is the exact opposite of a member access
+(for example $x.y$): while the evaluation type of one member access
+is the return type of the method on the right or the type of the variable 
+on the right depending on what is accessed, the real type is the type
+of the variable that the access is performed on. There are some other
+various cases as well, for example calling a method that returns
+a MyType. In this case, the MyType is bound to the enclosing class.
+
+
+Because of the MyType extension we had to split the type walk into two
+actual walks. The second one only contains the typing rules for method
+arguments though. This was necessary because at the time the method
+arguments are checked, the typer has to know what to bind the MyType
+to. Since the typer traverses the AST in postorder this is not the case
+because method arguments are obviously deeper in the tree than the
+call operator (.), where the correct type is known. The easiest way
+is now to save the type \\
 
 The typing rules are explained in detail in \Cref{ctr:typeRules}. The
-type checker grammar can be found in \emph{OoplssTypes.g}. Most work
-is actually delegated to the SymbolTable (\ref{sec:symbolTableDescription}).
+type checker grammars can be found in \emph{OoplssTypes.g} and 
+\emph{OoplssArgTypes.}. Most work is actually delegated to 
+the SymbolTable (\ref{sec:symbolTableDescription}).
 
 \subsubsection{Decidability}
 \Cref{ctr:typeRules}
+\todo{Still open}
 
 \subsection{Standalone statements}
-
 Since \ooplss is translated into Java, there has to be some checking
 done on the statements so the compiler does not create erroneous Java
 code. Java has some constraints, for instance meaningless statements
@@ -221,6 +243,10 @@ We solved this particular problem by assigning every statement whether
 it is allowed to stand alone or not. Then the reference walker loops
 through all statements upon leaving a block. If one is found that cannot
 stand alone, an exception is thrown.
+
+This feature can be turned off which the unit tests usually do, so
+they can test more atomically, for instance testing a variable
+access without testing an assignment.
 
 \subsection{Translation}
 Translation is the last stage of the compiler backend. It
@@ -370,7 +396,7 @@ private and can only be accessed through getters and setters.
 	drawObjects(MethodSymbol, ClassSymbol, Type, SuperVariableSymbol);
 	link(inheritance)(ClassSymbol.n -- ScopedSymbol.s);
 	link(implements)(ClassSymbol.e -- Type.w);
-	link(inheritance)(SuperVariableSymbol.e -- ClassSymbol.w);
+	link(associationUni)(SuperVariableSymbol.e -- ClassSymbol.w);
 
 
 	Class.VariableSymbol("VariableSymbol")()();
@@ -442,6 +468,20 @@ specialities and prevent from using the symbols in a wrong way.
 %
 %\todo{Export code and intermediate code in X\$\$...}
 
+\subsection{Error Reporting}
+
+To report errors in the typing or even referencing of the code, exceptions
+are thrown. There is an exception for every kind of error that can occur.
+There is also an error handler to handle these exceptions since they cannot
+be just thrown through the code generated by ANTLR. On normal execution,
+the compiler is halted when an error occurs, opposed to unit testing where
+it is essential to carry on with the execution so the assertions can be 
+evaluated.
+
+The AST node where the error occurs is passed to the exception. With this
+information, the precise location, that is, the line and character position
+of the error, can be printed along with the error message.
+
 \section{Unit Testing}
 \subsection{gUnit -- A Grammar Testing Framework}
 
@@ -460,7 +500,6 @@ The gUnit tests can be found in \emph{grammar/test/}.
 
 
 \subsection{JUnit}
-
 The symbol table is checked via JUnit tests. There are various tests that
 test the symbol table in a certain depth, i.e. the definition walker, the
 reference walker and the type checker.

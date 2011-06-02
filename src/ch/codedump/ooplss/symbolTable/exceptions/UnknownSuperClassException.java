@@ -12,7 +12,7 @@ public class UnknownSuperClassException extends OoplssException {
 	public UnknownSuperClassException(OoplssAST node) {
 		super(node.token);
 		
-		String err = "This class does not have a superclass called "
+		String err = "This class does not have a superclass or a supertype called "
 			+ node.getText();
 		
 		this.setError(err);

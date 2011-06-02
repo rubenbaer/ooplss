@@ -14,5 +14,4 @@ public class ClassNeededForMemberAccess extends OoplssException {
 		String err = "Member access only possible on class type";
 		this.setError(err);
 	}
-
 }

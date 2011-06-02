@@ -481,7 +481,7 @@
    \setlength{\parsep}{2pt}
    \setlength{\topsep}{2pt}
    \setlength{\partopsep}{0pt}
-   \setlength{\labelsep}{0.5em} 
+   \setlength{\labelsep}{0.5em}
 	}
 
 \newcommand{\squishend}{
@@ -493,5 +493,11 @@
   \leavevmode\leaders
   \hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}
   \hfill\kern\z@
-} 
+}
 \makeatother
+
+\newcolumntype{?}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{!}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}

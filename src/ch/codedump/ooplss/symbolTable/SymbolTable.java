@@ -13,7 +13,6 @@ import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentToMethodException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalMemberAccessException;
 import ch.codedump.ooplss.symbolTable.exceptions.InvalidExpressionException;
-import ch.codedump.ooplss.symbolTable.exceptions.NoSuperTypeException;
 import ch.codedump.ooplss.symbolTable.exceptions.NotCallableException;
 import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.StandaloneStatementException;
@@ -95,17 +94,17 @@ public class SymbolTable {
 	 * The mappings of arithmetic operations like +,-,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
-		/*				object	int		float	string	 char	  bool	  void		myType */
+		/*             object	int		float	   string	    char	  bool	  void		myType */
 		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
-		/* int    */	{_void,	_int,	_float,	_void,	 _int,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	  _float,	_void,	 _int,	  _void,  _void,	_void},
 		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void,	_void},
 		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void,	_void},
 		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void,	_void},
-		/* bool   */    {_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
-		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
+		/* bool   */	{_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
 		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_myType}
 	};
-	
+
 	/**
 	 * The mappings of relational expressions like < > <= >=
 	 */
@@ -120,13 +119,13 @@ public class SymbolTable {
 		/* void   */    {_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
 		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void, 	_void}
 	};
-	
+
 	/**
 	 * The mappings of equality expressions like == !=
 	 */
 	protected final Type[][] equalityResultType = new Type[][] {
 		/*				object	int		float	string	 char	  bool	  void 		myType */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
+		/* object */	{_bool, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
 		/* int    */	{_void,	_bool,	_bool,	_void,	 _bool,	  _void,  _void,	_void},
 		/* float  */	{_void, _bool,	_bool,	_void,	 _bool,   _void,  _void,	_void},
 		/* string */	{_void, _void,  _void,  _bool,   _void,   _void,  _void,	_void},
@@ -306,11 +305,12 @@ public class SymbolTable {
 	/**
 	 * Check the arguments of a method call
 	 * 
+	 * @param argsNode The node of the arguments
 	 * @param method The method being called
 	 * @param args The arguments 
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	public void checkArguments(MethodSymbol method, List<OoplssAST> givenArgs) 
+	public void checkArguments(OoplssAST argsNode, MethodSymbol method, List<OoplssAST> givenArgs) 
 			throws ArgumentDoesntMatchException {
 		List<Symbol> definedArgs = method.getArguments();
 		
@@ -324,7 +324,8 @@ public class SymbolTable {
 				this.checkArgumentType(
 					method.getArgument(i, (OoplssAST) givenArgs.get(i)).getDef(), 
 					(OoplssAST)(givenArgs.get(i)),
-					i
+					i,
+					argsNode.getRealType()
 				);
 			}
 		}
@@ -339,7 +340,7 @@ public class SymbolTable {
 	 * @throws UnknownSuperClassException
 	 */
 	public void checkSuperConstructors(List<OoplssAST> supers, OoplssAST constructor) 
-			throws NoSuperTypeException, UnknownSuperClassException {
+		throws UnknownSuperClassException {
 		if (supers != null) {
 			for (OoplssAST sup: supers) {
 				((ClassSymbol)constructor.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
@@ -357,11 +358,17 @@ public class SymbolTable {
 	 * @param argType The argument declaration
 	 * @param givenArg The argument passed 
 	 * @param argCount The position of this argument in the argument list
+	 * @param realType 
 	 * @throws ArgumentDoesntMatchException 
 	 */
-	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount) 
+	protected void checkArgumentType(OoplssAST argType, OoplssAST givenArg, int argCount, Type realType) 
 			throws ArgumentDoesntMatchException {
- 		argType.setEvalType(argType.getSymbol().getType()); //this might be a bit ugly
+		Type type = argType.getSymbol().getType();
+		if (type instanceof SuperVariableSymbol) {
+			type = (Type)((SuperVariableSymbol)type).getWrappedSymbol();
+		}
+ 		argType.setEvalType(type); //this might be a bit ugly
+ 		argType.setRealType(realType);
 		if (!this.canAssignTo(argType, givenArg)) {
 			throw new ArgumentDoesntMatchException(givenArg, argCount);
 		}
@@ -483,7 +490,7 @@ public class SymbolTable {
 						
 		if (methodNode != null) {
 			logger.fine("Dealing with a method call");
-			// check if we have a subtype here
+			// check if we have a sub type here
 			ClassSymbol cl = (ClassSymbol)node.getRealType();
 			if (cl.getSupertype() != null) {
 				logger.fine("We have a subtype");
@@ -495,7 +502,14 @@ public class SymbolTable {
 			return SymbolTable._myType;
 		}
 		
-		return node.getRealType();
+		Type realType = node.getRealType();
+		if (realType == null) {
+			// it doesn't have a realType... assume stand alone access
+			// TODO should probably considered further if this is correct
+			return this.getEnclosingClassScope(node.getScope());
+		}
+		
+		return realType;
 	}
 	
 	/**
@@ -754,5 +768,26 @@ public class SymbolTable {
 			str.append(scopeToString(s));
 		
 		return str.toString();
+	}
+	
+	/**
+	 * Set the real type to the method arguments
+	 * @param args The node of the arguments
+	 * @param realtype The realtype to set
+	 * @param leftNode The left node
+	 */
+	public void setMethodArgRealTypes(OoplssAST args, Type realType, OoplssAST leftNode) {
+		if (leftNode.token.getType() == OoplssLexer.SELF) {
+			realType = this.getEnclosingClassScope(leftNode.getScope());
+		}
+		args.setRealType(realType);
+		/*
+		for (int i = 0; i < args.getChildCount(); i++) {
+			MethodSymbol method = (MethodSymbol)args.getScope();
+			for (Symbol s :method.arguments) {
+				s.getDef().setRealType(realType);
+			}
+		}
+		*/
 	}
 }
