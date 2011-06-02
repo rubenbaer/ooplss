@@ -51,15 +51,16 @@ to provide both possibilities to the programmer, see
 
 \section{Subtyping and Subclassing}
 \label{chap:subtypingVsSubclassing}
-In this chapter we want to get familiar with the terms subtyping and
-subclassing and their differences. Both concepts exist in some of the
-widely known object oriented programming languages like Java, Eiffel
-or \cpp, but are usually mixed up in the used terminology. For proper
-distinguation the following terminology is used: \emph{extension} is
-used for subtyping and \emph{inheritance} for subclassing. The termin
-\emph{derivation}\nomenclature{Derivation}{Refers to both, extension and
-inheritance. A class combination aims to code reuse} is used to refer
-to both concepts without referencing one in special.
+In this chapter we want the reader to become familiar with the terms
+\emph{subtyping} and \emph{subclassing} and their differences. Both
+concepts exist in some of the widely known object oriented programming
+languages like Java, Eiffel or \cpp, but are usually mixed up in the
+used terminology. For proper distinguation the following terminology is
+used: \emph{extension} is used for subtyping and \emph{inheritance} for
+subclassing. The termin \emph{derivation}\nomenclature{Derivation}{Refers
+to both, extension and inheritance. A class combination aims to code
+reuse} is used to refer to both concepts without referencing one in
+special.
 
 \subsection{Subtyping}
 \nomenclature{Subtyping}{A relation between two type expressions with
@@ -89,11 +90,12 @@ following properties:
 \end{defn}
 
 Type safe subtyping is defined for objects and fields. Subtyping for
-objects is quite easy. If $A$ <: $B$ then $A$ needs at least as many
-fields as $B$ which are in subtype relation. Further $A$ can contain
-other fields which does not have any correspondence in $B$. Since objects
-are often considered as records -- which are ordered -- in subtyping
-permutations of those are defined as equal.
+objects is defined as follows: If $A$ <: $B$ then $A$ needs at least
+as many fields as $B$ entails; the former are in subtype relation to
+the latter corresponding once. Further $A$ can contain other fields
+which does not have any correspondence in $B$. Since objects are often
+considered as records -- which are ordered -- in subtyping permutations
+of those are defined as equal.
 \begin{defn}[Object subtyping]
 	\label{def:subtypeObject}
 	If $B := \{l_b : Y_b\} and A := \{l_a : X_a\}$, $B <: A$ anand $A$
