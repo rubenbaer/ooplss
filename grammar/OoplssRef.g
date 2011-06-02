@@ -43,7 +43,7 @@ topdown		:	enterMethod
 			|	argument
 			|	enterConstructor
 			|	subType
-			|	subClass5
+			|	subClass
 			| 	standalones
 			;
 
@@ -163,6 +163,9 @@ varDef		:	^(VARDEF type=ID name=ID)
 					// do this in symtab?
 					throw new CannotUseVoidOnVariableException($name);
 				}
+				if (t instanceof SuperVariableSymbol) {
+					t = (Type)((SuperVariableSymbol)t).getWrappedSymbol();
+				}
 				$name.getSymbol().setType(t);
 				
 				$VARDEF.setStandalone();
@@ -188,9 +191,9 @@ varAccess		returns [Type type]
 					return $name.getSymbol().getType();
 				}
 				logger.fine("<Ref>Resolving a simple variable " + $name.text);
-				Symbol s = this.symtab.resolveVar($name);
-				$name.setSymbol(s);
-				type = s.getType();
+  				Symbol s = this.symtab.resolveVar($name);
+  				type = s.getType();
+  				name.setSymbol(s);
 			}
 			;
 catch[UnknownDefinitionException e] {

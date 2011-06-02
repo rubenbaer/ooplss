@@ -7,7 +7,7 @@ public class SuperVariableSymbol extends ClassSymbol {
 	/**
 	 * The wrapped symbol
 	 */
-	ClassSymbol wrappedSymbol;
+	protected ClassSymbol wrappedSymbol;
 
 	/**
 	 * Construct a wrapped symbol
@@ -31,4 +31,11 @@ public class SuperVariableSymbol extends ClassSymbol {
 		return str;
 	}
 	
+	/**
+	 * Return the wrapped symbol
+	 * @return Wrapped symbol
+	 */
+	public Symbol getWrappedSymbol() {
+		return this.wrappedSymbol;
+	}
 }
