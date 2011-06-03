@@ -758,9 +758,9 @@ public class Main { /*\label{line:useParametrisationOoplss}*/
 
 \subsubsection{Specialising Parametrised Classes}
 As seen in the previous section, parametrising classes with matching
-now fits well in the model. However, since parametrised classes
+now fits the model well. However, since parametrised classes
 can be inherited as well, this will now be presented that this
-is straightforward as well. For the sake of simplicity only the
+is straightforward as well. For the sake of simplicity, only the
 translated Java code is presented because fields that are not using
 parameters are translated in the same manner as in normal classes.
 Listing \ref{lst:extendingContainer} shows an extended version of the
@@ -797,31 +797,30 @@ public interface SpecialContainer<X> extends Container<X> {
 \end{lstlisting}
 
 \subsubsection{Avoid Type Erasure}
-The idea of generating extended an class instead of using the
-runtime generic support from Java is not new even though the idea
-is a bit different with the same consequences. Robert Cartwright
-and Guy Steele proposed another kind of generics in Java as a
-concurrence to GJ\nomenclature{GJ}{The research language for the Java
-generics. It is a short form of `Generic Java'. Due to copyright law,
-the name is abbreviated} from Odersky and Wadler and is presented in
-\cite{cartwright_compatible_1998}. Their project is called NextGen
-and is based on Java 1.2. In contrast to GJ and the current generics
-implementation in Java, this project provides an extension that is
-not backward compatible to non generic code. However, since no generic
-types are used at runtime, type parameters are not erased like in GJ
-and Java 1.5.
+The idea of generating new extended classes instead of a runtime generic
+support or type erasure is not new even though the idea is a bit different
+with the similar consequences.  Cartwright and Steele to proposed
+another kind of generics in Java competing with GJ\nomenclature{GJ}{The
+research language for the Java generics. It is a short form of `Generic
+Java'. Due to copyright law, the name is abbreviated} from Odersky and
+Wadler. And is presented in \cite{cartwright_compatible_1998}. Their
+project is called NextGen and is based on Java 1.2. In contrast to GJ
+and the current generics implementation in Java, this project provides an
+extension that is not backward compatible to non generic code. However,
+since no generic types are used at runtime, type parameters are not
+erased like in GJ and Java 1.5.
 
-With this, the language gains on runtime expressiveness since a
+With this, the language gains on runtime expressiveness since an
 \emph{instanceof} operator can be introduced to perform checks on type
-parameters which Java has not. Further the creation of new objects
+variables which Java can not, since Java has not runtime type information
+after the type erasure is done. Furthermore the creation of new objects
 would also be possible as long as a class provides a standard constructor.
 
-As a drawback of creating all these classes a more sophisticated
-bytecode analysis and engineering if a language would support a modular
-code generation is needed, which \ooplss does not have so far.
+As a drawback of creating all these classes, especially  if a language
+would support a modular code generation, a more sophisticated bytecode
+analysis and engineering is needed, which \ooplss does so far not have.
 
-A further but not
-that relevant problem is the generated code overhead.
+A further but not so relevant problem is the generated code overhead.
 
 \subsubsection{Implicitly Parametrised Classes with \mytype}
 \label{sec:implicitlyMyType}
@@ -830,8 +829,8 @@ To conclude this section about parametrisation let's consider the
 \self variable can be bound to its real type by applying the unbound
 type operator recursively. To grasp this notion in \ooplss, classes
 can be considered as implicitly parametrised. Since both, subtyping
-and subclassing, is available, the type parameter list is extended in
-every subtype with one additional type parameter Only this makes it
+and subclassing, is available, the type parameter list is extended
+with one additional type parameter in every subtype. Only this makes it
 possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
 Listing \ref{lst:explicitMyType}.
