@@ -8,20 +8,20 @@
 % Bär Ruben, Heinemann Stefan
 %**********************************************************************************
 \subsection*{Abstract}\todo{Early draft version}
-Subtyping is a well known type relation in object-oriented
+Subtyping is a well known type relations in object-oriented
 programming languages and is an important aspect of these languages
 to support sound type polymorphism. To support type polymorphism
 subtyping has to restrict the subtype declaration to allow safe type
-substitutions. This prohibits to specialise binary method declarations in
-subtypes. In many popular object-oriented programming languages the type
+substitutions. This prohibits the specialisation of binary method declarations 
+in subtypes. In many popular object-oriented programming languages the type
 hierarchy is implicitly the same as the implementation hierarchy. This
 contradicts the notion of inheritance as code reuse and subtyping as type
 substitution. To solve this problem type parametrisation have been introduced in
-different languages which is also known as generics. But these does not
+different languages which is also known as generics. But these do not
 tackle recursive types used for binary methods. To solve this problem
 the concept of subclassing with a special type variable \mytype has been
 introduced which is an implicit type parameter. But languages supporting
-the \mytype variable does not allow the programmer to choose the correct
+the \mytype variable do not allow the programmer to choose the correct
 binding of the variable that fits most to the problem under consideration.
 
 Specialising binary methods without bypassing the type system with
@@ -33,7 +33,7 @@ for specialising binary methods or not.
 This thesis project presents a solution that allows the programmer to
 choose the accurate model that fits the problem. This is presented
 with the prototypical programming languages \ooplss. To test the
-assumptions an implementation of some of the features were created
+assumptions, an implementation of some of the features was created
 within this project. \ooplss supports two kinds of class derivation
 with different specialisation semantics. New to subtyping and generics
 is a proper subclassing model which supports inheritance.
