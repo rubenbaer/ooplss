@@ -1,17 +1,18 @@
+
 \chapter{Discussion and Conclusion}
 \label{ctr:discussionConclusion}
 \section{Discussion}
 \label{ctr:discussion}
-The discussion contains three section. The first takes the examples from
+The discussion contains three sections. The first section takes the examples from
 \Cref{ctr:theoreticalBackground} into account and how they are expressed
-in \ooplss. It is shown how these problems can be models in a better
-way for some situations and how the programmer is supported. Here, it
-is considered that the full specification is implemented. The following
-section makes then a comparison with Scala an does shortly presents how
+in \ooplss. It is shown how these problems can be modelled in a better
+way for some situations and how the programmer is supported by doing this. 
+Here, it is considered that the full specification is implemented. The following
+section then makes a comparison with Scala an shortly presents how
 these problems are treated within Scala and where the major differences
-are. The fact that the implementation is not thus far as the specification
-is discussed in the last section and presents the status quo of \ooplss'
-implementation.
+are. The fact that the implementation is not that far as the specification
+is discussed in the last section and the status quo of \ooplss'
+implementation is presented.
 
 \subsection{Solving prior Problems with \ooplss}
 In \Cref{chap:subtypingVsSubclassing} three different examples were
@@ -20,31 +21,31 @@ needs unsafe type casts and runtime checks.
 
 \subsubsection{The Circle - Ellipse Problem}
 This example is introduced in \Cref{sec:sharingTypes} where the type
-hierarchy differs from implementation. The question is whether an ellipse
-is a specialisation from an circle or the other way round.
+hierarchy differs from the implementation. The question is whether an ellipse
+is a specialisation of a circle or the other way round.
 
 To consider this example, both definitions of subtyping may be recalled;
-In signature subtyping, which is supported by \ooplss, gives the
+In signature subtyping, which is supported by \ooplss, a
 definition that a subtype can only add but not remove fields. With this,
 an ellipse can be a subtype of a circle since an ellipse has two radii,
-i.e., has at least one more field then a circle. In behavioural subtyping
-the subtypes invariants can only be more restrictive. Here a circle is
-a subtype of an ellipse since both radii of an ellipse must be equals
+i.e. has at least one more field than a circle. In behavioural subtyping
+the subtype invariants can only be more restrictive. Here a circle is
+a subtype of an ellipse since both radii of an ellipse must be equal
 to define a circle.
 
 However, the problem in signature subtyping is that the runtime behaviour
-of this model is incorrect, e.g., an circle object that references a
+of this model is incorrect, e.g. a circle object that references a
 runtime ellipse object would return a wrong result for the height and
 width properties and consequently a wrong area etc. For this problem
-exists different approaches tackling this problem. One of this is to
+there are different approaches to solve it. One of them is to
 decouple both types and implementation completely. Unfortunately this
 leads to massively redundant code which of course can be reduced with
 various techniques like multiple inheritance and abstract base classes. A
 more straightforward solution is now presented in \ooplss in Listing
 \ref{lst:ellipseCircleOoplss} using subclasses. Although subsumption
-is not not available the code of Circle could be reused and with the
+is not not available, the code of \emph{Circle} could be reused and with the
 matching relation, new parametrised classes can get introduced that can
-handle with both classes properly even when they are not interchangeable.
+handle both classes properly even when they are not interchangeable.
 
 \begin{lstlisting}[float=ht,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
 class Circle {
@@ -66,27 +67,27 @@ class Ellipse subclassOf Circle {
 The example presented in \Cref{sec:recursiveClosure} deals with the
 problem of binary methods and consequently with object families.
 
-In the first case are binary methods considered. In a subtyping environment
+In the first case binary methods are considered. In a subtyping environment,
 binary methods arguments are not changeable with the type hierarchy. This
-entails that when a programmer wants to implement these binary methods,
-unsafe type checks and casts are inevitable. A well known problem is the
-equals method like in Java or \cs. Before two objects can be compared
+means that when a programmer wants to implement these binary methods,
+unsafe type checks and casts are inevitable. A well known example of this problem is the
+equals method as known in Java or \cs. Before two objects can be compared
 for equality runtime type checking is necessary although passing other
 object types would not make any sense.
 
 The second case is strongly connected with binary methods and this
 restriction for subtyping. It deals with the implementation of multiple
 object hierarchies with a strong connection between them. There are two
-examples that presents this very well. First, suppose simultaneously to
-an element object hierarchy an hierarchy of operations are defined. For
+examples that present this very well. First, suppose simultaneously to
+an element object hierarchy a hierarchy of operations is defined. For
 the \emph{visitor pattern} by Erich Gamma et al. \cite{gamma_design_1995}
 is a good solution for a pure subtyping environment and where subsumption
 is important. However, if the operations are designed for homogeneous
-data structures this has a drawback. If the element hierarchy changes all
+data structures this has a drawback. If the element hierarchy changes, all
 visitors need to be changed which is maybe not possible everywhere. Here
-subclassing is may be more appropriate. \Cref{fig:operationFamily}
+subclassing is maybe more appropriate. \Cref{fig:operationFamily}
 presents this idea. With an appropriate parametrisation of the operation
-classes it is possible to defined appropriate operations for every object.
+classes it is possible to define appropriate operations for every object.
 
 \begin{figure}[H]
 	\centering
@@ -118,7 +119,7 @@ classes it is possible to defined appropriate operations for every object.
 	\label{fig:operationFamily}
 \end{figure}
 
-This idea can easily adopted to the problem of SinglyLinkedNodes
+This idea can easily be adopted to the problem of SinglyLinkedNodes
 and DoublyLinkedNodes which is presented in Section
 \ref{subsec:matching}. Consequently the node family specifies an element
 family where an appropriate list class family does implement appropriate
@@ -126,7 +127,7 @@ algorithms for efficient list using.
 
 \subsubsection{Schizophrenic Self References}
 The last example considered in this chapter deals with schizophrenic self
-references in extension which are introduced in \Cref{sec:schizoReferences}.
+references occuring in extension which are introduced in \Cref{sec:schizoReferences}.
 
 This is the most obvious example affected by subclassing and \mytype.
 
@@ -157,9 +158,9 @@ class Vec3D subclassOf Vec2D {
 
 \section{Further Work}
 \label{sec:futureWork}
-In projects like this one, where years of development could be used for
-further improvements and new techniques. Some of these points are here
-discussed. The section is divided into two fields. One presents some
+In projects like this one, years of development could be used for
+further improvements and new techniques. Some of these improvements are 
+discussed here. The section is divided into two fields. One presents some
 possible language extensions and the other some implementation details
 which would improve a proper use of the language.
 
@@ -167,10 +168,10 @@ which would improve a proper use of the language.
 This section presents some possible extensions for the core language
 independently of the implementation. The order presented is not weighted
 in the sense of its importance. To raise the language to a language
-of wide use all these extensions should be considered as important.
+of wide use, all these extensions should be considered as important.
 
 \subsubsection{Pure Object Orientation}
-For an straightforward use of numbers and strings with all its available
+For a straightforward use of numbers and strings with all its available
 operators they are implemented as primitive data types. This makes the
 implementation easier since the operations does not have to be translated
 to method calls. But this makes then a special treatment of these types
@@ -183,25 +184,30 @@ between two different types.
 
 \subsubsection{Information Hiding}
 Currently, \ooplss does not know any kind of access modifiers like
-\emph{public}, \emph{protected} and \emph{private}. With this is no
-information hiding possible which does only provide an object's interface
+\emph{public}, \emph{protected} and \emph{private}. Without them no
+information hiding is possible which does only provide an object's interface
 and not all internal variables and data. For a proper isolation of
 internal states and external representation such modifiers should be
-introduced. An other possibility would be to give the programmer the
+introduced. Another possibility would be to give the programmer the
 possibility to define a specific visible type declaration and a class
 declaration.
 
 \subsubsection{Method Overloading and Multiple Extension}
-Actually method overloading is not integrated in \ooplss. With this
-comes several problems which could be avoided. On one hand, it is currently
-not possible to provide multiple inheritance since methods overloading is
-essential for usable class combination. Now, the language is restricted
-that extension is only allowed as long as no method overloading occurs.
-This change can be considered as straightforward since the exact definition
-which method should be called is already possible with full parent
-specification by the caller. The current restriction is in many problems
+At this time, method overloading is not integrated in \ooplss. Method
+overloading would be necessary for certain other concepts, for instance
+for multiple inheritance. The current restriction is in many problems
 annoying and is just a simplification since it is not a core problem which
 is treated in this thesis project.
+
+
+%Currently method overloading is not integrated in \ooplss. With this
+%comes several problems which could be avoided. On one hand, it is currently
+%not possible to provide multiple inheritance since methods overloading is
+%essential for usable class combination. Now, the language is restricted
+%that extension is only allowed as long as no method overloading occurs.
+%This change can be considered as straightforward since the exact definition
+%which method should be called is already possible with full parent
+%specification by the caller. 
 
 \subsubsection{Modularisation}
 Modularisation is also missing. Today only very monolithic programs
@@ -210,8 +216,8 @@ programs this would increase compilation time and a flexible work between
 developer teams is not supported. This makes \ooplss in its current state
 useless for serious programs although the target platform is widely
 used. Hand in hand supporting multiple files would be inevitable and
-necessary for future developments. Even simple modularisation would be
-not very difficult a more sophisticated form is proposed where modules are
+necessary for future developments. Even though simple modularisation would be
+not very difficult, a more sophisticated form is proposed where modules are
 higher-order constructs and can be parametrised \cite{dreyer_type_2003}.
 
 However, with the introduction of proper subclasses a simple form of
@@ -228,26 +234,26 @@ the definition of module interfaces or higher-order classes as modules
 would come hand in hand.
 
 \subsubsection{Top and Bottom Types}
-The language design has a similarity to that of \cpp which does
-not have an implicitly superclass comparing to Java and \cs. With this
-comes one drawback that it is not possible to write methods that accept
-arbitrary objects if not a own superclass is specified and explicitly
+The language design has a similarity to that of \cpp to be able to
+not have an implicit superclass compared to Java and \cs. With this
+it is not possible to write methods that accept
+arbitrary objects if no superclass is specified by the programmer and explicitly
 extended. This decision is made because two class combinations are
-possible and an implicit base class would force the programmer to one
+possible and an implicit base class would force the programmer to use one
 of them at the very beginning of every class.
 
-Anyway, one proposal to enable the possibility of passing respectively
+Anyway, one proposal to enable the possibility of passing or
 returning arbitrary objects would be to introduce a special \emph{Top}
 type which contains every possible type. The idea is similar to an
 \emph{Object} type but without any \mytype and recursive fields. Actually
-it is free to every programmer to introduce an own type which is used
+it is up to the programmer to introduce an own type which is used
 as general base type.
 
 %\subsubsection{Higher-Order Functions}
 
 \subsection{Further Implementation Work}
-In contrast to \Cref{sec:futureWork} this section deals with work that
-would not change the language but would make the language more useful
+In contrast to \Cref{sec:futureWork}, this section deals with work that
+would not change the language itself but would make the language more useful
 for daily work.
 
 \subsubsection{Implementing the Specification}
@@ -257,30 +263,30 @@ implementation that should be done since parametrisation is not supported
 yet.
 
 \subsubsection{JDK Integration}
-Considering the fact that the \ooplss is not fix defined on the current
+Considering the fact that \ooplss is not fix defined on the current
 target platform of the JDK, it would be nevertheless interesting to
 improve the integration into the target platform. With this a widely
 known and enormous framework would automatically get available to
 \ooplss programmers. The problem of this extension would be to integrate
 both derivation possibilities which is different to Java. However,
 this would may come hand in hand with the direct translation to JDK
-Bytecode which is more flexible then the Java language.
+Bytecode which is more flexible than the Java language.
 
 \subsubsection{Subclassing with Dynamic Invokes}
 The translation from \ooplss to Java is now not very straightforward since
-explicit class combinations are necessary. However in JDK 7 which will
+explicit class combinations are necessary. However, in JDK 7 which will
 be released in summer 2011 the JDK will get some major changes. One
 of this is the introduction of the \emph{dynamicinvoke} command on
 Bytecode level. This would support dynamically typed language on the
 platform where the most suitable method would be called depending on the
 runtime type of the parameter types. Since \ooplss has an own type
 checker it would be safe to use dynamic code. With a dynamic method
-lookup the subclassing relation would be much more simple.
+lookup, the subclassing relation would be much more simple.
 
 \subsubsection{Type Inference}
 In many cases the types of a method or variable can be predicted
 by the type system with a type inference algorithm. This helps
-the programmer to write less and provide more compact and readable
+the programmer to write less code and provide more compact and readable
 programs. Without changing \ooplss' semantic, such type inference
 could be implemented as a next further step.
 
