@@ -21,12 +21,12 @@ first order constructs. Furthermore a program is a set of classes. Within
 classes only methods and fields are allowed.
 
 \paragraph{Static and Safe Type System}
-To reduce the set of type specific runtime exceptions \ooplss is statically
-and strongly typed. Not any message sent to an object that is legal within
-the type system can not create exceptions on runtime. Nonetheless runtime
-exceptions can occur since the type system does not prove that every
-statement is possible, e.g., when sending a division by zero message to a
-number object, this case, an appropriate exception will be thrown.
+To reduce the set of type specific runtime exceptions \ooplss is
+statically and strongly typed. Every message received by an object will
+not end up in a runtime type exception. Nonetheless runtime exceptions
+can occur since the type system does not prove that every statement
+is possible, e.g., when sending a division by zero message to a number
+object, this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 \ooplss has a nominal type system for modular type checking. Once the
