@@ -181,18 +181,15 @@ type \A as well as of type \B if \A is a subtype of $B$}
 
 \subsection{Types Versus Implementation}
 \label{sec:sharingTypes}
-
-Although the term \emph{class} is used in modern class-based
-object-oriented languages like Java and \cpp
-\todo{rewrite}
-, the concept of extension
-is actually the concept of subtypes and not subclasses. The word type
-in type theory is similar to sets in set theory. A type system contains
-usually two kinds of types. Primitive types, e.g., integers, booleans
-in Java or \cpp or object types defined with classes in class based
-object-oriented languages. They determine the possible states of an
-object and what operations can be perform on them respectively which
-messages they can receive.
+Although the terminology of \emph{subtyping}, \emph{extension} and
+\emph{inheritance} is used mixed up in context of languages like Java
+or \cpp, there the concept in used is subtyping and not subclassing.
+The word type in type theory is similar to sets in set theory. A
+type system contains usually two kinds of types. Primitive types,
+e.g., integers, booleans in Java or \cpp or object types defined with
+classes in class based object-oriented languages. They determine the
+possible states of an object and what operations can be perform on them
+respectively which messages they can receive.
 
 In object-oriented languages like Java and \cpp, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
@@ -413,10 +410,9 @@ method refers to a \emph{Vec3D} object while the self-reference in the identity 
 refers to a \emph{Vec2D} object. This is why an instance of the class
 \emph{Vec3D} would be schizophrenic.
 
-\todo{rewrite}
-This is how the fixation of self-references is done in the subtyping
-concept; before the combination respectively extension of the objects. In the
-concept of subclassing however, it is done after the combination.
+This is how the type of self-references is bound in subtyping; before
+the class combination or extension, respectively, of objects is done.
+In the concept of subclassing however, it is done after the combination.
 
 \subsection{Subclassing}
 \nomenclature{Subclassing}{A class combination that does not
