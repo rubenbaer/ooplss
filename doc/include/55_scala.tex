@@ -3,8 +3,9 @@
 This chapter presents a comparison of some features of Scala and \ooplss.
 One example is about typing the \self-variable in subclassing for
 \ooplss and explicitly typing in Scala. A second one takes regard of the
-issue of software composition. Scala provides a flexible method with
-traits which have some similarities to subclasses in \ooplss.
+issue of software composition. Scala provides a flexible construct called
+traits which have some similarities to subclasses in \ooplss in regard to
+code reuse.
 
 \section{Scala -- A Scalable Language}
 Scala is a modern programming language initiated by Martin Odersky,
@@ -59,16 +60,16 @@ how Scala uses explicitly typed self references and abstract types. It
 shows how Scala deals with covariant method parameters as well by using
 an explicitly typed self reference.
 
-The example is an adaption of the doubly linked node which was introduced
-in \Cref{subsec:matching}. It contains three global classes each
-containing one inner class. The outer classes implement a list and
-the inner classes are the nodes within the list. The nodes contain the values. 
-Similar to the implementation of the doubly linked list 
-a singly linked list would be possible as well.
+The example is an adaption of the doubly linked node which was
+introduced in \Cref{subsec:matching}. It contains three global classes
+each containing one inner class. The outer classes implements lists and
+the inner classes are the nodes for each list implementation. The nodes
+contain the values.  Similar to the implementation of the doubly linked
+list a singly linked list would be possible as well.
 
 The first class is used as an abstract interface with the minimum of fields.
 On line \ref{line:abstractType1} and \ref{line:abstractType2} there are
-abstract type declarations. The first one specifies a type constraint. 
+abstract type declarations. The first one specifies a type constraint.
 In the second class a partial implementation is done but it is
 still abstract since a concrete node implementation is still missing. Line
 \ref{line:factory} defines an abstract factory method for the node
@@ -78,7 +79,8 @@ types are used. Here the factory method expects two parameters, of type
 \emph{Node} and \emph{Value} respectively. In its inner class \emph{AbstractNodeImpl},
 the factory method is used on line \ref{line:useFactory} where the
 self variable is passed to it. And here is the problem of the self
-reference. However, first take a look at the last and concrete class
+reference, since it can not be compatible with the abstract type defined
+later in the code. However, first take a look at the last and concrete class
 of the list; \emph{DoublyLinkedList}. On line \ref{line:typeInstance1}
 and \ref{line:typeInstance2} the abstract types are instantiated with
 a concrete type. \emph{Node} has now the type \emph{DoublyLinkedNode} and
@@ -88,7 +90,7 @@ In a singly linked list, the method \emph{getPrev} would be more complex
 in time.
 
 Now lets consider the problem on line \ref{line:useFactory}. As
-seen the abstract type \emph{Node} is now of the concrete
+mentioned the abstract type \emph{Node} is now of the concrete
 type \emph{DoublyLinkedNode}. Consequently the factory
 method \emph{createNode} expects a parameter value of type
 \emph{DoublyLinkedNode}. What now happens is that this factory has a
@@ -106,21 +108,22 @@ like casts can be avoided.
 {../misc/sources/scalaList/List.scala}
 
 \subsection{A List in \ooplss}
-Based on the example code in Scala in the previous section, a corresponding 
+Based on the example code in Scala in the previous section, a corresponding
 implementation of the doubly linked list in \ooplss will be given in Listing
 \ref{lst:doublyLinkedList}. It is assumed that the whole specification
 of \ooplss is implemented in the compiler since it makes  use
 of class parametrisation a lot.
 
-Compared to the solution written in Scala, the same classes exist
+Analogue to the solution written in Scala, the same classes exist
 in \ooplss. Since \ooplss does not know inner and abstract classes,
-this example is costlier than that in Scala. First of all, for every method 
+this example is costlier than that in Scala. First of all, for every method
 a block is obligatory even though the implementations do not make sense since
 they only return \emph{null}. Further every node class has its own type
 parameters since they can not be derived from the outer classes. This
 makes the use a bit more difficult since the node has to call the factory
-method \emph{createNode} which is defined within the list class. All
-these drawbacks could be solved by allowing inner and abstract classes.
+method \emph{createNode} which is defined within the list class. However,
+these drawbacks could be solved by allowing inner and abstract classes but
+these are not taken under consideration within this thesis project.
 
 The major differences are that the classes are derived with
 \emph{subclassing} and not with \emph{subtyping}, so the type
@@ -130,8 +133,8 @@ The major differences are that the classes are derived with
 before, but this is perfectly typeable in \ooplss since on
 line \ref{line:listMyType} a list is specified which uses \mytype as
 type parameter. This ensures that the list uses the correct node type,
-e.g., a singly linked node respectively doubly linked nodes in singly
-linked lists and doubly linked lists.
+e.g., a singly linked node or doubly linked node in singly
+linked lists and doubly linked lists, respectively.
 
 \lstinputlisting
 [language=ooplss,caption=A doubly linked list in \ooplss,label=lst:doublyLinkedList]
@@ -144,8 +147,8 @@ statement is type safe, comprehensible, reusable and changeable. For this,
 many different approaches and methodologies were developed.
 
 One method of object combination is multiple inheritance
-\cite{taivalsaari_notion_1996}. Although there there is nothing
-to object to multiple inheritance it is difficult to do it well
+\cite{taivalsaari_notion_1996}. Although there is nothing
+to object to multiple inheritance it is difficult to use it well
 \cite{wegner_panel_1987}. The problem is that inheritance of code
 and code reuse is mixed within the same class combination. Further
 it is often said that multiple inheritance is too complex for proper use.
@@ -157,7 +160,7 @@ a class to smaller pieces without changing the type semantic.
 
 To overcome this problem some approaches were developed that all
 have the target to build software units which can be easily
-combined to new ones. Already in the 80s the concept of
+combined to new ones. Already in the end of the 80s the concept of
 \emph{mixins}\nomenclature{Mixin}{A class that can be reused by a
 subclass. A separate instantiation is not possible} was introduced
 in a Lisp extension \cite{moon_object-oriented_1986}. The benefit
@@ -168,33 +171,37 @@ software units}. Traits differ in this sense that they provide a more
 sophisticated combination semantics which contains renaming and shadowing
 \cite{schaerli_traits:_2003}. The reason is that traits use flattening
 when combining multiple traits in a full type hierarchy where mixins
-use linearisation.
+use linearisation. The next sections presents how traits are used in
+Scala and subclasses in \ooplss for code reuse.
 
 \subsection{Class Composition with Traits in Scala}
 In this section a new example is introduced. It shows how reusable code
 segments for ordering can be defined.
 
-Listing \ref{lst:scalaTraits} contains a definition for two traits in Scala. The
-first one defines a strictly ordered relation. As type parameter, \mytype is
-chosen. This should not be mixed up with that of \ooplss. However, 
-in this example it is similar to the \mytype in \ooplss. This trait leaves
-the implementation of \emph{compare} abstract for later implementation. Within this trait,
-two relations are defined. One is the greater and the other the less than
-relation. This trait is then further specialised in the ordered trait
-introducing a non strict ordering. Together they are the same as the Scala
-provided \emph{Ordered} trait which is available in the preload package.
+Listing \ref{lst:scalaTraits} contains a definition for two traits
+in Scala. The first one defines a strictly ordered relation. As type
+parameter, \mytype is chosen. This should not be mixed up with that
+of \ooplss. However, in this example it is similar to the \mytype
+in \ooplss. This trait leaves the implementation of \emph{compare}
+abstract for later implementation. Within this trait, two relations are
+defined. One is the greater and the other the less than relation. This
+trait is then further specialised to the ordered trait introducing a
+non strict ordering This is done uniformly. Together they are the same
+as the Scala provided \emph{Ordered} trait which is available in the
+preload package.
 
 After line \ref{line:literatureScala} three classes are provided. The
 first one is an abstract class defining literature containing the author
-and the year of the publishing. This class can not get in order since it does
-not use the traits already defined. Based on this class two others are
-derived: \emph{Book} and \emph{Journal}. Now both classes contain the
-ability to get ordered. But what would happen, if \emph{Literature} would
-already be defined as orderable? Would it be possible for \emph{Book}
-and \emph{Journal} to specialise the ordered implementation? This question
-has to be answered with no. If \emph{Literature} would be defined as
-orderable, the other trait extensions would clash with the one from their
-superclass since the type parameters are different.
+and the year of the publishing. Object instances of this class can not
+get ordered since it does not use the traits already defined. Based on
+this class two others are derived: \emph{Book} and \emph{Journal}. Now
+both classes contain the ability to get in order. But what would happen,
+if \emph{Literature} would already be defined as orderable? Would
+it be possible for \emph{Book} and \emph{Journal} to specialise the
+parameters of the ordered traits? This question has to be answered with
+no. If \emph{Literature} would be defined as orderable, the other trait
+extensions would clash with the one from their superclass since the type
+parameters are different.
 
 \lstinputlisting
 [language=scala,caption=Code reuse with traits in Scala,label=lst:scalaTraits]
