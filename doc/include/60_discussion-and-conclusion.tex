@@ -21,23 +21,23 @@ needs unsafe type casts and runtime checks.
 
 \subsubsection{The Circle - Ellipse Problem}
 This example is introduced in \Cref{sec:sharingTypes} where the type
-hierarchy differs from the implementation. The question is whether an ellipse
+hierarchy differs from the implementation hierarchy. The question is whether an ellipse
 is a specialisation of a circle or the other way round.
 
 To consider this example, both definitions of subtyping may be recalled;
 In signature subtyping, which is supported by \ooplss, a
 definition that a subtype can only add but not remove fields. With this,
 an ellipse can be a subtype of a circle since an ellipse has two radii,
-i.e. has at least one more field than a circle. In behavioural subtyping
+i.e., has at least one more field than a circle. In behavioural subtyping
 the subtype invariants can only be more restrictive. Here a circle is
 a subtype of an ellipse since both radii of an ellipse must be equal
 to define a circle.
 
 However, the problem in signature subtyping is that the runtime behaviour
-of this model is incorrect, e.g. a circle object that references a
+of this model is incorrect, e.g., a circle variable that references a
 runtime ellipse object would return a wrong result for the height and
-width properties and consequently a wrong area etc. For this problem
-there are different approaches to solve it. One of them is to
+width properties and consequently a wrong area. For this problem
+they are different approaches to solve it. One of this is to
 decouple both types and implementation completely. Unfortunately this
 leads to massively redundant code which of course can be reduced with
 various techniques like multiple inheritance and abstract base classes. A
@@ -45,7 +45,7 @@ more straightforward solution is now presented in \ooplss in Listing
 \ref{lst:ellipseCircleOoplss} using subclasses. Although subsumption
 is not not available, the code of \emph{Circle} could be reused and with the
 matching relation, new parametrised classes can get introduced that can
-handle both classes properly even when they are not interchangeable.
+handle with both classes properly.
 
 \begin{lstlisting}[float=ht,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
 class Circle {
@@ -75,8 +75,8 @@ equals method as known in Java or \cs. Before two objects can be compared
 for equality runtime type checking is necessary although passing other
 object types would not make any sense.
 
-The second case is strongly connected with binary methods and this
-restriction for subtyping. It deals with the implementation of multiple
+The second case is strongly connected with binary methods and the contravariant
+restriction for method parameters within subtyping. It deals with the implementation of multiple
 object hierarchies with a strong connection between them. There are two
 examples that present this very well. First, suppose simultaneously to
 an element object hierarchy a hierarchy of operations is defined. For
@@ -154,12 +154,12 @@ class Vec3D subclassOf Vec2D {
 
 \subsection{Status Quo of Implementation within Project}
 \label{sec:statusQuo}
-\todo{Nicht vergessen!!!!}
+\todo{Remember mark}
 
 \section{Further Work}
 \label{sec:futureWork}
 In projects like this one, years of development could be used for
-further improvements and new techniques. Some of these improvements are 
+further improvements and new techniques. Some of these improvements are
 discussed here. The section is divided into two fields. One presents some
 possible language extensions and the other some implementation details
 which would improve a proper use of the language.
@@ -174,10 +174,10 @@ of wide use, all these extensions should be considered as important.
 For a straightforward use of numbers and strings with all its available
 operators they are implemented as primitive data types. This makes the
 implementation easier since the operations does not have to be translated
-to method calls. But this makes then a special treatment of these types
-and less extensional since these operators are only available for these
-types. For a more coherent language these native operators and types could
-be dropped for a more sophisticated language where these operators can be
+to method calls. But this enforces special treatment of these primitive types
+and the language less extensible since these operators are only available for primitive
+types. For a more coherent language the native operators and primitive types should
+be dropped for a more sophisticated language where binary and unary operators can be
 implemented by arbitrary classes. This would have the advantage that it
 would became a pure object oriented language that would not distinguish
 between two different types.
@@ -188,17 +188,14 @@ Currently, \ooplss does not know any kind of access modifiers like
 information hiding is possible which does only provide an object's interface
 and not all internal variables and data. For a proper isolation of
 internal states and external representation such modifiers should be
-introduced. Another possibility would be to give the programmer the
-possibility to define a specific visible type declaration and a class
-declaration.
+introduced.
 
 \subsubsection{Method Overloading and Multiple Extension}
 At this time, method overloading is not integrated in \ooplss. Method
 overloading would be necessary for certain other concepts, for instance
-for multiple inheritance. The current restriction is in many problems
-annoying and is just a simplification since it is not a core problem which
-is treated in this thesis project.
-
+for multiple inheritance. Introducing method overloading would affect
+different constructs which are undesirable for this thesis project since
+it is not a core problem which is treated here.
 
 %Currently method overloading is not integrated in \ooplss. With this
 %comes several problems which could be avoided. On one hand, it is currently
@@ -234,20 +231,20 @@ the definition of module interfaces or higher-order classes as modules
 would come hand in hand.
 
 \subsubsection{Top and Bottom Types}
-The language design has a similarity to that of \cpp to be able to
-not have an implicit superclass compared to Java and \cs. With this
-it is not possible to write methods that accept
-arbitrary objects if no superclass is specified by the programmer and explicitly
-extended. This decision is made because two class combinations are
-possible and an implicit base class would force the programmer to use one
-of them at the very beginning of every class.
+The language design has a similarity to that of \cpp to be able to not
+have an implicit superclass compared to Java's \emph{Object} and \cs's
+\emph {Object}. With this it is not possible to write methods that accept
+arbitrary objects if no superclass is specified by the programmer and
+explicitly extended. This decision is made because two class combinations
+are possible and an implicit base class would force the programmer to
+use one of them at the very beginning of every class.
 
-Anyway, one proposal to enable the possibility of passing or
-returning arbitrary objects would be to introduce a special \emph{Top}
-type which contains every possible type. The idea is similar to an
-\emph{Object} type but without any \mytype and recursive fields. Actually
-it is up to the programmer to introduce an own type which is used
-as general base type.
+Anyway, one proposal to enable the possibility of passing or returning
+arbitrary objects would be to introduce a special \emph{Top} type which
+contains every possible type. The idea is similar to an \emph{Object}
+but which can be used in more cases like value types and reference
+types. Actually it is up to the programmer to introduce an own type
+which is used as general base type.
 
 %\subsubsection{Higher-Order Functions}
 
