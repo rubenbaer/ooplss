@@ -215,7 +215,7 @@ calls
   
 call
     : ID -> {%{$ID.text}}
-    | SELF -> {%{"this"}}
+    | SELF -> varname(name={"self"})
     //| BASE -> {%{"super"}} // TODO: Depends on superclass
     | varAccess  -> {$varAccess.st}
     | methodCall -> {$methodCall.st}
@@ -228,7 +228,7 @@ literal
       | STRINGLITERAL -> {%{$STRINGLITERAL.text}}
       | CHARLITERAL -> {%{$CHARLITERAL.text}}
       | BOOLLITERAL -> {%{$BOOLLITERAL.text}}
-      //| SELF -> varname(name={$SELF.text})
+      | SELF -> varname(name={"self"})
       //| BASE -> varname(name={$BASE.text}) //{$st = %{"super"}} // TODO: Changes in subclassing
       ;
 /// END: EXPRESSIONS
