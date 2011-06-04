@@ -91,18 +91,33 @@ public class SymbolTable {
 	public static final BuiltInTypeSymbol _myType = new BuiltInTypeSymbol("MyType", GLOBAL, tMYTYPE); 
 	
 	/**
-	 * The mappings of arithmetic operations like +,-,*,/
+	 * The mappings of arithmetic operations like -,*,/
 	 */
 	protected final Type[][] arithmeticResultType = new Type[][] {
 		/*             object	int		float	   string	    char	  bool	  void		myType */
-		/* object */	{_void, _void,	_void,	_void,	 _void,	  _void,  _void,	_void},
-		/* int    */	{_void,	_int,	  _float,	_void,	 _int,	  _void,  _void,	_void},
-		/* float  */	{_void, _float,	_float,	_void,	 _float,  _void,  _void,	_void},
-		/* string */	{_void, _void,  _void,  _string, _string, _void,  _void,	_void},
-		/* char   */	{_void, _int,   _float, _string, _char,   _void,  _void,	_void},
-		/* bool   */	{_void, _void,  _void,  _void,   _void,   _bool,  _void,	_void},
-		/* void   */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_void},
-		/* myType */	{_void, _void,  _void,  _void,   _void,   _void,  _void,	_myType}
+		/* object */	{_void, _void,	_void,	   _void,	 _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	_float,	   _void,	 _int,	  _void,  _void,	_void},
+		/* float  */	{_void, _float,	_float,	   _void,	 _float,  _void,  _void,	_void},
+		/* string */	{_void, _void,  _void,     _void,    _void, _void,  _void,	    _void},
+		/* char   */	{_void, _int,   _float,    _void,   _char,   _void,  _void,	    _void},
+		/* bool   */	{_void, _void,  _void,     _void,   _void,   _void,  _void,	    _void},
+		/* void   */	{_void, _void,  _void,     _void,   _void,   _void,  _void,	    _void},
+		/* myType */	{_void, _void,  _void,     _void,   _void,   _void,  _void,	    _void}
+	};
+	
+	/**
+	 * The mappings of the plus operation 
+	 */
+	protected final Type[][] plusResultType = new Type[][] {
+		/*             object	int		float	   string	    char	  bool	  void		myType */
+		/* object */	{_void, _void,	 _void,	   _void,	  _void,	  _void,  _void,	_void},
+		/* int    */	{_void,	_int,	 _float,   _string,	  _int,	  _void,  _void,	_void},
+		/* float  */	{_void, _float,	 _float, _string,	 _float,  _void,  _void,	_void},
+		/* string */	{_void, _string, _string,  _string, _string, _void,  _void,	_void},
+		/* char   */	{_void, _int,    _float, _string, _char,   _void,  _void,	_void},
+		/* bool   */	{_void, _void,   _void,  _void,   _void,   _bool,  _void,	_void},
+		/* void   */	{_void, _void,   _void,  _void,   _void,   _void,  _void,	_void},
+		/* myType */	{_void, _void,   _void,  _void,   _void,   _void,  _void,	_myType}
 	};
 
 	/**
@@ -216,8 +231,12 @@ public class SymbolTable {
 	 */
 	public Type arithmeticType(Type left, Type right, OoplssAST op) 
 			throws InvalidExpressionException {
-		
-		Type t = this.getResultType(this.arithmeticResultType, left, right);
+		Type t;
+		if (op.token.getType() == OoplssLexer.PLUSOPERATOR) {
+			 t = this.getResultType(this.plusResultType, left, right);
+		} else {		
+			 t = this.getResultType(this.arithmeticResultType, left, right);		
+		}
 		if (t == SymbolTable._void) {
 			throw new InvalidExpressionException(left, right, op);
 		}
