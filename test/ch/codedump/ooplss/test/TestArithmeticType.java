@@ -24,11 +24,47 @@ public class TestArithmeticType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=InvalidExpressionException.class)
+	@Test 
 	public void testIntPlusString() throws Exception {
 		String str = 	"class foo {\n" +
 						"	def bar():foo {\n" +
 						"		3 + \"a\";\n" +
+						"	}\n" +
+						"}\n";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=InvalidExpressionException.class)
+	public void testIntMinusString() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def bar():foo {\n" +
+						"		3 - \"a\";\n" +
+						"	}\n" +
+						"}\n";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=InvalidExpressionException.class)
+	public void testIntTimesString() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def bar():foo {\n" +
+						"		3 - \"a\";\n" +
+						"	}\n" +
+						"}\n";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testIntTimesChar() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def bar():foo {\n" +
+						"		3 * 'a';\n" +
 						"	}\n" +
 						"}\n";
 		this.symTab.disableStandaloneCheck();
@@ -64,8 +100,8 @@ public class TestArithmeticType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test(expected=InvalidExpressionException.class)
-	public void testInvalidMethodReturn() throws Exception {
+	@Test 
+	public void testMethodReturnStringPlusInt() throws Exception {
 		String str = 	"class foo {" +
 						"	def bar():String {" +
 						"		return \"abc\";" +
@@ -78,4 +114,20 @@ public class TestArithmeticType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test (expected=InvalidExpressionException.class)
+	public void testMethodReturnStringMinusInt() throws Exception {
+		String str = 	"class foo {" +
+						"	def bar():String {" +
+						"		return \"abc\";" +
+						"	}" +
+						"	def __construct() {" +
+						"		self.bar() - 3;" +
+						"	}" +
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
 }
