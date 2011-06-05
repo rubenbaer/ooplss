@@ -154,23 +154,28 @@ change upwards in the hierarchy.
 \end{defn}
 
 \subsubsection{Variance}
-Variance classifies the type change within the type hierarchy. These
+Variance classifies the type compatibility within a type hierarchy. These
 terms are introduced in category theory and were adopted to type theory
-\cite{pierce_basic_1991}.
+\cite{pierce_basic_1991}. In a subtyping environment, method parameter types and
+method return types can be contravariant and covariant, respectively. State variables
+can only be redefined invariantly.
 
 \begin{description}
 	\item[Invariance] No type change is allowed.
-	\item[Covariance] Type changes are only allowed downwards. If $B$
-	<: $A$ and $Y$ <: $X$ and $A$ has a method with the return
-	type of $Y$ then the return type of the same method in $A$
-	has to be a subtype of $Y$, e.g., the return type can be $X$
-	or $Y$ because of the reflexivity property of subtyping. For
-	example $T \rightarrow Y$ <: $T \rightarrow X$ where $T$ is an
-	arbitrary type.
+	\item[Covariance] Covariance denotes that type changes are only
+	allowed within the hierarchy direction downwards. For example, it
+	is assumed that $B$ <: $A$ and $Y$ <: $X$ and $T$ is an arbitrary
+	type. Now, $A$ has a method $m$ of type $T \rightarrow X$. If
+	$B$ replaces $m$ with $m^\prime$ the return type of $m^\prime$
+	has to be covariant. Consequently the type of $m^\prime$ can
+	be $T \rightarrow Y$. The opposite direction that $m^\prime$
+	replaces $m$ in a subtype is not allowed since the return type
+	would change from a more specific to a more general one which
+	is contravariant and is not allowed within subtyping.
 	\item[Contravariance] Contravariance is the opposite of
 	covariance. Type changes are only allowed upwards in the type
-	hierarchy. The type of function parameters are contravariance,
-	e.g., $T \rightarrow A$ <: $T \rightarrow B$ if $B$ <: $A$ where
+	hierarchy. The type of function parameters have to be contravariance,
+	e.g., $A \rightarrow T$ <: $B \rightarrow T$ if $B$ <: $A$ where
 	$T$ is an arbitrary type.
 \end{description}
 
