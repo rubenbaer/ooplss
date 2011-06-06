@@ -87,7 +87,10 @@ In this chapter we want the reader to become familiar with the terms
 concepts exist in some of the widely known object oriented programming
 languages like Java, Eiffel or \cpp, but are usually mixed up in the
 used terminology. For proper distinction the following terminology is
-used: \emph{extension} is used for subtyping and \emph{inheritance} for
+used: \emph{extension}\nomenclature{Extension}{The operation used
+for subtyping as known in Java} is used for subtyping and \emph{inheritance}
+\nomenclature{Inheritance}{The operation for subclassing, i.e. combining
+classes without creating subtypes} for
 subclassing. The term \emph{derivation}\nomenclature{Derivation}{Refers
 to both, extension and inheritance. A class combination aims to code
 reuse} is used to refer to both concepts without referencing one in
@@ -99,8 +102,8 @@ safe substitutability} Subtyping is a binary relation, denoted with
 `<:', which defines a substitution relation between two types and is one
 style of type polymorphism. Assuming that a type $A$ is a subtype of $B$,
 then subtyping ensures that $A$ has compatible methods and data fields,
-together simply called \emph{fields}\nomenclature{Field}{Is a field
-within a record respectively a map and can be both, a method or a data
+together simply called \emph{fields}\nomenclature{Field}{A field
+within a record or a map and can be both, a method or a data
 field representing the object's state}, to its \emph{supertype} $B$. This
 implies that wherever type $B$ is expected, type $A$ can be used.
 
