@@ -1,6 +1,6 @@
 \chapter{Introduction}
 Object-oriented programming languages enjoy a wide popularity in today's
-developer community. Consequently; different languages are introduced differing
+developer community. Consequently, different languages are introduced differing
 specialities to support the programmer in daily work. That's maybe
 the reason why many different approaches were taken to create useful, safe
 and comprehensive languages. However, the most modern and widely spread
@@ -32,14 +32,14 @@ ones.
 Many programmers consider inheritance as a key feature in object-oriented
 languages and as an important characteristic for proper code reuse and
 software design. Often, inheritance is put on the same level as subtyping
-and is not distinguished. However, many researchers does not agree with
+and is not distinguished. However, many researchers do not agree with
 this notion. Instead, they distinguish between two models: subtyping and
 inheritance, respectively subclassing \cite{taivalsaari_notion_1996}.
 Both models are independent, but not mutually exclusive. Different approaches were
 taken to combine both models by using special type variables like \mytype
 and type constraints as \emph{exact} types. However, this project aims at
 pursuing a different solution by combining both models where the programmer has
-the full power about what to choose, by introducing two kinds of derivations
+the full power about what to choose, by introducing two kinds of derivations.
 One is called \emph{subclassing} and the other \emph{subtyping}. Depending
 on the derivation method the \mytype variable will get bound at different
 times. To test this hypothesis, a prototypical language was defined and some
@@ -65,9 +65,9 @@ our study program of computer science at BFH no major exists on this topic. To g
 knowledge about this subject, some introductory courses were taken:
 \emph{Functional Programming} and \emph{Automata and Formal Languages}.
 One of the authors had also taken \emph{Computability and Complexity} as
-a formal course. He had also has written a project paper about type systems
+a formal course. He had also written a project paper about type systems
 with regards to theoretical backgrounds, practical use and impacts. However, all
-of these preliminary works are only generally related with the topics dealt with in
+of these preliminary works are only generally related with the topics dealt with
 this thesis project. Consequently, this project contains many topics that
 were new to the authors; these are listed below.
 
@@ -90,7 +90,7 @@ subjects which are new to the authors in this specific project. The main new par
 
 \section{Related Work}
 Since two different models of class combination are integrated in this
-work, diverse other, related work was considered for this project.
+work, diverse other related work was considered for this project.
 Without this other work done in the last two decades, this project would not
 have been possible.
 
@@ -98,7 +98,7 @@ The idea for this is based on the notions from Bruce et. al. as
 well as from Abadi and Cardelli.  They showed where the
 problems in binary methods are and how they can get tackled
 and that the notion of subtyping is not sufficient for different
-situations\cite{bruce_binary_1995,abadi_subtyping_1996}. These ideas lie
+situations\cite{bruce_binary_1995,abadi_subtyping_1996}. These ideas are
 based on the work of Canning, who presented the notion of function-bounded
 polymorphism in object-oriented languages \cite{canning_f-bounded_1989}.
 
@@ -114,10 +114,10 @@ both models of subtyping and subclassing was presented by Simons in
 \cite{simons_theory_2002-2}; it was his PhD topic. On which he wrote a series of
 articles within the Journal of Object Technologies.
 
-Within the last fifteen years many of other prototypical research
+Within the last fifteen years many other prototypical research
 languages were developed to investigate more expressive languages. A
 language that contains both subtyping and matching was presented
-by Gawecki and Matthes \cite{gawecki_tool:_1995}. An other language
+by Gawecki and Matthes \cite{gawecki_tool:_1995}. Another language
 that goes in a similar direction is PolyToil, which is an extension
 of Toil with polymorphism invented by Bruce, Schuett and van Gent
 \cite{bruce_polytoil:_1995}. The simpler version of PolyToil was
@@ -127,7 +127,7 @@ that subtyping is not as good as was thought for object-oriented languages
 extension LOOJ which integrates the ideas of matching and exact types
 within Java.
 
-An other aspect of subclassing and subtyping focuses
+Another aspect of subclassing and subtyping focuses
 on flexible software composition without subtyping. One
 of the first of these approaches were mixins for a Lisp dialect
 \cite{bracha_mixin-based_1990}. This new kind of code reuse
@@ -139,22 +139,22 @@ not a dedicated state.
 \section{Document Structure}
 This document is divided into seven chapters, the first being this introduction. The second chapter on
 \emph{\nameref{ctr:projectManagement}} introduces the work plan: how and
-when what was be done and what methodologies where chosen to reach
+when what was done and what methodologies where chosen to reach
 the aim. With the aim we mean the two outputs: this documentation and
 the implementation. This chapter is followed by a chapter on the
 \emph{\nameref{ctr:theoreticalBackground}}. There the fundamental
-backgrounds were outlined. It's function is to introduce the
+backgrounds were outlined. Its function is to introduce the
 reader to the topic and vocabulary. There are also three examples
 where current languages like Java and \cs reach the limits of their expressiveness
 and force the users to bypass the safety of the type system
 by using unsafe constructs like \emph{casts}. The following
 chapter on \emph{\nameref{ctr:languageSpecification}} contains
 the main specification of the language \ooplss. After the first
-definitions the language is introduced in on incremental way where
+definitions the language is introduced on an incremental way where
 the semantics of the constructs used are presented. Then the chapter on
 \emph{\nameref{ctr:swDesignImplementation}} shows how the software is
 structured and how the compiler is designed. This is followed by the
-chapter on \emph{\nameref{sec:comparisonScala}}which compares \ooplss to some structures of Scala\nomenclature{Scala}{Abbreviates
+chapter on \emph{\nameref{sec:comparisonScala}} which compares \ooplss to some structures of Scala\nomenclature{Scala}{Abbreviates
 \emph{A Scalable Language} and is an advanced multi-paradigm
 programming language designed at the EPFL}. The first case shows how the
 \emph{self}-variable is explicitly, respectively implicitly typed and

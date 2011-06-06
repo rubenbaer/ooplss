@@ -18,7 +18,7 @@ programming. \ooplss provides classes as templates for object
 creation. The programmer can specify classes of objects and create
 instances of them and not directly objects. Classes are considered as
 first order constructs. Furthermore a program is a set of classes. Within
-classes only methods and fields are allowed.
+classes only methods and data fields are allowed.
 
 \paragraph{Static and Safe Type System}
 To reduce the set of type specific runtime exceptions \ooplss is
@@ -200,7 +200,7 @@ name can be used as reference to it.
 
 \subsection{Inheritance as Subclassing}
 Inheritance is the second class object combination operator in
-\ooplss. It is postulated by Simons' Theory of Classification for
+\ooplss. It is postulated by Simons' Theory of Classification
 \cite{simons_theory_2004-2}. This combination is not only a sort of class
 extension with code reuse where the new class needs to follow subtyping
 rules but also avoids the problem of schizophrenic self-reference since
@@ -599,7 +599,7 @@ follows directly from its definition.
 
 \begin{prop}[Matching embeds subtyping]
 	\label{prop:matchinIsSubtyping}
-	if $B <: A \rightarrow B$ \match $A$
+	if $B <: A$ implies $B \mmatch A$
 \end{prop}
 %
 %\begin{proof}
@@ -744,7 +744,7 @@ public interface Container<T> {
 	}
 }
 
-public class Main { /*\label{line:useParametrisationOoplss}*/
+public class Main { /*\label{line:useParametrisationJava}*/
 	public void run() {
 		Container<Foo> foo = new Container.Container$Foo$();
 		Container<Bar> bar = new Container.Container$Bar$();
@@ -799,11 +799,11 @@ public interface SpecialContainer<X> extends Container<X> {
 \subsubsection{Avoid Type Erasure}
 The idea of generating new extended classes instead of a runtime generic
 support or type erasure is not new even though the idea is a bit different
-with the similar consequences.  Cartwright and Steele to proposed
+with the similar consequences.  Cartwright and Steele proposed
 another kind of generics in Java competing with GJ\nomenclature{GJ}{The
 research language for the Java generics. It is a short form of `Generic
 Java'. Due to copyright law, the name is abbreviated} from Odersky and
-Wadler. And is presented in \cite{cartwright_compatible_1998}. Their
+Wadler and is presented in \cite{cartwright_compatible_1998}. Their
 project is called NextGen and is based on Java 1.2. In contrast to GJ
 and the current generics implementation in Java, this project provides an
 extension that is not backward compatible to non generic code. However,
@@ -818,7 +818,7 @@ would also be possible as long as a class provides a standard constructor.
 
 As a drawback of creating all these classes, especially  if a language
 would support a modular code generation, a more sophisticated bytecode
-analysis and engineering is needed, which \ooplss does so far not have.
+analysis and engineering is needed, which \ooplss does not have so far.
 
 A further but not so relevant problem is the generated code overhead.
 
@@ -829,7 +829,7 @@ To conclude this section about parametrisation let's consider the
 \self variable can be bound to its real type by applying the unbound
 type operator recursively. To grasp this notion in \ooplss, classes
 can be considered as implicitly parametrised. Since both, subtyping
-and subclassing, is available, the type parameter list is extended
+and subclassing, are available, the type parameter list is extended
 with one additional type parameter in every subtype. Only this makes it
 possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
@@ -872,7 +872,7 @@ compatibilities between two different types using these operators.
 To provide simple interaction between \ooplss and the user a \emph{System}
 class is introduced that is shipped with every program written in
 \ooplss. It has five non-static methods: \textit{print, println,
-printlnInt, readln readfile}.
+printlnInt, readln} and \textit{readfile}.
 
 \begin{table}[H]
 	\centering

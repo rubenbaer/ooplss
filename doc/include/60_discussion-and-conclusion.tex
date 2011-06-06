@@ -7,10 +7,8 @@ The discussion contains three sections. The first section takes the examples fro
 \Cref{ctr:theoreticalBackground} into account and how they are expressed
 in \ooplss. It is shown how these problems can be modelled in a better
 way for some situations and how the programmer is supported by doing this. 
-Here, it is considered that the full specification is implemented. The following
-section then makes a comparison with Scala an shortly presents how
-these problems are treated within Scala and where the major differences
-are. The fact that the implementation is not that far as the specification
+Here, it is assumed that the full specification is implemented. 
+The fact that the implementation is not that far as the specification
 is discussed in the last section and the status quo of \ooplss'
 implementation is presented.
 
@@ -173,13 +171,13 @@ of wide use, all these extensions should be considered as important.
 \subsubsection{Pure Object Orientation}
 For a straightforward use of numbers and strings with all its available
 operators they are implemented as primitive data types. This makes the
-implementation easier since the operations does not have to be translated
+implementation easier since the operations do not have to be translated
 to method calls. But this enforces special treatment of these primitive types
-and the language less extensible since these operators are only available for primitive
+and the language is extensible since these operators are only available for primitive
 types. For a more coherent language the native operators and primitive types should
 be dropped for a more sophisticated language where binary and unary operators can be
 implemented by arbitrary classes. This would have the advantage that it
-would became a pure object oriented language that would not distinguish
+would become a pure object oriented language that would not distinguish
 between two different types.
 
 \subsubsection{Information Hiding}

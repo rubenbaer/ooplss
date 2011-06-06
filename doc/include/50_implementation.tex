@@ -19,14 +19,14 @@ semantical analysis, which then generates an abstract syntax tree for
 the intermediate representation of the input. In ANTLR it is possible to
 define both, grammars for string, 1-dimensional data, and for abstract syntax
 trees which are 2-dimensional. In ANTLR the latter are known as \emph{tree
-grammars} which are similar to normal grammars but matches abstract
+grammars} which are similar to normal grammars but match abstract
 syntax tree nodes and not lexer tokens. The lexer and parser part is a
 normal grammar whereas the other phases are all tree grammars which are
 used for tree rewriting and tree visiting. The output process
 is supported by \st, a project associated to ANTLR.
 
 However, every phase of this compiler design is independent and can
-replaced arbitrarily. This makes corrections within this parts easy and
+replaced arbitrarily. This makes corrections within each parts easy and
 does not automatically break the whole interface between the compiling
 phases. Even new phases can be injected between two phases which may
 perform some further analysis or code optimisation.
@@ -125,14 +125,14 @@ If not, an empty default constructor symbol is created and assigned to the
 class. This simplifies the type checking when creating new instances
 of this class.
 
-After this phase has finished, a symbol table was be created for the whole
+After this phase has finished, a symbol table was created for the whole
 program where every symbol in every scope is tracked. The table is in reality
 a tree of scopes which can resolve every valid symbol.
 
 \subsubsection{Referencing Symbols}
 In the second phase, the \emph{referencing run}, mainly every use of a symbol
-that is not declarative (method call, variable access, super type specification
-, types in declarations etc.) is examined and resolved to the according symbol
+that is not declarative (method call, variable access, super type specification,
+types in declarations etc.) is examined and resolved to the according symbol
 definition. Exceptions are thrown on errors like accessing non-existent
 variables, calling variables or using types that do not exist.
 
@@ -221,11 +221,11 @@ arguments are checked, the typer has to know what to bind the MyType
 to. Since the typer traverses the AST in postorder this is not the case
 because method arguments are obviously deeper in the tree than the
 call operator (.), where the correct type is known. The easiest way
-is now to save the type \\
+is now to save the type. \\
 
 The typing rules are explained in detail in \Cref{ctr:typeRules}. The
 type checker grammars can be found in \emph{OoplssTypes.g} and 
-\emph{OoplssArgTypes.}. Most work is actually delegated to 
+\emph{OoplssArgTypes}. Most work is actually delegated to 
 the SymbolTable (\ref{sec:symbolTableDescription}).
 
 \subsubsection{Decidability}
@@ -507,7 +507,7 @@ reference walker and the type checker.
 For now these unit tests are rather rudimentary, they can only check whether
 code is run without errors or with expected exceptions. To test everything
 properly, it is also required to watch the debugging output.
-If there were more time, we would implement unit testing methods that can
+If there was more time, we would implement unit testing methods that can
 actually examine the created contents and state of the symbol table or the
 generated Java output.
 

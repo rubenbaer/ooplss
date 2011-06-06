@@ -20,8 +20,33 @@ to be introduced: \emph{matching}. Quantification with the matching
 relation extends the language with function-bounded subtyping or with
 higher-order subtyping. Depending on the interpretation of matching
 itself where the second has better properties than the first one. The
-benefit of using matching for type quantification is it takes special
+benefit of using matching for type quantification takes special
 regards on recursive type definitions.
+
+\section{Rules of Inference}
+Within this chapter and within the appendix rules of inference are used
+to specify type declarations. Generally a rule of inferences consists
+of $\mathbb{N}_0$ premisses and a conclusion written as follows:
+
+\begin{mathpar}
+  \inferrule*[right=Rule-Name]
+    {Premise_1 \\ Premise_2 \\ \ldots \\ Premise_n}
+    {Conclusion}
+\end{mathpar}
+
+Whenever the premisses can be logically derived, then it can be concluded
+that the conclusion is satisfied. If a rules contains no premises, the rule
+is used as axiom which is always true. A concrete example of the syntax the
+modus ponens is written in rule notation as follows, where $\Rightarrow$
+denotes a implication:
+
+\begin{mathpar}
+  \inferrule*[right=Modus-Ponens]{A \Rightarrow B \\ A}{B}
+\end{mathpar}
+
+A further often used notation is the type annotation $x:T$ which denotes
+that $x$ is of type $T$. Imprecisely it can be understood as set operator
+$x \in T$.
 
 \section{Nominal and Structural Type Systems}
 \nomenclature{Nominal Type System}{Nominal or nominative type system are
@@ -61,9 +86,9 @@ In this chapter we want the reader to become familiar with the terms
 \emph{subtyping} and \emph{subclassing} and their differences. Both
 concepts exist in some of the widely known object oriented programming
 languages like Java, Eiffel or \cpp, but are usually mixed up in the
-used terminology. For proper distinguation the following terminology is
+used terminology. For proper distinction the following terminology is
 used: \emph{extension} is used for subtyping and \emph{inheritance} for
-subclassing. The termin \emph{derivation}\nomenclature{Derivation}{Refers
+subclassing. The term \emph{derivation}\nomenclature{Derivation}{Refers
 to both, extension and inheritance. A class combination aims to code
 reuse} is used to refer to both concepts without referencing one in
 special.
@@ -104,14 +129,14 @@ considered as records -- which are ordered -- in subtyping permutations
 of those are defined as equal.
 \begin{defn}[Object subtyping]
 	\label{def:subtypeObject}
-	If $B := \{l_b : Y_b\} and A := \{l_a : X_a\}$, $B <: A$ anand $A$
+	If $B := \{l_b : Y_b\}$ and $A := \{l_a : X_a\}$, $B <: A$ and $A$
 	contains $a \in \mathbb{N}$ fields, $B$ contains $b \geq a$
 	fields and for each $i$ it is true that $Y_i <: X_i$.
 \end{defn}
 
 The relation for fields differs for methods and object field.
 
-Object fields needs to be type invariant in a subtyping context since
+Object fields need to be type invariant in a subtyping context since
 subtyping is antisymmetric, i.e., $A$ <: $B$ and $A \neq B$ imply $B \nless: A$.
 
 Subtyping method types, denoted as $A \rightarrow B$ for a function with
@@ -157,7 +182,7 @@ of $T$.' -- Barbara Liskov \cite{liskov_behavioral_2001}
 \end{quotation}
 
 With this Liskov Substitution Principle, short LSP, Barbara Liskov
-provided a formal and string description  of subtyping. This
+provided a formal and strong description  of subtyping. This
 notion of subtyping implies behavioural subtyping. In behavioural
 subtyping the correctness of the given properties has to be
 provable. Thus, since behavioural subtyping requires a proof system
@@ -183,18 +208,18 @@ type \A as well as of type \B if \A is a subtype of $B$}
 \label{sec:sharingTypes}
 Although the terminology of \emph{subtyping}, \emph{extension} and
 \emph{inheritance} is used mixed up in context of languages like Java
-or \cpp, there the concept in used is subtyping and not subclassing.
+or \cpp, there the concept in use is subtyping and not subclassing.
 The word type in type theory is similar to sets in set theory. A
 type system contains usually two kinds of types. Primitive types,
 e.g., integers, booleans in Java or \cpp or object types defined with
 classes in class based object-oriented languages. They determine the
-possible states of an object and what operations can be perform on them
+possible states of an object and what operations can be performed on them
 respectively which messages they can receive.
 
 In object-oriented languages like Java and \cpp, the type hierarchy
 is directly linked to the implementation hierarchy, in other words,
 derivation automatically creates a subtype and there is no escape from
-this. Of a practical point of view however, derivation is merely a
+this. From a practical point of view however, derivation is merely a
 mechanism to reuse code in further specialisations of types. This leads
 to the first conflict of types and implementation. This problem of
 the mixed hierarchy is illustrated in \Cref{fig:implementationConflict}
@@ -247,7 +272,7 @@ The hierarchy on the left side expresses the conceptual family; a
 \emph{Circle} is a special kind of \emph{Ellipse}, so is \emph{Square}
 of \emph{Rectangle}. These objects do not actually `extend' their
 parents though, instead, they rather remove properties. For instance,
-the \emph{Circle} removes the property of having two radii. The hierarchy
+the \emph{Circle} includes the property of having two equal radii. The hierarchy
 on the right is conceptual nonsense. From the implementation point of
 view however, it shows how one could want to derive and reuse code, in
 this case the x and y coordinates. Therefore, inheritance (and reuse) of
@@ -439,7 +464,7 @@ definition. Subtyping parametrised types can not define a transitive
 closure as long as the type parameters are not annotated how the
 type variables can be used. Java introduced wildcard parameters and
 \cs input and output parameters to allow subtyping polymorphism
-of parametrised types. These solutions still suffers from on one
+of parametrised types. These solutions still suffers from one
 problem. How to type recursive types where the fields have to be
 compatible with the \emph{self}-reference.\footnote{See second case in
 \Cref{sec:schizoReferences}} Here, the problem is that passing the own
@@ -450,7 +475,7 @@ To tackle this issue, the type parametrisation can be performed implicitly
 by introducing the generic type variable \emph{MyType}. Since it is
 possible to have infinite recursive types using the fixed point theorem
 \cite{pierce_types_2002} it is possible to declare recursive types
-implicitly. In subclassing is the \mytype variable get bound after the
+implicitly. In subclassing the \mytype variable will get bound after the
 class combination is performed similar to normal non-recursive type
 parameters which is different in a subtyping environment.
 
@@ -465,7 +490,7 @@ not support subsumption. Originally \emph{matching} was proposed as
 function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
 subtyping extends simple subtyping with parametrisation which is
 known as \emph{generics} in well known programming languages
-like Java or \cs \cite{barron-estrada_inheritance_2003}. An other
+like Java or \cs \cite{barron-estrada_inheritance_2003}. Another
 interpretation of \emph{matching} as higher-order subtyping with
 better properties such as reflexivity and transitivity was shown in
 \cite{abadi_subtyping_1996}. This interpretation is more
@@ -609,7 +634,7 @@ matching and understanding of the concepts. In an object-oriented language
 the object type can be considered as a record type, e.g., an object type
 with two fields of type \emph{Nat} and \emph{Bool}: \{a:Nat, b:Bool\}.
 A record does not have to be fully specified with concrete types. It
-is possible to used type variables and bind them via type operators.
+is possible to use type variables and bind them via type operators.
 A type operator is a function, the lambda-calculus expression is used,
 from types to types: \[A_{Op} := \lambda X.A(X)
 \] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages
@@ -628,7 +653,7 @@ This can now be used to define the fixpoint of $A$ and is written as \[A^*
 
 Now, the problem of such recursive definition is to know whether two
 types are equivalent or not. Replacing recursively the type parameter with
-the type definition it self is undecidable when the type diverges. To tackle
+the type definition itself is undecidable when the type diverges. To tackle
 this problem an explicit type isomorphism for type can be defined \cite{abadi_subtyping_1996}
 
 \begin{defn}[(Un)folding isomorphism]
