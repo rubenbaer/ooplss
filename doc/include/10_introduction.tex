@@ -1,9 +1,9 @@
 \chapter{Introduction}
 Object-oriented programming languages enjoy a wide popularity in today's
-developer community. Consequently, different languages are introduced differing
+developer community. Consequently, different languages are introduced with differentwith different
 specialities to support the programmer in daily work. That's maybe
 the reason why many different approaches were taken to create useful, safe
-and comprehensive languages. However, the most modern and widely spread
+and comprehensive languages. However, most modern and widely spread
 object-oriented languages provide subtyping polymorphism; which is a well
 known relation. This makes
 it fast and easy to reuse code, but there are some shortcomings in languages
@@ -11,21 +11,20 @@ that only provide subtyping as type relation. Since subtyping
 is restrictive it inhibits proper inheritance of binary methods like
 \emph{equals}. To overcome this restriction, languages like Java and \cs
 introduced type parametrisation, which is better known as \emph{generics}
-or in \cpp as \emph{templates}. But this still does not solve the problem
+or \emph{templates} in \cpp. But this still does not solve the problem
 of binary methods by extension. Other relations and class combinations
 are considered useful in object-oriented languages as well. One of them
 is the \emph{matching} relation and the concept of subclassing.
 
 This thesis project aims at designing and developing a prototypical
-language that integrates both models: on one hand the model  of safe
-subtyping, on the other the  model of safe subclassing. In this language,
-the programmer decides which model fits the problem's scope, and is
-thus used.
+language that integrates both models: on one hand the model of safe
+subtyping, on the other hand the model of safe subclassing. In this language,
+the programmer decides which model fits the problem's scope.
 
 This paper only regards statically typed object-oriented languages and does
-not deal with dynamic languages at all. The authors assume that large
-software benefits more from statically typed languages than from dynamic
-ones.
+not deal with dynamic languages at all. The authors assume for this project
+that the developing of large software systems benefits from statically
+typed languages.
 
 \section{Purpose and Situation}
 \subsection{Motivation}
@@ -34,70 +33,69 @@ languages and as an important characteristic for proper code reuse and
 software design. Often, inheritance is put on the same level as subtyping
 and is not distinguished. However, many researchers do not agree with
 this notion. Instead, they distinguish between two models: subtyping and
-inheritance, respectively subclassing \cite{taivalsaari_notion_1996}.
+inheritance/subclassing \cite{taivalsaari_notion_1996}.
 Both models are independent, but not mutually exclusive. Different approaches were
 taken to combine both models by using special type variables like \mytype
-and type constraints as \emph{exact} types. However, this project aims at
-pursuing a different solution by combining both models where the programmer has
+and type constraints like \emph{exact} types. However, this project aims at
+pursuing a different solution by combining both models whereat the programmer has
 the full power about what to choose, by introducing two kinds of derivations.
 One is called \emph{subclassing} and the other \emph{subtyping}. Depending
-on the derivation method the \mytype variable will get bound at different
-times. To test this hypothesis, a prototypical language was defined and some
-of these features were implemented.
+on the derivation method, the \mytype variable will get bound at different
+times of the derivation process. To test this hypothesis, a prototypical 
+language was defined and most of these features were implemented.
 
 \subsection{Objectives and Limitations}
 Generally speaking, the project consists of two parts. Firstly a language
 that contains subclassing and subtyping will be formally defined. The
-second part is to implement the language as far as possible, containing
-a lexer and parser, as well as its own type checker. Afterwards the
-intermediate representation of the program is translated to the high-level
-language Java.
+second part is to implement the language as completely as possible, containing
+the lexer and parser, an own type checker and a translation unit to translate
+the intermediate representation to Java.
 
 For this project, the special focus lies on the type systems and the language
 design. It is not intended to provide a full programming language that is
-ready for daily use. Rather, we are aiming at showing that the model works and that some
-problems, which rise as regards finding design solutions and implementing them, can be solved
+ready for daily use. Rather, the focus was on showing that the model works and that some
+problems, which rise regarding the finding of design solutions and implementing them, can be solved
 with this model.
 
 \subsection{Preliminary Activities}
-The subject of the project is generally new two both authors. Within
+The subject of the project was generally new two both authors. Within
 our study program of computer science at BFH no major exists on this topic. To gain prior
 knowledge about this subject, some introductory courses were taken:
 \emph{Functional Programming} and \emph{Automata and Formal Languages}.
-One of the authors had also taken \emph{Computability and Complexity} as
-a formal course. He had also written a project paper about type systems
-with regards to theoretical backgrounds, practical use and impacts. However, all
+One of the authors has also taken \emph{Computability and Complexity} as
+a formal course. He has also written a project paper about type systems
+with focus on theoretical backgrounds, practical use and impacts. However, all
 of these preliminary works are only generally related with the topics dealt with
 this thesis project. Consequently, this project contains many topics that
-were new to the authors; these are listed below.
+were new to the authors, which are listed below.
 
 \subsection{New Learning Contents}
-Next to the formal learning contents for any bachelor thesis, there are many
-subjects which are new to the authors in this specific project. The main new parts are the following:
+Additionally to the formal learning contents for any bachelor thesis, there were many
+subjects which were new to the authors in this specific project. The main new parts are the following:
 
 \squishlist
 	\item Design of a programming language from scratch
-	\item Designing a compiler from lexer to translated output
+	\item Designing a compiler from the lexer to the translated output
 	\item Implementing a compiler with all its aspects
 	\squishlist
 		\item Lexing and parsing
 		\item Aggregating an abstract syntax tree
-		\item Type checker
-		\item Translation of intermediate language to concrete output
+		\item Type checking
+		\item Translating of intermediate language to concrete output
 	\squishend
 	\item The parser generator \emph{ANTLR3}\nomenclature{ANTLR}{ANother Tool for Language Recognition, it is a parser generator}
 \squishend
 
 \section{Related Work}
 Since two different models of class combination are integrated in this
-work, diverse other related work was considered for this project.
-Without this other work done in the last two decades, this project would not
+work, several other related work was considered for this project.
+Without this other work that was done within the last two decades, this project would not
 have been possible.
 
-The idea for this is based on the notions from Bruce et. al. as
-well as from Abadi and Cardelli.  They showed where the
-problems in binary methods are and how they can get tackled
-and that the notion of subtyping is not sufficient for different
+The idea for this was based on the notions from Bruce et. al. as
+well as on Abadi and Cardelli.  They showed where the
+problems in binary methods are, how they can get tackled
+and that the notion of subtyping is not sufficient for several
 situations\cite{bruce_binary_1995,abadi_subtyping_1996}. These ideas are
 based on the work of Canning, who presented the notion of function-bounded
 polymorphism in object-oriented languages \cite{canning_f-bounded_1989}.
@@ -106,7 +104,7 @@ To adopt a better interpretation of function-bounds
 with subtyping, the notion of inheritance and
 higher-order subtyping was refined by the following work:
 \cite{steffen_higher-order_1994,cook_inheritance_1990,taivalsaari_notion_1996}.
-These works we used to understand the correct idea of the models used
+We used these works to understand the correct idea of the models used
 in subtyping and subclassing.
 
 A comprehensible presentation of the notion of classification within
@@ -121,8 +119,8 @@ by Gawecki and Matthes \cite{gawecki_tool:_1995}. Another language
 that goes in a similar direction is PolyToil, which is an extension
 of Toil with polymorphism invented by Bruce, Schuett and van Gent
 \cite{bruce_polytoil:_1995}. The simpler version of PolyToil was
-published shortly afterwards and is named $\mathcal{LOOM}$ to show
-that subtyping is not as good as was thought for object-oriented languages
+published shortly afterwards and is named $\mathcal{LOOM}$. It's purpose was to show
+that subtyping is not as good as intended for object-oriented languages
 \cite{bruce_subtyping_1997}. This language is the basis of the Java
 extension LOOJ which integrates the ideas of matching and exact types
 within Java.
@@ -140,32 +138,35 @@ not a dedicated state.
 This document is divided into seven chapters, the first being this introduction. The second chapter on
 \emph{\nameref{ctr:projectManagement}} introduces the work plan: how and
 when what was done and what methodologies where chosen to reach
-the aim. With the aim we mean the two outputs: this documentation and
-the implementation. This chapter is followed by a chapter on the
+the target. With the target following two outputs are meant: this documentation and
+the implementation. The chapter is followed by a chapter on the
 \emph{\nameref{ctr:theoreticalBackground}}. There the fundamental
-backgrounds were outlined. Its function is to introduce the
-reader to the topic and vocabulary. There are also three examples
+backgrounds were outlined. Its purpose is to introduce the
+reader to the topic and vocabulary. That chapter also contains three examples
 where current languages like Java and \cs reach the limits of their expressiveness
 and force the users to bypass the safety of the type system
 by using unsafe constructs like \emph{casts}. The following
 chapter on \emph{\nameref{ctr:languageSpecification}} contains
 the main specification of the language \ooplss. After the first
 definitions the language is introduced on an incremental way where
-the semantics of the constructs used are presented. Then the chapter on
+the semantics of the used constructs are presented. Then the chapter on
 \emph{\nameref{ctr:swDesignImplementation}} shows how the software is
 structured and how the compiler is designed. This is followed by the
 chapter on \emph{\nameref{sec:comparisonScala}} which compares \ooplss to some structures of Scala\nomenclature{Scala}{Abbreviates
 \emph{A Scalable Language} and is an advanced multi-paradigm
-programming language designed at the EPFL}. The first case shows how the
+programming language designed at the EPFL}. A comparison shows how the
 \emph{self}-variable is explicitly, respectively implicitly typed and
-the second takes regard on how software can be composed with traits,
+another one takes regard on how software can be composed in Scala and \ooplss
+with traits and subclassing respectively.
+
+with traits,
 respectively with subclasses. The last chapter is
 \emph{\nameref{ctr:discussionConclusion}} and discusses the examples
 introduced in chapter \emph{\nameref{ctr:theoreticalBackground}} and how
 those can be expressed with \ooplss. Some further work on the language
 is proposed as well.
 
-After the regular content the appendix follows, containing a manual, the type
+After the regular content follows the appendix, containing a manual, the type
 inference rules, some code examples, the work report and the original
 definition of the project.
 
