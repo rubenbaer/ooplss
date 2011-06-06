@@ -297,10 +297,10 @@ output Java code which runs on the Java Virtual Machine.
 
 	drawObjects(MainP, AntlrP, SymTabP, TreeP, ExceptionsP, UtilsP);
 	link(subclassof)(MainP.e -- AntlrP.w);
-	link(subclassof)(AntlrP.s -- SymTabP.n);
+	link(subclassof)(AntlrP.se -- SymTabP.ne);
 	link(subclassof)(AntlrP.w -- TreeP.n);
 	link(doublesubclassof)(TreeP.e -- SymTabP.w);
-	link(subclassof)(SymTabP.s -- ExceptionsP.n);
+	link(subclassof)(SymTabP.se -- ExceptionsP.ne);
 	link(subclassof)(ExceptionsP.w -- TreeP.se);
 	link(subclassof)(AntlrP.e -- UtilsP.w);
 	link(subclassof)(pathStepX(AntlrP.e, ExceptionsP.e, 40));
