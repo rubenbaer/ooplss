@@ -103,7 +103,7 @@ safe substitutability} Subtyping is a binary relation, denoted with
 style of type polymorphism. Assuming that a type $A$ is a subtype of $B$,
 then subtyping ensures that $A$ has compatible methods and data fields,
 together simply called \emph{fields}\nomenclature{Field}{A field
-within a record or a map and can be both, a method or a data
+within an object and can be both, a method or a data
 field representing the object's state}, to its \emph{supertype} $B$. This
 implies that wherever type $B$ is expected, type $A$ can be used.
 
@@ -124,12 +124,13 @@ following properties:
 \end{defn}
 
 Type safe subtyping is defined for objects and fields. Subtyping for
-objects is defined as follows: If $A$ <: $B$ then $A$ needs at least
-as many fields as $B$ entails; the former are in subtype relation to
-the latter corresponding once. Furthermore $A$ can contain other fields
-which do not have any correspondence in $B$. Since objects are often
-considered as records -- which are ordered -- in subtyping permutations
-of those are defined as equal.
+objects is defined as follows: If $A$ <: $B$ then $A$ needs at least as
+many fields as $B$ entails; the former are in subtype relation to the
+latter corresponding once. Furthermore $A$ can contain other fields which
+do not have any correspondence in $B$. Since objects are often considered
+as records\nomenclature{Record}{A record is a tuple data structure with
+named fields} -- which are ordered -- in subtyping permutations of those
+are defined as equal.
 \begin{defn}[Object subtyping]
 	\label{def:subtypeObject}
 	If $B := \{l_b : Y_b\}$ and $A := \{l_a : X_a\}$, $B <: A$ and $A$
