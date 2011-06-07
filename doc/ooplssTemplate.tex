@@ -289,56 +289,6 @@
 %\renewcommand{\chaptermark}[1]{%
 %\markboth{#1}{}}
 
-%% second level list 1, 2, ...
-
-\renewcommand{\labelenumii}{\arabic{enumii}.}
-
-%%--------------------------------------------------------------------------
-%% New environments and commands specific to this template.
-%%--------------------------------------------------------------------------
-
-%% special list for alternate scenario in usecase *a, *b, ...
-\newenvironment{usecasealt}
-    {
-        \renewcommand{\labelenumi}{*\alph{enumi}.}
-        \begin{enumerate}
-    }
-    {
-        \end{enumerate}
-        \renewcommand{\labelenumi}{\arabic{enumi})}
-    }
-
-\newenvironment{letterenum}
-    {
-        \renewcommand{\labelenumi}{\alph{enumi})}
-        \begin{enumerate}
-    }
-    {
-        \end{enumerate}
-        \renewcommand{\labelenumi}{\arabic{enumi})}
-    }
-\newenvironment{numberenum}
-    {
-        \renewcommand{\labelenumi}{\arabic{enumi})}
-        \begin{enumerate}
-    }
-    {
-        \end{enumerate}
-        \renewcommand{\labelenumi}{\alph{enumi})}
-    }
-
-%% Highlight for method names and other code source excerpt
-\newcommand{\srcpart}[1]{{\fontfamily{cmtt}\selectfont #1}}
-
-\newcommand{\image}[2]{
-  \begin{figure}[htb]
-      \centering
-      \includegraphics{#1}
-      \caption{#2}
-  \end{figure}
-}
-
-
 % switch back to Latin Modern
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -407,6 +357,7 @@
 \def \C {\emph{C}\xspace}
 \def \D {\emph{D}\xspace}
 \def \E {\emph{E}\xspace}
+\def \T {\emph{T}\xspace}
 \def \X {\emph{X}\xspace}
 \def \Y {\emph{Y}\xspace}
 \def \Z {\emph{Z}\xspace}
