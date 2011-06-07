@@ -5,11 +5,11 @@ Many different software development processes have risen since the
 breakthrough of software developing. Two major trends can be recognised:
 sequential and iterative design processes. Although iterative processes
 have many advantages compared to the sequential ones, it was difficult to follow
-this design method strictly in the context of this project. On one
-hand the development duration is very short for regular iterations, on the
-other hand the project includes many non standard design and development
-parts where such a process is difficult to perform. For example,
-subsequently extending the grammar may lead to major changes in a language. However,
+this design method strictly in the context of this project. On one hand is the
+development duration, which is very short for regular iterations, on the
+other hand the fact that the project includes many non standard design and development
+parts where such a process is difficult to perform. Subsequently extending the 
+grammar may for example lead to major changes in a language. However,
 a not very strict iterative model was chosen.
 
 \subsection{Implementation Project}
@@ -23,30 +23,30 @@ in this thesis project.
 \subsection{Iterative and Agile Development}
 This project was built iteratively in terms of continuous refinement
 of the language definition. The language definition and implementation
-went hand in hand and gave direct feedback to each other. This enable us
+went hand in hand and gave direct feedback to each other. This enabled us
 to test the definition on a concrete implementation. Further parts from
-extreme programming have been used. Mainly the concept of pair programming
+extreme programming have been used, mainly the concept of pair programming
 for critical parts which provide interfaces between the compiler
 stages.
-First of all a simple core language needed to be implemented which was
-refined step by step.
+The approach was to implement a core language and then to refine it step
+by step.
 
 However, due the fact that the project team members are not full time
 students and have to work besides the studying, it was very difficult
 to plan reasonable iterations.
 
 \subsection{Test-Driven Development}
-A major goal is to provide a good and robust code basis. To ensure that
-this claim is hold, test-driven development was performed. With the use of
+A major goal was to provide a good and robust code basis. To uphold this
+goal, test-driven development was performed. With the use of
 unit tests, code breaking changes could easily be detected. This is inevitable
 since many parts are highly fragile, e.g., small changes in the grammar can
 cause many changes in the code since the grammar will recognise a complete
 different language.
 
 \subsection{Regular Meetings}
-As before mentioned, the Bern University of Applied Science does not provide a major in
+As mentioned before, the Berne University of Applied Science does not provide a major in
 topics used in this thesis. To ensure success, regular meetings with the
-supervisor have been hold. Through this, early divergence and loss of target could
+supervisor have been hold. By doing this, early divergence and loss of target could
 be prevented. A meeting between the student team and the supervisor
 was held at least every second week.
 
@@ -60,9 +60,9 @@ knowledge exchange had to be undertaken. Important papers were reviewed
 and discussed.
 
 \paragraph{Documentation Chapters 2 and 3}
-Chapter 2 shows the project management methodology used. It had to be
+Chapter 2 shows the project management methodology that was used. It had to be
 evaluated how an iterative model can be adopted to be usable in this
-subject. Chapter 3 shows the current problems within object-oriented
+subject. Chapter 3 shows the problems within today's object-oriented
 languages with subtyping and no subclassing. Furthermore, the project idea
 was stated along with the benefits that the language will have. Next
 to the normal writing work the used tools have been evaluated.
@@ -77,7 +77,7 @@ defined. Detailed type rules were not yet necessary but needed for the
 translation definition from the source language to the target language.
 
 \paragraph{Parser}
-Based on the lexer used a parser that builds an abstract syntax tree
+Based on the lexer a parser that builds an abstract syntax tree
 (AST) needed to be written. Without this tree no further work was possible.
 
 \paragraph{Tree Walker}
@@ -131,7 +131,7 @@ language.
 	\item[ANTLR3] ANTLR\footnote{ANother Tool for Language
 	Recognition} is an advanced LL(*) parser generator with support
 	for AST\footnote{Abstract Syntax Tree} generation and tree
-	walking respectively rewriting.
+	walking or rewriting.
 	\item[ANTLRWork] Workbench for ANTLR grammars with debug
 	environment.
 	\item[ANTLR IDE] Eclipse plugin for editing ANTLR grammars.
@@ -152,15 +152,21 @@ language.
 	the documentation. The documentation is written with \LaTeX.
 	\item[Subversion] Source control system with linear history. Used
 	in the first weeks.
+	\item[groff]
+	\item[Make]
+	\item[Doxygen]
+	\item[common-cli]
+	\item[zotero]
 \end{description}
+\todo{Describe and order these items}
 
 \subsection{Standards and Guidelines}
-The source code of \ooplss, which is written
+The source code of the \ooplss compiler, which is written
 in Java, follows the official guidelines from
 Oracle.\footnote{\href{http://www.oracle.com/technetwork/java/codeconv-138413.html}{http://www.oracle.com/technetwork/java/codeconv-138413.html}}
 
 An appropriate project structure was chosen, which is explained in the
-project root's README.md, respectively in Listing \ref{lst:README}.
+project root's README.md, or in Listing \ref{lst:README}.
 
 \begin{listing}
 	\VerbatimInput[frame=single,numbers=left,firstline=19,lastline=40]{../README.md}
