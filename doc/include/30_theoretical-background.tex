@@ -18,10 +18,9 @@ where subtyping is inappropriate since it enables further specialisation
 of methods.  To make subclassing practical, an additional relation needs
 to be introduced: \emph{matching}. Quantification with the matching
 relation extends the language with function-bounded subtyping or with
-higher-order subtyping. Depending on the interpretation of matching
-itself where the second has better properties than the first one. The
-benefit of using matching for type quantification takes special
-regards on recursive type definitions.
+higher-order subtyping, depending on which interpretation of matching
+is used. The benefit of using matching for type quantification is that
+it takes special regard on recursive type definitions.
 
 \section{Rules of Inference}
 Within this chapter and within the appendix rules of inference are used
@@ -167,20 +166,53 @@ can only be redefined invariantly.
 \begin{description}
 	\item[Invariance] No type change is allowed.
 	\item[Covariance] Covariance denotes that type changes are only
-	allowed within the hierarchy direction downwards. For example, it
-	is assumed that $B$ <: $A$ and $Y$ <: $X$ and $T$ is an arbitrary
-	type. Now, $A$ has a method $m$ of type $T \rightarrow X$. If
-	$B$ replaces $m$ with $m^\prime$ the return type of $m^\prime$
-	has to be covariant. Consequently the type of $m^\prime$ can
-	be $T \rightarrow Y$. The opposite direction that $m^\prime$
-	replaces $m$ in a subtype is not allowed since the return type
-	would change from a more specific to a more general one which
-	is contravariant and is not allowed within subtyping.
+	allowed within the hierarchy direction downwards. For example,
+	it is assumed that \B <: \A and \Y <: \X and \T is an arbitrary
+	type. Now, \A has a method $m$ of type $T \rightarrow X$. If
+	\B replaces $m$ with $m^\prime$ the return type of $m^\prime$
+	has to be covariant. Consequently the type of $m^\prime$ can be
+	$T \rightarrow Y$ since the return type is covariant to \B <:
+	\A. The opposite direction that $m^\prime$ replaces $m$ in a
+	subtype is not allowed since the return type would change from
+	a more specific to a more general one which is contravariant
+	and is not allowed within subtyping.
+	\begin{figure}[H]
+		\centering
+		\begin{emp}[classdiag](20, 20)
+			Class.A("A")()("+m(arg: T):X");
+			Class.B("B")()("+m(arg: T):Y");
+
+			B.e = A.w + (-20, 0);
+			drawObjects(A, B);
+			link(inheritance)(B.e -- A.w);
+		\end{emp}
+		\caption{Covariant method return types}
+		\label{fig:covariance}
+	\end{figure}
+
 	\item[Contravariance] Contravariance is the opposite of
-	covariance. Type changes are only allowed upwards in the type
-	hierarchy. The type of function parameters have to be contravariance,
-	e.g., $A \rightarrow T$ <: $B \rightarrow T$ if $B$ <: $A$ where
-	$T$ is an arbitrary type.
+	covariance. Type changes are only allowed upwards in the
+	type hierarchy. The type of function parameters have to be
+	contravariance.  For example, if \B <: \A, \Y <: \X, \T is
+	an arbitrary type and $A$ contains a method $m$ of type $X
+	\rightarrow T$ which is replaced in \B by method $m^\prime$,
+	then does $m^\prime$ can be of type $X \rightarrow T$ since the
+	parameter type is contravariant to \B <: \A.
+	\begin{figure}[H]
+		\centering
+		\begin{emp}[classdiag](20, 20)
+
+			Class.AA("A")()("+m(arg: B):T");
+			Class.BB("B")()("+m(arg: A):T");
+
+			BB.e = AA.w + (-20, 0);
+			drawObjects(AA, BB);
+			link(inheritance)(BB.e -- AA.w);
+
+		\end{emp}
+		\caption{Contravariant method parameter types}
+		\label{fig:contravariance}
+	\end{figure}
 \end{description}
 
 \subsubsection{Liskov Substitution Principle}
@@ -300,17 +332,18 @@ not a more specific one. This is illustrated in \Cref{fig:contravariance}
 	\centering
 	\begin{emp}[classdiag](20, 20)
 
-		Class.A("A")()("+method(arg: T')");
-		Class.B("B")()("+method(arg: T)");
+		 Class.AAA("A")()("+method(arg: T')");
+		 Class.BBB("B")()("+method(arg: T)");
 
-		B.e = A.w + (-20, 0);
-		drawObjects(A, B);
-		link(inheritance)(B.e -- A.w);
+		 BBB.e = AAA.w + (-20, 0);
+		 drawObjects(AAA, BBB);
+		 link(inheritance)(BBB.e -- AAA.w);
 
 	\end{emp}
 	\caption[Contravariance of argument type in \B and \A]{Contravariance: the argument type in \B is more specific than the one in \A}
 	\label{fig:contravariance}
 \end{figure}
+
 
 This restriction perfectly makes sense for the type safety in programming
 languages. For certain class constellations it leads to further problems
