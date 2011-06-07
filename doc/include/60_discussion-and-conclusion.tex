@@ -65,27 +65,29 @@ class Ellipse subclassOf Circle {
 The example presented in \Cref{sec:recursiveClosure} deals with the
 problem of binary methods and consequently with object families.
 
-In the first case binary methods are considered. In a subtyping environment,
-binary methods arguments are not changeable with the type hierarchy. This
-means that when a programmer wants to implement these binary methods,
-unsafe type checks and casts are inevitable. A well known example of this problem is the
-equals method as known in Java or \cs. Before two objects can be compared
-for equality runtime type checking is necessary although passing other
-object types would not make any sense.
+In the first case binary methods are considered. In a subtyping
+environment, binary methods arguments are not changeable with the type
+hierarchy. This means that when a programmer wants to implement these
+binary methods, unsafe type checks and casts are inevitable. A well
+known example of this problem is the equals method as known in Java or
+\cs. Before two objects can be compared for equality runtime type checking
+is necessary although passing other object types would not make any sense.
 
-The second case is strongly connected with binary methods and the contravariant
-restriction for method parameters within subtyping. It deals with the implementation of multiple
-object hierarchies with a strong connection between them. There are two
-examples that present this very well. First, suppose simultaneously to
-an element object hierarchy a hierarchy of operations is defined. For
-the \emph{visitor pattern} by Erich Gamma et al. \cite{gamma_design_1995}
-is a good solution for a pure subtyping environment and where subsumption
-is important. However, if the operations are designed for homogeneous
-data structures this has a drawback. If the element hierarchy changes, all
+The second case is strongly connected with binary methods and the
+contravariant restriction for method parameters within subtyping. It
+deals with the implementation of multiple object hierarchies with a
+strong connection between them. There are two examples that present
+this very well. First, suppose that parallel to an object hierarchy
+of elements an object hierarchy of operations for the elements is
+defined. For example, the \emph{visitor pattern} by Erich Gamma et
+al. \cite{gamma_design_1995} is a good solution when such hierarchies
+are defined in a pure subtyping environment and where subsumption is
+important. However, if the operations are designed for homogeneous data
+structures this has a drawback. If the element hierarchy changes, all
 visitors need to be changed which is maybe not possible everywhere. Here
-subclassing is maybe more appropriate. \Cref{fig:operationFamily}
-presents this idea. With an appropriate parametrisation of the operation
-classes it is possible to define appropriate operations for every object.
+subclassing is maybe more appropriate. \Cref{fig:operationFamily} presents
+this idea. With an appropriate parametrisation of the operation classes
+it is possible to define appropriate operations for every object.
 
 \begin{figure}[H]
 	\centering
@@ -117,7 +119,7 @@ classes it is possible to define appropriate operations for every object.
 	\label{fig:operationFamily}
 \end{figure}
 
-This idea can easily be adopted to the problem of SinglyLinkedNodes
+This idea can easily be adopted to the second problem of SinglyLinkedNodes
 and DoublyLinkedNodes which is presented in Section
 \ref{subsec:matching}. Consequently the node family specifies an element
 family where an appropriate list class family does implement appropriate
