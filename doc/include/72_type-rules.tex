@@ -64,6 +64,10 @@ in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary
 parameters are introduced by the type combination to bind \mytype
 correctly.
 
+The typing rules for special constructs like \emph{if} or \emph{while}
+statements are not stated. They can be straightforward be implemented
+using the expression rules.
+
 \begin{figure}[H]
  \fbox{
     \begin{minipage}{\linewidth}
@@ -109,10 +113,10 @@ correctly.
 					\inferrule*[right=F-Class]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
-							fields([\overline{T / X}]B)=\overline{U g} \\\\
-							fields([\overline{T / X}]C)=\overline{V h}}
-						{fields(A[\overline{T}]) = \overline{U g}, \overline{V h}, [\overline{T / X}]\overline{S f} }
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
+							fields([\overline{T / X}]B)=\overline{U~g} \\\\
+							fields([\overline{T / X}]C)=\overline{V~h}}
+						{fields(A[\overline{T}]) = \overline{U~g}, \overline{V~h}, [\overline{T / X}]\overline{S~f} }
 				\end{mathpar}
 
 			\paragraph{Method type lookup:}
@@ -120,21 +124,21 @@ correctly.
 					\inferrule*[right=MT-Class]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
-							\text{def } m(\overline{U x}): R \{ \ldots \} \in \overline{M}}
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
+							\text{def } m(\overline{U~x}): R \{ \ldots \} \in \overline{M}}
 						{mtype(m, A[\overline{T}]) = [\overline{T/X}](\overline{U} \rightarrow R)} \\
 
 					\inferrule*[right=MT-Supertype]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							m \in B[\overline{T}] \\ m \notin \overline{M}}
 						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]B)}\\
 
 					\inferrule*[right=MT-Superclass]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							m \in C[\overline{T}] \\ m \notin \overline{M}}
 						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]C)}\\
 				\end{mathpar}
@@ -144,21 +148,21 @@ correctly.
 					\inferrule*[right=MT-Class]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							\text{def } m(\overline{U x}): R \{ e_i^n (n \in \mathbb{N}) \} \in \overline{M}}
 						{mbody(m, A[\overline{T}]) = \overline{X}.[\overline{T/X}].e_i^n (n \in \mathbb{N})} \\
 
 					\inferrule*[right=MT-Supertype]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							m \in B[\overline{T}] \\ m \notin \overline{M}}
 						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]B)}\\
 
 					\inferrule*[right=MT-Superclass]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
-								\subc C[\overline{U}] \{\overline{S f}; K~ \overline{M}\} \\\\
+								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							m \in C[\overline{T}] \\ m \notin \overline{M}}
 						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]C)}\\
 				\end{mathpar}
@@ -251,7 +255,7 @@ correctly.
 						{\\}
 						{\Delta; \Gamma \vdash x : \Gamma(x)} \\
 					\inferrule*[right=Field]
-						{\Delta; \Gamma \vdash e_i : T_i \\ fields(bound_\Delta(T_i)) = \overline{T f}}
+						{\Delta; \Gamma \vdash e_i : T_i \\ fields(bound_\Delta(T_i)) = \overline{T~f}}
 						{\Delta; \Gamma \vdash e_i.f_j : T_j} \\
 					\inferrule*[right=Invk]
 						{\Delta; \Gamma \vdash e_i : T_i \\\\
@@ -287,8 +291,12 @@ correctly.
 			\paragraph{Class typing:}
 				\begin{mathpar}
 					\inferrule*[right=Class]
-						{\\}
-						{\\}
+						{\overline{X \mmatch N} \vdash \overline{B}, B, \overline{C}, C, \overline{T}~ok\\
+							fields(B) = \overline{U~g}\\
+							fields(C) = \overline{V~h}\\
+							\overline{M}~ok~in~A[\overline{X \mmatch N}] \\
+							K=A(\overline{U~g}, \overline{V~h}, \overline(T~f)): B(\overline(g), C(\overline{h}) \{ \ldots \}}
+						{class A[\overline{X \mmatch N}] \subt B \subc C \{\overline{U f}; K~\overline{M}\}}
 				\end{mathpar}
 		\end{minipage}
 	}
