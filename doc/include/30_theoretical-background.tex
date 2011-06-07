@@ -576,7 +576,7 @@ that there are no statically checks to prevent the programmer from adding
 
 \begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
-	private SinglyLinkedNode next; %\label{lst:javaBinary0})
+	private SinglyLinkedNode next; /*\label{lst:javaBinary0}*/
 
 	public void setNext(SinglyLinkedNode next) {
 		this.next = next;
@@ -599,13 +599,13 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 	}
 
 	// Overloaded method in Java.
-	%\label{lst:javaBinary2})public void setNext(DoublyLinkedNode next) {
+	/*\label{lst:javaBinary2}*/public void setNext(DoublyLinkedNode next) {
 			this.next = next;
 			next.prev = this;
 	}
 
 	public DoublyLinkedNode getNext() {
-		%\label{lst:javaBinary1})return (DoublyLinkedNode)this.next;
+		/*\label{lst:javaBinary1}*/return (DoublyLinkedNode)this.next;
 	}
 }
 \end{lstlisting}
