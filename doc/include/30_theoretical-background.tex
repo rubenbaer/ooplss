@@ -550,28 +550,29 @@ in nominal type systems makes the semantics more clear and less complex.
 
 A solution proposed by Bruce \cite{bruce_binary_1995} is
 \emph{matching}. Matching is a generalised subtyping relation, written
-as `\match', between two types and taking into account a \emph{MyType} in
-subclasses. An important difference is that the matching relation is only
-defined among object types and not among field types, like it is in subtyping. As
-said by Bruce in \cite{bruce_foundations_2002} matching does not differ
-very much from subtyping except that \mytype is not substituted by its
-concrete object type. This makes the relation weaker than subtyping
-where contravariant method parameters are not allowed. Depending
-on the interpretation of matching it comes to different
-definitions which are shown in the definitions
-\ref{def:matchingAsBound} and \ref{def:matchingAsHigherOrder}.
+as `\match', between two types and taking into account a \emph{MyType}
+in subclasses. An important difference is that the matching relation
+is only defined among object types and not among field types, like
+it is in subtyping. As said by Bruce in \cite{bruce_foundations_2002}
+matching does not differ very much from subtyping except that \mytype
+is not substituted by its concrete object type. This makes the relation
+weaker than subtyping where contravariant method parameters are not
+allowed. Depending on the interpretation of matching it comes to different
+definitions. Since only the f-bounded interpretation is relevant for this
+project, this definition is given in Definition \ref{def:matchingAsBound}.
 
-Listing \ref{lst:javaBinary} contains some problems that can not be tackled
-with subtyping. First of all the variable in line \ref{lst:javaBinary0} can
-not be specialised since it is invariant. This entails that even when the
-method \emph{getNext} can be specialised in the subclass -- which is not possible
-in Java -- a cast operation is necessary to get the correct type in the overridden
-method on line \ref{lst:javaBinary1}.
+Listing \ref{lst:javaBinary} contains some problems that can
+not be tackled with subtyping. First of all the variable in line
+\ref{lst:javaBinary0} can not be specialised since it is invariant. This
+entails that even when the method \emph{getNext} can be specialised
+in the subclass -- which is not possible in Java -- a cast operation
+is necessary to get the correct type in the overridden method on line
+\ref{lst:javaBinary1}.
 
-The second problem is in line \ref{lst:javaBinary2}. Since there is a covariant
-method parameter the method can not be typed. This implies that there are no statically
-checks to prevent the programmer from adding \emph{SinglyLinkedNode} objects to a
-\emph{DoublyLinkedNode}.
+The second problem is in line \ref{lst:javaBinary2}. Since there is
+a covariant method parameter the method can not be typed. This implies
+that there are no statically checks to prevent the programmer from adding
+\emph{SinglyLinkedNode} objects to a \emph{DoublyLinkedNode}.
 
 \begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
 public class SinglyLinkedNode {
@@ -687,16 +688,27 @@ with the difference that the parameter will get bound recursively
 This can now be used to define the fixpoint of $A$ and is written as \[A^*
 := \mu X.A_{Op}(X).\]
 
-Now, the problem of such recursive definition is to know whether two
-types are equivalent or not. Replacing recursively the type parameter with
-the type definition itself is undecidable when the type diverges. To tackle
-this problem an explicit type isomorphism for type can be defined \cite{abadi_subtyping_1996}
+Now, the problem of such recursive definition is to determine whether two
+types are equivalent or not since applying recursively a type parameter,
+an other record will be created. For example, after applying $A$ on
+$A^*$, the type generator creates a new record which is $\mu X.\{a:Nat,
+b:\{a:Nat, b:X\}\}$ which clearly differs from $\mu X.\{a:Nat, b:X\}$.
+Replacing recursively the type parameter with the type definition
+itself is undecidable when the type diverges. To tackle this problem
+two approaches can be taken. The first is to take the equi-recursive
+approach where both declarations are interchangeable. The problem is
+that in the latter approach, infinite type declarations are possible.
+The second approach is to define an explicit type isomorphism
+\cite{abadi_subtyping_1996}:
 
 \begin{defn}[(Un)folding isomorphism]
 	\label{def:foldUnfold}
 	\[fold : A\{\mu X.A\{X\}\} \rightarrow \mu X.A\{X\}\]
 	\[unfold : \mu X.A\{X\} \rightarrow A\{\mu X.A\{X\}\}\]
 \end{defn}
+
+This isomorphism enables to tackle recursive types without infinite type
+declarations.
 
 \subsection{Matching as F-Bounded Subtyping}
 F-bounded subtyping\footnote{Abbreviates function-bounded subtyping}
@@ -727,34 +739,36 @@ the subtyping relation is easier to hold than afterwards. This enables
 parametrisation over every extension of an object type and not only over
 every subtype of it.
 
-In this case matching is defined as\cite{abadi_subtyping_1996}
+In this case matching is defined as\cite{abadi_subtyping_1996}:
+
 \begin{defn}[Matching as F-Bounded Subtyping]
 	\label{def:matchingAsBound}
 	\[A \textnormal{\match} B := A <: B_{Op}(A)\]
 	\[\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}\]
 \end{defn}
 
-\subsection{Matching as Higher-Order Subtyping}
-Higher-order subtyping is the second interpretation of matching
-by Abadi and Cardelli \cite{abadi_subtyping_1996} based on the work
-of Steffen and Pierce which defined higher-order subtyping without
-matching \cite{steffen_higher-order_1994}. It is the counterpart
-interpretation to the f-bounded subtyping interpretation which was
-the first interpretation of matching. The main difference is that here the relation is
-defined between the type generators and not between types which are bound
-by type generators. Since a type generator can be expressed as lambda
-term, it is formally a subtyping relation between two functions that are
-generating objects and takes types as parameters to bind the self type.
-Consequently, these object generators are in proper subtyping relation.
-
-In this case matching is defined as\cite{abadi_subtyping_1996}
-\begin{defn}[Matching as Higher-Order Subtyping]
-	\label{def:matchingAsHigherOrder}
-	\[A \textnormal{\match} B := A_{Op} <: B_{Op}(A)\]
-	\[\forall (X \textnormal{\match} A)B\{X\} := \forall (X_{Op} <: A_{Op}(X))B\{X\}\]
-\end{defn}
-
-This shows that now on both sides of the subtyping relation is a type
-generator. Now there is no fixpoint mixed with the generators
-the properties of subtyping between two functions, i.e., reflexivity
-and transitivity, are true.
+%\subsection{Matching as Higher-Order Subtyping}
+%Higher-order subtyping is the second interpretation of matching by
+%Abadi and Cardelli \cite{abadi_subtyping_1996} based on the work of
+%Steffen and Pierce which defined higher-order subtyping without matching
+%\cite{steffen_higher-order_1994}. It is the counterpart interpretation to
+%the f-bounded subtyping interpretation which was the first interpretation
+%of matching. The main difference is that here the relation is defined
+%between the type generators and not between types which are bound
+%by type generators. Since a type generator can be expressed as lambda
+%term, it is formally a subtyping relation between two functions that are
+%generating objects and takes types as parameters to bind the self type.
+%Consequently, these object generators are in proper subtyping relation.
+%
+%In this case matching is defined as\cite{abadi_subtyping_1996}:
+%
+%\begin{defn}[Matching as Higher-Order Subtyping]
+%	\label{def:matchingAsHigherOrder}
+%	\[A \textnormal{\match} B := Oper\langle A \rangle <: Oper\langle B \rangle\]
+%%	\[\forall (X \textnormal{\match} A)B\{X\} := \forall (X_{Op} <: A_{Op}(X))B\{X\}\]
+%\end{defn}
+%
+%This shows that now on both sides of the subtyping relation is a type
+%generator. Now there is no fixpoint mixed with the generators
+%the properties of subtyping between two functions, i.e., reflexivity
+%and transitivity, are true.
