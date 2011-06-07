@@ -487,14 +487,14 @@ In the concept of subclassing however, it is done after the combination.
 \nomenclature{Subclassing}{A class combination that does not
 obey boundaries of a subtype relation}
 
-The goal of the concept of subclassing is to provide a different
-kind of derivation which is called inheritance, with which the
-programmer should be able to inherit code without automatically creating a
-subtype \cite{simons_theory_2002-2}. This tackles the problem described in
+The goal of the concept of subclassing is to provide a different kind
+of derivation which is called inheritance, with which the programmer
+should be able to inherit code without automatically creating a subtype
+\cite{simons_theory_2002-2}. This tackles the problem described in
 \Cref{sec:sharingTypes}. Since subclassing does not create subtypes, the
 restriction of contravariance, described in \Cref{sec:recursiveClosure},
-is not relevant anymore. And as already mentioned, the fixation of
-the self references and types is done after class combination, so there
+is not relevant anymore. And as already mentioned, the fixation of the
+self references and types is done after class combination, so there
 will be no schizophrenic self-references.\footnote{See first case in
 \Cref{sec:schizoReferences}} Now, since subclassing is less restrictive
 then subtyping, the new class is also less limited in its behaviour and
@@ -504,23 +504,27 @@ the case for subtyping \cite{simons_theory_2002-2}.
 One possibility of subclassing is extending subtyping with type
 parametrisation which enables the possibility of contravariant
 method types since they can be specified later, after the class
-definition. Subtyping parametrised types can not define a transitive
-closure as long as the type parameters are not annotated how the
-type variables can be used. Java introduced wildcard parameters and
-\cs input and output parameters to allow subtyping polymorphism
-of parametrised types. These solutions still suffers from one
-problem. How to type recursive types where the fields have to be
-compatible with the \emph{self}-reference.\footnote{See second case in
-\Cref{sec:schizoReferences}} Here, the problem is that passing the own
-type as type parameter needs a recursive type declaration which can not
-be declared by hand.
+definition. However, the subtype relation within parametrised types
+can not define a transitive closure as long as a type parameter is not
+annotated whether the variable can be used in method parameter type
+declarations or as method return type declaration. As long as the type
+variable is allowed to appear in every type declaration, the subtyping
+relation can not be enforced between between two objects with different
+parameters.  Java introduced wildcards within type parameters and \cs
+allows explicitly to declare input and output type parameters to allow
+subtyping polymorphism of parametrised types. These solutions still
+suffers from one problem. How to type recursive types where the fields
+have to be compatible with the \emph{self}-reference.\footnote{See second
+case in \Cref{sec:schizoReferences}} Here, the problem is that passing
+the own type as type parameter needs a recursive type declaration which
+can not be declared by hand.
 
-To tackle this issue, the type parametrisation can be performed implicitly
-by introducing the generic type variable \emph{MyType}. Since it is
-possible to have infinite recursive types using the fixed point theorem
-\cite{pierce_types_2002} it is possible to declare recursive types
-implicitly. In subclassing the \mytype variable is bound after the
-class combination is performed similar to normal non-recursive type
+To tackle this issue, the type parametrisation can be performed
+implicitly by introducing the generic type variable \emph{MyType}. Since
+it is possible to have infinite recursive types using the fixed point
+theorem \cite{pierce_types_2002} it is possible to declare recursive
+types implicitly. In subclassing the \mytype variable is bound after
+the class combination is performed similar to normal non-recursive type
 parameters which is different in a subtyping environment.
 
 \section{Making Subclassing Practical}
