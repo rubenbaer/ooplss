@@ -289,4 +289,23 @@ could be implemented as a next further step.
 
 \section{Conclusion}
 \label{ctr:conclusion}
-%estimated pages: 2
+There are real problem in object-oriented languages with binary methods
+and code reuse if only subtyping extensions are possible within an object
+hierarchy. But just dropping subtyping and using the matching relation
+seems not to be an adequate solution solving these problems in nominal
+type systems. However, it could be shown that subclassing combined with
+subtyping as well as type parametrisation with matching can express
+problems which is not possible or cumbersome in other languages. An other
+solution that can be considered is to introduce explicit fixpoints for
+object types which would enable an explicit \mytype introduction in
+combination with type parametrisation.
+
+Although not every feature of the specified language was implemented,
+all aimed targets of the proposal in \Cref{ctr:projectProposal} can be
+considered as achieved. It has to be mentioned that some targets were
+adopted during the project. As presented in \Cref{subsec:matching} that
+matching without type parametrisation can not be applied useful since it
+is too weak to use it within method parameters or variable declarations.
+Therefore matching is only specified and not implemented. Furthermore,
+the matching interpretation of higher-order subtyping and not the
+f-bounded subtyping is used.
