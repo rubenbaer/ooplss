@@ -186,7 +186,7 @@ can only be redefined invariantly.
 			drawObjects(A, B);
 			link(inheritance)(B.e -- A.w);
 		\end{emp}
-		\caption{Covariant method return types}
+		\caption{Correct covariant method return types}
 		\label{fig:covariance}
 	\end{figure}
 
@@ -196,21 +196,21 @@ can only be redefined invariantly.
 	contravariance.  For example, if \B <: \A, \Y <: \X, \T is
 	an arbitrary type and $A$ contains a method $m$ of type $X
 	\rightarrow T$ which is replaced in \B by method $m^\prime$,
-	then does $m^\prime$ can be of type $X \rightarrow T$ since the
+	then does $m^\prime$ can be of type $Y \rightarrow T$ since the
 	parameter type is contravariant to \B <: \A.
 	\begin{figure}[H]
 		\centering
 		\begin{emp}[classdiag](20, 20)
 
-			Class.AA("A")()("+m(arg: B):T");
-			Class.BB("B")()("+m(arg: A):T");
+			Class.AA("A")()("+m(arg: Y):T");
+			Class.BB("B")()("+m(arg: X):T");
 
 			BB.e = AA.w + (-20, 0);
 			drawObjects(AA, BB);
 			link(inheritance)(BB.e -- AA.w);
 
 		\end{emp}
-		\caption{Contravariant method parameter types}
+		\caption{Correct contravariant method parameter types}
 		\label{fig:contravariance}
 	\end{figure}
 \end{description}
@@ -229,10 +229,12 @@ subtyping the correctness of the given properties has to be
 provable. Thus, since behavioural subtyping requires a proof system
 which is generally undecidable, the whole system becomes undecidable
 \cite{poll_behavioural_1998}. However, in languages without such a strong
-property, e.g., languages with signature subtyping. Nevertheless, the
-type systems can not proof the correctness of the program. In signature
-subtyping the semantics of a program is not considered by the type system,
-only the object and field signatures are important and being checked.
+property, e.g., languages with signature subtyping, the type system can
+become decidable. Nevertheless, the type systems with signature subtyping
+can not proof the correctness of the program. In signature subtyping
+the semantics of a program is not considered by the type system, only
+the object and field signatures are important and being checked.  In the
+following text, subtyping does always referring to signature subtyping.
 
 LSP allows to introduce a subsumption rule for type declarations:
 \nomenclature{Subsumption}{Characterises a expression that can be of
