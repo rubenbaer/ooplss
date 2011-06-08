@@ -55,8 +55,8 @@ easier and clearer. For a more detailed discussion see \Cref{ctr:discussion}
 The abstract syntax gives a short overview of \ooplss. This syntax is
 not normalised and does not completely correspond with the syntax used
 in the implementation.
-
 \begin{listing}
+	{\ttfamily\small
 	\begin{tabular}[H]{lrll}
 		PROG & \lra & CLASSES \\
 		CLASSES & \lra & CLASS+ \\
@@ -90,6 +90,7 @@ in the implementation.
 		PARAMS & \lra & ID `:' TYPE $\langle$ `,' ID `:' TYPE $\rangle$ \\
 		ID & \lra & $\langle$ a-z, A-Z, \_ $\rangle~\langle$ a-z, A-Z, 0-9, \_ $\rangle$*
 	\end{tabular}
+	}
 	\caption{Abstract syntax of \ooplss}
 	\label{lst:abstractSyntax}
 \end{listing}
@@ -374,13 +375,13 @@ public class A {
 }
 
 public class B {
-	private B A%\$\$)m(B o) {
+	private B A/*\$\$*/m(B o) {
 		return m(this); // Recursion back to original method
 	}
 
 	// Override A.m()
 	public B m(B o) {
-		return A%\$\$)m(this); // Recursion call over class A
+		return A/*\$\$*/m(this); // Recursion call over class A
 	}
 }
 \end{lstlisting}
