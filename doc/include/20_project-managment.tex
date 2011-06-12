@@ -127,7 +127,12 @@ language.
 \section{Technologies}
 
 \subsection{Tools and Software}
+
+\emph{Programming}
 \begin{description}
+	\item[Java] Target language of \ooplss and development language
+	of the compiler.
+	\item[common-cli] API for parsing command line options.
 	\item[ANTLR3] ANTLR\footnote{ANother Tool for Language
 	Recognition} is an advanced LL(*) parser generator with support
 	for AST\footnote{Abstract Syntax Tree} generation and tree
@@ -135,30 +140,36 @@ language.
 	\item[ANTLRWork] Workbench for ANTLR grammars with debug
 	environment.
 	\item[ANTLR IDE] Eclipse plugin for editing ANTLR grammars.
-	\item[Apache Ant] Java tool for automated builds.
 	\item[Eclipse] Open source integrated development environment
 	for Java. Used for writing the non-ANTLR parts.
+	\item[GUnit] Unit testing framework for ANTLR grammars.
+	\item[JUnit] Unit testing framework for Java source code.
+	\item[Apache Ant] Java tool for automated builds.
+\end{description} \\
+
+\noindent\emph{Documenting}
+\begin{description}
+	\item[\LaTeX] A macro collection for the \TeX system. Used for
+	the documentation. The documentation is written with \LaTeX.
+	\item[groff] A typesetting program. Used in this project to create
+	the manpage for \ooplss.
+	\item[Make] Build automation tool. Used the building of this document.
+	\item[Doxygen] Documentation generator tool, for automatically generating
+	documentations of the source code.
+	\item[zotero] Software to manage bibliographic data and their references.
+\end{description} \\
+
+\noindent\emph{Organising}
+\begin{description}
 	\item[Git] Distributed source control system. Used for the
 	development and as a replacement for Subversion. The project is
-	hosted by \href{https://www.github.com/rubenbaer/ooplss}{GitHub}\footnote{\href{https://www.github.com/rubenbaer/ooplss}{https://www.github.com/rubenbaer/ooplss}}
+	hosted by \href{https://www.github.com/rubenbaer/ooplss}{GitHub}\footnote{\href{https://www.github.com/rubenbaer/ooplss}{https://www.github.com/rubenbaer/ooplss}}.
 	\item[GitHub] Free git hosting platform with webinterface. Is
 	used for some project management issues. Provides the possibility
 	for issue tracking and code reviews.
-	\item[GUnit] Unit testing framework for ANTLR grammars.
-	\item[Java] Target language of \ooplss and development language
-	of the compiler.
-	\item[JUnit] Unit testing framework for Java source code.
-	\item[\LaTeX] A macro collection for the \TeX system. Used for
-	the documentation. The documentation is written with \LaTeX.
 	\item[Subversion] Source control system with linear history. Used
 	in the first weeks.
-	\item[groff]
-	\item[Make]
-	\item[Doxygen]
-	\item[common-cli]
-	\item[zotero]
 \end{description}
-\todo{Describe and order these items}
 
 \subsection{Standards and Guidelines}
 The source code of the \ooplss compiler, which is written
