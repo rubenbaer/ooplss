@@ -76,6 +76,7 @@ scope {
          )
          -> classdef( name={$classname.text},
                       supertype={$supertype.text},
+                      superclass={$superclass.text},
                       fields={$f},
                       methods={$m})
       ;
@@ -95,21 +96,31 @@ scope {
 }
       : ^(METHODDEF
           name=ID 
-          {$method::currentMyType = ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName();}
+          {$method::currentMyType = "\\<MyType" + ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName() + "\\>";}
           returnTypeDef
-          (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (^(ARGUMENTLIST (args+=methodArgumentDef)*)) 
           (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> method(name={$name.text}, 
+        -> method(name={$classDef::className + "$" + $name.text}, 
                   params={$args}, 
                   return_type={$returnTypeDef.st}, 
                   exprs={$exprs})
       | {$method::currentMyType = $classDef::className;}
         ^(CONSTRUCTORDEF
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (
+            (^(SUPER cstr1=ID (^(METHODARGS (cstrArgs1+=statement)*))))
+            (^(SUPER cstr2=ID (^(METHODARGS (cstrArgs2+=statement)*))))?
+          )?
           (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> constructor(name={$classDef::className}, params={$args}, exprs={$exprs})
+        -> constructor(name={$classDef::className}, 
+          params={$args}, 
+          exprs={$exprs}, 
+          cstr1={$cstr1.text}, 
+          cstrArgs1={$cstrArgs1}, 
+          cstr2={$cstr2.text}, 
+          cstrArgs2={$cstrArgs2})
       ;
       
 methodArgumentDef
@@ -197,7 +208,6 @@ memberAccess
       : ^(MEMBERACCESS ID) -> {%{$ID.text}}
       ;
       
-      /// TODO!
 methodCall
       : ^(METHODCALL name=ID (^(METHODARGS (args+=statement)*))?) 
         -> method_call(name={$name.text}, params={$args})
