@@ -47,6 +47,7 @@ import ch.codedump.ooplss.tree.*;
 import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
+import java.util.Map;
 }
 
 /// TODO: 
@@ -67,18 +68,46 @@ scope {
 	String className;
 	String supertypeName;
 	String superclassName;
+	ClassSymbol classSymbol;
 }
       : ^(CLASSDEF {!isNotSystem(input.LT(1))}? classname=ID {$classDef::className = $classname.text;}
+          {$classDef::classSymbol = ((ClassSymbol)$classname.getSymbol());}
           (^(SUPERTYPE supertype=ID))? {$classDef::supertypeName = $supertype.text;}
           (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
          )
+         {// Auslesen der Supertypen von der superclass referenz
+          Map superclassMyTypes = new HashMap();
+          if ($classDef::classSymbol.getSuperclass() != null) {
+            for (ClassSymbol symbol : $classDef::classSymbol.getSuperclass().getSuperSymbols()) {
+              superclassMyTypes.put("MyType" + symbol.getName(), $classDef::className);
+            } 
+          }
+          Map supertypeMyTypes = new HashMap();
+          if ($classDef::classSymbol.getSupertype() != null) {
+            for (ClassSymbol symbol : $classDef::classSymbol.getSupertype().getSuperSymbols()) {
+              supertypeMyTypes.put("MyType" + symbol.getName(), $classDef::className);
+            }
+          }    
+          Map myTypes = new HashMap();
+          for (ClassSymbol symbol : $classDef::classSymbol.getSuperSymbols()) {
+            if (superclassMyTypes.containsKey("MyType" + symbol.getName())) {
+              myTypes.put("MyType" + symbol.getName(), $classDef::className);
+            } else {
+              myTypes.put("MyType" + symbol.getName(), symbol.getName());
+            }
+          }
+				  
+         }
          -> classdef( name={$classname.text},
                       supertype={$supertype.text},
                       superclass={$superclass.text},
                       fields={$f},
-                      methods={$m})
+                      methods={$m},
+                      myTypeDefs={myTypes},
+                      superclassMyTypeDefs={superclassMyTypes},
+                      supertypeMyTypeDefs={supertypeMyTypes})
       ;
       catch[FailedPredicateException e] {
         logger.fine("Semantic predicate detected system class definition.");
@@ -96,7 +125,7 @@ scope {
 }
       : ^(METHODDEF
           name=ID 
-          {$method::currentMyType = "\\<MyType" + ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName() + "\\>";}
+          {$method::currentMyType = ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName();}
           returnTypeDef
           (^(ARGUMENTLIST (args+=methodArgumentDef)*)) 
           (^(METHODBLOCK (exprs+=expr)*))
@@ -276,12 +305,12 @@ field
 /// BEGIN: TYPES
 field_type
       :  {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
-      |  ID -> {%{$classDef::className}}
+      |  ID -> {%{"\\<MyType" + $classDef::className + "\\>"}}
       ;
       
 type
       : {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
-      | ID -> {%{$method::currentMyType}}
+      | ID -> {%{"\\<MyType" + $method::currentMyType + "\\>"}}
       ;
 
 /// END: TYPES
