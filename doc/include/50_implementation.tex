@@ -9,7 +9,7 @@ software. There is a section describing each phase.
 \begin{figure}[ht]
 	%\centering
 	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
-	\caption{Compiler phases}
+	\caption{Compiler phases.}
 	\label{fig:compilerPhase}
 \end{figure}
 
@@ -85,7 +85,7 @@ To keep the translation to Java simple, the scoping rules are implemented
 like in Java. This means that shadowing variables in methods is not possible.
 Listing \ref{lst:shadowing} shows this in more detail.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Shadowing variables,label=lst:shadowing]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Shadowing variables.,label=lst:shadowing]
 
 def foo(x:Int) {
 	var x:Int; // not possible, shadowing the argument
@@ -326,7 +326,7 @@ output Java code which runs on the Java Virtual Machine.
 	link(subclassof)(pathStepX(AntlrP.e, ExceptionsP.e, 40));
 
 	\end{emp}
-	\caption{Package diagram}
+	\caption{Package diagram.}
 	\label{fig:packages}
 \end{figure}
 
@@ -440,7 +440,7 @@ private and can only be accessed through getters and setters.
 	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
 
 	\end{emp}
-	\caption{Classes of the symbol table}
+	\caption{Classes of the symbol table.}
 	\label{fig:classes}
 \end{figure}
 

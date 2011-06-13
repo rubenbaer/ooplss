@@ -187,7 +187,7 @@ can only be redefined invariantly.
 			drawObjects(A, B);
 			link(inheritance)(B.e -- A.w);
 		\end{emp}
-		\caption{Correct covariant method return types}
+		\caption{Correct covariant method return types.}
 		\label{fig:covariance}
 	\end{figure}
 
@@ -211,7 +211,7 @@ can only be redefined invariantly.
 			link(inheritance)(BB.e -- AA.w);
 
 		\end{emp}
-		\caption{Correct contravariant method parameter types}
+		\caption{Correct contravariant method parameter types.}
 		\label{fig:contravariance}
 	\end{figure}
 \end{description}
@@ -308,7 +308,7 @@ the mixed hierarchy is illustrated in \Cref{fig:implementationConflict}
 		link(inheritance)(SquareR.n -- Point.s);
 		link(inheritance)(RectangleR.n -- SquareR.s);
 	\end{emp}
-	\caption{Sharing types vs implementation}
+	\caption{Sharing types vs implementation.}
 	\label{fig:implementationConflict}
 \end{figure}
 
@@ -359,7 +359,7 @@ achieved by overriding the method with a more specific argument type.
 		link(inheritance)(Cat.n -- Animal.s);
 
 	\end{emp}
-	\caption[More specific arguments]{The arguments are more specific, which is not allowed because of the contravariance rule.}
+	\caption[More specific arguments.]{The arguments are more specific, which is not allowed because of the contravariance rule.}
 	\label{fig:animalContravariance}
 \end{figure}
 
@@ -416,7 +416,7 @@ mutual recursion. In Java, all methods are implicitly virtual.
 	\subfloat[Mutual recursion]{
 		\includedot[scale=0.7]{dot/mutualRecursion}
 	}
-	\caption[Naive and mutual recursion where M <: F]{Naive and mutual recursion where M <: F \cite{cook_denotational_1989}}
+	\caption[Naive and mutual recursion where M <: F.]{Naive and mutual recursion where M <: F \cite{cook_denotational_1989}.}
 	\label{fig:schizoRecursion}
 \end{figure}
 
@@ -432,7 +432,7 @@ equals method of \emph{Vec3D} then clearly takes an argument of the type
 \emph{Vec3D}. Listing \ref{fig:schizoListing} shows this constellation
 in Java \cite{simons_theory_2003-2}.
 
-\begin{lstlisting}[float=ht,caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
+\begin{lstlisting}[float=ht,caption={An example of schizophrenic self-reference.},label={fig:schizoListing}]
 class Vec2D {
 	int x,y;
 
@@ -574,7 +574,7 @@ a covariant method parameter the method can not be typed. This implies
 that there are no statically checks to prevent the programmer from adding
 \emph{SinglyLinkedNode} objects to a \emph{DoublyLinkedNode}.
 
-\begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+\begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java.},label={lst:javaBinary}]
 public class SinglyLinkedNode {
 	private SinglyLinkedNode next; /*\label{lst:javaBinary0}*/
 
@@ -613,7 +613,7 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping
 would allow covariant parameters.
 
-\begin{lstlisting}[float=ht,label={lst:break},caption={Breaking a doubly linked node}]
+\begin{lstlisting}[float=ht,label={lst:break},caption={Breaking a doubly linked node.}]
 pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 	one.setNext(other);
 }
@@ -629,7 +629,7 @@ Since matching is a weaker relation than subtyping the assumption of $a:A$
 and $A$ \match $B$ does not imply $a:B$ like subtyping does, i.e., matching
 can not help in situations illustrated in Listing \ref{lst:matchbreak}.
 
-\begin{lstlisting}[float=ht,label={lst:matchbreak},caption={Matching relation in the break method}]
+\begin{lstlisting}[float=ht,label={lst:matchbreak},caption={Matching relation in the break method.}]
 pubic void break(node <# SinglyLinkedNode, other <# SinglyLinkedNode) {
 	node.setNext(other);
 }
@@ -723,7 +723,7 @@ be used to replace the type parameter $X$, the formal type of $A$ is
 $\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the
 type operator!
 
-\begin{lstlisting}[float=ht,caption={Universal quantified f-bound in Java},label={lst:generics}]
+\begin{lstlisting}[float=ht,caption={Universal quantified f-bound in Java.},label={lst:generics}]
 public class A<X extends B<X>> {
 	public void m(X x) {
 		x.someMethodOfB();

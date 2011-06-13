@@ -92,7 +92,7 @@ in the implementation. \\
 		ID & \lra & $\langle$ a-z, A-Z, \_ $\rangle~\langle$ a-z, A-Z, 0-9, \_ $\rangle$*
 	\end{tabular}
 	}
-	\caption{Abstract syntax of \ooplss}
+	\caption{Abstract syntax of \ooplss.}
 	\label{lst:abstractSyntax}
 \end{listing}
 
@@ -110,7 +110,7 @@ supertypes. Local scopes exist within methods and can be nested arbitrary.
 Nested local scopes can not shadow already bound variables, i.e., definitions
 like in Listing \ref{lst:illegalNesting} are not allowed.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Variable definition in local scope,label=lst:illegalNesting]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Variable definition in local scope.,label=lst:illegalNesting]
 class A {
 	var x : B;
 
@@ -172,7 +172,7 @@ current Java programmers. Listing \ref{lst:subtypeOf} shows an example
 of subtyping in \ooplss. Since this is not an important property for the
 implementation, this features is abandoned in the concrete implementation.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Subtyping in \ooplss,label=lst:subtypeOf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Subtyping in \ooplss.,label=lst:subtypeOf]
 class A {
 	// Defines a method with parameter of type A.
 	def m(p : A) : ReturnType { %\ldots) }
@@ -219,7 +219,7 @@ in UML: a subtype relation between two classes.
 \begin{figure}
 	\centering
 	\includedot[scale=0.8]{dot/subclassCombination}
-	\caption{Graphical representation of a inheritance class combination}
+	\caption{Graphical representation of a inheritance class combination.}
 	\label{fig:subclassCombination}
 \end{figure}
 
@@ -242,7 +242,7 @@ relation between them.
 		\includedot[scale=0.8]{dot/javaHierarchy}
 		\label{fig:javaHierarchy}
 	}
-	\caption{Class relation hierarchy in \ooplss and Java}
+	\caption{Class relation hierarchy in \ooplss and Java.}
 	\label{fig:inheritHierarchy}
 \end{figure}
 
@@ -250,7 +250,7 @@ Following this semantics the translation of \ooplss-code to
 other object-oriented languages can be done as stated in Listing
 \ref{lst:subclassOf} and Listing \ref{lst:javaTrans}.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Subclassing in \ooplss,label=lst:subclassOf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Subclassing in \ooplss.,label=lst:subclassOf]
 class A {
 	var a : A;
 
@@ -272,7 +272,7 @@ Listing \ref{lst:javaTrans} presents the code that was translated from Listing
 the subtyping hierarchy since the whole content of class \A is modified
 and copied to class \B.
 
-\begin{lstlisting}[float=ht,caption=Subclassing translated to Java,label=lst:javaTrans]
+\begin{lstlisting}[float=ht,caption=Subclassing translated to Java.,label=lst:javaTrans]
 public class A {
 	public A a;
 
@@ -309,7 +309,7 @@ for class \B. Since these two classes are completely decoupled but the
 classes' type is not changed from \A to \B, the expression in Listing
 \ref{lst:breakSelf} can not be typed.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B,label=lst:breakSelf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Illegal method m(o : \A) : \emph{Void} in class \B.,label=lst:breakSelf]
 class A {
 	def m(o : A) : A {
 		return m(self); //Works fine in Java
@@ -339,7 +339,7 @@ to the \self variable. Definition \ref{def:selfType} reflects this idea.
 Listing \ref{lst:fixBreakSelf} fixes the code with the assumption of
 definition \ref{def:selfType}.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Type safe code with \mytype,label=lst:fixBreakSelf]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Type safe code with \mytype.,label=lst:fixBreakSelf]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self); //Works well
@@ -368,7 +368,7 @@ provides a proper possibility for mutual recursion mentioned in
 programmers the possibility of full control over the recursion
 and the correct program flow.
 
-\begin{lstlisting}[float=ht,caption=Subclassing with \mytype translated to Java,label=lst:javaTransMyTypeSubclassing]
+\begin{lstlisting}[float=ht,caption=Subclassing with \mytype translated to Java.,label=lst:javaTransMyTypeSubclassing]
 public class A {
 	public A m(A o) {
 		m(this);
@@ -395,7 +395,7 @@ for extension as well. This problem is illustrated in Listing
 \ref{lst:myTypeSubtyping}: it is not sure which type the parameter
 $o$ should have in class \B, type \B or type \A.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=\mytype within subtyping contexts,label=lst:myTypeSubtyping]
+\begin{lstlisting}[float=ht,language=ooplss,caption=\mytype within subtyping contexts.,label=lst:myTypeSubtyping]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -429,11 +429,11 @@ If this code segment would be combined in class \C, \self would now be of type
 \begin{figure}[ht]
 	\centering
 	\includedot[scale=0.8]{dot/fixedSubclassingSubtyping}
-	\caption{Subclassing and subtyping hierarchy}
+	\caption{Subclassing and subtyping hierarchy.}
 	\label{fig:hierarchy}
 \end{figure}
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Mixed extension and inheritance hierarchy,label=lst:mixedHierarchy]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Mixed extension and inheritance hierarchy.,label=lst:mixedHierarchy]
 class A {
 	def m(o : MyType) : MyType {
 		return m(self);
@@ -483,7 +483,7 @@ of \mytype is now rebound to type \C. This works as well since the
 since in extension the binding moment is performed as early as possible,
 this fits well into \ooplss' model of class combination.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Binding of \self and \mytype in a mixed context,label=lst:bindingInMixedHierarchy]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Binding of \self and \mytype in a mixed context.,label=lst:bindingInMixedHierarchy]
 class A {
 	def m(o : MyType) : MyType { // o : A
 		return m(self);
@@ -553,7 +553,7 @@ be used wherever possible.
 \begin{figure}[ht]
 	\centering
 	\includedot[scale=0.8]{dot/subclassingSubtyping}
-	\caption{Subclassing hierarchy for class \C}
+	\caption{Subclassing hierarchy for class \C.}
 	\label{fig:fixedHierarchy}
 \end{figure}
 %
@@ -669,7 +669,7 @@ is presented in Line \ref{line:useParametrisationOoplss} in Listing
 and sound since all of these classes provide the methods assumed
 by the bound.
 
-\begin{lstlisting}[language=ooplss,caption=Parametrisation in \ooplss,label=lst:parametrisationOoplss]
+\begin{lstlisting}[language=ooplss,caption=Parametrisation in \ooplss.,label=lst:parametrisationOoplss]
 class Container[T %\match) A] {
 	def m(t1 : T, t2 : T) : T {
 		t.someAction(t2);
@@ -722,7 +722,7 @@ then done straightforward by replacing the square brackets to dollar
 signs as presented in Line \ref{line:useParametrisationJava} of Listing
 \ref{lst:parametrisationJava}
 
-\begin{lstlisting}[language=java,caption=Container class translated to Java,label=lst:parametrisationJava]
+\begin{lstlisting}[language=java,caption=Container class translated to Java.,label=lst:parametrisationJava]
 public interface Container<T> {
 	public T m(t T);
 
@@ -767,7 +767,7 @@ parameters are translated in the same manner as in normal classes.
 Listing \ref{lst:extendingContainer} shows an extended version of the
 \emph{Container} class.
 
-\begin{lstlisting}[language=java,caption=Extending a container class translated to Java,label=lst:extendingContainer]
+\begin{lstlisting}[language=java,caption=Extending a container class translated to Java.,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
 	public X f(X x);
 
@@ -836,7 +836,7 @@ possible to derive binary methods in subtypes and subclasses as well. An
 explicitly parametrised hypothetical use of \mytype is presented in
 Listing \ref{lst:explicitMyType}.
 
-\begin{lstlisting}[language=ooplss,caption=Explicit \mytype parametrisation,label=lst:explicitMyType]
+\begin{lstlisting}[language=ooplss,caption=Explicit \mytype parametrisation.,label=lst:explicitMyType]
 class A[MyType <# A] {
 	def m(o : MyType) MyType {
 		// Self is explicitly typed in the method.
@@ -886,7 +886,7 @@ printlnInt, readln} and \textit{readfile}.
 	Char & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\ \hline
 	Bool & & & & & & & & & $\bullet$ & $\bullet$ \\ \hline
 	\end{tabular}
-	\caption{Built-in type operations}
+	\caption{Built-in type operations.}
 	\label{table:builtinOperations}
 \end{table}
 
@@ -901,7 +901,7 @@ printlnInt, readln} and \textit{readfile}.
 	Char    & Int   & Float & String & Char  &       \\ \hline
 	Bool    &       &       &        &       &       \\ \hline
 	\end{tabular}
-	\caption{Type compatibility of arithmetic operators $-, *$ and $/$}
+	\caption{Type compatibility of arithmetic operators $-, *$ and $/$.}
 	\label{table:arithmeticOp}
 \end{table}
 
@@ -916,7 +916,7 @@ printlnInt, readln} and \textit{readfile}.
 	Char    & Int   & Float & String & Char  &       \\ \hline
 	Bool    &       &       &        &       &       \\ \hline
 	\end{tabular}
-	\caption{Type compatibility of arithmetic operators $+$}
+	\caption{Type compatibility of arithmetic operators $+$.}
 	\label{table:plusOp}
 \end{table}
 
@@ -931,7 +931,7 @@ printlnInt, readln} and \textit{readfile}.
 	Char    & Bool  & Bool  &        & Bool  &       \\ \hline
 	Bool    &       &       &        &       &       \\ \hline
 	\end{tabular}
-	\caption{Type compatibility of relational operators $<, >, <=$ and $>=$}
+	\caption{Type compatibility of relational operators $<, >, <=$ and $>=$.}
 	\label{table:relationalOp}
 \end{table}
 
@@ -946,6 +946,6 @@ printlnInt, readln} and \textit{readfile}.
 	Char    & Bool  & Bool  &        & Bool  &       \\ \hline
 	Bool    &       &       &        &       & Bool  \\ \hline
 	\end{tabular}
-	\caption{Type compatibility of equality operators $==$ and $!=$}
+	\caption{Type compatibility of equality operators $==$ and $!=$.}
 	\label{table:equalityOp}
 \end{table}
