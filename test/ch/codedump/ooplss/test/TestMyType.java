@@ -2,6 +2,7 @@ package ch.codedump.ooplss.test;
 
 import org.junit.Test;
 
+import ch.codedump.ooplss.symbolTable.exceptions.ArgumentDoesntMatchException;
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalAssignmentException;
 import ch.codedump.ooplss.symbolTable.exceptions.WrongReturnValueException;
 import ch.codedump.ooplss.utils.ErrorHandler;
@@ -84,7 +85,9 @@ public class TestMyType extends OoplssTest {
 	@Test
 	public void testSomeMyTyping() throws Exception {
 		String str =	"class StrictlyOrdered {\n" + 
-						"   def compare(other: MyType): Int { return 0; }\n" +
+						"   def compare(other: MyType): Int { " +
+						"		return 0; " +
+						"	}\n" +
 						"   def greater (other: MyType): Bool {\n" + 
 						"   	return self.compare(other) > 0;\n" +
 						"  	}\n" + 
@@ -185,7 +188,7 @@ public class TestMyType extends OoplssTest {
 	}
 	
 	@Test
-	public void testSomeOtherMyTyping() throws Exception {
+	public void testConstructorMyTyping() throws Exception {
 		String str =	"class A {\n" + 
 						"  def __construct(a: MyType) {\n" + 
 						"    x = null;\n" + 
@@ -224,6 +227,80 @@ public class TestMyType extends OoplssTest {
 						"}\n" + 
 						"";
 		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=ArgumentDoesntMatchException.class)
+	public void testInvalidConstructorMyTyping() throws Exception {
+		String str =	"class A {\n" + 
+						"  def __construct(a: MyType) {\n" + 
+						"  }\n" + 
+						"}\n" + 
+						"class C subclassOf A {\n" + 
+						"  def __construct(c: Int) : A(c) {\n" + 
+						"  }\n" + 
+						"}\n" + 
+						"";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=ArgumentDoesntMatchException.class)
+	public void testInvalidConstructorMyTyping2() throws Exception {
+		String str =	"class A {\n" + 
+						"  def __construct(a: MyType) {\n" +  
+						"  }\n" + 
+						"}\n" + 
+						"class C subclassOf A {\n" + 
+						"  def __construct(c: A) : A(c) {\n" + 
+						"  }\n" + 
+						"}\n" + 
+						"";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testMultipleSubclassing() throws Exception {
+		String str = 	"class A {" +
+						"	def i(x:MyType):MyType {" +
+						"		return self;" +
+						"	}" +
+						"}" +
+						"class B subclassOf A {" +
+						"  def i(x: MyType): MyType {\n" + 
+						"    return A.i(x);\n" + 
+						"  }\n" + 
+						"}" +
+						"class C subclassOf A {" +
+						"  def i(x: MyType): MyType {\n" + 
+						"    return A.i(x);\n" + 
+						"  }\n" + 
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testLinearMultipleSubclassing() throws Exception {
+		String str = 	"class A {" +
+						"	def i(x:MyType):MyType {" +
+						"		return self;" +
+						"	}" +
+						"}" +
+						"class B subclassOf A {" +
+						"  def i(x: MyType): MyType {\n" + 
+						"    return A.i(x);\n" + 
+						"  }\n" + 
+						"}" +
+						"class C subclassOf B {" +
+						"  def i(x: MyType): MyType {\n" + 
+						"    return B.i(x);\n" + 
+						"  }\n" + 
+						"}";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}

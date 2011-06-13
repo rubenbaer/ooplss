@@ -356,18 +356,28 @@ public class SymbolTable {
 	 * Check the super constructors
 	 * 
 	 * @param supers A list of the super constructor specifications
-	 * @param constructor The constructor itself
+	 * @param constructorNode The constructor itself
 	 * @throws NoSuperTypeException
 	 * @throws UnknownSuperClassException
 	 */
-	public void checkSuperConstructors(List<OoplssAST> supers, OoplssAST constructor) 
+	public void checkSuperConstructors(List<OoplssAST> supers, OoplssAST constructorNode) 
 		throws UnknownSuperClassException {
 		if (supers != null) {
 			for (OoplssAST sup: supers) {
-				((ClassSymbol)constructor.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
+				/*
+				superConstructor = sup.getSymbol().getConstructor();
+				constructorNode.getScope().isSubclassOf(.getScope()) {
+					for (superConstructor.getArguments()) {
+						arg.setRealType();
+					}
+				}
+				*/
+				
+				((ClassSymbol)constructorNode.getSymbol().getScope()).resolveSuper((OoplssAST)sup);
 				
 				MethodSymbol supCstr = ((ClassSymbol)sup.getSymbol()).getConstructor();
 				OoplssAST methodArgs = (OoplssAST) ((OoplssAST) sup.getParent()).getChild(1);
+				 
 				methodArgs.setScope(supCstr);
 			}
 		}
@@ -470,6 +480,26 @@ public class SymbolTable {
 				return false;
 		}
 		
+		if (var.getScope() != null 
+				&& stmt.getScope() != null 
+				&& var.getScope().getName().equals("construct") 
+				&& stmt.getScope().getName().equals("construct")
+				) {
+			// we're dealing with a super constructor here
+			ClassSymbol superConstructorEncClass = (ClassSymbol)var.getScope().getEnclosingScope();
+			ClassSymbol constructorEncClass      = this.getEnclosingClassScope(stmt.getScope());
+			if (constructorEncClass.isSubclassOf(superConstructorEncClass)) {
+				if (varType.getTypeIndex() == SymbolTable.tMYTYPE
+						&& stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
+					return true;
+				}
+				else if (varType.getTypeIndex() == SymbolTable.tMYTYPE
+						|| stmtType.getTypeIndex() == SymbolTable.tMYTYPE) {
+					return false;
+				}
+			}
+		}
+		
 		if (varType.getTypeIndex() == SymbolTable.tMYTYPE 
 				&& stmt.getToken().getType() != OoplssLexer.SELF
 				&& (isArg || this.getMethodIfMethodCall(stmt) != null)) {
@@ -540,11 +570,13 @@ public class SymbolTable {
 		}
 		
 		Type realType = node.getRealType();
+		
 		if (realType == null) {
 			// it doesn't have a realType... assume stand alone access
 			// TODO should probably considered further if this is correct
 			return this.getEnclosingClassScope(node.getScope());
 		}
+		
 		
 		if (node.getToken().getType() == OoplssLexer.RETURN) {
 			MethodSymbol meth = ((MethodSymbol)node.getScope());
