@@ -20,18 +20,45 @@ import ch.codedump.ooplss.symbolTable.SymbolTable;
 import ch.codedump.ooplss.tree.OoplssTreeAdaptor;
 import ch.codedump.ooplss.utils.ErrorHandler;
 
+/**
+ * Helper class for the tests to create the necessary prerequisites
+ */
 public abstract class OoplssTest {
+	/**
+	 * The token stream fed by the lexer
+	 */
 	CommonTreeNodeStream nodes;
 	
+	/**
+	 * The symbol table 
+	 */
 	SymbolTable symTab = new SymbolTable();
 	
 	Tree t;
 	
+	/**
+	 * The logger
+	 */
 	static Logger logger = Logger.getLogger(BaseScope.class.getName());
 	
-	OoplssDef def;
-	OoplssRef ref;
-	OoplssTypes typer;
+	/**
+	 * The definition walker
+	 */
+	protected OoplssDef def;
+	
+	/**
+	 * The reference walker
+	 */
+	protected OoplssRef ref;
+	
+	/**
+	 * The actual type checker
+	 */
+	protected OoplssTypes typer;
+	
+	/**
+	 * The argument type checker
+	 */
 	private OoplssArgTypes argtyper;
 	
 	
@@ -50,7 +77,7 @@ public abstract class OoplssTest {
 		OoplssParser parser = new OoplssParser(tokens);
 		parser.setTreeAdaptor(new OoplssTreeAdaptor());
 		prog_return result = parser.prog();
-		this.t = (Tree)result.getTree();
+		t = (Tree)result.getTree();
 		
 		this.nodes = new CommonTreeNodeStream(t);
 		
@@ -58,9 +85,10 @@ public abstract class OoplssTest {
 	}
 	
 	/**
+	 * Create and run the definition walker
 	 * 
-	 * @param code
-	 * @return
+	 * @param code The input code
+	 * @return The definition walker
 	 * @throws RecognitionException 
 	 */
 	protected OoplssDef createDef(String code) throws RecognitionException {
@@ -73,6 +101,13 @@ public abstract class OoplssTest {
 		return def;
 	}
 	
+	/**
+	 * Create and run the reference walker
+	 * 
+	 * @param code The input code
+	 * @return The reference walker
+	 * @throws RecognitionException
+	 */
 	protected OoplssRef createRef(String code) throws RecognitionException {
 		if (this.def == null) {
 			this.createDef(code);
@@ -85,6 +120,12 @@ public abstract class OoplssTest {
 		return ref;
 	}
 	
+	/**
+	 * Create and run both the typers
+	 * @param code The input code
+	 * @return The argument typer
+	 * @throws RecognitionException
+	 */
 	protected OoplssArgTypes createTyper(String code) throws RecognitionException {
 		if (this.ref == null) {
 			this.createRef(code);
