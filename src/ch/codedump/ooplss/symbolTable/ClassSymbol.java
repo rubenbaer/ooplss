@@ -372,7 +372,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		if (this.superclass != null) {
-			return this.superclass.isSubclassOf(type);
+			return 	this.superclass.isSubclassOf(type) || 
+					this.superclass.isSubtypeOf(type);
 		}
 		
 		return false;
