@@ -1,35 +1,4 @@
-group Ooplss;
-
-initTypeMapping ::= [
-        "Int":"0",
-        "Float":"0.0",
-        "Char":"'\0'",
-        "String":"null",
-        "Bool":"false",
-        default:"null"
-]
-
-javaTypeMapping ::= [
-        "Int":"Integer",
-        "Float":"Double",
-        "Char":"Character",
-        "String":"String",
-        "Bool":"Boolean",
-        "Void":"void"
-]
-
-varNameMapping ::= [
-        "base":"super",
-        "self":"this"
-]
-
-varname(name) ::= <<
-<if(varNameMapping.(name))><varNameMapping.(name)><else><name><endif>
->>
-
-typename(type) ::= <<
-<if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
->>
+group Ooplss : Defs;
 
 classdef(name, supertype, superclass, fields, methods, myTypeDefs, superclassMyTypeDefs, supertypeMyTypeDefs) ::= <<
 body<name>(includeSupertype, <myTypeDefs.keys:{k | <k>="<myTypeDefs.(k)>"}; separator=", ">) ::= \<\<
@@ -39,9 +8,10 @@ body<name>(includeSupertype, <myTypeDefs.keys:{k | <k>="<myTypeDefs.(k)>"}; sepa
   <methods; separator="\n">
 \>\>
 
-class<name>() ::= \<\<
+class<name>(interfacemethods) ::= \<\<
 public static class <name> <if(supertype)>extends <supertype><endif> {
   \<body<name>()\>
+  \<if(interfacemethods)\>\<interfacemethods; separator="\n"\>\<endif\>
 }
 \>\>
 >>
@@ -71,6 +41,7 @@ method_call(name, params) ::= <<
 new_object(name, params) ::= <<
 new <name>(<params; separator=", ">)
 >>
+
 
 fielddef(name, type) ::= <<
   public <typename(type)> <name> = <initTypeMapping.(type)>;

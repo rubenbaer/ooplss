@@ -28,14 +28,14 @@ backtrack=false;
 	    }
 	  }
 	  return false;
-	}   
-	public boolean isMyType(Object o) {
-    if (o instanceof OoplssAST) {
-      OoplssAST ast = (OoplssAST)o;
-      return ast.getText().equals("MyType");
-    }
-	 return false;
-	}  
+	}
+	public List<String> getMethods(OoplssAST node) {
+	  List<String> methods = new LinkedList<String>();
+	  if (node.getSymbol() instanceof ClassSymbol) {
+	    ClassSymbol classSymbol = (ClassSymbol)node.getSymbol();
+	  }
+	  return methods;
+	}
 }
 
 @header {
@@ -48,6 +48,7 @@ import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
 import java.util.Map;
+import java.util.LinkedList;
 }
 
 prog   
@@ -56,11 +57,22 @@ prog
       ;
 
 classDef
+scope {
+  String className;
+  String supertypeName;
+  String superclassName;
+}
       // Check system class with LT(3) since a DOWN-symbol comes before the ID
-      : {!isNotSystem(input.LT(3))}? ^(CLASSDEF classname=ID .*) 
-         {
+      : {!isNotSystem(input.LT(3))}? 
+        ^(CLASSDEF classname=ID {$classDef::className = $classname.text;}
+          .*
+        ) 
+        {
           retval.st = templateLib.getInstanceOf("class" + $classname.text);
-         }
+          for (String method : getMethods(classname)) {
+            retval.st.setAttribute("interfacemethods", method);
+          }
+        }
       | ^(CLASSDEF .*) // Skips all system class definitions
       ;
 

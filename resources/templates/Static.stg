@@ -1,4 +1,4 @@
-group Static;
+group Static : Defs;
 
 imports() ::= <<
 >>
