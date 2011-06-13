@@ -154,7 +154,16 @@ class Vec3D subclassOf Vec2D {
 
 \subsection{Status Quo of Implementation within Project}
 \label{sec:statusQuo}
-\todo{Remember mark}
+
+As mentioned before, not quite everything specified for the language
+was actually implemented in the compiler. There are two specifications missing
+in the implementation: simultaneous assignment while defining a variable
+and class parametrisation. Since we're compiling to Java, one more feature that
+is not specified should actually be implemented, which is the code analysis
+for return statements. The Java compiler recognises missing return statements
+or even code that is unreachable. Since we don't have a check for this, the 
+compiler could generate erroneous Java code. Except for that, the type checker
+can catch all type errors and correct Java code is created.
 
 \section{Further Work}
 \label{sec:futureWork}
@@ -169,6 +178,15 @@ This section presents some possible extensions for the core language
 independently of the implementation. The order presented is not weighted
 in the sense of its importance. To raise the language to a language
 of wide use, all these extensions should be considered as important.
+
+\subsubsection{Common features}
+To make the language more practical, some features that are common
+in programming languages should be implemented. They are left out
+because they don't contribute to the main topic -- subclassing and subtyping --
+of this thesis.
+One main feature to note is arrays. Other quite common language constructs
+would be for loops, switch statements, ternary operators, bitwise operators
+etc. 
 
 \subsubsection{Pure Object Orientation}
 For a straightforward use of numbers and strings with all its available
