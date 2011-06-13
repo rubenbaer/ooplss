@@ -252,7 +252,7 @@ public class Main {
 		nodes.reset();
 		OoplssGen2 gen2 = new OoplssGen2(nodes, symTab);
 		gen2.setTemplateLib(outputTemplate);
-		OoplssGen2.prog_return ret2 = gen2.prog();
+		OoplssGen2.app_return ret2 = gen2.app();
 
 		this.output(ret2.getTemplate().toString());
 	}
