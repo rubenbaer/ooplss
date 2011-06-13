@@ -489,7 +489,7 @@ public class SymbolTable {
 			return ((ClassSymbol)stmtType).isSubtypeOf(
 					((ClassSymbol)varType));
 		}
-		return varType == stmtType;
+		return varType.getTypeIndex() == stmtType.getTypeIndex();
 	}
 	
 	/**
