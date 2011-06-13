@@ -3,6 +3,10 @@ group Static;
 imports() ::= <<
 >>
 
+prog(classes) ::= <<
+<classes; separator="\n">
+>>
+
 app(classes) ::= <<
 <imports()>
 
