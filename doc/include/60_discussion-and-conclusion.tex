@@ -158,7 +158,14 @@ class Vec3D subclassOf Vec2D {
 As mentioned before, not quite everything specified for the language
 was actually implemented in the compiler. There are two specifications missing
 in the implementation: simultaneous assignment while defining a variable
-and class parametrisation. Since we're compiling to Java, one more feature that
+and class parametrisation (\Cref{sec:classParametrisation}). With the simultaneous 
+assignment following construct is meant:
+
+\begin{lstlisting}[float=ht,language=ooplss,caption=Assignment on defining a variable,label=lst:vardefAssign]
+var foo = new Something();
+\end{lstlisting}
+
+Since we're compiling to Java, one more feature that
 is not specified should actually be implemented, which is the code analysis
 for return statements. The Java compiler recognises missing return statements
 or even code that is unreachable. Since we don't have a check for this, the 
