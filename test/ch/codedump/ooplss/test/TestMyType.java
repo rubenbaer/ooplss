@@ -218,8 +218,8 @@ public class TestMyType extends OoplssTest {
 						"  def i(x: MyType): MyType {\n" + 
 						"    return A.i(x);\n" + 
 						"  }\n" + 
-						"  def o(x:MyType): MyType {\n" + 
-						"    return B.o(x);\n" + 
+						"  def o(y:MyType): MyType {\n" + 
+						"    return B.o(y);\n" + 
 						"  }\n" + 
 						"}\n" + 
 						"";
