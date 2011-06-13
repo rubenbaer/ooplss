@@ -17,7 +17,7 @@ public class ArgumentDoesntMatchException extends OoplssException {
 		
 		// add more possibilities...
 		
-		String err = "Argument " + argCount + " does not match "
+		String err = "Argument at position " + argCount + " does not match "
 			+ "the method";
 		
 		this.setError(err);
