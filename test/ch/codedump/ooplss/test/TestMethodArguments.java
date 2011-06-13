@@ -19,7 +19,7 @@ public class TestMethodArguments extends OoplssTest {
 						"        var s : String;\n" + 
 						"        s = \"fooo\";\n" + 
 						"        f = new Foo();\n" + 
-						"        f.m(\"Bar\"); // Here is a typeing error\n" +  
+						"        f.m(\"Bar\");\n" +  
 						"    }\n" + 
 						"}";
 		this.createTyper(str);

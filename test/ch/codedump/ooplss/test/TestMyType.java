@@ -187,7 +187,7 @@ public class TestMyType extends OoplssTest {
 	@Test
 	public void testSomeOtherMyTyping() throws Exception {
 		String str =	"class A {\n" + 
-						"  def __construct(o: MyType) {\n" + 
+						"  def __construct(a: MyType) {\n" + 
 						"    x = null;\n" + 
 						"  }\n" + 
 						"  def i(x: MyType): MyType {\n" + 
@@ -200,7 +200,7 @@ public class TestMyType extends OoplssTest {
 						"}\n" + 
 						"\n" + 
 						"class B {\n" + 
-						"  def __construct(o: MyType) {\n" + 
+						"  def __construct(b: MyType) {\n" + 
 						"    y = null;\n" + 
 						"  }\n" + 
 						"  def n(x: MyType): MyType {\n" + 
@@ -213,20 +213,18 @@ public class TestMyType extends OoplssTest {
 						"}\n" + 
 						"\n" + 
 						"class C subtypeOf A subclassOf B {\n" + 
-						"  def __construct(o: MyType) : A(o), B(o) {\n" + 
+						"  def __construct(c: MyType) : A(c), B(c) {\n" + 
 						"  }\n" + 
 						"  def i(x: MyType): MyType {\n" + 
 						"    return A.i(x);\n" + 
 						"  }\n" + 
-						"  /*def o(x:MyType): MyType {\n" + 
-						"    /return B.o(x);\n" + 
-						"  }*/\n" + 
+						"  def o(x:MyType): MyType {\n" + 
+						"    return B.o(x);\n" + 
+						"  }\n" + 
 						"}\n" + 
 						"";
 		this.symTab.disableStandaloneCheck();
-		try {
 		this.createTyper(str);
-		} catch (NullPointerException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 }
