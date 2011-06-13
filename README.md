@@ -60,6 +60,8 @@ Installation
 * git*
 * texlive-*
 * graphviz
+* groff
+* make
 
 ### Building documentation
 

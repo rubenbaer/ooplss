@@ -1,6 +1,10 @@
-group Static;
+group Static : Defs;
 
 imports() ::= <<
+>>
+
+prog(classes) ::= <<
+<classes; separator="\n">
 >>
 
 app(classes) ::= <<

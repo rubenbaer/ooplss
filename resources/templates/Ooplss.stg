@@ -1,52 +1,32 @@
-group Ooplss : Static;
+group Ooplss : Defs;
 
-initTypeMapping ::= [
-        "Int":"0",
-        "Float":"0.0",
-        "Char":"'\0'",
-        "String":"null",
-        "Bool":"false",
-        default:"null"
-]
-
-javaTypeMapping ::= [
-        "Int":"Integer",
-        "Float":"Double",
-        "Char":"Character",
-        "String":"String",
-        "Bool":"Boolean",
-        "Void":"void"
-]
-
-varNameMapping ::= [
-        "base":"super",
-        "self":"this"
-]
-
-varname(name) ::= <<
-<if(varNameMapping.(name))><varNameMapping.(name)><else><name><endif>
->>
-
-typename(type) ::= <<
-<if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
->>
-
-classdef(name, supertype, fields, methods) ::= <<
-public static class <name> <if(supertype)>extends <supertype><endif> {
+classdef(name, supertype, superclass, fields, methods, myTypeDefs, superclassMyTypeDefs, supertypeMyTypeDefs) ::= <<
+body<name>(includeSupertype, <myTypeDefs.keys:{k | <k>="<myTypeDefs.(k)>"}; separator=", ">) ::= \<\<
+  \<if(includeSupertype)\><if(supertype)>\<body<supertype>(includeSupertype="true", <supertypeMyTypeDefs.keys:{k | <k>=<k>}; separator=", ">)\><endif>\<endif\>
+  <if(superclass)>  \<body<superclass>(includeSupertype="true", <superclassMyTypeDefs.keys:{k | <k>=<k>}; separator=", ">)\><endif>
   <fields; separator="\n">
   <methods; separator="\n">
+\>\>
+
+class<name>(interfacemethods) ::= \<\<
+public static class <name> <if(supertype)>extends <supertype><endif> {
+  \<body<name>()\>
+  \<if(interfacemethods)\>\<interfacemethods; separator="\n"\>\<endif\>
 }
+\>\>
 >>
 
 method(name, params, return_type, exprs) ::= <<
-  public <typename(return_type)> <name>(<params; separator=", ">) {
-    <exprs; separator=";\n"><if(exprs)>;<endif>
+  protected <typename(return_type)> <name>(<params; separator=", ">) {
+    <if(exprs)><exprs; separator=";\n">;<endif>
   }
 >>
 
-constructor(name, params, exprs) ::= <<
-  public <name>(<params; separator=", ">) {
-    <exprs; separator=";\n"><if(exprs)>;<endif>
+constructor(name, params, exprs, cstr1, cstrArgs1, cstr2, cstrArgs2) ::= <<
+  protected void <name>$Constructor(<params; separator=", ">) {
+    <if(cstr1)><cstr1>$Constructor(<cstrArgs1; separator=",">);<endif>
+    <if(cstr2)><cstr2>$Constructor(<cstrArgs2; separator=",">);<endif>
+    <if(exprs)><exprs; separator=";\n">;<endif>
   }
 >>
 
@@ -61,6 +41,7 @@ method_call(name, params) ::= <<
 new_object(name, params) ::= <<
 new <name>(<params; separator=", ">)
 >>
+
 
 fielddef(name, type) ::= <<
   public <typename(type)> <name> = <initTypeMapping.(type)>;
@@ -111,5 +92,5 @@ while (<cond>) <block>
 // Application classes used for proper running
 
 prog(classes) ::= <<
-<app(classes)>
+<classes; separator="\n">
 >>

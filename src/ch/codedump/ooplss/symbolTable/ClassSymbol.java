@@ -1,7 +1,9 @@
 package ch.codedump.ooplss.symbolTable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import ch.codedump.ooplss.symbolTable.exceptions.IllegalSuperclass;
@@ -370,7 +372,8 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		}
 		
 		if (this.superclass != null) {
-			return this.superclass.isSubclassOf(type);
+			return 	this.superclass.isSubclassOf(type) || 
+					this.superclass.isSubtypeOf(type);
 		}
 		
 		return false;
@@ -392,5 +395,17 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 */
 	public MethodSymbol getConstructor() {
 		return this.constructor;
+	}
+	
+	public Set<ClassSymbol> getSuperSymbols() {
+		HashSet<ClassSymbol> symbols = new HashSet<ClassSymbol>();
+		symbols.add(this);
+		if (superclass != null) {
+			symbols.addAll(superclass.getSuperSymbols());
+		}
+		if (supertype != null) {
+			symbols.addAll(supertype.getSuperSymbols());
+		}
+		return symbols;
 	}
 }
