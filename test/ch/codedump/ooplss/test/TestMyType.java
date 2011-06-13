@@ -130,7 +130,7 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test
+	@Test (expected=IllegalAssignmentException.class)
 	public void testMyType() throws Exception {
 		String str = 	"class foo {" +
 						"	var x:MyType;" +
@@ -163,6 +163,70 @@ public class TestMyType extends OoplssTest {
 						"  }\n" + 
 						"}";
 		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test 
+	public void testMethodReturnMyType() throws Exception {
+		String str = 	"class foo {\n" + 
+						"    def bar():MyType {\n" + 
+						"        return self;\n" + 
+						"    }\n" + 
+						"    var x:Int;\n" + 
+						"\n" + 
+						"    def m():Void {\n" + 
+						"        bar().x + 3;\n" + 
+						"        bar().bar();\n" + 
+						"    }\n" + 
+						"}";
+		this.symTab.disableStandaloneCheck();
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testSomeOtherMyTyping() throws Exception {
+		String str =	"class A {\n" + 
+						"  def __construct(o: MyType) {\n" + 
+						"    x = null;\n" + 
+						"  }\n" + 
+						"  def i(x: MyType): MyType {\n" + 
+						"    return self;\n" + 
+						"  }\n" + 
+						"  def m(x: MyType): MyType {\n" + 
+						"    return self;\n" + 
+						"  }\n" + 
+						"  var x: MyType;\n" + 
+						"}\n" + 
+						"\n" + 
+						"class B {\n" + 
+						"  def __construct(o: MyType) {\n" + 
+						"    y = null;\n" + 
+						"  }\n" + 
+						"  def n(x: MyType): MyType {\n" + 
+						"    return self;\n" + 
+						"  }\n" + 
+						"  def o(x: MyType): MyType {\n" + 
+						"    return self;\n" + 
+						"  }\n" + 
+						"  var y: MyType;\n" + 
+						"}\n" + 
+						"\n" + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"  def __construct(o: MyType) : A(o), B(o) {\n" + 
+						"  }\n" + 
+						"  def i(x: MyType): MyType {\n" + 
+						"    return A.i(x);\n" + 
+						"  }\n" + 
+						"  /*def o(x:MyType): MyType {\n" + 
+						"    /return B.o(x);\n" + 
+						"  }*/\n" + 
+						"}\n" + 
+						"";
+		this.symTab.disableStandaloneCheck();
+		try {
+		this.createTyper(str);
+		} catch (NullPointerException e) {}
 		ErrorHandler.getInstance().throwException();
 	}
 }

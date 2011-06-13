@@ -316,7 +316,7 @@ public class SymbolTable {
 			throw new IllegalAssignmentToMethodException(var);
 		}
 		
-		if (!this.canAssignTo(var, stmt)) {
+		if (!this.canAssignTo(var, stmt, false)) {
 			throw new IllegalAssignmentException(assign.token, var, stmt);
 		}
 	}
@@ -388,7 +388,7 @@ public class SymbolTable {
 		}
  		argType.setEvalType(type); //this might be a bit ugly
  		argType.setRealType(realType);
-		if (!this.canAssignTo(argType, givenArg)) {
+		if (!this.canAssignTo(argType, givenArg, true)) {
 			throw new ArgumentDoesntMatchException(givenArg, argCount);
 		}
 	}
@@ -405,7 +405,7 @@ public class SymbolTable {
 		Type t = ((MethodSymbol) ret.getScope()).getType();
 		ret.setEvalType(t);
 		ret.setRealType(t);
-		if (!this.canAssignTo(ret, retval)) {
+		if (!this.canAssignTo(ret, retval, false)) {
 			throw new WrongReturnValueException(ret);
 		}
 	}
@@ -455,7 +455,7 @@ public class SymbolTable {
 	 * @param stmt The value to assign to
 	 * @return Whether the assignment can be done
 	 */
-	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt) {
+	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt, boolean isArg) {
 		Type varType = var.getEvalType();
 		Type stmtType = stmt.getEvalType();
 		
@@ -468,7 +468,9 @@ public class SymbolTable {
 				return false;
 		}
 		
-		if (varType.getTypeIndex() == SymbolTable.tMYTYPE) {
+		if (varType.getTypeIndex() == SymbolTable.tMYTYPE 
+				&& stmt.getToken().getType() != OoplssLexer.SELF
+				&& (isArg || this.getMethodIfMethodCall(stmt) != null)) {
 			// check something else
 			logger.fine("MyType on the left");
 			varType = this.bindMyType(var);
@@ -491,21 +493,33 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Return the method node if the given node contains a method call
+	 * 
+	 * @param node Node to check
+	 * @return Method node
+	 */
+	protected OoplssAST getMethodIfMethodCall(OoplssAST node) {
+		OoplssAST methodNode = null;
+		if (node.getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = node;
+		}
+		
+		if (node.getToken().getType() == OoplssLexer.CALLOPERATOR &&
+						((OoplssAST)node.getChild(1)).getToken().getType() == OoplssLexer.METHODCALL) {
+			methodNode = (OoplssAST)node.getChild(1);
+		}
+		
+		return methodNode;
+	}
+	
+	/**
 	 * Bind the MyType
 	 * 
 	 * @param node The MyType node
 	 * @return The type that the MyType is bound to
 	 */
 	protected Type bindMyType(OoplssAST node) {
-		OoplssAST methodNode = null;
-		if (node.getToken().getType() == OoplssLexer.METHODCALL) {
-			methodNode = node;
-		}
-		
-		 if (node.getToken().getType() == OoplssLexer.CALLOPERATOR &&
-						((OoplssAST)node.getChild(1)).getToken().getType() == OoplssLexer.METHODCALL) {
-			methodNode = (OoplssAST)node.getChild(1);
-		}
+		OoplssAST methodNode = this.getMethodIfMethodCall(node);
 						
 		if (methodNode != null) {
 			logger.fine("Dealing with a method call");
@@ -526,6 +540,21 @@ public class SymbolTable {
 			// it doesn't have a realType... assume stand alone access
 			// TODO should probably considered further if this is correct
 			return this.getEnclosingClassScope(node.getScope());
+		}
+		
+		if (node.getToken().getType() == OoplssLexer.RETURN) {
+			MethodSymbol meth = ((MethodSymbol)node.getScope());
+			if (meth.getOverrideFlag()) {
+				ClassSymbol retScope = this.getEnclosingClassScope(meth);
+				ClassSymbol defScope = this.getEnclosingClassScope(meth.getOriginSymbol());
+				if (retScope.isSubtypeOf(defScope)) {
+					return defScope;
+				} else {
+					return retScope;
+				}
+			}
+			
+			return this.getEnclosingClassScope(meth);
 		}
 		
 		return realType;
