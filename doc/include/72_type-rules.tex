@@ -1,30 +1,5 @@
 \chapter{Type Inference Rules}
 \label{ctr:typeRules}
-\section{Object Generation}
-%\section{Higher-Order Subtyping}
-%The following definitions for \emph{Oper} and \emph{Type} relation are
-%taken form \cite{steffen_higher-order_1994}.
-%\begin{table}[H]
-%	\begin{tabular}{lllr}
-%		\oper{X} & $\approx$ & X & \emph{(when X is match-bound)} \\
-%		\oper{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
-%			& $\approx$
-%			& \multicolumn{2}{l}{$\lambda X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
-%		\type{X} & $\approx$ & X$^*$ & \emph{(when X is match-bound)} \\
-%		\type{$\mu X.\{\overline{l:T}, \overline{m:U\{X\}}\}$}
-%			& $\approx$
-%			& \multicolumn{2}{l}{$\mu X.\{\overline{l:\text{\type{T}}}, \overline{m:\text{\type{U\{X\}}}}\}$} \\
-%		\type{X} & $\approx$ & X & \emph{(when X is not match-bound)} \\
-%		\type{A $\rightarrow$ B} & $\approx$ & \multicolumn{2}{l}{\type{A} $\rightarrow$ \type{B}} \\
-%		\type{$\forall(X \mmatch A)B$} & $\approx$ & \multicolumn{2}{l}{$\forall(X \prec: \text{\oper{A}})$ \type{B}} \\
-%		A \match B & $\approx$ & \oper{A} $ \prec:$ \oper{B} & \emph{(for A, B object types)} \\
-%	\end{tabular}
-%\end{table}
-%Using these definitions implies reflexivity and transitivity for matching
-%since this is true for subtyping.
-%
-%\section{Type Generation}
-
 \section{Type Rules}
 For the sake of comprehensibility the following convention is used within
 the type rules described in this section:
@@ -41,12 +16,13 @@ the type rules described in this section:
 	\end{tabular}
 \end{table}
 
-For more compactness the following abbreviations and symbols are used; the
-keywords \emph{subtypeOf} and \emph{subclassOf} are expressed with $\subt$
-and $\subc$. The reflexive and transitive closure for subtyping and
-subclassing is denoted by $\subtc$ and $\underline{\blacktriangleleft}$.
-To specify a list of length $0\ldots n$ a over line is used, e.g.,
-$\overline{X \mmatch N}$ is a list of match bounds.
+For more compactness the following abbreviations and symbols are used;
+the keywords \emph{subtypeOf} and \emph{subclassOf} are expressed
+with $\subt$ and $\subc$, respectively. The reflexive and transitive
+closure for subtyping and subclassing is denoted by $\subtc$ and
+$\underline{\blacktriangleleft}$, respectively.  To specify a list of
+length $0\ldots n$ an over line is used, e.g., $\overline{X \mmatch N}$
+is a list of match bounds.
 
 Since type parameters are used, two environments are introduced. The
 notion used within the type inference rules are similar to them from
@@ -54,10 +30,10 @@ notion used within the type inference rules are similar to them from
 core calculus for Java and GJ}. `An environment $\Gamma$ is a finite
 mapping from variables to types, written $\overline{x}:\overline{T}$;
 a type environment $\Delta$ is a finite mapping from type variables to
-nonvariable types, wirtten $\overline{X}<:\overline{N}$, which takes each
-type variable to its bound' \cite{igarashi_featherweight_1999}. In contrast
-to Featherweight Java, the bound is specified by \match and the bound is
-specified by the type operator.
+nonvariable types, wirtten $\overline{X}<:\overline{N}$, which takes
+each type variable to its bound' \cite{igarashi_featherweight_1999}. In
+contrast to Featherweight Java, the bound is specified by \match and
+using a type operator.
 
 It is assumed that the implicit binding of \mytype is done as described
 in \Cref{sec:implicitlyMyType} but made explicit, i.e., all necessary
@@ -65,7 +41,7 @@ parameters are introduced by the type combination to bind \mytype
 correctly.
 
 The typing rules for special constructs like \emph{if} or \emph{while}
-statements are not stated. They can be straightforward be implemented
+statements are not stated. They can straightforwardly be implemented
 using the expression rules.
 
 \begin{figure}[H]
@@ -303,29 +279,3 @@ using the expression rules.
 	\caption{Method and Class type rules.}
 	\label{fig:methodClassRules}
 \end{figure}
-
-%\begin{figure}[H]
-% \fbox{
-%    \begin{minipage}{\linewidth}
-%		\end{minipage}
-%	}
-%	\caption{Subtyping type rules}
-%	\label{fig:subtypingRules}
-%\end{figure}
-
-%\begin{itemize}
-%\item Product Introduction
-%\item Product Elimination
-%\item Function Introduction
-%\item Function Elimination
-%\item Record Introduction
-%\item Record Elimination
-%\item Record Subtyping
-%\item Function Subtyping
-%\item Product Subtyping
-%\item Record Extension
-%\item Record Overriding
-%\item Recursive Subtype
-%\item Subclass
-%\item Classify
-%\end{itemize}
