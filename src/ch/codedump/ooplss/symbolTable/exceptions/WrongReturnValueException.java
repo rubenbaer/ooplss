@@ -1,5 +1,6 @@
 package ch.codedump.ooplss.symbolTable.exceptions;
 
+import org.antlr.runtime.Token;
 import ch.codedump.ooplss.tree.OoplssAST;
 
 /**
@@ -10,6 +11,9 @@ public class WrongReturnValueException extends OoplssException {
 
 	public WrongReturnValueException(OoplssAST ret) {
 		super(ret.token);
+		
+		Token t = this.getRealToken(ret);
+		this.token = t;
 		
 		String err = "The return statement has the wrong type";
 		this.setError(err);
