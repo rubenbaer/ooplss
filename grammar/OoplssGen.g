@@ -50,13 +50,6 @@ import java.util.logging.Logger;
 import java.util.Map;
 }
 
-/// TODO: 
-/// Base -> super
-/// Superclasses
-/// Base -> Classname?
-/// MyType
-/// Parametrisation
-
 prog   
       : (d+=classDef)+ 
         -> prog(classes={$d})
@@ -70,14 +63,16 @@ scope {
 	String superclassName;
 	ClassSymbol classSymbol;
 }
-      : ^(CLASSDEF {!isNotSystem(input.LT(1))}? classname=ID {$classDef::className = $classname.text;}
+      // Check system class with LT(3) since a DOWN-symbol comes before the ID
+      :  {!isNotSystem(input.LT(3))}? ^(CLASSDEF classname=ID {$classDef::className = $classname.text;}
           {$classDef::classSymbol = ((ClassSymbol)$classname.getSymbol());}
           (^(SUPERTYPE supertype=ID))? {$classDef::supertypeName = $supertype.text;}
           (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
          )
-         {// Auslesen der Supertypen von der superclass referenz
+         {
+          // Builds up the mytype bindings for the class body
           Map superclassMyTypes = new HashMap();
           if ($classDef::classSymbol.getSuperclass() != null) {
             for (ClassSymbol symbol : $classDef::classSymbol.getSuperclass().getSuperSymbols()) {
@@ -108,10 +103,8 @@ scope {
                       myTypeDefs={myTypes},
                       superclassMyTypeDefs={superclassMyTypes},
                       supertypeMyTypeDefs={supertypeMyTypes})
+          | ^(CLASSDEF .*) // Skips all system class definitions
       ;
-      catch[FailedPredicateException e] {
-        logger.fine("Semantic predicate detected system class definition.");
-      }
       
 /// BEGIN: METHOD
 /// BEGIN: METHOD DEFINITION
