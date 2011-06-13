@@ -33,6 +33,10 @@ public boolean isNotSystem(Object o) {
 	return false;
 }
 
+/**
+ * Returns all methods that needs to be integrated in 
+ * a class
+ */
 public Collection<String> getMethods(OoplssAST node) {
 	Map<String, String> methods = new HashMap<String, String>();
 	if (node.getSymbol() instanceof ClassSymbol) {
@@ -48,6 +52,10 @@ public Collection<String> getMethods(OoplssAST node) {
 	return methods.values();
 }
 
+/**
+ * Includes all methods to the map. Already existing
+ * methods will be skiped.
+ */
 public void addMethodsToMap(ClassSymbol classSymbol,
 		Map<String, String> methodMap, boolean includeSupertype,
 		String currentClass) {
@@ -73,6 +81,9 @@ public void addMethodsToMap(ClassSymbol classSymbol,
 					currentClass);
 }
 
+/**
+ * Adds method to map.
+ */
 private void addMethodToMap(MethodSymbol method, Map<String, String> methodMap,
 		boolean isFromSupertype, String currentClass) {
 	if (methodMap.containsKey(method.getName()))
@@ -81,6 +92,9 @@ private void addMethodToMap(MethodSymbol method, Map<String, String> methodMap,
 			methodSymbolToMethod(method, isFromSupertype, currentClass));
 }
 
+/**
+ * Generates a method string from the MethodSymbol.
+ */
 private String methodSymbolToMethod(MethodSymbol method,
 		boolean isFromSupertype, String currentClass) {
 	StringTemplate st = null;
@@ -106,6 +120,9 @@ private String methodSymbolToMethod(MethodSymbol method,
 	return st.toString();
 }
 
+/**
+ * Evaluats the method parameters and sets them in the template
+ */
 private void setMethodParameters(MethodSymbol method, boolean isFromSupertype,
 		StringTemplate st, String currentClass) {
 	for (Symbol parameter : method.getArguments()) {
@@ -124,6 +141,9 @@ private void setMethodParameters(MethodSymbol method, boolean isFromSupertype,
 	}
 }
 
+/**
+ * Resolves real name of MyType
+ */
 private String getMethodMyTypeName(MethodSymbol method,
 		boolean isFromSupertype, String currentClass) {
 	if (isFromSupertype) {
