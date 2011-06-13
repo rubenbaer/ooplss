@@ -397,7 +397,7 @@ memberAccess	returns [Retval retval]
 				logger.fine("<Type>Memberaccess expression type is " + $right.retval.type.getName());
 				Type type = $right.retval.type;
 				logger.fine("<Type>Memberaccess methodcall expression type is " + $left.retval.type.getName());
-				$CALLOPERATOR.setRealType($left.retval.type);
+				Type realType = $left.retval.type;
 				if ($left.retval.node.token.getType() == OoplssLexer.VARACCESS) {
 					Symbol leftSymbol = ((OoplssAST)$left.retval.node.getChild(0)).getSymbol();
 					if (leftSymbol instanceof SuperVariableSymbol) {
@@ -406,16 +406,17 @@ memberAccess	returns [Retval retval]
 						ClassSymbol wrapSymbol = (ClassSymbol)((SuperVariableSymbol)leftSymbol)
 													.getWrappedSymbol();
 	 					if (encScope.isSubclassOf(wrapSymbol)) {
-	         				$CALLOPERATOR.setRealType(encScope);
+	         				realType = encScope;
 	         			}
 					}
 				}
+				$CALLOPERATOR.setRealType(realType);
 				
 				// check for methodcall, then assign the real type to the nodes or something
 				if ($right.retval.node.token.getType() == OoplssLexer.METHODCALL) {
 					symtab.setMethodArgRealTypes(
 						((OoplssAST)$right.retval.node.getChild(1)), 
-						$left.retval.type,
+						realType,
 						$left.retval.node
 					);
 				}

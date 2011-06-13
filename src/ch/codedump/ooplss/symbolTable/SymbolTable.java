@@ -340,8 +340,10 @@ public class SymbolTable {
 			}
 		} else {
 			for (int i = 0; i < givenArgs.size(); i++) {
+				OoplssAST methodArg = method.getArgument(i, (OoplssAST) givenArgs.get(i)).getDef();
+				methodArg.setScope(method);
 				this.checkArgumentType(
-					method.getArgument(i, (OoplssAST) givenArgs.get(i)).getDef(), 
+					methodArg, 
 					(OoplssAST)(givenArgs.get(i)),
 					i,
 					argsNode.getRealType()
