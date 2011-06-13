@@ -1,26 +1,27 @@
 group Defs;
 
 initTypeMapping ::= [
-        "Int":"0",
-        "Float":"0.0",
-        "Char":"'\0'",
-        "String":"null",
-        "Bool":"false",
-        default:"null"
+  "Int":"0",
+  "Float":"0.0",
+  "Char":"'\0'",
+  "String":"null",
+  "Bool":"false",
+  default:"null"
 ]
 
 javaTypeMapping ::= [
-        "Int":"Integer",
-        "Float":"Double",
-        "Char":"Character",
-        "String":"String",
-        "Bool":"Boolean",
-        "Void":"void"
+  "Int":"Integer",
+  "Float":"Double",
+  "Char":"Character",
+  "String":"String",
+  "Bool":"Boolean",
+  "Void":"void"
+  default:"void"
 ]
 
 varNameMapping ::= [
-        "base":"super",
-        "self":"this"
+  "base":"super",
+  "self":"this"
 ]
 
 varname(name) ::= <<
@@ -29,4 +30,16 @@ varname(name) ::= <<
 
 typename(type) ::= <<
 <if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
+>>
+
+interface_method(name, return_type, class_name) ::= <<
+public <typename(return_type)> <name>() {
+  <if(return_type)>return <endif><class_name>$<name>();
+}
+>>
+
+interface_constructor(class_name) ::= <<
+public <class_name>() {
+  <class_name>$Constructor();
+}
 >>
