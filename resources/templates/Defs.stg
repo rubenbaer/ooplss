@@ -1,0 +1,53 @@
+group Defs;
+
+initTypeMapping ::= [
+  "Int":"0",
+  "Float":"0.0",
+  "Char":"'\0'",
+  "String":"null",
+  "Bool":"false",
+  default:"null"
+]
+
+javaTypeMapping ::= [
+  "Int":"Integer",
+  "Float":"Double",
+  "Char":"Character",
+  "String":"String",
+  "Bool":"Boolean",
+  "Void":"void"
+]
+
+varNameMapping ::= [
+  "base":"super",
+  "self":"this"
+]
+
+varname(name) ::= <<
+<if(varNameMapping.(name))><varNameMapping.(name)><else><name><endif>
+>>
+
+typename(type) ::= <<
+<if(javaTypeMapping.(type))><javaTypeMapping.(type)><else><type><endif>
+>>
+
+interface_method(name, return_type, has_return_type, class_name, parameter_defs, parameters) ::= <<
+public <if(has_return_type)><typename(return_type)><else>void<endif> <name>(<parameter_defs; separator=", ">) {
+  <if(has_return_type)>return <endif><class_name>$<name>(<parameters; separator=", ">);
+}
+>>
+
+interface_constructor(class_name, parameter_defs, parameters) ::= <<
+<if(parameter_defs)>protected <class_name>() { }<endif>
+public <class_name>(<parameter_defs; separator=", ">) {
+  <class_name>$Constructor(<parameters; separator=", ">);
+}
+>>
+
+std_constructor(name) ::= <<
+public void <name>$Constructor() { }
+>>
+
+interface_parameter(name, type) ::= <<
+<typename(type)> <varname(name)>
+>>

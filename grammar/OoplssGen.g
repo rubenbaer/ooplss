@@ -47,14 +47,8 @@ import ch.codedump.ooplss.tree.*;
 import ch.codedump.ooplss.utils.*;
 
 import java.util.logging.Logger;
+import java.util.Map;
 }
-
-/// TODO: 
-/// Base -> super
-/// Superclasses
-/// Base -> Classname?
-/// MyType
-/// Parametrisation
 
 prog   
       : (d+=classDef)+ 
@@ -67,21 +61,50 @@ scope {
 	String className;
 	String supertypeName;
 	String superclassName;
+	ClassSymbol classSymbol;
 }
-      : ^(CLASSDEF {!isNotSystem(input.LT(1))}? classname=ID {$classDef::className = $classname.text;}
+      // Check system class with LT(3) since a DOWN-symbol comes before the ID
+      :  {!isNotSystem(input.LT(3))}? ^(CLASSDEF classname=ID {$classDef::className = $classname.text;}
+          {$classDef::classSymbol = ((ClassSymbol)$classname.getSymbol());}
           (^(SUPERTYPE supertype=ID))? {$classDef::supertypeName = $supertype.text;}
           (^(SUPERCLASS superclass=ID))? {$classDef::superclassName = $superclass.text;}
           (^(FIELDS (f+=fieldDef)+))?
           (^(METHODS (m+=methodDef)+))?
          )
+         {
+          // Builds up the mytype bindings for the class body
+          Map superclassMyTypes = new HashMap();
+          if ($classDef::classSymbol.getSuperclass() != null) {
+            for (ClassSymbol symbol : $classDef::classSymbol.getSuperclass().getSuperSymbols()) {
+              superclassMyTypes.put("MyType" + symbol.getName(), $classDef::className);
+            } 
+          }
+          Map supertypeMyTypes = new HashMap();
+          if ($classDef::classSymbol.getSupertype() != null) {
+            for (ClassSymbol symbol : $classDef::classSymbol.getSupertype().getSuperSymbols()) {
+              supertypeMyTypes.put("MyType" + symbol.getName(), $classDef::className);
+            }
+          }    
+          Map myTypes = new HashMap();
+          for (ClassSymbol symbol : $classDef::classSymbol.getSuperSymbols()) {
+            if (superclassMyTypes.containsKey("MyType" + symbol.getName())) {
+              myTypes.put("MyType" + symbol.getName(), $classDef::className);
+            } else {
+              myTypes.put("MyType" + symbol.getName(), symbol.getName());
+            }
+          }
+				  
+         }
          -> classdef( name={$classname.text},
                       supertype={$supertype.text},
+                      superclass={$superclass.text},
                       fields={$f},
-                      methods={$m})
+                      methods={$m},
+                      myTypeDefs={myTypes},
+                      superclassMyTypeDefs={superclassMyTypes},
+                      supertypeMyTypeDefs={supertypeMyTypes})
+          | ^(CLASSDEF .*) // Skips all system class definitions
       ;
-      catch[FailedPredicateException e] {
-        logger.fine("Semantic predicate detected system class definition.");
-      }
       
 /// BEGIN: METHOD
 /// BEGIN: METHOD DEFINITION
@@ -97,19 +120,29 @@ scope {
           name=ID 
           {$method::currentMyType = ((MethodSymbol)$name.getSymbol()).getOriginSymbol().getScope().getName();}
           returnTypeDef
-          (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (^(ARGUMENTLIST (args+=methodArgumentDef)*)) 
           (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> method(name={$name.text}, 
+        -> method(name={$classDef::className + "$" + $name.text}, 
                   params={$args}, 
                   return_type={$returnTypeDef.st}, 
                   exprs={$exprs})
       | {$method::currentMyType = $classDef::className;}
         ^(CONSTRUCTORDEF
           (^(ARGUMENTLIST (args+=methodArgumentDef)*))
+          (
+            (^(SUPER cstr1=ID (^(METHODARGS (cstrArgs1+=statement)*))))
+            (^(SUPER cstr2=ID (^(METHODARGS (cstrArgs2+=statement)*))))?
+          )?
           (^(METHODBLOCK (exprs+=expr)*))
         ) 
-        -> constructor(name={$classDef::className}, params={$args}, exprs={$exprs})
+        -> constructor(name={$classDef::className}, 
+          params={$args}, 
+          exprs={$exprs}, 
+          cstr1={$cstr1.text}, 
+          cstrArgs1={$cstrArgs1}, 
+          cstr2={$cstr2.text}, 
+          cstrArgs2={$cstrArgs2})
       ;
       
 methodArgumentDef
@@ -197,7 +230,6 @@ memberAccess
       : ^(MEMBERACCESS ID) -> {%{$ID.text}}
       ;
       
-      /// TODO!
 methodCall
       : ^(METHODCALL name=ID (^(METHODARGS (args+=statement)*))?) 
         -> method_call(name={$name.text}, params={$args})
@@ -266,12 +298,12 @@ field
 /// BEGIN: TYPES
 field_type
       :  {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
-      |  ID -> {%{$classDef::className}}
+      |  ID -> {%{"\\<MyType" + $classDef::className + "\\>"}}
       ;
       
 type
       : {!isMyType(input.LT(1))}? ID -> {%{$ID.text}}
-      | ID -> {%{$method::currentMyType}}
+      | ID -> {%{"\\<MyType" + $method::currentMyType + "\\>"}}
       ;
 
 /// END: TYPES
