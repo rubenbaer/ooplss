@@ -55,7 +55,7 @@
 		</exec>
 	</target>
 
-	<target name="dist-clean">
+	<target name="dist-clean" depends="clean">
 		<delete dir="${dist}" />
 		<delete file="ooplss.zip" />
 		<delete file="ooplss.tgz" />
@@ -63,7 +63,7 @@
 
 	<!-- BUILD -->
 
-	<target name="build" depends="clean,build-src">
+	<target name="build" depends="clean,jar">
 	</target>
 
 	<target name="build-src" depends="build-grammar">
@@ -129,17 +129,15 @@
 		 </condition>
 		</fail>
 
-		<mkdir dir="${installDir}" />
 		<mkdir dir="${installDir}/lib" />
-		<copy todir="${installDir}/lib" file="${dist}/ooplss.jar" />
+		<copy todir="${installDir}" file="ooplss.jar" />
 
 		<shellscript shell="bash">
-			cp dist/ooplss /usr/bin/
+			cp misc/ooplss /usr/bin/
 		</shellscript>
 
-		<copy todir="${installDir}/lib">
-			<fileset dir="${dist}/lib" />
-		</copy>
+		<copy tofile="${installDir}/lib/antlr3.jar" file="lib/antlr-3.3.1-snapshot.jar"/>
+		<copy todir="${installDir}/lib/" file="lib/commons-cli-1.2.jar"/>
 
 		<shellscript shell="bash">
 			gzip -c misc/ooplss.1 > /usr/share/man/man1/ooplss.1.gz
@@ -216,7 +214,7 @@
 		<copy todir="${dist}" file="doc/manpage.pdf" />
 	</target>
 
-	<target name="jar" depends="build,run-tests" >
+	<target name="jar" depends="build-src,run-tests" >
 		<tstamp>
 			<format property="TODAY" pattern="d-MMMM-yyyy hh:mm aa" locale="en,UK"/>
 		</tstamp>
@@ -263,7 +261,7 @@
 
 
 	<!-- runs every gunit test -->
-	<target name="gunit" depends="build">
+	<target name="gunit" depends="build-src">
 		<foreach param="gunit-file" target="call-gunit">
 			<path>
 				<fileset dir="${gunit-testdir}" includes="**/*.gunit" />
