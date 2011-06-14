@@ -7,13 +7,15 @@ prog(classes) ::= <<
 <classes; separator="\n">
 >>
 
-app(classes) ::= <<
+app(classes, hasApplication) ::= <<
 <imports()>
 
 public class App {
   public static void main(String[] args) {
+    <if(hasApplication)>
     Application app = new Application();
     app.run();
+    <endif>
   }
   
   <systemclasses()>

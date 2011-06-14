@@ -9,13 +9,15 @@ options {
 }
 
 @members {
+public boolean hasApplicationClass;
 SymbolTable symtab;
 static Logger logger = Logger.getLogger(OoplssGen.class.getName());
 ErrorHandler error = ErrorHandler.getInstance();
 
-public OoplssGen2(TreeNodeStream input, SymbolTable symtab) {
+public OoplssGen2(TreeNodeStream input, SymbolTable symtab, boolean hasApplicationClass) {
 	this(input);
 	this.symtab = symtab;
+	hasApplicationClass = hasApplicationClass;
 }
 
 /**
@@ -172,11 +174,16 @@ import java.util.Collection;
 }
 
 app
-		:
-		(
-		d += classDef
-		)+
-				->app(classes = {$d})
+		: {hasApplicationClass}?
+		  (
+		    d += classDef
+		  )+
+				->app(classes = {$d}, hasApplication = {%{"true"}})
+	   |
+      (
+        d += classDef
+      )+
+        ->app(classes = {$d})
 		;
 
 classDef

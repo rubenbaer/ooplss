@@ -250,7 +250,7 @@ public class Main {
 		StringTemplateGroup outputTemplate = CreateTemporaryTemplate(ret
 				.getTemplate().toString());
 		nodes.reset();
-		OoplssGen2 gen2 = new OoplssGen2(nodes, symTab);
+		OoplssGen2 gen2 = new OoplssGen2(nodes, symTab, gen.hasApplicationClass);
 		gen2.setTemplateLib(outputTemplate);
 		OoplssGen2.app_return ret2 = gen2.app();
 

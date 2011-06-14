@@ -9,6 +9,7 @@ options {
 }
 
 @members {
+public boolean hasApplicationClass = false;
 SymbolTable symtab;
 static Logger logger = Logger.getLogger(OoplssGen.class.getName());
 ErrorHandler error = ErrorHandler.getInstance();
@@ -122,6 +123,9 @@ ClassSymbol classSymbol;
 				CLASSDEF classname = ID 
                            {
                             $classDef::className = $classname.text;
+                            if ($classname.text.equals("Application")) {
+                              hasApplicationClass = true;
+                            }
                            }
 				
     {
