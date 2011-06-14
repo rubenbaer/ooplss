@@ -460,6 +460,54 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * 
+	 * @param var
+	 * @param stmt
+	 * @return
+	 */
+	protected boolean isCompatible(OoplssAST var, OoplssAST stmt) {
+		Symbol varChildSymbol = this.getBareSymbol(var);
+		Symbol stmtChildSymbol = this.getBareSymbol(stmt);
+		
+		if (varChildSymbol == null || stmtChildSymbol == null) {
+			return false;
+		}
+		
+		if (varChildSymbol == stmtChildSymbol) {
+			return true;
+		}
+		
+		ClassSymbol varScope  = this.getEnclosingClassScope(varChildSymbol.getScope());
+		ClassSymbol stmtScope = this.getEnclosingClassScope(stmtChildSymbol.getScope());
+		
+		return 	varChildSymbol.getType().getTypeIndex()  == SymbolTable.tMYTYPE && 
+				stmtChildSymbol.getType().getTypeIndex() == SymbolTable.tMYTYPE && 	(
+					varScope.isSubtypeOf(stmtScope) || 
+					stmtScope.isSubclassOf(varScope) || 
+					varScope.isSubclassOf(stmtScope)
+				);
+	}
+	
+	/**
+	 * Return the bare symbol 
+	 * @param var The AST node to retreat the symbol of 
+	 * @return The bare symbol
+	 */
+	protected Symbol getBareSymbol(OoplssAST var) {
+		Symbol varChildSymbol = null;
+		if (var.token.getType() == OoplssLexer.VARACCESS) {
+			varChildSymbol = ((OoplssAST)var.getChild(0)).getSymbol();
+		} else if (var.token.getType() == OoplssLexer.CALLOPERATOR) {
+			OoplssAST rightChild = (OoplssAST)var.getChild(1);
+			if (rightChild.token.getType() == OoplssLexer.MEMBERACCESS) {
+				varChildSymbol = ((OoplssAST)rightChild.getChild(0)).getSymbol();
+			}
+		}
+		
+		return varChildSymbol;
+	}
+	
+	/**
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
 	 * 
@@ -468,6 +516,10 @@ public class SymbolTable {
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt, boolean isArg) {
+		if (this.isCompatible(var, stmt)) {
+			return true;
+		}
+		
 		Type varType = var.getEvalType();
 		Type stmtType = stmt.getEvalType();
 		
@@ -500,13 +552,27 @@ public class SymbolTable {
 			}
 		}
 		
+		if (varType.getTypeIndex() != stmtType.getTypeIndex() &&
+				(
+						varType.getTypeIndex() == SymbolTable.tMYTYPE ||
+						stmtType.getTypeIndex() == SymbolTable.tMYTYPE
+				)
+			) {
+			if (stmt.token.getType() != OoplssLexer.CALLOPERATOR) {
+				/*if (stmtType.getTypeIndex() != SymbolTable.tMYTYPE) {*/
+					return false;
+				/*}*/
+			} else {
+				if (((OoplssAST)stmt.getChild(0)).token.getType() == OoplssLexer.SELF) {
+					return false;
+				}
+			}
+		}
+		
 		if (varType.getTypeIndex() == SymbolTable.tMYTYPE 
 				&& stmt.getToken().getType() != OoplssLexer.SELF
-				&& (
-						(isArg || this.getMethodIfMethodCall(stmt) != null))
-						||
-						var.getToken().getType() == OoplssLexer.VARACCESS
-					) {
+				/*&& (isArg || this.getMethodIfMethodCall(stmt) != null)*/)
+		{
 			// check something else
 			logger.fine("MyType on the left");
 			varType = this.bindMyType(var);
@@ -581,9 +647,14 @@ public class SymbolTable {
 			// TODO should probably considered further if this is correct
 			if (node.token.getType() == OoplssLexer.VARACCESS) {
 				Symbol realSym = ((OoplssAST)node.getChild(0)).getSymbol();
-				// decide wheter this symbol is in a supertype or not
+				// decide whether this symbol is in a supertype or not
 				ClassSymbol realScope = this.getEnclosingClassScope(realSym.getScope());
 				ClassSymbol callScope = this.getEnclosingClassScope(node.getScope());
+				/*
+				if (callScope == realScope) {
+					return SymbolTable._myType;
+				}
+				*/
 				if (callScope.isSubtypeOf(realScope)) {
 					return realScope;
 				}

@@ -9,7 +9,7 @@ import ch.codedump.ooplss.utils.ErrorHandler;
 
 
 public class TestMyType extends OoplssTest {
-	@Test
+	@Test 
 	public void testMyTypeFunc() throws Exception {
 		String str = 	"class foo {" +
 						"	def blah():MyType {}" +
@@ -22,7 +22,7 @@ public class TestMyType extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test
+	@Test 
 	public void testMyTypeInheritance() throws Exception {
 		String str = 	"class foo {\n" +
 						"	def blah():MyType { }\n" +
@@ -32,14 +32,14 @@ public class TestMyType extends OoplssTest {
 						"	var x:foo;\n" +
 						"	var y:bar;\n" +
 						"	def __construct() {\n" +
-						"		x = y.blah();\n" +
+						"		x = y.blah();\n" + // TODO correct 
 						"	}\n" +
 						"}\n";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test
+	@Test (expected=IllegalAssignmentException.class)
 	public void testDirectMyTypeInheritance() throws Exception {
 		String str = 	"class foo {\n" +
 						"	def blah():MyType { }\n" +
@@ -48,12 +48,29 @@ public class TestMyType extends OoplssTest {
 						"	var x:foo;\n" +
 						"	var y:bar;\n" +
 						"	def __construct() {\n" +
-						"		x = blah();\n" +
+						"		x = blah();\n" + // because of later subclassing possibilities
 						"	}\n" +
 						"}\n";
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testDirectMyTypeInheritance2() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def blah():MyType { }\n" +
+						"}\n" +
+						"class bar subtypeOf foo {\n" +
+						"	var x:foo;\n" +
+						"	var y:bar;\n" +
+						"	def blubber():Void {\n" +
+						"		x = self.blah();\n" + 
+						"	}\n" +
+						"}\n";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
 	
 	@Test (expected=WrongReturnValueException.class)
 	public void testInvalidSelfRef() throws Exception {
@@ -108,7 +125,7 @@ public class TestMyType extends OoplssTest {
 						"	var y:bar;\n" +
 						"	def __construct() {\n" +
 						"		//x = y.blah();\n" +
-						"		y = y.blah();\n" +
+						"		y = y.blah();\n" + // TODO correct
 						"	}\n" +
 						"}\n";
 		this.createTyper(str);
@@ -317,7 +334,9 @@ public class TestMyType extends OoplssTest {
 		"		return self;\n" + 
 		"	}\n" + 
 		"	var x: Int;\n" + 
-		"	var y: MyType;\n" + 
+		"	var y: MyType;" +
+		"	var e: MyType;" +
+		"	var f: MyType;\n" + 
 		"}\n" + 
 		"\n" + 
 		"class B {\n" + 
@@ -358,5 +377,130 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
-	$
+	
+	@Test 
+	public void testMyTypeSelfAssignments() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		k = k;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testMyTypeSelfAssignments2() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		y = y;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testSimilarAssignments() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		e = f;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testExchangedAssignments() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		k = y;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testExchangedAssignments2() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		y = k;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testSomeMoreMyTyping3() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		y = A.y;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testSomeMoreMyTyping4() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		x = A.m().m().x;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testSomeMoreMyTyping5() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		x = A.m().x;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
+	@Test 
+	public void testSomeMoreMyTyping6() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		B.s = B.o().s;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
 }
