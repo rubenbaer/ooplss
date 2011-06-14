@@ -564,6 +564,7 @@ public class SymbolTable {
 				return cl;
 			}
 		}
+
 		
 		if (node.getToken().getType() == OoplssLexer.SELF) {
 			return SymbolTable._myType;
@@ -574,7 +575,17 @@ public class SymbolTable {
 		if (realType == null) {
 			// it doesn't have a realType... assume stand alone access
 			// TODO should probably considered further if this is correct
+			if (node.token.getType() == OoplssLexer.VARACCESS) {
+				Symbol realSym = ((OoplssAST)node.getChild(0)).getSymbol();
+				// decide wheter this symbol is in a supertype or not
+				ClassSymbol realScope = this.getEnclosingClassScope(realSym.getScope());
+				ClassSymbol callScope = this.getEnclosingClassScope(node.getScope());
+				if (callScope.isSubtypeOf(realScope)) {
+					return realScope;
+				}
+			}
 			return this.getEnclosingClassScope(node.getScope());
+			
 		}
 		
 		
