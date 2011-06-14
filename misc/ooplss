@@ -1,5 +1,10 @@
 #!/bin/bash
 
-#export CLASSPATH="$CLASSPATH:lib/:/usr/share/ooplss/lib/"
-java -cp lib/:/usr/share/ooplss/lib -jar ooplss.jar $1 $2 $3 $4 $5 $6 $7 $8 $9
+if [[ -f ooplss.jar ]]; then 
+	java -cp lib/:/usr/share/ooplss/lib/ -jar ooplss.jar $1 $2 $3 $4 $5 $6 $7 $8 $9
+else
+	# calling from somewhere
+	java -cp lib/:/usr/share/ooplss/lib/ -jar /usr/share/ooplss/ooplss.jar $1 $2 $3 $4 $5 $6 $7 $8 $9
+fi
+
 
