@@ -325,13 +325,13 @@ public class TestMyType extends OoplssTest {
 	private String extendedMyTyping = 	
 		"class A {\n" + 
 		"	def __construct(x: Int) {\n" + 
-		"		self.x = x;\n" + 
+		"		//self.x = x;\n" + 
 		"	}\n" + 
 		"	def m(): MyType {\n" + 
-		"		return self;\n" + 
+		"		//return self;\n" + 
 		"	}\n" + 
 		"	def n(): MyType {\n" + 
-		"		return self;\n" + 
+		"		//return self;\n" + 
 		"	}\n" + 
 		"	var x: Int;\n" + 
 		"	var y: MyType;" +
@@ -341,10 +341,10 @@ public class TestMyType extends OoplssTest {
 		"\n" + 
 		"class B {\n" + 
 		"	def __construct(s: String) {\n" + 
-		"		self.s = s;\n" + 
+		"		//self.s = s;\n" + 
 		"	}\n" + 
 		"	def o(): MyType {\n" + 
-		"		return self;\n" + 
+		"		//return self;\n" + 
 		"	}\n" + 
 		"	var s: String;\n" + 
 		"	var k: MyType;\n" + 
@@ -475,6 +475,21 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();		
 	}
+	
+	@Test 
+	public void testSomeMoreMyTyping7() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		e = A.m().m().f;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();		
+	}
+	
 	
 	@Test 
 	public void testSomeMoreMyTyping5() throws Exception {

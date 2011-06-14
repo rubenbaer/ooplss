@@ -47,6 +47,19 @@ public class TestSimpleAssignments extends OoplssTest {
 	}
 	
 	@Test (expected=IllegalAssignmentException.class)
+	public void testIllegalAssignment2() throws Exception {
+		String str = 	"class foo {\n" +
+						"	def blah():Void {\n" +
+						"		var x:Int;\n" +
+						"		var y:String;" +
+						"		x = y;\n" +
+						"	}\n" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalAssignmentException.class)
 	public void testIllegalClassAssignment() throws Exception {
 		String str = 	"class A {}\n" +
 						"class foo {\n" +

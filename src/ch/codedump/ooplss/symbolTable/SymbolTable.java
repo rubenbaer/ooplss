@@ -472,10 +472,11 @@ public class SymbolTable {
 		if (varChildSymbol == null || stmtChildSymbol == null) {
 			return false;
 		}
-		
+		/*
 		if (varChildSymbol == stmtChildSymbol) {
 			return true;
 		}
+		*/
 		
 		ClassSymbol varScope  = this.getEnclosingClassScope(varChildSymbol.getScope());
 		ClassSymbol stmtScope = this.getEnclosingClassScope(stmtChildSymbol.getScope());
