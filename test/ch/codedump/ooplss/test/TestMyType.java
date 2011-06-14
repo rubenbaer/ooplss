@@ -304,4 +304,59 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();
 	}
+	
+	private String extendedMyTyping = 	
+		"class A {\n" + 
+		"	def __construct(x: Int) {\n" + 
+		"		self.x = x;\n" + 
+		"	}\n" + 
+		"	def m(): MyType {\n" + 
+		"		return self;\n" + 
+		"	}\n" + 
+		"	def n(): MyType {\n" + 
+		"		return self;\n" + 
+		"	}\n" + 
+		"	var x: Int;\n" + 
+		"	var y: MyType;\n" + 
+		"}\n" + 
+		"\n" + 
+		"class B {\n" + 
+		"	def __construct(s: String) {\n" + 
+		"		self.s = s;\n" + 
+		"	}\n" + 
+		"	def o(): MyType {\n" + 
+		"		return self;\n" + 
+		"	}\n" + 
+		"	var s: String;\n" + 
+		"	var k: MyType;\n" + 
+		"}";
+
+	@Test
+	public void testSomeMoreMyTyping() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		y = m(); // NOK\n" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test
+	public void testSomeMoreMyTyping2() throws Exception {
+		String str = 	this.extendedMyTyping + 
+						"class C subtypeOf A subclassOf B {\n" + 
+						"	def __construct(): A(5), B(\"Foo\") {\n" + 
+						"	}\n" + 
+						"	def p(): Void {\n" +  
+						"		k = B.k;" +
+						"	}" +
+						"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	$
 }

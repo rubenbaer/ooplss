@@ -502,7 +502,11 @@ public class SymbolTable {
 		
 		if (varType.getTypeIndex() == SymbolTable.tMYTYPE 
 				&& stmt.getToken().getType() != OoplssLexer.SELF
-				&& (isArg || this.getMethodIfMethodCall(stmt) != null)) {
+				&& (
+						(isArg || this.getMethodIfMethodCall(stmt) != null))
+						||
+						var.getToken().getType() == OoplssLexer.VARACCESS
+					) {
 			// check something else
 			logger.fine("MyType on the left");
 			varType = this.bindMyType(var);
