@@ -9,7 +9,7 @@ software. There is a section describing each phase.
 \begin{figure}[ht]
 	%\centering
 	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
-	\caption{Compiler phases.}
+	\caption{All important compiler phases.}
 	\label{fig:compilerPhase}
 \end{figure}
 
@@ -483,7 +483,18 @@ specialities and prevent from using the symbols in a wrong way.
 \label{ctr:translation}
 The translation is the last phase of the compiler stage and is divided into
 two subparts. The first is defined within the file \emph{OoplssGen.g} and the
-second in \emph{OoplssGen2.g}.
+second in \emph{OoplssGen2.g}. The \emph{StringTemplate} files are located
+in the \emph{resources/templates} folder. Three template groups are defined
+within the .stg files. Since \emph{StringTemplate} allows inheritance of
+template groups, the structure illustrated in \Cref{fig:templateHierarchy}
+was chosen.
+
+\begin{figure}[ht]
+	\centering
+	\includedot[scale=0.7]{dot/templateHierarchy}
+	\caption{The hierarchy of the template group files.}
+	\label{fig:templateHierarchy}
+\end{figure}
 
 As shown in \Cref{ctr:languageSpecification} the translation can not be
 performed directly to Java since some inner methods needs to be generated

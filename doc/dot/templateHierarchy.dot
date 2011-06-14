@@ -1,0 +1,9 @@
+digraph templateHierarchy {
+	rankdir=BT
+	margin=0
+	A [label="Defs.stg",fontname=LMRoman10]
+	B [label="Static.stg",fontname=LMRoman10]
+	C [label="Ooplss.stg",fontname=LMRoman10]
+	B -> A
+	C -> A
+}
