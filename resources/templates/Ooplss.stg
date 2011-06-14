@@ -1,5 +1,14 @@
 group Ooplss : Defs;
 
+binOperatorMapping ::= [
+  "<":"\\\<",
+  ">":"\\\>",
+  "*":"*",
+  "/":"/",
+  "+":"+",
+  "-":"-"
+]
+
 classdef(name, supertype, superclass, fields, methods, myTypeDefs, superclassMyTypeDefs, supertypeMyTypeDefs) ::= <<
 body<name>(includeSupertype, <myTypeDefs.keys:{k | <k>="<myTypeDefs.(k)>"}; separator=", ">) ::= \<\<
   \<if(includeSupertype)\><if(supertype)>\<body<supertype>(includeSupertype="true", <supertypeMyTypeDefs.keys:{k | <k>=<k>}; separator=", ">)\><endif>\<endif\>
@@ -60,7 +69,7 @@ assign(var, stmt) ::= <<
 >>
 
 binoperator(op, left, right) ::= <<
-(<left> <op> <right>)
+(<left> <binOperatorMapping.(op)> <right>)
 >>
 
 call_operator(left, right) ::= <<
