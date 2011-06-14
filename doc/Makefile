@@ -15,12 +15,12 @@ default: build
 view: build
 	$(VIEWER) $(JOB).pdf
 
-build: man draft
+build: clean draft
 
 man:
 	pdfroff -P-pa4 --no-toc --no-ref -man ../misc/ooplss.1 --pdf-output=manpage.pdf
 
-draft:
+draft: man
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode $(DRAFT) 1> /dev/null
 	mpost $(JOB) 1> /dev/null
 	bibtex $(JOB) 1> /dev/null
