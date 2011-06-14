@@ -120,7 +120,7 @@
 
 	<!-- installation -->
 
-	<target name="install">
+	<target name="checkroot">
 		<fail message="You need to be root to install ooplss">
 		 <condition>
 		   <not>
@@ -128,7 +128,9 @@
 		   </not>
 		 </condition>
 		</fail>
+	</target>
 
+	<target name="install" depends="checkroot,uninstall">
 		<mkdir dir="${installDir}/lib" />
 		<copy todir="${installDir}" file="ooplss.jar" />
 
@@ -142,6 +144,12 @@
 		<shellscript shell="bash">
 			gzip -c misc/ooplss.1 > /usr/share/man/man1/ooplss.1.gz
 		</shellscript>
+	</target>
+
+	<target name="uninstall" depends="checkroot">
+		<delete dir="${installDir}" />
+		<delete file="/usr/share/man/man1/ooplss.1.gz" />
+		<delete file="/usr/bin/ooplss" />
 	</target>
 
 	<!-- Documentation-->
