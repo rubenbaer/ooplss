@@ -14,7 +14,8 @@ SymbolTable symtab;
 static Logger logger = Logger.getLogger(OoplssGen.class.getName());
 ErrorHandler error = ErrorHandler.getInstance();
 
-public OoplssGen2(TreeNodeStream input, SymbolTable symtab, boolean hasApplicationClass) {
+public OoplssGen2(TreeNodeStream input, SymbolTable symtab,
+		boolean hasApplicationClass) {
 	this(input);
 	this.symtab = symtab;
 	hasApplicationClass = hasApplicationClass;
@@ -43,7 +44,7 @@ public Collection<String> getMethods(OoplssAST node) {
 	Map<String, String> methods = new HashMap<String, String>();
 	if (node.getSymbol() instanceof ClassSymbol) {
 		ClassSymbol classSymbol = (ClassSymbol) node.getSymbol();
-		addMethodsToMap(classSymbol, methods, false, classSymbol.getName());
+		addMethodsToMap(classSymbol, methods, false, classSymbol);
 
 		if (classSymbol.getConstructor().getDef() == null) {
 			StringTemplate st = templateLib.getInstanceOf("std_constructor");
@@ -60,12 +61,12 @@ public Collection<String> getMethods(OoplssAST node) {
  */
 public void addMethodsToMap(ClassSymbol classSymbol,
 		Map<String, String> methodMap, boolean includeSupertype,
-		String currentClass) {
+		ClassSymbol currentClass) {
 	// Include all method from current class symbol
 	for (Scope scope : classSymbol.getChildren()) {
 		if (scope instanceof MethodSymbol) {
 			MethodSymbol method = (MethodSymbol) scope;
-			boolean isStrictSupertype = classSymbol
+			boolean isStrictSupertype = currentClass
 					.isSubtypeOf((ClassSymbol) method.getOriginSymbol()
 							.getScope())
 					&& classSymbol != method.getOriginSymbol().getScope();
@@ -87,7 +88,7 @@ public void addMethodsToMap(ClassSymbol classSymbol,
  * Adds method to map.
  */
 private void addMethodToMap(MethodSymbol method, Map<String, String> methodMap,
-		boolean isFromSupertype, String currentClass) {
+		boolean isFromSupertype, ClassSymbol currentClass) {
 	if (methodMap.containsKey(method.getName()))
 		return;
 	methodMap.put(method.getName(),
@@ -98,7 +99,7 @@ private void addMethodToMap(MethodSymbol method, Map<String, String> methodMap,
  * Generates a method string from the MethodSymbol.
  */
 private String methodSymbolToMethod(MethodSymbol method,
-		boolean isFromSupertype, String currentClass) {
+		boolean isFromSupertype, ClassSymbol currentClass) {
 	StringTemplate st = null;
 	// Set the constructor interface code
 	if (method.getName().equals("construct")) {
@@ -126,7 +127,7 @@ private String methodSymbolToMethod(MethodSymbol method,
  * Evaluats the method parameters and sets them in the template
  */
 private void setMethodParameters(MethodSymbol method, boolean isFromSupertype,
-		StringTemplate st, String currentClass) {
+		StringTemplate st, ClassSymbol currentClass) {
 	for (Symbol parameter : method.getArguments()) {
 		st.setAttribute("parameters", parameter.getName());
 	}
@@ -147,12 +148,12 @@ private void setMethodParameters(MethodSymbol method, boolean isFromSupertype,
  * Resolves real name of MyType
  */
 private String getMethodMyTypeName(MethodSymbol method,
-		boolean isFromSupertype, String currentClass) {
+		boolean isFromSupertype, ClassSymbol currentClass) {
 	if (isFromSupertype) {
 		return method.getOriginSymbol().getScope().getName();
 	} else {
 		if (method.getType().getName().equals("MyType")) {
-			return currentClass;
+			return currentClass.getName();
 		}
 		return method.getScope().getName();
 	}
@@ -174,16 +175,17 @@ import java.util.Collection;
 }
 
 app
-		: {hasApplicationClass}?
-		  (
-		    d += classDef
-		  )+
+		:
+		{hasApplicationClass}?
+		(
+		d += classDef
+		)+
 				->app(classes = {$d}, hasApplication = {%{"true"}})
-	   |
-      (
-        d += classDef
-      )+
-        ->app(classes = {$d})
+		|
+		(
+		d += classDef
+		)+
+				->app(classes = {$d})
 		;
 
 classDef
