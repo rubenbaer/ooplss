@@ -76,6 +76,14 @@ call_operator(left, right) ::= <<
 <left>.<right>
 >>
 
+call_supertype_method(left, right) ::= <<
+\<if(includeSupertype)\><left>$<right>\<else\>super.<right>\<endif\>
+>>
+
+call_superclass_method(left, right) ::= <<
+<left>$<right>
+>>
+
 block(exprs) ::= <<
 {
   <exprs; separator=";\n"><if(exprs)>;<endif>

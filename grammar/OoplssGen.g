@@ -17,7 +17,16 @@ public OoplssGen(TreeNodeStream input, SymbolTable symtab) {
 	this(input);
 	this.symtab = symtab;
 }
-
+/**
+ * Checks wehter an object is a method call. Used as predicate.
+ */ 
+public boolean IsMethodCall(Object o) {
+  if (o instanceof OoplssAST) {
+    OoplssAST ast = (OoplssAST) o;
+    return ast.getToken().getType() == OoplssLexer.METHODCALL;
+  }
+  return false;
+}
 /**
  * Checks whether a VARACCESS is done to a SuperVariableSymbol which is the
  * same as the superclassName.
@@ -34,6 +43,23 @@ public boolean IsSuperclassVariable(Object o, String superclassName) {
 		}
 	}
 	return false;
+}
+/**
+ * Checks whether a VARACCESS is done to a SuperVariableSymbol which is the
+ * same as the supertypeName.
+ */
+public boolean IsSupertypeVariable(Object o, String supertypeName) {
+  if (o instanceof OoplssAST && supertypeName != null) {
+    OoplssAST ast = (OoplssAST) o;
+    Tree child = ast.getChild(0);
+    if (child != null
+        && ((OoplssAST) child).getSymbol() instanceof SuperVariableSymbol) {
+      SuperVariableSymbol sym = (SuperVariableSymbol) ((OoplssAST) child)
+          .getSymbol();
+      return supertypeName.equals(sym.getName());
+    }
+  }
+  return false;
 }
 
 /**
@@ -436,12 +462,27 @@ varAccess
 		;
 
 calls
-		:
-		{IsSuperclassVariable(input.LT(3), $classDef::superclassName)}?
-		^(CALLOPERATOR left = call right = call )
-				->call_operator(left = {$left.st}, right = {$right.st})
-		|
-		^(CALLOPERATOR left = call right = call )
+		:// Predict a superclass access with a methodcall
+    {IsSuperclassVariable(input.LT(3), $classDef::superclassName)}?
+    {IsMethodCall(input.LT(7))}?
+    ^(CALLOPERATOR left = call right = call )
+        ->call_superclass_method(left = {$left.st}, right = {$right.st})
+    |// Predict a supertype access with a methodcall
+      {IsSupertypeVariable(input.LT(3), $classDef::supertypeName)}?
+	    {IsMethodCall(input.LT(7))}?
+	    ^(CALLOPERATOR left = call right = call )
+	        ->call_supertype_method(left = {$left.st}, right = {$right.st})
+	      // Predict a superclass access with a memberaccess
+    | {IsSuperclassVariable(input.LT(3), $classDef::superclassName)}?
+      {!IsMethodCall(input.LT(7))}?
+      ^(CALLOPERATOR left = call right = call )
+        ->call_operator(left = {%{"this"}}, right = {$right.st})
+        // Predict a supertype access with a memberaccess
+    | {IsSupertypeVariable(input.LT(3), $classDef::supertypeName)}?
+      {!IsMethodCall(input.LT(7))}?
+      ^(CALLOPERATOR left = call right = call )
+        ->call_operator(left = {%{"this"}}, right = {$right.st})
+		| ^(CALLOPERATOR left = call right = call )
 				->call_operator(left = {$left.st}, right = {$right.st})
 		;
 
