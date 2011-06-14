@@ -35,10 +35,10 @@ import java.util.logging.Logger;
  * Rules matching on the way up
  */
 bottomup	:	
-			 |	memberAccess
+			
+			  assignment
 			 |	statement
 			 |	conditionals
-			 |	assignment
 			 |	returnVoidStmt
 			 |	returnStmt
 			 /*|	methodArgs*/
@@ -47,17 +47,18 @@ bottomup	:
 /**
  * All the statements
  */
-statement		
-			:	varAccess
-			|	selfAccess
-			|	methodCall
-			|	orOperator
-			|	andOperator
-			|	arithmeticOperator
-			|	equalityOperator
-			|	relationalOperator
-			|	literal
-			| 	newObject
+statement		returns [Retval retval]
+			:	stmt=varAccess { $retval = $stmt.retval; }
+			|	stmt=memberAccess { $retval = $stmt.retval; }
+			|	stmt=selfAccess  { $retval = $stmt.retval; }
+			|	stmt=methodCall { $retval = $stmt.retval; }
+			|	stmt=orOperator { $retval = $stmt.retval; }
+			|	stmt=andOperator { $retval = $stmt.retval; }
+			|	stmt=arithmeticOperator { $retval = $stmt.retval; }
+			|	stmt=equalityOperator { $retval = $stmt.retval; }
+			|	stmt=relationalOperator { $retval = $stmt.retval; }
+			|	stmt=literal { $retval = $stmt.retval; }
+			| 	stmt=newObject { $retval = $stmt.retval; }
 			;
 			
 /**
@@ -291,26 +292,31 @@ literal			returns [Retval retval]
 			:	INTLITERAL    { 
 					retval = new Retval(); 
 					$retval.type = SymbolTable._int;    
+					$retval.node = $INTLITERAL;
 					$INTLITERAL.setEvalType($retval.type); 
 				}
 			|	STRINGLITERAL { 
 					retval = new Retval(); 
 					$retval.type = SymbolTable._string; 
+					$retval.node = $STRINGLITERAL;
 					$STRINGLITERAL.setEvalType($retval.type);
 				}
 			| 	CHARLITERAL   { 
 					retval = new Retval();
 					$retval.type = SymbolTable._char;   
+					$retval.node = $CHARLITERAL;
 					$CHARLITERAL.setEvalType($retval.type);
 				}
 			|	BOOLLITERAL   { 
 					retval = new Retval();
 					$retval.type = SymbolTable._bool;   
+					$retval.node = $BOOLLITERAL;
 					$BOOLLITERAL.setEvalType($retval.type);
 				}
 			| 	FLOATLITERAL  { 
 					retval = new Retval();
 					$retval.type = SymbolTable._float;  
+					$retval.node = $FLOATLITERAL;
 					$FLOATLITERAL.setEvalType($retval.type);
 				}
 			;
@@ -336,10 +342,10 @@ catch [ConditionalException e] {
  *
  * Check the types of an assignment
  */
-assignment 	:	^(ASSIGN var=. stmt=.)
+assignment 	:	^(ASSIGN var=statement stmt=statement)
 			{
 				logger.fine("<Type>Checking an assignment");
-				symtab.checkAssignment($ASSIGN, $var, $stmt);
+				symtab.checkAssignment($ASSIGN, $var.retval.node, $stmt.retval.node);
 			}
 			;
 catch [OoplssException e] {
