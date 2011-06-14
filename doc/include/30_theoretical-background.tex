@@ -187,7 +187,7 @@ can only be redefined invariantly.
 			drawObjects(A, B);
 			link(inheritance)(B.e -- A.w);
 		\end{emp}
-		\caption{Correct covariant method return types}
+		\caption{Correct covariant method return types.}
 		\label{fig:covariance}
 	\end{figure}
 
@@ -211,7 +211,7 @@ can only be redefined invariantly.
 			link(inheritance)(BB.e -- AA.w);
 
 		\end{emp}
-		\caption{Correct contravariant method parameter types}
+		\caption{Correct contravariant method parameter types.}
 		\label{fig:contravariance}
 	\end{figure}
 \end{description}
@@ -308,7 +308,7 @@ the mixed hierarchy is illustrated in \Cref{fig:implementationConflict}
 		link(inheritance)(SquareR.n -- Point.s);
 		link(inheritance)(RectangleR.n -- SquareR.s);
 	\end{emp}
-	\caption{Sharing types vs implementation}
+	\caption{Sharing types vs implementation.}
 	\label{fig:implementationConflict}
 \end{figure}
 
@@ -359,7 +359,7 @@ achieved by overriding the method with a more specific argument type.
 		link(inheritance)(Cat.n -- Animal.s);
 
 	\end{emp}
-	\caption[More specific arguments]{The arguments are more specific, which is not allowed because of the contravariance rule.}
+	\caption[More specific arguments.]{The arguments are more specific, which is not allowed because of the contravariance rule.}
 	\label{fig:animalContravariance}
 \end{figure}
 
@@ -416,7 +416,7 @@ mutual recursion. In Java, all methods are implicitly virtual.
 	\subfloat[Mutual recursion]{
 		\includedot[scale=0.7]{dot/mutualRecursion}
 	}
-	\caption[Naive and mutual recursion where M <: F]{Naive and mutual recursion where M <: F \cite{cook_denotational_1989}}
+	\caption[Naive and mutual recursion where M <: F.]{Naive and mutual recursion where M <: F \cite{cook_denotational_1989}.}
 	\label{fig:schizoRecursion}
 \end{figure}
 
@@ -432,7 +432,7 @@ equals method of \emph{Vec3D} then clearly takes an argument of the type
 \emph{Vec3D}. Listing \ref{fig:schizoListing} shows this constellation
 in Java \cite{simons_theory_2003-2}.
 
-\begin{lstlisting}[float=ht,caption={An example of schizophrenic self-reference},label={fig:schizoListing}]
+\begin{lstlisting}[float=ht,caption={An example of schizophrenic self-reference.},label={fig:schizoListing}]
 class Vec2D {
 	int x,y;
 
@@ -518,11 +518,10 @@ parameters which is different in a subtyping environment.
 \label{ctr:makingSubclassingPractical}
 % estimated pages: 2-3
 One of the most fundamental and well known relations between recursive
-types in today's programming languages is the subtyp relation.
-In languages
-where subclasses do not implicitly define subtypes a more general
+types in today's programming languages is the subtype relation.
+In languages where subclasses do not implicitly define subtypes a more general
 relation is needed -- \emph{matching} -- which is weaker and does
-not support subsumption. Originally \emph{matching} was proposed as
+not support subsumption. Originally, \emph{matching} was proposed as
 function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
 subtyping extends simple subtyping with parametrisation which is
 known as \emph{generics} in well known programming languages
@@ -531,10 +530,9 @@ interpretation of \emph{matching} as higher-order subtyping with
 better properties such as reflexivity and transitivity was shown in
 \cite{abadi_subtyping_1996}. This interpretation is more
 difficult for the users of such a language since the semantics is complex
-and not easy to understand in every circumstance because subtyping is
+and not easy to understand in all circumstance because subtyping is
 on the object generator level. However, this is specified for structural
-type systems and not for nominals, ones using higher-order subtyping
-in nominal type systems makes the semantics more clear and less complex.
+but not for nominal type systems.
 
 \subsection{Matching}
 \label{subsec:matching}
@@ -549,32 +547,32 @@ in nominal type systems makes the semantics more clear and less complex.
 \end{prop}
 
 A solution proposed by Bruce \cite{bruce_binary_1995} is
-\emph{matching}. Matching is a generalised subtyping relation, written
-as `\match', between two types and taking into account a \emph{MyType}
-in subclasses. An important difference is that the matching relation
-is only defined among object types and not among field types, like
-it is in subtyping. As said by Bruce in \cite{bruce_foundations_2002}
-matching does not differ very much from subtyping except that \mytype
-is not substituted by its concrete object type. This makes the relation
-weaker than subtyping where contravariant method parameters are not
-allowed. Depending on the interpretation of matching it comes to different
-definitions. Since only the f-bounded interpretation is relevant for this
-project, this definition is given in Definition \ref{def:matchingAsBound}.
+\emph{matching}. Matching is a generalised subtyping relation between to
+types, written as `\match'. It takes a \mytype in subclasses into account.
+An important difference is that the matching relation is only defined
+among object types and not among field types, like it is in subtyping. As
+said by Bruce in \cite{bruce_foundations_2002} matching does not differ
+very much from subtyping except that \mytype is not substituted by its
+concrete object type. This makes the relation weaker than subtyping
+where contravariant method parameters are not allowed. Depending on the
+interpretation of matching it comes to different definitions. Since
+only the function-bounded interpretation is relevant for this project, this
+definition is given in Definition \ref{def:matchingAsBound}.
 
 Listing \ref{lst:javaBinary} contains some problems that can
 not be tackled with subtyping. First of all the variable in line
 \ref{lst:javaBinary0} can not be specialised since it is invariant. This
-entails that even when the method \emph{getNext} can be specialised
-in the subclass -- which is not possible in Java -- a cast operation
+entails that even when it is allowed to specialise the method \emph{getNext}
+in the subclass -- which is not the case in Java -- a cast operation
 is necessary to get the correct type in the overridden method on line
 \ref{lst:javaBinary1}.
 
-The second problem is in line \ref{lst:javaBinary2}. Since there is
+The second problem is on line \ref{lst:javaBinary2}. Since there is
 a covariant method parameter the method can not be typed. This implies
-that there are no statically checks to prevent the programmer from adding
+that there are no statical checks to prevent the programmer from adding
 \emph{SinglyLinkedNode} objects to a \emph{DoublyLinkedNode}.
 
-\begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java},label={lst:javaBinary}]
+\begin{lstlisting}[float=ht,caption={Illegal subtyping of binary methods in Java.},label={lst:javaBinary}]
 public class SinglyLinkedNode {
 	private SinglyLinkedNode next; /*\label{lst:javaBinary0}*/
 
@@ -613,15 +611,15 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping
 would allow covariant parameters.
 
-\begin{lstlisting}[float=ht,label={lst:break},caption={Breaking a doubly linked node}]
-pubic void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
+\begin{lstlisting}[float=ht,label={lst:break},caption={Breaking a doubly linked node.}]
+public void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 	one.setNext(other);
 }
 \end{lstlisting}
 
 When the subclassing rules are defined they can be formulated
-type safe, so that subclasses match their superclasses. With
-this assumption subclasses and superclasses are matching related and
+type safely, so that subclasses match their superclasses. With
+this assumption, subclasses and superclasses are matching related and
 nominal matching is possible for type checking. With this definition
 the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
@@ -629,26 +627,26 @@ Since matching is a weaker relation than subtyping the assumption of $a:A$
 and $A$ \match $B$ does not imply $a:B$ like subtyping does, i.e., matching
 can not help in situations illustrated in Listing \ref{lst:matchbreak}.
 
-\begin{lstlisting}[float=ht,label={lst:matchbreak},caption={Matching relation in the break method}]
-pubic void break(node <# SinglyLinkedNode, other <# SinglyLinkedNode) {
+\begin{lstlisting}[float=ht,label={lst:matchbreak},caption={Matching relation in the break method.}]
+public void breaks(node <# SinglyLinkedNode, other <# SinglyLinkedNode) {
 	node.setNext(other);
 }
 \end{lstlisting}
 
-This shows that in this case matching is too weak. Without subsumption
+This shows that in this case matching is too weak. Without subsumption,
 the type system can not know that \emph{other} is compatible with the
 object passed as parameter \emph{node}.
 
 \subsection{Match-Bounded Quantification}
 As seen before, Listing \ref{lst:matchbreak} is still not correctly
 typeable with the matching relation. It is not enough informative to
-know that two variables are matching the same type to conclude type
-subsumption compatibility between two types. But there is an other
-scenario where matching can show its power; object parametrisation.
+know that two variables match the same type to conclude type
+subsumption compatibility between two types. But there is another
+scenario where matching can show its power: object parametrisation.
 
 The widely used \emph{generics} are formally a universal quantification
 subtyping relation which is written as $\forall (X <: A(X))B\{X\}$. Since
-here subtyping is used to bind \X to a range of objects it is
+subtyping is used here to bind \X to a range of objects it is
 called f-bounded subtyping. Now it is possible to replace the
 subtype relation with matching $\forall(X \mmatch B(X))B\{X\}$
 which is denoted as match-bounded quantification. Depending on
@@ -667,29 +665,29 @@ considered \cite{cameron_existential_2009,pierce_types_2002}.
 \nomenclature{Type Operator}{Function on type level mapping types to
 types} A type operator is a function on type level mapping types to
 types. Type operators are important for the formal specification of
-matching and understanding of the concepts. In an object-oriented language
+matching and the understanding of the concepts. In an object-oriented language
 the object type can be considered as a record type, e.g., an object type
 with two fields of type \emph{Nat} and \emph{Bool}: \{a:Nat, b:Bool\}.
 A record does not have to be fully specified with concrete types. It
 is possible to use type variables and bind them via type operators.
 A type operator is a function, the lambda-calculus expression is used,
 from types to types: \[A_{Op} := \lambda X.A(X)
-\] where $A := \{a:Nat, b:X\}$. Objects in object-oriented languages
+\] where $A := \{a:Nat, b:X\}$. Since objects in object-oriented languages
 are recursive since they make heavy use of the \mytype. However,
 since a function in the lambda calculus can not be recursive
 per se a special construct is needed. With the use of a fixed
-point combinator it is possible to find a type's fix point without
+point operator it is possible to find a type's fix point without
 evaluating an infinite recursive call \cite{gabriel_why_1988}. To
 hide the complexity of the recursion theorem the $\mu$-convection is
-used. A $\mu$-function is to understand comparable to a $\lambda$-function
+used. A $\mu$-function is to comparable to a $\lambda$-function
 with the difference that the parameter will get bound recursively
 \cite{pierce_types_2002,simons_theory_2002-3}.
 
 This can now be used to define the fixpoint of $A$ and is written as \[A^*
 := \mu X.A_{Op}(X).\]
 
-Now, the problem of such recursive definition is to determine whether two
-types are equivalent or not since applying recursively a type parameter,
+Now, the problem of such a recursive definition is to determine whether two
+types are equivalent or not since applying a type parameter recursively,
 an other record will be created. For example, after applying $A$ on
 $A^*$, the type generator creates a new record which is $\mu X.\{a:Nat,
 b:\{a:Nat, b:X\}\}$ which clearly differs from $\mu X.\{a:Nat, b:X\}$.
@@ -723,7 +721,7 @@ be used to replace the type parameter $X$, the formal type of $A$ is
 $\forall(X$<:$B(X))A\{X\}$ where the bound is \emph{not} against the
 type operator!
 
-\begin{lstlisting}[float=ht,caption={Universal quantified f-bound in Java},label={lst:generics}]
+\begin{lstlisting}[float=ht,caption={Universal quantified f-bound in Java.},label={lst:generics}]
 public class A<X extends B<X>> {
 	public void m(X x) {
 		x.someMethodOfB();

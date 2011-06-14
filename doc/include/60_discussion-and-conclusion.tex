@@ -1,16 +1,15 @@
-
 \chapter{Discussion and Conclusion}
 \label{ctr:discussionConclusion}
 \section{Discussion}
 \label{ctr:discussion}
-The discussion contains three sections. The first section takes the
-examples from \Cref{ctr:theoreticalBackground} into account and how
-they are expressed in \ooplss. It is shown how these problems can be
-modelled in a better way for some situations and how the programmer is
-supported by doing this. Here, it is assumed that the full specification
-is implemented. Currently however, type parametrisation is not implemented
-within the compiler. The difference of the implementation and the
-specification is presented in \Cref{sec:statusQuo}.
+The discussion contains three sections. The first section takes
+the examples from \Cref{ctr:theoreticalBackground} into account and
+considers how they are expressed in \ooplss. It is shown how these
+problems can be modelled in a better way in some situations and how the
+programmer is supported in doing so. Here, it is assumed that the full
+specification was implemented, whereas currently, the type parametrisation is
+not implemented within the compiler. The difference of the implementation
+and the specification is presented in \Cref{sec:statusQuo}.
 
 \subsection{Solving prior Problems with \ooplss}
 In \Cref{chap:subtypingVsSubclassing} three different examples were
@@ -23,10 +22,10 @@ hierarchy differs from the implementation hierarchy. The question is whether an 
 is a specialisation of a circle or the other way round.
 
 To consider this example, both definitions of subtyping may be recalled;
-In signature subtyping, which is supported by \ooplss, a
-definition that a subtype can only add but not remove fields. With this,
-an ellipse can be a subtype of a circle since an ellipse has two radii,
-i.e., has at least one more field than a circle. In behavioural subtyping
+in signature subtyping, which is supported by \ooplss, the
+definition is that a subtype can only add but not remove fields. With this,
+an ellipse can be a subtype of a circle, since an ellipse has two radii,
+i.e., has at least one more field than a circle. In behavioural subtyping,
 the subtype invariants can only be more restrictive. Here a circle is
 a subtype of an ellipse since both radii of an ellipse must be equal
 to define a circle.
@@ -34,18 +33,18 @@ to define a circle.
 However, the problem in signature subtyping is that the runtime behaviour
 of this model is incorrect, e.g., a circle variable that references a
 runtime ellipse object would return a wrong result for the height and
-width properties and consequently a wrong area. For this problem
-they are different approaches to solve it. One of this is to
-decouple both types and implementation completely. Unfortunately this
-leads to massively redundant code which of course can be reduced with
-various techniques like multiple inheritance and abstract base classes. A
-more straightforward solution is now presented in \ooplss in Listing
-\ref{lst:ellipseCircleOoplss} using subclasses. Although subsumption
-is not not available, the code of \emph{Circle} could be reused and with the
-matching relation, new parametrised classes can get introduced that can
-handle with both classes properly.
+width properties and consequently a wrong area. There are difference
+approaches to solve this problem there. One of them is to decouple types
+and implementation completely. Unfortunately this leads to massively
+redundant code which of course can be reduced with various however
+problematic techniques like multiple inheritance and abstract base
+classes. A more straightforward solution is now presented in \ooplss
+in Listing \ref{lst:ellipseCircleOoplss} using subclasses. Although
+subsumption is not available, the code of \emph{Circle} could be
+reused and with the matching relation, new parametrised classes can be
+introduced that can handle with both classes properly.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Circle-Ellipse problem in \ooplss,label=lst:ellipseCircleOoplss]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Circle-Ellipse problem in \ooplss.,label=lst:ellipseCircleOoplss]
 class Circle {
 	var width : Float;
 	def setWidth(width : Float) : Void { self.width = width; }
@@ -66,7 +65,7 @@ The example presented in \Cref{sec:recursiveClosure} deals with the
 problem of binary methods and consequently with object families.
 
 In the first case binary methods are considered. In a subtyping
-environment, binary methods arguments are not changeable with the type
+environment, binary methods arguments are not changeable within the type
 hierarchy. This means that when a programmer wants to implement these
 binary methods, unsafe type checks and casts are inevitable. A well
 known example of this problem is the equals method as known in Java or
@@ -84,7 +83,7 @@ al. \cite{gamma_design_1995} is a good solution when such hierarchies
 are defined in a pure subtyping environment and where subsumption is
 important. However, if the operations are designed for homogeneous data
 structures this has a drawback. If the element hierarchy changes, all
-visitors need to be changed which is maybe not possible everywhere. Here
+visitors need to be changed, which might not possible everywhere. Here
 subclassing is maybe more appropriate. \Cref{fig:operationFamily} presents
 this idea. With an appropriate parametrisation of the operation classes
 it is possible to define appropriate operations for every object.
@@ -115,13 +114,13 @@ it is possible to define appropriate operations for every object.
 		link(subclassof)(DogOp.n -- AnimalOp.s);
 		link(subclassof)(CatOp.n -- AnimalOp.s);
 	\end{emp}
-	\caption{Animal type family with operations on each concrete element}
+	\caption{Animal type family with operations on each concrete element.}
 	\label{fig:operationFamily}
 \end{figure}
 
 This idea can easily be adopted to the second problem of SinglyLinkedNodes
 and DoublyLinkedNodes which is presented in Section
-\ref{subsec:matching}. Consequently the node family specifies an element
+\ref{subsec:matching}. Consequently, the node family specifies an element
 family where an appropriate list class family does implement appropriate
 algorithms for efficient list using.
 
@@ -152,23 +151,25 @@ class Vec3D subclassOf Vec2D {
 }
 \end{lstlisting}
 
+\todo{Maybe some more text}
+
 \subsection{Status Quo of Implementation within Project}
 \label{sec:statusQuo}
 
 As mentioned before, not quite everything specified for the language
 was actually implemented in the compiler. There are two specifications missing
 in the implementation: simultaneous assignment while defining a variable
-and class parametrisation (\Cref{sec:classParametrisation}). With the simultaneous 
+and class parametrisation (\Cref{sec:classParametrisation}). With the simultaneous
 assignment following construct is meant:
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Assignment on defining a variable,label=lst:vardefAssign]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Assignment on defining a variable.,label=lst:vardefAssign]
 var foo = new Something();
 \end{lstlisting}
 
 Since we're compiling to Java, one more feature that
 is not specified should actually be implemented, which is the code analysis
 for return statements. The Java compiler recognises missing return statements
-or even code that is unreachable. Since we don't have a check for this, the 
+or even code that is unreachable. Since we don't have a check for this, the
 compiler could generate erroneous Java code. Except for that, the type checker
 can catch all type errors and correct Java code is created.
 
@@ -183,7 +184,7 @@ which would improve a proper use of the language.
 \subsection{Language Extensions}
 This section presents some possible extensions for the core language
 independently of the implementation. The order presented is not weighted
-in the sense of its importance. To raise the language to a language
+in the sense of its importance. To create the language to a language
 of wide use, all these extensions should be considered as important.
 
 \subsubsection{Common features}
@@ -193,25 +194,25 @@ because they don't contribute to the main topic -- subclassing and subtyping --
 of this thesis.
 One main feature to note is arrays. Other quite common language constructs
 would be for loops, switch statements, ternary operators, bitwise operators
-etc. 
+etc.
 
 \subsubsection{Pure Object Orientation}
-For a straightforward use of numbers and strings with all its available
-operators they are implemented as primitive data types. This makes the
+For a straightforward use of numbers and strings with all their available
+operators, they are implemented as primitive data types. This makes the
 implementation easier since the operations do not have to be translated
 to method calls. But this enforces special treatment of these primitive types
 and the language is extensible since these operators are only available for primitive
-types. For a more coherent language the native operators and primitive types should
+types. To reach more coherence the native operators and primitive types should
 be dropped for a more sophisticated language where binary and unary operators can be
 implemented by arbitrary classes. This would have the advantage that it
-would become a pure object oriented language that would not distinguish
+would become a pure object oriented language that does not distinguish anymore
 between two different types.
 
 \subsubsection{Information Hiding}
 Currently, \ooplss does not know any kind of access modifiers like
 \emph{public}, \emph{protected} and \emph{private}. Without them no
-information hiding is possible which does only provide an object's interface
-and not all internal variables and data. For a proper isolation of
+information hiding is possible to define an object's interface
+and its internal state separately. For a proper isolation of
 internal states and external representation such modifiers should be
 introduced.
 
@@ -219,8 +220,8 @@ introduced.
 At this time, method overloading is not integrated in \ooplss. Method
 overloading would be necessary for certain other concepts, for instance
 for multiple inheritance. Introducing method overloading would affect
-different constructs which are undesirable for this thesis project since
-it is not a core problem which is treated here.
+different constructs which is undesirable for this thesis project since
+it is not the core problem treated here.
 
 %Currently method overloading is not integrated in \ooplss. With this
 %comes several problems which could be avoided. On one hand, it is currently
@@ -232,23 +233,23 @@ it is not a core problem which is treated here.
 %specification by the caller. 
 
 \subsubsection{Modularisation}
-Modularisation is also missing. Today only very monolithic programs
-are possible where no separate compilation units are supported. For larger
-programs this would increase compilation time and a flexible work between
+Modularisation is missing too. At the moment only very monolithic programs
+are possible in which no separate compilation units are supported. For larger
+programs the compilation time would increase dramatically and flexible work between
 developer teams is not supported. This makes \ooplss in its current state
-useless for serious programs although the target platform is widely
-used. Hand in hand supporting multiple files would be inevitable and
-necessary for future developments. Even though simple modularisation would be
-not very difficult, a more sophisticated form is proposed where modules are
+useless for serious programs, although the target platform is widely
+used. Furthermore, supporting multiple files would be inevitable and
+necessary for future developments. Even though simple modularisation would not be
+very difficult, a more sophisticated form is proposed where modules are
 higher-order constructs and can be parametrised \cite{dreyer_type_2003}.
 
-However, with the introduction of proper subclasses a simple form of
-modularisation and code reuse is already provided. With this adding
+However, with the introduction of proper subclasses, a simple form of
+modularisation and code reuse is already provided. With this, adding
 existing code to classes is very simple and safe.
 
 \subsubsection{Interfaces and Abstract Classes}
-Additionally to information hiding and modularisation an
-enhancement in abstract software definition should be considered. In
+Additionally to information hiding and modularisation, an
+enhancement of the abstract software definition should be considered. In
 \Cref{sec:comparisonScala} it was shown that abstract classes or
 interfaces on class level would increase the expressiveness of \ooplss
 in several situations. In combination with a powerful module system
@@ -256,52 +257,52 @@ the definition of module interfaces or higher-order classes as modules
 would come hand in hand.
 
 \subsubsection{Top and Bottom Types}
-The language design has a similarity to that of \cpp to be able to not
-have an implicit superclass compared to Java's \emph{Object} and \cs's
-\emph {Object}. With this it is not possible to write methods that accept
-arbitrary objects if no superclass is specified by the programmer and
-explicitly extended. This decision is made because two class combinations
+The language design has a similarity to that of \cpp in so far as it
+does not have types as opposed to Java's \emph{Object} and \cs's \emph
+{Object}. With this it is not possible to write methods that accept
+arbitrary objects if no supertypes is specified and explicitly extended
+by the programmer. This decision is made because two class combinations
 are possible and an implicit base class would force the programmer to
 use one of them at the very beginning of every class.
 
 Anyway, one proposal to enable the possibility of passing or returning
 arbitrary objects would be to introduce a special \emph{Top} type which
 contains every possible type. The idea is similar to an \emph{Object}
-but which can be used in more cases like value types and reference
-types. Actually it is up to the programmer to introduce an own type
+but a top-type could be used in more cases, such as value types and reference
+types. It is up to the programmer to introduce an own type
 which is used as general base type.
 
 %\subsubsection{Higher-Order Functions}
 
 \subsection{Further Implementation Work}
 In contrast to \Cref{sec:futureWork}, this section deals with work that
-would not change the language itself but would make the language more useful
+would not change the language itself but would make it more useful
 for daily work.
 
 \subsubsection{Implementing the Specification}
 As presented in \Cref{sec:statusQuo} the compiler does not provide the
-full language which was specified. This would be the next step in the
+full language that was specified. This would be the next step in the
 implementation that should be done since parametrisation is not supported
 yet.
 
 \subsubsection{JDK Integration}
-Considering the fact that \ooplss is not fix defined on the current
-target platform of the JDK, it would be nevertheless interesting to
-improve the integration into the target platform. With this a widely
+Considering the fact that \ooplss is not permanently defined on the current
+target platform of the JDK, it would nevertheless be interesting to
+improve the integration into the target platform. With this, a widely
 known and enormous framework would automatically get available to
-\ooplss programmers. The problem of this extension would be to integrate
-both derivation possibilities which is different to Java. However,
-this would may come hand in hand with the direct translation to JDK
-Bytecode which is more flexible than the Java language.
+\ooplss programmers. The problem of this extension would be how to integrate
+both derivation possibilities since Java is lacking one of them. However,
+this might come simultanously with the direct translation to JDK
+Bytecode, which is more flexible than the Java language itself.
 
 \subsubsection{Subclassing with Dynamic Invokes}
 The translation from \ooplss to Java is now not very straightforward since
 explicit class combinations are necessary. However, in JDK 7 which will
 be released in summer 2011 the JDK will get some major changes. One
-of this is the introduction of the \emph{dynamicinvoke} command on
+of them is the introduction of the \emph{dynamicinvoke} command on
 Bytecode level. This would support dynamically typed language on the
 platform where the most suitable method would be called depending on the
-runtime type of the parameter types. Since \ooplss has an own type
+runtime type of the parameter types. Since \ooplss has its own type
 checker it would be safe to use dynamic code. With a dynamic method
 lookup, the subclassing relation would be much more simple.
 
@@ -314,21 +315,22 @@ could be implemented as a next further step.
 
 \section{Conclusion}
 \label{ctr:conclusion}
-There are real problem in object-oriented languages with binary methods
+There are real problems in object-oriented languages with binary methods
 and code reuse if only subtyping extensions are possible within an object
 hierarchy. But just dropping subtyping and using the matching relation
-seems not to be an adequate solution solving these problems in nominal
-type systems. However, it could be shown that subclassing combined with
-subtyping as well as type parametrisation with matching can express
-problems which is not possible or cumbersome in other languages. An other
-solution that can be considered is to introduce explicit fixpoints for
-object types which would enable an explicit \mytype introduction in
-combination with type parametrisation.
+does not seems to be an adequate solution to solve these problems in
+nominal type systems. In contrast, it could be shown that subclassing
+combined with subtyping, as well as type parametrisation with matching,
+can express these fundamental problems, which is not possible or
+cumbersome in other languages. An other solution that can be considered
+is to introduce explicit fixpoints for object types which would enable
+an explicit \mytype introduction in combination with type parametrisation.
 
 Although not every feature of the specified language was implemented,
-all aimed targets of the proposal in \Cref{ctr:projectProposal} can be
-considered as achieved. It has to be mentioned that some targets were
-adopted during the project. As presented in \Cref{subsec:matching} that
-matching without type parametrisation can not be applied useful since it
-is too weak to use it within method parameters or variable declarations.
-Therefore matching is only specified and not implemented.
+all targets aims of the project proposal in \Cref{ctr:projectProposal}
+can be considered as achieved. It has to be mentioned that some targets
+were adopted during the project. As presented in \Cref{subsec:matching}
+matching can not be applied usefully outside of type parametrisation
+since it is too weak to use it within method parameters or variable
+declarations.  Therefore matching is only specified for type
+parametrisation and not thus implemented.

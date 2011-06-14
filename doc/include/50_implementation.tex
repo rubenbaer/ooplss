@@ -9,7 +9,7 @@ software. There is a section describing each phase.
 \begin{figure}[ht]
 	%\centering
 	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
-	\caption{Compiler phases}
+	\caption{Compiler phases.}
 	\label{fig:compilerPhase}
 \end{figure}
 
@@ -85,7 +85,7 @@ To keep the translation to Java simple, the scoping rules are implemented
 like in Java. This means that shadowing variables in methods is not possible.
 Listing \ref{lst:shadowing} shows this in more detail.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Shadowing variables,label=lst:shadowing]
+\begin{lstlisting}[float=ht,language=ooplss,caption=Shadowing variables.,label=lst:shadowing]
 
 def foo(x:Int) {
 	var x:Int; // not possible, shadowing the argument
@@ -326,7 +326,7 @@ output Java code which runs on the Java Virtual Machine.
 	link(subclassof)(pathStepX(AntlrP.e, ExceptionsP.e, 40));
 
 	\end{emp}
-	\caption{Package diagram}
+	\caption{Package diagram.}
 	\label{fig:packages}
 \end{figure}
 
@@ -440,7 +440,7 @@ private and can only be accessed through getters and setters.
 	link(inheritance)(pathStepY(ConstructorType.n, SpecialSymbol.s, 5));
 
 	\end{emp}
-	\caption{Classes of the symbol table}
+	\caption{Classes of the symbol table.}
 	\label{fig:classes}
 \end{figure}
 
@@ -479,17 +479,34 @@ There are several methods to resolve different kinds of symbols, namely
 types, classes etc. These methods cover all these different kinds and their
 specialities and prevent from using the symbols in a wrong way.
 
-%\section{Translation}
-%\label{ctr:translation}
-%This chapter deals with the exact translation from \ooplss code segments
-%to Java.
-%
-%Done to java as seen in part III
-%
-%\todo{Export code and intermediate code in X\$\$...}
+\section{Translation}
+\label{ctr:translation}
+The translation is the last phase of the compiler stage and is divided into
+two subparts. The first is defined within the file \emph{OoplssGen.g} and the
+second in \emph{OoplssGen2.g}.
+
+As shown in \Cref{ctr:languageSpecification} the translation can not be
+performed directly to Java since some inner methods needs to be generated
+if subclassing is used. To generate such name mangled methods the first
+translation phase generates a \emph{StringTemplate} for every class body
+and ever class itself. The class body contains all methods with name mangled
+names and all fields defined within a class. Since the \mytype can differ
+for the same method in different classes, all templates are parametrised
+with all possible \mytype definitions which get bound in the second phase.
+
+The second phase uses the templates generated in the first one by calling
+all class templates. These class templates includes all body templates
+which are combined in the class under consideration.
+
+In \Cref{ctr:languageSpecification} the translation for different constructs
+is specified. These specifications are based on the idea of minimal code
+generation. However, this makes the translation phase more complicated without
+a direct benefit for a prototypical language. Therefore, the current implementation
+generates a little different output code. Every method is name mangled in the
+first phase even it is not necessary. The public methods within each class is
+just a wrapper method calling the corresponding name mangled one.
 
 \subsection{Error Reporting}
-
 To report errors in the typing or even referencing of the code, exceptions
 are thrown. There is an exception for every kind of error that can occur.
 There is also an error handler to handle these exceptions since they cannot
@@ -530,7 +547,6 @@ properly, it is also required to watch the debugging output.
 If there was more time, we would implement unit testing methods that can
 actually examine the created contents and state of the symbol table or the
 generated Java output.
-
 
 \subsection{Examples}
 see \Cref{ctr:exampleCode}
