@@ -14,6 +14,7 @@
 	<property name="antlr-tasks" location="${lib}/ant-antlr3.jar" />
 	<property name="contrib-tasks" location="${lib}/ant-contrib.jar" />
 	<property name="gunit-testdir" location="${grammar}/test" />
+	<property name="installDir" location="/usr/share/ooplss" />
 
 	<path id="classpath">
 		<fileset dir="${lib}" includes="**/*.jar" excludes="antlr-3.3-complete.jar"/>
@@ -115,6 +116,34 @@
 			outputdirectory="${antlr-outputdir}">
 			<classpath refid="classpath" />
 		</ant-antlr3>
+	</target>
+
+	<!-- installation -->
+
+	<target name="install">
+		<fail message="You need to be root to install ooplss">
+		 <condition>
+		   <not>
+			 <equals arg1="root" arg2="${user.name}"/>
+		   </not>
+		 </condition>
+		</fail>
+
+		<mkdir dir="${installDir}" />
+		<mkdir dir="${installDir}/lib" />
+		<copy todir="${installDir}/lib" file="${dist}/ooplss.jar" />
+
+		<shellscript shell="bash">
+			cp dist/ooplss /usr/bin/
+		</shellscript>
+
+		<copy todir="${installDir}/lib">
+			<fileset dir="${dist}/lib" />
+		</copy>
+
+		<shellscript shell="bash">
+			gzip -c misc/ooplss.1 > /usr/share/man/man1/ooplss.1.gz
+		</shellscript>
 	</target>
 
 	<!-- Documentation-->
