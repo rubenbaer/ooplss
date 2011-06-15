@@ -611,8 +611,15 @@ public class DoublyLinkedNode extends SinglyLinkedNode {
 }
 \end{lstlisting}
 
-Listing \ref{lst:break} illustrates what behaviour would be possible if subtyping
-would allow covariant parameters.
+Listing \ref{lst:break} illustrates what behaviour would be possible
+if subtyping would allow covariant parameters. As presented in
+Listing \ref{lst:javaBinary} the method \emph{setNext} in the
+class \emph{DoublyLinkedNode} expects a \emph{DoublyLinkedNode}
+as parameter. Since subtyping allows subsumption, the code in
+Listing \ref{lst:break} would type perfectly. But considering
+the method \emph{setNext}, the parameter \emph{node} would not
+have a field \emph{prev} if the parameter \emph{other} is of type
+\emph{SinlgyLInkedNode}.
 
 \begin{lstlisting}[float=ht,label={lst:break},caption={Breaking a doubly linked node.}]
 public void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
@@ -620,15 +627,18 @@ public void breaks(SinglyLinkedNode one, SinglyLinkedNode other) {
 }
 \end{lstlisting}
 
-When the subclassing rules are defined they can be formulated
-type safely, so that subclasses match their superclasses. With
-this assumption, subclasses and superclasses are matching related and
+When the subclassing rules are defined they can be formulated type
+safely, so that subclasses match their superclasses. With this
+assumption, subclasses and superclasses are matching related and
 nominal matching is possible for type checking. With this definition
 the relation\emph{DoublyLinkedNode} \match \emph{SinglyLinkedNode} holds.
 
-Since matching is a weaker relation than subtyping the assumption of $a:A$
-and $A$ \match $B$ does not imply $a:B$ like subtyping does, i.e., matching
-can not help in situations illustrated in Listing \ref{lst:matchbreak}.
+Since matching is a weaker relation than subtyping the assumption of
+$a:A$ and $A$ \match $B$ does not imply $a:B$ like subtyping does,
+i.e., matching can not help in situations illustrated in Listing
+\ref{lst:matchbreak}. The problem in this listing is that matching can
+not assure that the parameters \emph{node} and \emph{other} is of the
+same type. If this would be possible, the problem is solved.
 
 \begin{lstlisting}[float=ht,label={lst:matchbreak},caption={Matching relation in the break method.}]
 public void breaks(node <# SinglyLinkedNode, other <# SinglyLinkedNode) {
@@ -648,16 +658,22 @@ subsumption compatibility between two types. But there is another
 scenario where matching can show its power: object parametrisation.
 
 The widely used \emph{generics} are formally a universal quantification
-subtyping relation which is written as $\forall (X <: A(X))B\{X\}$. Since
-subtyping is used here to bind \X to a range of objects it is
-called f-bounded subtyping. Now it is possible to replace the
-subtype relation with matching $\forall(X \mmatch B(X))B\{X\}$
-which is denoted as match-bounded quantification. Depending on
-the exact definition of matching two different interpretations are
-possible\cite{abadi_subtyping_1996}. Both are discussed in more detail
-at the end of the chapter. However, the reason why this is useful is given
-by the fact that when parametrisation is used, the type parameter does no
-longer obey the matching relation at method parameters and return types.
+subtyping relation which is written as $\forall (X <: A(X))B\{X\}$. The
+parametrisation is specified with the universal quantification. The
+quantification is further constrained by the type operator $A(X)$. This
+expression can be read that the record $B$ can be parametrised with a
+type variable $X$ and that the expression is true for all $X$ that are
+subtypes of $A(X)$.  Since subtyping is used here to bind \X to a range of
+objects it is called f-bounded subtyping. Now it is possible to replace
+the subtype relation with matching $\forall(X \mmatch B(X))B\{X\}$
+which is denoted as match-bounded quantification. It is the same as
+above with the difference that the expression applies for all $X$ that
+are matching $B(X)$. Depending on the exact definition of matching two
+different interpretations are possible\cite{abadi_subtyping_1996}. The
+f-bounded interpretation is further discussed at the end of this
+chapter. However, the reason why this is useful is given by the fact
+that when parametrisation is used, the type parameter does no longer
+obey the matching relation at method parameters and return types.
 
 Here it should be noticed that the quantification can also be done with an
 existential quantifier which has a different but also important
@@ -688,8 +704,8 @@ recursion theorem the $\mu$-convection is used. A $\mu$-function is to
 comparable to a $\lambda$-function with the difference that the parameter
 will get bound recursively \cite{pierce_types_2002,simons_theory_2002-3}.
 
-This can now be used to define the fixpoint of $A$ and is written as \[A^*
-:= \mu X.A_{Op}(X).\]
+This can now be used to define the fixpoint of the record $A$ and is
+written as \[A^* := \mu X.A_{Op}(X).\]
 
 Now, the problem of such a recursive definition is to determine whether
 two types are equivalent or not since applying a type parameter
@@ -713,7 +729,8 @@ map where the map and its inverse are structure-preserving}
 \end{defn}
 
 This isomorphism enables to tackle recursive types without infinite type
-declarations.
+declarations since it enables the possibility to generate two equal
+records from two records where both have different recursive evaluations.
 
 \subsection{Matching as F-Bounded Subtyping}
 F-bounded subtyping\footnote{Abbreviates function-bounded subtyping}
@@ -736,8 +753,8 @@ public class A<X extends B<X>> {
 }
 \end{lstlisting}
 
-Here, both cases have to be considered very carefully. In the f-bounded subtype
-relation where the bound is a real function, i.e., type operator,
+Here, both cases have to be considered very carefully. In the f-bounded
+subtype relation where the bound is a real function, i.e., type operator,
 the self reference is not yet bound whereas in generics in Java the self
 reference is already bound. As long as the type operator is not evaluated
 the subtyping relation is easier to hold than afterwards. This enables
@@ -751,3 +768,6 @@ In this case matching is defined as\cite{abadi_subtyping_1996}:
 	\[A \textnormal{\match} B := A <: B_{Op}(A)\]
 	\[\forall (X \textnormal{\match} A)B\{X\} := \forall (X <: A_{Op}(X))B\{X\}\]
 \end{defn}
+
+The Definition \ref{def:matchingAsBound} shows that matching is the same
+as object subtyping where the object is parametrised with a \mytype.
