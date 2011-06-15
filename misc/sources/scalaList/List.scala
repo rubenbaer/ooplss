@@ -4,7 +4,6 @@ abstract class List {
   def getNext(node: Node): Node;
   def getPrev(node: Node): Node;
   def getFirst(): Node;
-
   abstract class AbstractNode(val value: Value) {
     def insertAfter(value: Value): Node;
   }
@@ -19,7 +18,6 @@ abstract class AbstractList extends List {
   def getFirst(): Node = {
     return first;
   }
-
   abstract class AbstractNodeImpl(value: Value) extends AbstractNode(value) {
     self: Node => /* \label{line:explicitSelf} */
     def insertAfter(value: Value): Node = {
@@ -31,7 +29,6 @@ abstract class AbstractList extends List {
 class DoublyLinkedList[ValueType] extends AbstractList {
   type Node = DoublyLinkedNode; /* \label{line:typeInstance1} */
   type Value = ValueType; /* \label{line:typeInstance2} */
-
   def getNext(node: Node): Node = {
     return node.next;
   }
