@@ -1,1 +1,1 @@
-java -jar ooplss.jar
+java -jar ooplss.jar %1 %2 %3 %4 %5 %6 %7 %8 %9
