@@ -7,7 +7,6 @@ This chapter contains a description of the general compiler. Figure
 software. There is a section describing each phase.
 
 \begin{figure}[ht]
-	%\centering
 	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
 	\caption{All important compiler phases.}
 	\label{fig:compilerPhase}
@@ -295,7 +294,7 @@ output Java code which runs on the Java Virtual Machine.
 	PlainNote.MainN("Main package");
 	Package.MainP("ooplss")(MainN);
 
-	PlainNote.AntlrN("Antlr generated Code");
+	PlainNote.AntlrN("Antlr generated code");
 	Package.AntlrP("ooplss.antlr")(AntlrN);
 	AntlrP.w = MainP.e + (40, 0);
 
