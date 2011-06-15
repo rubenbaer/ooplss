@@ -142,9 +142,9 @@ nodes, it is clear to the walker where to start resolving the symbols.\\
 \noindent There are different types of resolving the symbols:
 \begin{description}
 \item[Variable referencing]
-Just walks up the scope tree to find the symbol
+Just walks up the scope tree to find the symbol.
 \item[Method calling]
-The same as variable referencing but it has to be a method symbol
+The same as variable referencing but it has to be a method symbol.
 \item[Member accessing]
 Is used when class fields are accessed like x.f; or x.foo();. First it checks
 if the field really is accessed on a class. If not, an according exception
@@ -155,11 +155,11 @@ and super types if not found.
 \item[Type resolving]
 The same as variable referencing but it also checks whether it's a type or not.
 \item[Special type resolving]
-Resolves special symbols directly in the global scope
+Resolves special symbols directly in the global scope.
 \item[Class resolving (new statement)]
-The same as type resolving but it has to be a user defined class
+The same as type resolving but it has to be a user defined class.
 \item[Self resolving]
-Resolves to the enclosing class
+Resolves to the enclosing class.
 \end{description}
 
 \noindent The referencing phase also does some special tasks:
