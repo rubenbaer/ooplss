@@ -128,30 +128,15 @@ algorithms for efficient list using.
 The last example considered in this chapter deals with schizophrenic self
 references occuring in extension which are introduced in \Cref{sec:schizoReferences}.
 
-This is the most obvious example affected by subclassing and \mytype.
+This is the most obvious example affected by subclassing and
+\mytype. In this example, the \emph{Vec2D} can easily reused to defined a
+\emph{Vec3D}. For example, if a programmer wants to include some vector
+operations on these vectors, the type system can now prevent the user
+from adding two incompatible vectors.
 
-\begin{lstlisting}[float=ht,language=ooplss,caption=Avoid schizophrenic self references with \mytype.,label=lst:solveSchizo]
-class Vec2D {
-	var x : Int;
-	var y : Int;
-	def identity : MyType {
-		return self;
-	}
-	def equals(vec : MyType) : Bool {
-		return vec.x == self.x && vec.y = self.y;
-	}
-}
-
-class Vec3D subclassOf Vec2D {
-	var z : Int;
-
-	def equals(vec : MyType) : Bool {
-		return base.equals(vec) && self.z == vec.z;
-	}
-}
-\end{lstlisting}
-
-\todo{Maybe some more text}
+\lstinputlisting
+[float=ht,language=ooplss,caption=Avoid schizophrenic self references with \mytype.,label=lst:solveSchizo]
+{../misc/sources/ooplssVectors/vectors.ooplss}
 
 \subsection{Status Quo of Implementation within Project}
 \label{sec:statusQuo}

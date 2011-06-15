@@ -1,0 +1,18 @@
+class Vec2D {
+	var x : Int;
+	var y : Int;
+	def identity : MyType {
+		return self;
+	}
+	def equals(vec : MyType) : Bool {
+		return vec.x == self.x && vec.y = self.y;
+	}
+}
+
+class Vec3D subclassOf Vec2D {
+	var z : Int;
+
+	def equals(vec : MyType) : Bool {
+		return Vec2D.equals(vec) && self.z == vec.z;
+	}
+}
