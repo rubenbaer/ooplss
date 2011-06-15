@@ -1,0 +1,21 @@
+class Animal {
+  def mate(other: MyType): MyType {
+    // Perform some biological crossovers
+  }
+}
+
+class Dog subclassOf Animal {
+  def mate(other: MyType): MyTyppe {
+  }
+}
+
+class Cat subclassOf Animal {
+  def mate(other: MyType): MyType {
+  }
+}
+
+class Persian subtypeOf Cat {
+  def mate(other: MyType): MyType {
+  }
+  var needsGrooming: Bool;
+}
