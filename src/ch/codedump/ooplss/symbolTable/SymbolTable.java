@@ -467,10 +467,10 @@ public class SymbolTable {
 	 * @return True if compatible
 	 */
 	protected boolean isCompatible(OoplssAST var, OoplssAST stmt) {
-		Symbol varChildSymbol = this.getBareSymbol(var);
-		Symbol stmtChildSymbol = this.getBareSymbol(stmt);
+		Symbol varBareSymbol = this.getBareSymbol(var);
+		Symbol stmtBareSymbol = this.getBareSymbol(stmt);
 		
-		if (varChildSymbol == null || stmtChildSymbol == null) {
+		if (varBareSymbol == null || stmtBareSymbol == null) {
 			return false;
 		}
 		/*
@@ -479,15 +479,21 @@ public class SymbolTable {
 		}
 		*/
 		
-		ClassSymbol varScope  = this.getEnclosingClassScope(varChildSymbol.getScope());
-		ClassSymbol stmtScope = this.getEnclosingClassScope(stmtChildSymbol.getScope());
+		ClassSymbol varBareScope  = this.getEnclosingClassScope(varBareSymbol.getScope());
+		ClassSymbol stmtBareScope = this.getEnclosingClassScope(stmtBareSymbol.getScope());
 		
-		return 	varChildSymbol.getType().getTypeIndex()  == SymbolTable.tMYTYPE && 
-				stmtChildSymbol.getType().getTypeIndex() == SymbolTable.tMYTYPE && 	(
-					varScope.isSubtypeOf(stmtScope) || 
-					stmtScope.isSubclassOf(varScope) || 
-					varScope.isSubclassOf(stmtScope)
-				);
+		ClassSymbol varScope  = this.getEnclosingClassScope(var.getScope());
+		ClassSymbol stmtScope = this.getEnclosingClassScope(stmt.getScope());
+		
+		return 	varBareSymbol.getType().getTypeIndex()  == SymbolTable.tMYTYPE && 
+				stmtBareSymbol.getType().getTypeIndex() == SymbolTable.tMYTYPE && 	(
+					varBareScope.isSubtypeOf(stmtBareScope) || 
+					stmtBareScope.isSubclassOf(varBareScope) || 
+					varBareScope.isSubclassOf(stmtBareScope)
+				) && (
+				// If statement variable is bound to real type, check subtype relation
+				stmt.getRealType() != null &&
+				((ClassSymbol)stmt.getRealType()).isSubtypeOf(stmtScope));
 	}
 	
 	/**
