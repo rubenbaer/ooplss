@@ -1,3 +1,31 @@
-OOPLSS
+Object-Oriented Programming Language with Subtyping and Subclassing
+===================================================================
 
-An other readme for the dist directory!
+An object-oriented programming language providing subclassing and
+subtyping.
+
+This bachelor thesis is presented to the University of Applied Science in
+Bern by Ruben Bär and Stefan Heinemann and was supervised by Professor
+Olivier Biberstein, PhD.
+
+It was written in the spring semester 2011 and is licensed under the
+Creative Commons Attribution-ShareAlike 3.0 License.
+
+The software is licensed under the conditions of the GPLv3
+
+Directories and Files
+---------------------
+
+examples/            -- Some example source codes written in ooplss
+html/                -- Source code documentation generated with doxygen
+lib/                 -- All necessary libraries for ooplss.jar
+manpage.pdf          -- Manual for ooplss and ooplss.cmd converted to PDF
+ooplss               -- Startup bash script for the compiler
+ooplss.1             -- Manual page source
+ooplss-book.pdf      -- Documentation for a two sided print output
+ooplss.cmd           -- Startup cmd script for the compiler
+ooplss.jar           -- Java archive containing the compiler
+ooplss-print.pdf     -- Documentation for a two sided print output
+ooplss-web.pdf       -- Documentation optimised to read online
+README               -- This file
+source.pdf           -- Source code documentation generated with doxygen
