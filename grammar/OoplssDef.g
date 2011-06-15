@@ -42,8 +42,6 @@ topdown
 			|	selfVarAccess
 			|	argument
 			|	methodCall
-		//	|	superType
-		//	|	superClass
 			|	returnVoidStmt
 			|	returnStmt
 			| memberAccess
@@ -93,25 +91,6 @@ enterClass	:	^(CLASSDEF classname=ID
 catch [OoplssException e] {
 	error.reportError(e);
 }
-
-///**
-// * Record the current scope to a super type specification
-// */
-//superType	:	SUPERTYPE
-//			{
-//				logger.fine("<Def>Recording class to supertype");
-//				$SUPERTYPE.setScope(this.currentScope);
-//			};
-			
-///**
-// * Record the current scope to a super class specification
-// */
-//superClass	:	SUPERCLASS
-//			{
-//				logger.fine("<Def>Recording class to superclass");
-//				$SUPERCLASS.setScope(this.currentScope);
-//			}
-//			;
 
 /**
  * Leaving a class
