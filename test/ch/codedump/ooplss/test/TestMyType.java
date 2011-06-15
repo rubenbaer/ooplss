@@ -518,4 +518,47 @@ public class TestMyType extends OoplssTest {
 		this.createTyper(str);
 		ErrorHandler.getInstance().throwException();		
 	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testForkMyType() throws Exception {
+		String str = "class A {\n" + 
+				"  var x: MyType;\n" + 
+				"}\n" + 
+				"class B subclassOf A { }\n" + 
+				"class C subclassOf B {\n" + 
+				"  var y: D;\n" + 
+				"  def m(): Void {\n" + 
+				"    x = y.x;\n" + 
+				"  }\n" + 
+				"}\n" + 
+				"class D subclassOf B {\n" + 
+				"  var y: C;\n" + 
+				"  def m(): Void {\n" + 
+				"    x = y.x;\n" + 
+				"  }\n" + 
+				"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
+	
+	@Test (expected=IllegalAssignmentException.class)
+	public void testSeparateHierarchyWithMyType() throws Exception {
+		String str = "class A {\n" + 
+				"  var x: MyType;\n" + 
+				"}\n" + 
+				"class B subclassOf A { }\n" + 
+				"class C subclassOf B {\n" + 
+				"  var y: E;\n" + 
+				"  def m(): Void {\n" + 
+				"    x = y.x;\n" + 
+				"  }\n" + 
+				"}\n" +
+				"class D {\n" + 
+				"  var x: MyType;\n" + 
+				"}\n" + 
+				"class E subclassOf D {\n" + 
+				"}";
+		this.createTyper(str);
+		ErrorHandler.getInstance().throwException();
+	}
 }
