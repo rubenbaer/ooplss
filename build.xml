@@ -202,6 +202,7 @@
 	<target name="build-dist" depends="jar,doc">
 		<mkdir dir="${dist}" />
 		<mkdir dir="${dist}/lib" />
+		<mkdir dir="${dist}/examples" />
 		<move file="${destjar}" todir="${dist}" />
 		<copy todir="${dist}/html" >
 			<fileset dir="doxygen/html" />
@@ -220,6 +221,12 @@
 		<copy todir="${dist}" file="misc/ooplss.cmd" />
 		<copy todir="${dist}" file="misc/ooplss.1" />
 		<copy todir="${dist}" file="doc/manpage.pdf" />
+		<copy todir="${dist}/examples" includeEmptyDirs="false">
+			<fileset dir="misc/sources">
+				<exclude name="**/*.java"/>
+				<exclude name="**/*.scala"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="jar" depends="build-src,run-tests" >
