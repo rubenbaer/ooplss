@@ -15,7 +15,7 @@ and where subclassing is preferred and explains where the difference are.
 Generally, subtyping is used for polymorphism in object-oriented languages, whereas
 subclassing is not. However, subclassing can be used for code reuse
 where subtyping is inappropriate since it enables further specialisation
-of methods.  To make subclassing practical, an additional relation needs
+of methods. To make subclassing practical, an additional relation needs
 to be introduced: \emph{matching}. Type quantification with the matching
 relation extends the language with function-bounded subtyping or with
 higher-order subtyping, depending on which interpretation of matching
@@ -194,7 +194,7 @@ can only be redefined invariantly.
 	\item[Contravariance] Contravariance is the opposite of
 	covariance. Type changes are only allowed upwards in the
 	type hierarchy. The type of function parameters have to be
-	contravariance.  For example, if \B <: \A, \Y <: \X, \T is
+	contravariance. For example, if \B <: \A, \Y <: \X, \T is
 	an arbitrary type and $A$ contains a method $m$ of type $X
 	\rightarrow T$ which is replaced in \B by method $m^\prime$,
 	then does $m^\prime$ can be of type $Y \rightarrow T$ since the
@@ -224,7 +224,7 @@ of $T$.' -- Barbara Liskov \cite{liskov_behavioral_2001}
 \end{quotation}
 
 With this Liskov Substitution Principle, short LSP, Barbara Liskov
-provided a formal and strong description  of subtyping. This
+provided a formal and strong description of subtyping. This
 notion of subtyping implies behavioural subtyping. In behavioural
 subtyping the correctness of the given properties has to be
 provable. Thus, since behavioural subtyping requires a proof system
@@ -234,7 +234,7 @@ property, e.g., languages with signature subtyping, the type system can
 become decidable. Nevertheless, the type systems with signature subtyping
 can not proof the correctness of the program. In signature subtyping
 the semantics of a program is not considered by the type system, only
-the object and field signatures are important and being checked.  In the
+the object and field signatures are important and being checked. In the
 following text, subtyping does always referring to signature subtyping.
 
 LSP introduces a subsumption rule for type declarations though:
@@ -497,7 +497,7 @@ annotated whether the variable can be used in method parameter type
 declarations or as method return type declaration. As long as the type
 variable is allowed to appear in every type declaration, the subtyping
 relation can not be enforced between between two objects with different
-parameters.  Java introduced wildcards within type parameters and \cs
+parameters. Java introduced wildcards within type parameters and \cs
 allows explicitly to declare input and output type parameters to allow
 subtyping polymorphism of parametrised types. These solutions still
 suffers from one problem. How to type recursive types where the fields
@@ -519,20 +519,23 @@ parameters which is different in a subtyping environment.
 % estimated pages: 2-3
 One of the most fundamental and well known relations between recursive
 types in today's programming languages is the subtype relation.
-In languages where subclasses do not implicitly define subtypes a more general
-relation is needed -- \emph{matching} -- which is weaker and does
-not support subsumption. Originally, \emph{matching} was proposed as
-function-bounded subtyping \cite{canning_f-bounded_1989}. Function-bounded
-subtyping extends simple subtyping with parametrisation which is
-known as \emph{generics} in well known programming languages
+In languages where subclasses do not implicitly define subtypes a
+more general relation is needed -- \emph{matching} -- which is weaker
+and does not support subsumption. Originally, \emph{matching} was
+proposed as function-bounded subtyping\nomenclature{Function-Bounded
+Subtyping}{Function-bounded subtyping is a bounded type quantification
+where an expression is polymorph to subtypes of the bounded type
+constrained} \cite{canning_f-bounded_1989}. Function-bounded
+subtyping extends simple subtyping with parametrisation which
+is known as \emph{generics} in well known programming languages
 like Java or \cs \cite{barron-estrada_inheritance_2003}. Another
 interpretation of \emph{matching} as higher-order subtyping with
 better properties such as reflexivity and transitivity was shown in
-\cite{abadi_subtyping_1996}. This interpretation is more
-difficult for the users of such a language since the semantics is complex
-and not easy to understand in all circumstance because subtyping is
-on the object generator level. However, this is specified for structural
-but not for nominal type systems.
+\cite{abadi_subtyping_1996}. This interpretation is more difficult for
+the users of such a language since the semantics is complex and not easy
+to understand in all circumstance because subtyping is on the object
+generator level. However, this is specified for structural but not for
+nominal type systems.
 
 \subsection{Matching}
 \label{subsec:matching}
@@ -665,38 +668,42 @@ considered \cite{cameron_existential_2009,pierce_types_2002}.
 \nomenclature{Type Operator}{Function on type level mapping types to
 types} A type operator is a function on type level mapping types to
 types. Type operators are important for the formal specification of
-matching and the understanding of the concepts. In an object-oriented language
-the object type can be considered as a record type, e.g., an object type
-with two fields of type \emph{Nat} and \emph{Bool}: \{a:Nat, b:Bool\}.
-A record does not have to be fully specified with concrete types. It
-is possible to use type variables and bind them via type operators.
-A type operator is a function, the lambda-calculus expression is used,
-from types to types: \[A_{Op} := \lambda X.A(X)
-\] where $A := \{a:Nat, b:X\}$. Since objects in object-oriented languages
-are recursive since they make heavy use of the \mytype. However,
-since a function in the lambda calculus can not be recursive
-per se a special construct is needed. With the use of a fixed
-point operator it is possible to find a type's fix point without
-evaluating an infinite recursive call \cite{gabriel_why_1988}. To
-hide the complexity of the recursion theorem the $\mu$-convection is
-used. A $\mu$-function is to comparable to a $\lambda$-function
-with the difference that the parameter will get bound recursively
-\cite{pierce_types_2002,simons_theory_2002-3}.
+matching and the understanding of the concepts. In an object-oriented
+language the object type can be considered as a record type, e.g.,
+an object type with two fields of type \emph{Nat} and \emph{Bool}:
+\{a:Nat, b:Bool\}. A record does not have to be fully specified with
+concrete types. It is possible to use type variables and bind them via
+type operators. A type operator is a function, the lambda-calculus
+expression is used, from types to types: \[A_{Op} := \lambda X.A(X) \]
+where $A := \{a:Nat, b:X\}$. Since objects in object-oriented languages
+are recursive since they make heavy use of the \mytype. However, since
+a function in the lambda calculus can not be recursive per se a special
+construct is needed. With the use of a fixed point\nomenclature{Fix
+point}{A fix point of a function $f$, regardless of whether the function
+is a type operator or a function over $\mathbb{N}$, is a point where $f(x)
+= x$. Fix points are important for recursive type functions} operator it
+is possible to find a type's fix point without evaluating an infinite
+recursive call \cite{gabriel_why_1988}. To hide the complexity of the
+recursion theorem the $\mu$-convection is used. A $\mu$-function is to
+comparable to a $\lambda$-function with the difference that the parameter
+will get bound recursively \cite{pierce_types_2002,simons_theory_2002-3}.
 
 This can now be used to define the fixpoint of $A$ and is written as \[A^*
 := \mu X.A_{Op}(X).\]
 
-Now, the problem of such a recursive definition is to determine whether two
-types are equivalent or not since applying a type parameter recursively,
-an other record will be created. For example, after applying $A$ on
-$A^*$, the type generator creates a new record which is $\mu X.\{a:Nat,
-b:\{a:Nat, b:X\}\}$ which clearly differs from $\mu X.\{a:Nat, b:X\}$.
-Replacing recursively the type parameter with the type definition
-itself is undecidable when the type diverges. To tackle this problem
-two approaches can be taken. The first is to take the equi-recursive
-approach where both declarations are interchangeable. The problem is
-that in the latter approach, infinite type declarations are possible.
-The second approach is to define an explicit type isomorphism
+Now, the problem of such a recursive definition is to determine whether
+two types are equivalent or not since applying a type parameter
+recursively, an other record will be created. For example, after
+applying $A$ on $A^*$, the type generator creates a new record which
+is $\mu X.\{a:Nat, b:\{a:Nat, b:X\}\}$ which clearly differs from $\mu
+X.\{a:Nat, b:X\}$. Replacing recursively the type parameter with the
+type definition itself is undecidable when the type diverges. To tackle
+this problem two approaches can be taken. The first is to take the
+equi-recursive approach where both declarations are interchangeable. The
+problem is that in the latter approach, infinite type declarations
+are possible. The second approach is to define an explicit type
+isomorphism\nomenclature{Isomorphism}{A isomorphism is a bijective
+map where the map and its inverse are structure-preserving}
 \cite{abadi_subtyping_1996}:
 
 \begin{defn}[(Un)folding isomorphism]
