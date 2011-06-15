@@ -6,16 +6,19 @@ class Animal {
 
 class Dog subclassOf Animal {
   def mate(other: MyType): MyType {
+	// Specialising the argument 'other'
   }
 }
 
 class Cat subclassOf Animal {
   def mate(other: MyType): MyType {
+	// Specialising the argument 'other'
   }
 }
 
 class Persian subtypeOf Cat {
   var needsGrooming: Bool;
   def mate(other: MyType): MyType {
+	// Persian can mate other Cats
   }
 }
