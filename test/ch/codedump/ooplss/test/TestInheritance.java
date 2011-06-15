@@ -42,7 +42,7 @@ public class TestInheritance extends OoplssTest {
 		ErrorHandler.getInstance().throwException();
 	}
 	
-	@Test (expected=IllegalSuperclass.class)
+	@Test (expected=IllegalSupertype.class)
 	public void testIllegalSubclass() throws Exception {
 		String str = 	"class A {}" +
 						"class B subclassOf A {}" +

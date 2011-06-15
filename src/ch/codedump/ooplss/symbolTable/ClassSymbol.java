@@ -72,29 +72,33 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 */
 	@Override
 	public Symbol resolve(String name) {
-		Symbol s = members.get(name);
-		
-		if (s != null) {
-			return s;
-		}
-		
+		Symbol s = null;
+		Symbol sTmp = null;
+		// Looks first in super symbols and afterwards in the local scope
 		if (this.getSupertype() != null) {
 			s = this.supertype.resolve(name);
-			
-			if (s != null) {
-				return s;
-			}
 		}
 	
 		if (this.getSuperclass() != null) {
-			return this.superclass.resolve(name);
+			sTmp = this.superclass.resolve(name);
+			if (sTmp != null) {
+				s = sTmp;
+			}
 		}
 	
 		if (enclosingScope != null) {
-			return enclosingScope.resolve(name);
+			sTmp = enclosingScope.resolve(name);
+			if (sTmp != null) {
+				s = sTmp;
+			}
+		}
+
+		sTmp = members.get(name);
+		if (sTmp != null) {
+			s = sTmp;
 		}
 		
-		return null;
+		return s;
 	}
 	
 	/**
@@ -324,12 +328,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws OoplssException
 	 */
 	public void checkForOverridings () throws OoplssException {
+		// Some workaround to throw correct exception if 
+		// superclass / supertype problems occured
+		if (this.getSuperclass() == null
+				&& this.superclass != null) {
+			throw new IllegalSuperclass(this, this.supertype, this.superclass);
+		}
+		if (this.getSupertype() == null
+				&& this.supertype != null) {
+			throw new IllegalSupertype(this, this.superclass, this.supertype);
+		}
+		
 		for (Entry<String, Symbol> sym: this.members.entrySet()) {
-			if (this.supertype != null) {
-				this.checkSymbolOverride(this.supertype, sym.getValue());
+			if (this.supertypeName != null) {
+				this.checkSymbolOverride(this.getSupertype(), sym.getValue());
 			}
-			if (this.superclass != null) {
-				this.checkSymbolOverride(this.superclass, sym.getValue());
+			if (this.superclassName != null) {
+				this.checkSymbolOverride(this.getSuperclass(), sym.getValue());
 			}
 		}
 	}

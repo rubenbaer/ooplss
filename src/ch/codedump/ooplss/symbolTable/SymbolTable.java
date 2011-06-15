@@ -460,10 +460,11 @@ public class SymbolTable {
 	}
 	
 	/**
+	 * Checks mytype compatibility 
 	 * 
-	 * @param var
-	 * @param stmt
-	 * @return
+	 * @param var Left variable
+	 * @param stmt Right statement
+	 * @return True if compatible
 	 */
 	protected boolean isCompatible(OoplssAST var, OoplssAST stmt) {
 		Symbol varChildSymbol = this.getBareSymbol(var);

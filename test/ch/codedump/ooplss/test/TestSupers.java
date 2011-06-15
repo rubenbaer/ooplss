@@ -31,7 +31,7 @@ public class TestSupers extends OoplssTest {
 						"}" +
 						"class blubb subclassOf bar {" +
 						"	def f():Void {" +
-						"		foo.x;" +
+						"		bar.x;" +
 						"	}" +
 						"}";
 		try {
@@ -80,7 +80,7 @@ public class TestSupers extends OoplssTest {
 						"}" +
 						"class blubb subclassOf bar {" +
 						"	def f():Void {" +
-						"		foo.x;" +
+						"		bar.x;" +
 						"	}" +
 						"}";
 		try {
