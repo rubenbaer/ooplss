@@ -7,7 +7,6 @@ This chapter contains a description of the general compiler. Figure
 software. There is a section describing each phase.
 
 \begin{figure}[ht]
-	%\centering
 	\centerline{\includedot[scale=0.5]{dot/compilerDesign}}
 	\caption{All important compiler phases.}
 	\label{fig:compilerPhase}
@@ -143,9 +142,9 @@ nodes, it is clear to the walker where to start resolving the symbols.\\
 \noindent There are different types of resolving the symbols:
 \begin{description}
 \item[Variable referencing]
-Just walks up the scope tree to find the symbol
+Just walks up the scope tree to find the symbol.
 \item[Method calling]
-The same as variable referencing but it has to be a method symbol
+The same as variable referencing but it has to be a method symbol.
 \item[Member accessing]
 Is used when class fields are accessed like x.f; or x.foo();. First it checks
 if the field really is accessed on a class. If not, an according exception
@@ -156,11 +155,11 @@ and super types if not found.
 \item[Type resolving]
 The same as variable referencing but it also checks whether it's a type or not.
 \item[Special type resolving]
-Resolves special symbols directly in the global scope
+Resolves special symbols directly in the global scope.
 \item[Class resolving (new statement)]
-The same as type resolving but it has to be a user defined class
+The same as type resolving but it has to be a user defined class.
 \item[Self resolving]
-Resolves to the enclosing class
+Resolves to the enclosing class.
 \end{description}
 
 \noindent The referencing phase also does some special tasks:
@@ -295,7 +294,7 @@ output Java code which runs on the Java Virtual Machine.
 	PlainNote.MainN("Main package");
 	Package.MainP("ooplss")(MainN);
 
-	PlainNote.AntlrN("Antlr generated Code");
+	PlainNote.AntlrN("Antlr generated code");
 	Package.AntlrP("ooplss.antlr")(AntlrN);
 	AntlrP.w = MainP.e + (40, 0);
 
