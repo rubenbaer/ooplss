@@ -5,7 +5,7 @@ class Animal {
 }
 
 class Dog subclassOf Animal {
-  def mate(other: MyType): MyTyppe {
+  def mate(other: MyType): MyType {
   }
 }
 
