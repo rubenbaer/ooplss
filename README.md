@@ -27,7 +27,8 @@ Directory Structure
     build/      -- Temporary directory for build output
     dist/       -- Temporary distribution directory for packing
               ooplss.jar  -- Executable JAR
-              html        -- Source documentation by doxygen
+							examples/   -- Some example codes
+              html/       -- Source documentation by doxygen
               *.pdf       -- Project documentation
               README      -- README
     doc/        -- Documentation
