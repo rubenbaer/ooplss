@@ -25,10 +25,19 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	protected ClassSymbol supertype;
 	
 	/**
+	 * The super type name of this class
+	 */
+	protected String supertypeName;
+	
+	/**
 	 * The super class of this class
 	 */
 	protected ClassSymbol superclass;
 	
+	/**
+	 * The super class name of this class
+	 */
+	protected String superclassName;
 	/**
 	 * The constructor of this class symbol
 	 */
@@ -44,8 +53,13 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @param name The name of the class
 	 * @param enclosingScope The scope that this class is defined in
 	 */
-	public ClassSymbol(String name, Scope enclosingScope) {
+	public ClassSymbol(String name, 
+			Scope enclosingScope, 
+			String superclassName, 
+			String supertypeName) {
 		super(name,  enclosingScope);
+		this.superclassName = superclassName;
+		this.supertypeName = supertypeName;
 	}
 	
 	/**
@@ -54,6 +68,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * Resolve the member hierarchically upwards, that is,
 	 * if not found look in the super type and super class but also
 	 * in the enclosing scope for the definition.
+	 * @throws OoplssException 
 	 */
 	@Override
 	public Symbol resolve(String name) {
@@ -63,18 +78,18 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			return s;
 		}
 		
-		if (this.supertype != null) {
+		if (this.getSupertype() != null) {
 			s = this.supertype.resolve(name);
 			
 			if (s != null) {
 				return s;
 			}
 		}
-		
-		if (this.superclass != null) {
+	
+		if (this.getSuperclass() != null) {
 			return this.superclass.resolve(name);
 		}
-		
+	
 		if (enclosingScope != null) {
 			return enclosingScope.resolve(name);
 		}
@@ -127,22 +142,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * it does not look in the enclosing scope.
 	 * @param name The name to resolve
 	 * @return resolved symbol
+	 * @throws OoplssException 
 	 */
 	public Symbol resolveMember(String name) {
 		Symbol s = members.get(name);
 		if (s != null) {
 			return s;
 		}
-		
-		if (this.supertype != null) {
-			s = this.supertype.resolveMember(name);
+			
+		if (this.getSupertype() != null) {
+			s = this.getSupertype().resolveMember(name);
 			if (s != null) {
 				return s;
 			}
 		}
 		
-		if (this.superclass != null) {
-			return this.superclass.resolveMember(name);
+		if (this.getSuperclass() != null) {
+			return this.getSuperclass().resolveMember(name);
 		}
 		
 		return null;
@@ -155,25 +171,25 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * after the constructor declaration, these names
 	 * have to be resolved
 	 * @param sup The AST node of the super specification
-	 * @throws NoSuperTypeException 
 	 * @throws UnknownSuperClassException 
 	 */
 	public void resolveSuper(OoplssAST sup) throws UnknownSuperClassException {
 		String name = sup.getText();
 		
-		if (this.supertype != null) {
+		if (this.getSupertype() != null) {
 			if (this.supertype.getName().equals(name)) {
 				sup.setSymbol(this.supertype);
 				return;
 			}
 		}
 		
-		if (this.superclass != null) {
+		if (this.getSuperclass() != null) {
 			if (this.superclass.getName().equals(name)) {
 				sup.setSymbol(this.superclass);
 				return;
 			}
 		}
+
 		throw new UnknownSuperClassException(sup);
 	}
 	
@@ -217,8 +233,12 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws IllegalSupertype 
 	 * @throws IllegalSuperclass 
 	 */
-	public void setSupertype(ClassSymbol superType) 
+	protected void setSupertype(ClassSymbol superType) 
 			throws OoplssException {
+		if (this.supertype != null || superType == null) {
+			return;
+		}
+		
 		this.supertype = superType;
 		this.checkForInheritanceErrors();
 		this.define(
@@ -233,8 +253,12 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @throws IllegalSuperclass 
 	 * @throws IllegalSupertype 
 	 */
-	public void setSuperclass(ClassSymbol superClass) 
+	protected void setSuperclass(ClassSymbol superClass) 
 			throws OoplssException {
+		if (this.superclass != null || superClass == null) {
+			return;
+		}
+		
 		this.superclass = superClass;
 		this.checkForInheritanceErrors();
 		this.define(
@@ -244,8 +268,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	
 	/**
 	 * Check for illegal subtyping and -classing
-	 * 
-	 * @throws IllegalSupertype
+	 * @throws IllegalSupertype 
 	 * @throws IllegalSuperclass
 	 */
 	protected void checkForInheritanceErrors() throws IllegalSupertype, IllegalSuperclass {
@@ -328,6 +351,14 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @return The super type of the class
 	 */
 	public ClassSymbol getSupertype() {
+		if (this.supertype == null
+				&& this.supertypeName != null) {
+			try {
+				this.setSupertype(resolveClassSymbol(this.supertypeName));
+			} catch (OoplssException e) {
+				return null;
+			}
+		}
 		return this.supertype;
 	}
 	
@@ -337,7 +368,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	 * @return The super class of the class
 	 */
 	public ClassSymbol getSuperclass() {
+		if (this.superclass == null
+				&& this.superclassName != null) {
+			try {
+				this.setSuperclass(resolveClassSymbol(this.superclassName));
+			} catch (OoplssException e) {
+				return null;
+			}
+		}
 		return this.superclass;
+	}
+	
+	protected ClassSymbol resolveClassSymbol(String className) {
+		Symbol sym = this.getEnclosingScope().resolve(className);
+		if (sym instanceof ClassSymbol) {
+			return (ClassSymbol)sym;
+		}
+		return null;
 	}
 
 	@Override
@@ -354,7 +401,7 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 		if (this == type) {
 			return true;
 		}
-		if (this.supertype != null) {
+		if (this.getSupertype() != null) {
 			return this.supertype.isSubtypeOf(type);
 		}
 		
@@ -364,14 +411,13 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 	/**
 	 * Check whether this class is a subclass of the given one
 	 * 
-	 * @param ClassSymbol
-	 */
+	 * @param ClassSymbol	 */
 	public boolean isSubclassOf(ClassSymbol type) {
 		if (this == type) {
 			return true;
 		}
 		
-		if (this.superclass != null) {
+		if (this.getSuperclass() != null) {
 			return 	this.superclass.isSubclassOf(type) || 
 					this.superclass.isSubtypeOf(type);
 		}
@@ -407,5 +453,23 @@ public class ClassSymbol extends ScopedSymbol implements Type {
 			symbols.addAll(supertype.getSuperSymbols());
 		}
 		return symbols;
+	}
+	
+	/**
+	 * getter superclass name
+	 * 
+	 * @return Superclass name
+	 */
+	public String getSuperclassName() {
+		return this.superclassName;
+	}
+	
+	/**
+	 * Getter supertype name
+	 * 
+	 * @return supertype namer
+	 */
+	public String getSupertypeName() {
+		return this.supertypeName;
 	}
 }

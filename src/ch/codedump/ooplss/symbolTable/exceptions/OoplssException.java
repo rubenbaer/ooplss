@@ -34,6 +34,16 @@ public abstract class OoplssException extends Exception {
 	}
 	
 	/**
+	 * Construct a symbol table exception
+	 * @param token The token where the error occurs
+	 * @param cause Parent exception
+	 */
+	public OoplssException(Token token, Exception cause) {
+		super(cause);
+		this.token = token;
+	}
+	
+	/**
 	 * Set the error message
 	 * 
 	 * @param error The error message to display

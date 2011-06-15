@@ -31,7 +31,8 @@ import java.util.logging.Logger;
 /**
  * Rules matching on the way down
  */
-topdown		:	enterMethod
+topdown		
+      :	enterMethod
 			|	enterConstructor
 			|	enterBlock
 			|	varDef
@@ -41,11 +42,11 @@ topdown		:	enterMethod
 			|	selfVarAccess
 			|	argument
 			|	methodCall
-			|	superType
-			|	superClass
+		//	|	superType
+		//	|	superClass
 			|	returnVoidStmt
 			|	returnStmt
-			|   memberAccess
+			| memberAccess
 			;
 	
 /**
@@ -63,39 +64,55 @@ bottomup	:	exitBlock
  * Create a new ClassSymbol and set the pointer between the
  * AST and the symbol.
  */
-enterClass	:	^(CLASSDEF classname=ID .*)
+enterClass	:	^(CLASSDEF classname=ID 
+                (^(SUPERTYPE supertype=ID ))?
+                (^(SUPERCLASS superclass=ID ))?
+                .*)
 			{
 				logger.fine("<Def>Entering  class " + $classname.text);
-				ClassSymbol cs = new ClassSymbol($classname.text, this.currentScope);
+				ClassSymbol cs = new ClassSymbol( $classname.text, 
+				                                  this.currentScope, 
+				                                  $superclass.text, 
+				                                  $supertype.text);
 				cs.setDef($classname);
 				$classname.setSymbol(cs);
 				this.currentScope.define(cs);
 				this.currentScope = cs;
+				
+				if ($SUPERTYPE != null) { 
+          logger.fine("<Def>Recording class to supertype");
+          $SUPERTYPE.setScope(this.currentScope);
+        }
+        
+        if ($SUPERCLASS != null) {
+          logger.fine("<Def>Recording class to superclass");
+          $SUPERCLASS.setScope(this.currentScope);
+        }
 			}	
 			;
 catch [OoplssException e] {
 	error.reportError(e);
 }
 
-/**
- * Record the current scope to a super type specification
- */
-superType	:	SUPERTYPE
-			{
-				logger.fine("<Def>Recording class to supertype");
-				$SUPERTYPE.setScope(this.currentScope);
-			};
+///**
+// * Record the current scope to a super type specification
+// */
+//superType	:	SUPERTYPE
+//			{
+//				logger.fine("<Def>Recording class to supertype");
+//				$SUPERTYPE.setScope(this.currentScope);
+//			};
 			
-/**
- * Record the current scope to a super class specification
- */
-superClass	:	SUPERCLASS
-			{
-				logger.fine("<Def>Recording class to superclass");
-				$SUPERCLASS.setScope(this.currentScope);
-			}
-			;
-	
+///**
+// * Record the current scope to a super class specification
+// */
+//superClass	:	SUPERCLASS
+//			{
+//				logger.fine("<Def>Recording class to superclass");
+//				$SUPERCLASS.setScope(this.currentScope);
+//			}
+//			;
+
 /**
  * Leaving a class
  *

@@ -1,5 +1,6 @@
 package ch.codedump.ooplss.symbolTable;
 
+import ch.codedump.ooplss.symbolTable.exceptions.OoplssException;
 import ch.codedump.ooplss.symbolTable.exceptions.UnknownSuperClassException;
 import ch.codedump.ooplss.tree.OoplssAST;
 
@@ -17,7 +18,7 @@ public class SuperVariableSymbol extends ClassSymbol {
 	 * @param wrappedSymbol The wrapped symbol
 	 */
 	public SuperVariableSymbol(ClassSymbol wrappedSymbol) {
-		super(wrappedSymbol.getName(), wrappedSymbol.getScope());
+		super(wrappedSymbol.getName(), wrappedSymbol.getScope(), wrappedSymbol.getSuperclassName(), wrappedSymbol.getSupertypeName());
 		
 		this.setType(wrappedSymbol);
 		this.wrappedSymbol = wrappedSymbol;

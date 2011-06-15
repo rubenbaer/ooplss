@@ -30,21 +30,19 @@ import java.util.logging.Logger;
 /**
  * Rules matching on the way down
  */
-topdown		:	enterMethod
+topdown		
+      :	enterMethod
 			|	varDef
-			|
-				(	varAccess
-				|	selfAccess
-				|	memberAccess
-				| 	methodCall
-				|	newObject
-				)
-
+			| varAccess
+			|	selfAccess
+			|	memberAccess
+			| methodCall
+			|	newObject
 			|	argument
 			|	enterConstructor
 			|	subType
 			|	subClass
-			| 	standalones
+			| standalones
 			;
 
 /**
@@ -83,7 +81,7 @@ subType		: 	^(SUPERTYPE supertype=ID)
 				if (t.isSubtypeOf(cls)) {
 					throw new CyclicSubtypingException(cls);
 				}
-				cls.setSupertype(t);
+				//cls.setSupertype(t);
 				
 			}
 			;
@@ -105,7 +103,7 @@ subClass	: 	^(SUPERCLASS superclass=ID)
 				if (t.isSubclassOf(cls)) {
 					throw new CyclicSubclassingException(cls);
 				}
-				cls.setSuperclass(t);
+				//cls.setSuperclass(t);
 			}
 			;
 catch[OoplssException e] {
