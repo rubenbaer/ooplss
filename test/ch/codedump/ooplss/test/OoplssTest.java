@@ -94,7 +94,7 @@ public abstract class OoplssTest {
 	protected OoplssDef createDef(String code) throws RecognitionException {
 		this.createParser(code);
 		
-		logger.info("\n\nRunning the definition walker");
+		logger.fine("\n\nRunning the definition walker");
 		this.def = new OoplssDef(nodes, symTab);
 		def.downup(t);
 		
@@ -113,7 +113,7 @@ public abstract class OoplssTest {
 			this.createDef(code);
 		}
 		
-		logger.info("\n\nRunning the reference walker");
+		logger.fine("\n\nRunning the reference walker");
 		this.ref = new OoplssRef(nodes, symTab);
 		ref.downup(t);
 		
@@ -131,11 +131,11 @@ public abstract class OoplssTest {
 			this.createRef(code);
 		}
 		
-		logger.info("\n\nRunning the type walker");
+		logger.fine("\n\nRunning the type walker");
 		this.typer = new OoplssTypes(nodes, symTab);
 		typer.downup(t);
 		
-		logger.info("\n\nRunning the argument type walker");
+		logger.fine("\n\nRunning the argument type walker");
 		this.argtyper = new OoplssArgTypes(nodes, symTab);
 		argtyper.downup(t);
 		
