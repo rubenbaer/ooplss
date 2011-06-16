@@ -1,0 +1,12 @@
+class Application {
+  // Application entry point.
+  def run(): Void {
+    var sys: System;
+    var name: String;
+
+    sys = new System();
+    name = sys.readln();
+
+    sys.println("Hello " + name);
+  }
+}
