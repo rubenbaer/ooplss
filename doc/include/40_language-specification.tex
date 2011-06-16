@@ -764,7 +764,6 @@ Listing \ref{lst:extendingContainer} shows an extended version of the
 \begin{lstlisting}[language=java,caption=Extending a container class translated to Java.,label=lst:extendingContainer]
 public interface SpecialContainer<X> extends Container<X> {
 	public X f(X x);
-
 	static public class SpecialContainer$Foo$
 			extends Container$Foo$
 			implements SpecialContainer<Foo> {
@@ -772,7 +771,6 @@ public interface SpecialContainer<X> extends Container<X> {
 			return x;
 		}
 	}
-
 	static public class SpecialContainer$Bar$
 			extends Container$Bar$
 			implements SpecialContainer<Bar> {
@@ -780,7 +778,6 @@ public interface SpecialContainer<X> extends Container<X> {
 			return x;
 		}
 	}
-
 	static public class SpecialContainer$FooBar$
 			extends Container$FooBar$
 			implements SpecialContainer<FooBar> {
