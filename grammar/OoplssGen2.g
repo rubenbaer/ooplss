@@ -18,7 +18,7 @@ public OoplssGen2(TreeNodeStream input, SymbolTable symtab,
 		boolean hasApplicationClass) {
 	this(input);
 	this.symtab = symtab;
-	hasApplicationClass = hasApplicationClass;
+	this.hasApplicationClass = hasApplicationClass;
 }
 
 /**
