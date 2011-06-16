@@ -208,15 +208,6 @@ for multiple inheritance. Introducing method overloading would affect
 different constructs which is undesirable for this thesis project since
 it is not the core problem treated here.
 
-%Currently method overloading is not integrated in \ooplss. With this
-%comes several problems which could be avoided. On one hand, it is currently
-%not possible to provide multiple inheritance since methods overloading is
-%essential for usable class combination. Now, the language is restricted
-%that extension is only allowed as long as no method overloading occurs.
-%This change can be considered as straightforward since the exact definition
-%which method should be called is already possible with full parent
-%specification by the caller. 
-
 \subsubsection{Modularisation}
 Modularisation is missing too. At the moment only very monolithic programs
 are possible in which no separate compilation units are supported. For larger
@@ -256,8 +247,6 @@ contains every possible type. The idea is similar to an \emph{Object}
 but a top-type could be used in more cases, such as value types and reference
 types. It is up to the programmer to introduce an own type
 which is used as general base type.
-
-%\subsubsection{Higher-Order Functions}
 
 \subsection{Further Implementation Work}
 In contrast to \Cref{sec:futureWork}, this section deals with work that
