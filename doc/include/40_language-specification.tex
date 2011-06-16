@@ -1,7 +1,7 @@
 \chapter{Language Specification}
 \label{ctr:languageSpecification}
 This chapter contains the language specification of \ooplss.  The first
-section defines the fundamental design principles used in further
+section defines the fundamental design principles used in the further
 discussion of the language. Afterwards an overview of the syntax is
 given. It needs to be noted that this is just an abstract definition and
 differs in some issues from the real syntax implementation which does not
@@ -26,24 +26,23 @@ statically and strongly typed. Every message received by an object will
 not end up in a runtime type exception. Nonetheless runtime exceptions
 can occur since the type system does not prove that every statement
 is possible, e.g., when sending a division by zero message to a number
-object, this case, an appropriate exception will be thrown.
+object. In this case, an appropriate exception will be thrown.
 
 \paragraph{Nominal Type System}
 \ooplss has a nominal type system for modular type checking. Once the
 inheritance relations are checked, it is easy to determine whether
 two types are in relation or not. Since \ooplss is translated to Java,
 a similar system is used, i.e., a nominal type system is implemented.
-It also makes matching as higher-order subtyping tractable.
 
 \paragraph{No Information Hiding}
-Since nominal subtyping is used, information hiding has not such an impact
+Since nominal subtyping is used, information hiding hasn't got such an impact
 compared to structural subtyping since all fields are automatically
 available. This helps to keep the language small.
 
 \paragraph{No Method Overloading}
 In the current state of specification \ooplss does not provide a mechanism
 for method overloading. Even though this makes some class combinations impossible,
-it is less confusing if this case can be omitted.
+it is less confusing.
 
 \paragraph{Single Dispatch}
 With the choice of Java as target platform single method dispatch is
@@ -99,16 +98,16 @@ in the implementation. \\
 \subsection{Names and Identifiers}
 Names in \ooplss identify variables, methods, classes and types. The
 definition of names can have different origins and depends on the current
-context of consideration which is given by its scope.
+context of consideration which is given by the scope.
 
 \subsection{Scopes}
 \ooplss uses lexical scoping to define the validity of expressions and
-variables which is similar to that of Java. Generally a global
-scope exists wherein the class definitions are. Each class entails a class-scope
+variables which is similar to that of Java. Generally, a global scope
+exists wherein the class definitions are. Each class entails a class-scope
 that contains all fields, including the definition of superclasses and
 supertypes. Local scopes exist within methods and can be nested arbitrary.
-Nested local scopes can not shadow already bound variables, i.e., definitions
-like in Listing \ref{lst:illegalNesting} are not allowed.
+Nested local scopes cannot shadow already bound variables, i.e.,
+definitions like in Listing \ref{lst:illegalNesting} are not allowed.
 
 \begin{lstlisting}[float=ht,language=ooplss,caption=Variable definition in local scope.,label=lst:illegalNesting]
 class A {
@@ -142,7 +141,7 @@ Two kinds of comments are possible. First the C-style multi-line comment which
 starts with `/*' and ends with `*/'. Everything between these two delimiters
 is ignored by the parser. One specialty to note is, that these kind of comments
 can not be nested.
-The second kind is in the \cpp-style and is a single- line comment which starts
+The second kind is in the \cpp-style and is a single-line comment which starts
 with `//'. The character sequence between this token and the next newline
 is ignored.
 
@@ -157,14 +156,15 @@ the self-type binding. In formal treatment a class is considered as a
 unordered record \cite{simons_theory_2002-1}.
 
 \subsection{Extension as Subtyping}
-'Extension` is one sort of class combination in \ooplss. With extension,
-the concept of nominal subtyping is implemented which is the same as
-\emph{extends} in Java. Since \ooplss knows two sorts of combination operator, a
-clearly distinguishable keyword is introduced: \emph{subtypeOf}. Subtyping
-can be represented as a record combination operator where the recursive type binding
-is performed before the record combination. However, the operator does
-not only combine records, it also overrides old fields which are shadowed
-by the new record and renames parent fields \cite{simons_theory_2003-2}.
+'Extension` is one sort of class combination in \ooplss. With
+extension, the concept of nominal subtyping is implemented which is
+the same as \emph{extends} in Java. Since \ooplss knows two sorts of
+combination operators, a clearly distinguishable keyword is introduced:
+\emph{subtypeOf}. Subtyping can be represented as a record combination
+operator where the recursive type binding is performed before the
+record combination. However, the operator does not only combine records,
+it also overrides old fields which are shadowed by the new record and
+renames parent fields \cite{simons_theory_2003-2}.
 
 This record extension is semantically equivalent to that of Java. This
 makes a straightforward implementation possible and easy to use for
@@ -184,7 +184,7 @@ class B subtypeOf A {
 }
 \end{lstlisting}
 
-In most of the programming languages exists a keyword \base or
+In most of the programming languages there is a keyword \base or
 \emph{super} to referencing explicitly a field in the parent class. Since
 \ooplss has two derivation operators, it is not possible to give the
 keyword a distinct meaning. To access a parent field, the parents type
@@ -268,7 +268,7 @@ class B subclassOf A {
 \end{lstlisting}
 
 Listing \ref{lst:javaTrans} presents the code that was translated from Listing
-\ref{lst:subclassOf} to Java. It demonstrates the clear cut within
+\ref{lst:subclassOf} to Java. It demonstrates the clear cut in
 the subtyping hierarchy since the whole content of class \A is modified
 and copied to class \B.
 
@@ -481,7 +481,7 @@ of \mytype is now rebound to type \C. This works as well since the
 \self-type is defined as in definition \ref{def:selfCompatibility}. Now,
 \C is also extended in \D where method $g$ is overridden. Here again,
 since in extension the binding moment is performed as early as possible,
-this fits well into \ooplsss model of class combination.
+this fits well into \ooplsss   model of class combination.
 
 \begin{lstlisting}[float=ht,language=ooplss,caption=Binding of \self and \mytype in a mixed context.,label=lst:bindingInMixedHierarchy]
 class A {
@@ -519,23 +519,17 @@ class D subtypeOf C {
 
 Although everything is now typeable, the question rises whether this code
 provides mutual recursion as desired? Let's consider a method call of $m$
-in \C. The method call handle goes correctly to its superclass method
+in \C. The method call goes correctly to its superclass method
 $B.m$. Now here the next problem occurs. Since the base reference
 to the supertype is explicit given by the supertype's name, the base call
 is passed uniformly to the supertype class which is now a superclass as well.
-
-%
-%How is the \base
-%reference considered? First of all, a \base reference does not make
-%any sense here since \C does not have a supertype except \object and
-%\object usually does not provide a method as wanted.
 
 \subsubsection{Resolving Extension Ambiguity}
 \label{sec:resolveAmbiguity}
 Let's consider the extension and inheritance hierarchy in \Cref{fig:hierarchy}
 again. It is clear that \C inherits \B. But what about the extension of \A
 with \B? As seen before, inheritance breaks the hierarchy and only
-provides a possibility of class combination. This rises the question how the
+provides the possibility of class combination. This rises the question how the
 relation between \A and \B is considered when a subclass of \B exists. If
 the self type in \A would be bound before the record combination to
 \C, unsafe type constructs could be possible since a
@@ -563,7 +557,7 @@ be used wherever possible.
 \subsection{Type Relations}
 \ooplss knows two different type relations. On one hand subtyping, which
 is well known in typed object-oriented programming languages denoted with
-<: or as a straight line in diagrams, respectively. On the other hand
+<: or as a straight line in diagrams. On the other hand
 there is a matching relation which is used to restrict type parameters
 to a given protocol and is denoted with \match or with a dashed line in
 diagrams, respectively. \Cref{fig:hierarchy} shows an example of a type
