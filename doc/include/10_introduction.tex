@@ -1,25 +1,33 @@
 \chapter{Introduction}
-Object-oriented programming languages enjoy a wide popularity in today's
-developer community. Consequently, different languages are introduced with different
-specialities to support the programmer in daily work. That's maybe
-the reason why many different approaches were taken to create useful, safe
-and comprehensive languages. However, most modern and widely spread
-object-oriented languages provide subtyping polymorphism; which is a well
-known relation. This makes
-it fast and easy to reuse code, but there are some shortcomings in languages
-that only provide subtyping as type relation. Since subtyping
-is restrictive it inhibits proper inheritance of binary methods like
-\emph{equals}. To overcome this restriction, languages like Java and \cs
-introduced type parametrisation, which is better known as \emph{generics}
-or \emph{templates} in \cpp. But this still does not solve the problem
-of binary methods by extension. Other relations and class combinations
-are considered useful in object-oriented languages as well. One of them
-is the \emph{matching} relation and the concept of subclassing.
+Object-oriented programming languages enjoy a wide popularity in
+today's developer community. Consequently, different languages are
+introduced with different specialities to support the programmer in
+daily work. That's maybe the reason why many different approaches were
+taken to create useful, safe and comprehensive languages. However, most
+modern and widely spread object-oriented languages provide subtyping
+polymorphism; which is a well known relation. This makes it fast and
+easy to reuse code, but there are some shortcomings in languages that
+only provide subtyping as type relation. Since subtyping is restrictive
+it inhibits proper inheritance of binary methods like \emph{equals}. To
+overcome this restriction, languages like Java and \cs introduced
+type parametrisation, which is better known as \emph{generics} or
+\emph{templates} in \cpp. But this still does not solve the problem of
+binary methods by extension. Other relations and class combinations are
+considered useful in object-oriented languages as well. One of them is
+the \emph{matching} relation and the concept of subclassing.
 
-This thesis project aims at designing and developing a prototypical
-language that integrates both models: on one hand the model of safe
-subtyping, on the other hand the model of safe subclassing. In this language,
-the programmer decides which model fits the problem's scope.
+This thesis project aims at designing and developing the
+prototypical language \ooplss that integrates both models: on one
+hand the model of safe subtyping, on the other hand the model of
+safe subclassing. In this language, the programmer decides which
+model fits the problem's scope. Generally, exists two names for the
+project; OOPLSS\nomenclature{OOPLSS}{Object-Oriented (Programming)
+Language with Subtyping and Subclassing} is the project name since it
+abbreviates `Object-Oriented (Programming) Language with Subtyping and
+Subclassing' and \ooplss is the name of the language and is defined
+as a recursive acronym for `{\bf L}ISA {\bf I}ncludes {\bf S}ubcl{\bf
+A}ssing'\nomenclature{\ooplss}{{\bf L}ISA {\bf I}ncludes {\bf S}ubcl{\bf
+A}ssing}.
 
 This paper only regard statically typed object-oriented languages and does
 not deal with dynamic languages at all. The authors assume for this project
@@ -41,7 +49,7 @@ pursuing a different solution by combining both models whereat the programmer ha
 the full power about what to choose, by introducing two kinds of derivations.
 One is called \emph{subclassing} and the other \emph{subtyping}. Depending
 on the derivation method, the \mytype variable will get bound at different
-times of the derivation process. To test this hypothesis, a prototypical 
+times of the derivation process. To test this hypothesis, a prototypical
 language was defined and most of these features were implemented.
 
 \subsection{Objectives and Limitations}
