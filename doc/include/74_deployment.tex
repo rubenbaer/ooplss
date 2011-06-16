@@ -1,0 +1,98 @@
+\chapter{Deployment}
+
+\section{Building}
+
+To build the project, there is an Apache ANT\footnote{\href{http://ant.apache.org/}{http://ant.apache.org/}}
+build file. It contains several targets to build the project.
+The most important are the following: 
+
+\begin{description}
+\item[build] Build the project. This is the default target. It runs
+the tests, generates the ANTLR parsers and then builds the source
+code. The result is a jar file called \emph{ooplss.jar}.
+\item[clean] Cleans the whole project by removing files that are not
+actually part of the project but created during the build process.
+\item[doc] Builds the documentations. This includes on one hand all
+the PDFs from the \LaTeX files and on the other hand the code
+documentation with Doxygen.
+\item[latex] Similar to the \emph{doc} target but only builds the
+latex files.
+\item[dist] Builds the whole project and then moves the
+according file to a \emph{dist} directory, which then
+includes all files needed for running the compiler and the documentations.
+\item[pack] Creates the distribution and then a tgz and a zip archive containing
+the whole project including the distribution folder.
+\item[run-tests] Run all the unit tests (gUnit and JUnit).
+\end{description}
+
+To run one of these target simply following line has to be entered:
+\begin{lstlisting}[numbers=none,language=bash,caption=Running the ant build system]
+> ant [target-name]
+\end{lstlisting}
+
+\section{Installation}
+
+Another target of the ANT build system is the \emph{install} target.
+This target only works on a Unix-System. It needs to be run with root
+privileges.
+
+This target copies various files to the system:
+\begin{itemize}
+\item the compiler executable to \emph{/usr/share}
+\item the libraries to \emph{/usr/share/ooplss}
+\item the manpage to \emph{/usr/share/man/man1}
+\end{itemize}
+
+\section{Software Dependencies}
+
+\subsection{Building}
+Following software needs to be installed on the system where the 
+build is made:
+
+\begin{itemize}
+\item The Java Compiler (Version 1.6)
+\item The texlive-latex distribution
+\item Apache ANT
+\item Metapost
+\item Make
+\end{itemize}
+
+The ANTLR3 package comes with the project since we needed a specific version
+to be able to run the gUnit tests correctly.
+
+
+\subsubsection{Microsoft Windows}
+
+For the building, some common Unix-Tools are required. In case of a 
+Microsoft Windows operating system, they need to be installed extra, for
+example with the GnuWin32 package\footnote{\href{http://gnuwin32.sourceforge.net/}{http://gnuwin32.sourceforge.net/}}.
+
+\subsection{Execution}
+
+For the execution of the compiler, only Java version 1.6 is required.
+
+\subsection{Eclipse Integration}
+
+The project can easily be integrated into Eclipse, since the Eclipse
+configuration file (\emph{.project}) is also present in the root of the
+project. Like this, all the necessary build paths are set and also the
+build targets are integrated automatically.
+
+\section{Distribution Structure}
+
+\begin{description}
+\item[examples/] Some example source codes written in ooplss
+\item[html/] Source code documentation generated with doxygen
+\item[lib/] All necessary libraries for ooplss.jar
+\item[manpage.pdf] Manual for ooplss and ooplss.cmd converted to PDF
+\item[ooplss] Startup bash script for the compiler
+\item[ooplss.1] Manual page source
+\item[ooplss-book.pdf] Documentation for a two sided print output
+\item[ooplss.cmd] Startup cmd script for the compiler
+\item[ooplss.jar] Java archive containing the compiler
+\item[ooplss-print.pdf] Documentation for a two sided print output
+\item[ooplss-web.pdf] Documentation optimised to read online
+\item[README] Project description
+\item[source.pdf] Source code documentation generated with doxygen
+\end{description}
+

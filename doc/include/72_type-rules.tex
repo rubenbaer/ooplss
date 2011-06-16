@@ -90,9 +90,9 @@ using the expression rules.
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
-							fields([\overline{T / X}]B)=\overline{U~g} \\\\
-							fields([\overline{T / X}]C)=\overline{V~h}}
-						{fields(A[\overline{T}]) = \overline{U~g}, \overline{V~h}, [\overline{T / X}]\overline{S~f} }
+							fields([\overline{W / X}]B)=\overline{U~g} \\\\
+							fields([\overline{W / X}]C)=\overline{V~h}}
+						{fields(A[\overline{W}]) = \overline{U~g}, \overline{V~h}, [\overline{W / X}]\overline{S~f} }
 				\end{mathpar}
 
 			\paragraph{Method type lookup:}
@@ -102,21 +102,21 @@ using the expression rules.
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							\text{def } m(\overline{U~x}): R \{ \ldots \} \in \overline{M}}
-						{mtype(m, A[\overline{T}]) = [\overline{T/X}](\overline{U} \rightarrow R)} \\
+						{mtype(m, A[\overline{W}]) = [\overline{W/X}](\overline{U} \rightarrow R)} \\
 
 					\inferrule*[right=MT-Supertype]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
-							m \in B[\overline{T}] \\ m \notin \overline{M}}
-						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]B)}\\
+							m \in B[\overline{W}] \\ m \notin \overline{M}}
+						{mtype(m, A[\overline{W}]) = mtype(m, [\overline{W/X}]B)}\\
 
 					\inferrule*[right=MT-Superclass]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
-							m \in C[\overline{T}] \\ m \notin \overline{M}}
-						{mtype(m, A[\overline{T}]) = mtype(m, [\overline{T/X}]C)}\\
+							m \in C[\overline{W}] \\ m \notin \overline{M}}
+						{mtype(m, A[\overline{W}]) = mtype(m, [\overline{W/X}]C)}\\
 				\end{mathpar}
 
 			\paragraph{Method body lookup:}
@@ -126,21 +126,21 @@ using the expression rules.
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
 							\text{def } m(\overline{U x}): R \{ e_i^n (n \in \mathbb{N}) \} \in \overline{M}}
-						{mbody(m, A[\overline{T}]) = \overline{X}.[\overline{T/X}].e_i^n (n \in \mathbb{N})} \\
+						{mbody(m, A[\overline{W}]) = \overline{X}.[\overline{W/X}].e_i^n (n \in \mathbb{N})} \\
 
 					\inferrule*[right=MT-Supertype]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
-							m \in B[\overline{T}] \\ m \notin \overline{M}}
-						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]B)}\\
+							m \in B[\overline{W}] \\ m \notin \overline{M}}
+						{mbody(m, A[\overline{W}]) = mbody(m, [\overline{W/X}]B)}\\
 
 					\inferrule*[right=MT-Superclass]
 						{\text{class } A[\overline{X \mmatch N}]
 								\subt B[\overline{T}]
 								\subc C[\overline{U}] \{\overline{S~f}; K~ \overline{M}\} \\\\
-							m \in C[\overline{T}] \\ m \notin \overline{M}}
-						{mbody(m, A[\overline{T}]) = mbody(m, [\overline{T/X}]C)}\\
+							m \in C[\overline{W}] \\ m \notin \overline{M}}
+						{mbody(m, A[\overline{W}]) = mbody(m, [\overline{W/X}]C)}\\
 				\end{mathpar}
 
 			\paragraph{Bound of types:}

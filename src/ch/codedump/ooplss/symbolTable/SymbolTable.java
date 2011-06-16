@@ -519,8 +519,13 @@ public class SymbolTable {
 	 * Check if the type of a variable is the same as the one
 	 * that is assigned
 	 * 
+	 * <p>
+	 * This function needs heavy refactoring. 
+	 * </p>
+	 * 
 	 * @param var The variable to be assigned
 	 * @param stmt The value to assign to
+	 * @todo refactor
 	 * @return Whether the assignment can be done
 	 */
 	protected boolean canAssignTo(OoplssAST var, OoplssAST stmt, boolean isArg) {
@@ -625,7 +630,11 @@ public class SymbolTable {
 	/**
 	 * Bind the MyType
 	 * 
+	 * <p>
+	 * This function needs heavy refactoring. 
+	 * </p>
 	 * @param node The MyType node
+	 * @todo refactor
 	 * @return The type that the MyType is bound to
 	 */
 	protected Type bindMyType(OoplssAST node) {
