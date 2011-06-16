@@ -691,42 +691,37 @@ an object type with two fields of type \emph{Nat} and \emph{Bool}:
 \{a:Nat, b:Bool\}. A record does not have to be fully specified with
 concrete types. It is possible to use type variables and bind them
 via type operators. A type operator is a function, the lambda-calculus
-expression is used, from types to types: \[A_{Op} := \lambda X.A\{X\}
-\] where $A := \{a:Nat, b:X\}$ and $A\{X\}$ is $X$ applied to $A$. Since
+expression is used, from types to types: \[A_{Op} := \lambda X.A\{X\} \]
+where $A := \{a:Nat, b:X\}$ and $A\{X\}$ is $X$ applied to $A$.  However,
 objects in object-oriented languages are recursive since they make heavy
-use of the \mytype. 
-\todo{This sentence does not work}
-However, since a function in the lambda calculus
-can not be recursive per se a special construct is needed. With
-the use of a fixed point\nomenclature{Fix point}{A fix point of a
-function $f$, regardless of whether the function is a type operator or
-a function over $\mathbb{N}$, is a point where $f(x) = x$. Fix points
-are important for recursive type functions} operator it is possible
-to find a type's fix point without evaluating an infinite recursive
-call \cite{gabriel_why_1988}. To hide the complexity of the recursion
-theorem the $\mu$-convection \todo{convention?}
-is used. A $\mu$-function is comparable
-with a $\lambda$-function with the difference that the parameter will get
-bound recursively \cite{pierce_types_2002,simons_theory_2002-3}.
+use of the \mytype.  Since a function in the lambda calculus can not be
+recursive per se a special construct is needed. With the use of a fixed
+point\nomenclature{Fix point}{A fix point of a function $f$, regardless of
+whether the function is a type operator or a function over $\mathbb{N}$,
+is a point where $f(x) = x$. Fix points are important for recursive type
+functions} operator it is possible to find a type's fix point without
+evaluating an infinite recursive call \cite{gabriel_why_1988}. To
+hide the complexity of the recursion theorem the $\mu$-convention
+is used. A $\mu$-function is comparable with a $\lambda$-function
+with the difference that the parameter will get bound recursively
+\cite{pierce_types_2002,simons_theory_2002-3}.
 
 This can now be used to define the fixpoint of the record $A$ and is
 written as \[A^* := \mu X.A_{Op}(X).\]
 
-Now, the problem of such a recursive definition is to determine whether
-two types are equivalent or not since applying a type parameter
-recursively, another record will be created. For example, after
-applying $A$ on $A^*$, the type generator creates a new record which
-is $\mu X.\{a:Nat, b:\{a:Nat, b:X\}\}$ which clearly differs from $\mu
-X.\{a:Nat, b:X\}$. Replacing the type parameter recursively with the
-type definition itself is undecidable when the type diverges. 
-\todo{Should the \emph{type} be plural here? *one* type cannot diverge imho..}
-To tackle
-this problem two approaches can be taken. The first is to take the
-equi-recursive approach where both declarations are interchangeable. The
-problem is that in the latter approach, infinite type declarations
-are possible. The second approach is to define an explicit type
-isomorphism\nomenclature{Isomorphism}{An isomorphism is a bijective
-map where the map and its inverse are structure-preserving}
+Now, the problem of such a recursive definition is to determine
+whether two types are equivalent or not since applying a type
+parameter recursively, another record will be created. For example,
+after applying $A$ on $A^*$, the type generator creates a new record
+which is $\mu X.\{a:Nat, b:\{a:Nat, b:X\}\}$ which clearly differs from
+$\mu X.\{a:Nat, b:X\}$. Replacing the type parameter recursively with
+the type definition itself is undecidable when the type diverges.
+To tackle this problem two approaches can be taken. The first is
+to take the equi-recursive approach where both declarations are
+interchangeable. The problem is that in the latter approach, infinite
+type declarations are possible. The second approach is to define an
+explicit type isomorphism\nomenclature{Isomorphism}{An isomorphism is
+a bijective map where the map and its inverse are structure-preserving}
 \cite{abadi_subtyping_1996}:
 
 \begin{defn}[(Un)folding isomorphism]
