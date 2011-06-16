@@ -19,7 +19,7 @@ documentation with Doxygen.
 latex files.
 \item[dist] Builds the whole project and then moves the
 according file to a \emph{dist} directory, which then
-includes all files needed for running the compiler and the documentations.
+contains the documentations and all files needed for running the compiler.
 \item[pack] Creates the distribution and then a tgz and a zip archive containing
 the whole project including the distribution folder.
 \item[run-tests] Run all the unit tests (gUnit and JUnit).
@@ -38,7 +38,7 @@ privileges.
 
 This target copies various files to the system:
 \begin{itemize}
-\item the compiler executable to \emph{/usr/share}
+\item the compiler executable to \emph{/usr/bin}
 \item the libraries to \emph{/usr/share/ooplss}
 \item the manpage to \emph{/usr/share/man/man1}
 \end{itemize}
