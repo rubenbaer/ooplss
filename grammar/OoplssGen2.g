@@ -136,8 +136,7 @@ private void setMethodParameters(MethodSymbol method, boolean isFromSupertype,
 		param.setAttribute("name", parameter.getName());
 		String typeName = parameter.getType().getName();
 		if (typeName.equals("MyType")) {
-			typeName = getMethodMyTypeName(method, isFromSupertype,
-					currentClass);
+			typeName = currentClass.getName();
 		}
 		param.setAttribute("type", typeName);
 		st.setAttribute("parameter_defs", param.toString());
@@ -155,7 +154,7 @@ private String getMethodMyTypeName(MethodSymbol method,
 		if (method.getType().getName().equals("MyType")) {
 			return currentClass.getName();
 		}
-		return method.getScope().getName();
+		return method.getType().getName();
 	}
 }
 }

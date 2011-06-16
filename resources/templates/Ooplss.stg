@@ -6,7 +6,11 @@ binOperatorMapping ::= [
   "*":"*",
   "/":"/",
   "+":"+",
-  "-":"-"
+  "-":"-",
+  "==":"==",
+  "!=":"!=",
+  "&&":"&&",
+  "||":"||"
 ]
 
 classdef(name, supertype, superclass, fields, methods, myTypeDefs, superclassMyTypeDefs, supertypeMyTypeDefs) ::= <<
