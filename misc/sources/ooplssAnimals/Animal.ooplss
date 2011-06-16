@@ -1,24 +1,28 @@
 class Animal {
   def mate(other: MyType): MyType {
     // Perform some biological crossovers
+    return null;
   }
 }
 
 class Dog subclassOf Animal {
   def mate(other: MyType): MyType {
-	// Specialising the argument 'other'
+    // Specialising the argument 'other'
+    return null;
   }
 }
 
 class Cat subclassOf Animal {
   def mate(other: MyType): MyType {
-	// Specialising the argument 'other'
+    // Specialising the argument 'other'
+    return null;
   }
 }
 
 class Persian subtypeOf Cat {
   var needsGrooming: Bool;
   def mate(other: MyType): MyType {
-	// Persian can mate other Cats
+    // Persian can mate other Cats
+    return null;
   }
 }
