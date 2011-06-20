@@ -1,0 +1,164 @@
+\ProvidesPackage{myTheme}[2008/25/08 ver 1.0]
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\RequirePackage{ifthen}
+
+\mode<presentation>
+
+% Standard templates
+\beamertemplatelargetitlepage
+\beamertemplatelargepartpage
+\beamertemplateboldcenterframetitle
+\beamertemplatelargeblocks
+\beamertemplateplaintoc
+\setbeamertemplate{navigation symbols}{\insertslidenavigationsymbol}
+
+\AtBeginSection{}%\frame{\frametitle{Outline}\tableofcontents[current]}}
+
+\setbeamertemplate{itemize/enumerate body begin}{\vskip-2mm}
+\setbeamertemplate{itemize/enumerate subbody begin}{\vskip0mm}
+\setbeamertemplate{itemize subitem}{\ding{221}}
+
+
+\pgfdeclareimage[width=1.7cm]{logobfh}{logo/bfhviolet}
+\pgfdeclareimage[height=6.5mm]{logowhite}{logo/bfhwhite}
+\def\insertlogofoot{\pgfuseimage{logobfh}}
+\def\insertlogotitle{\pgfuseimage{logowhite}}
+%Set subitem marker to be bullet
+\usesubitemizeitemtemplate{\small\hbox{\color{beamerstructure}$\bullet$}}
+
+% Head
+
+\useheadtemplate{\vbox{\vskip1mm}%
+%
+%   \vbox{%
+% 		\insertvrule{12pt}{brown!30}\vskip-12pt%
+%     \vskip2pt%
+%     \setbox1=\hbox{\insertsection}%
+%     \tinyline{\hbox{\insertshortsubtitle}\hfill\hbox{\hskip12mm Page \insertpagenumber}}\vskip-3mm\tinyline{\hfill\hbox{\ifdim\wd1>0pt{\insertsection}\fi}\hfill}\vskip0.8pt%
+%     \insertvrule{0.5pt}{black!50}%
+%     \vskip3pt%
+%     }%
+}
+
+\usefoottemplate{%
+  \def\insertlogo{\pgfuseimage{logobfh}}%
+  %\color{beamerstructure}
+  \vbox{%
+    \insertvrule{20pt}{DarkOrchid!10}\vskip-20pt%
+    \insertvrule{0.5pt}{black!60}%
+    \vskip2pt%
+    %\hbox{\lower0pt\hbox{\insertlogo}}%
+    \setbox\beamer@logobox=\hbox{\lower0pt\hbox{\insertlogo}}%
+    \setbox1=\hbox{\insertsubtitle}%
+    \tinyline{%
+      \hbox{\hskip\wd\beamer@logobox\hskip0.2cm\textbf{\insertshortinstitute}%
+      \,--\,\insertauthor}%
+      \hfill\insertnavigationsymbols}%
+    \setbox1=\hbox{\insertpart}%
+    \setbox2=\hbox{\insertsection}%
+    \setbox3=\hbox{\insertsubsection}%
+    \tinyline{%
+      \hbox{%
+        \dp\beamer@logobox=0pt%
+        \ht\beamer@logobox=0pt%
+        \box\beamer@logobox\hskip0.2cm%
+        \insertshorttitle%
+        \ifdim\wd1>0pt%
+          \,--\,\insertpart%
+          \ifdim\wd2>0pt%
+            :\,\insertsection%
+%            \ifdim\wd3>0pt%
+%              :\insertsubsection%
+%            \fi%
+          \fi%
+        \fi%
+%         \insertshortauthor%
+      }%
+      \hfill\insertframenumber%
+    }%
+  }%
+}%
+
+\userightsidebartemplate{0cm}{}
+
+\usetitlepagetemplate{%
+  \hbox{\hskip13mm\insertlogotitle\hskip3mm\vbox{\footnotesize\insertinstitute}}%
+  \begin{centering}%
+    \vskip5.0em%
+    {\huge\structure{\bf\inserttitle}}\par
+    \ifx\insertsubtitle\@empty\else\vskip2em{\LARGE{\structure{\insertsubtitle}}}\par\fi
+    \vskip5em\par
+    \normalsize\insertauthor\vskip1em\par
+    \insertdate\par
+  \end{centering}
+}
+
+% frame title
+
+\useframetitletemplate{%
+  \vskip0.5em%
+  \begin{centering}
+     \color{beamerstructure}
+     \huge\sf\insertframetitle\par%
+     {\footnotesize\structure{\insertframesubtitle}\par}%
+     \vskip0.5em%
+  \end{centering}
+}
+
+% new theorem style for definitions etc.
+
+\usetheoremtemplate{\begin{my@linedtext}}
+                   {\end{my@linedtext}}
+
+\newsavebox{\my@algobox}
+\newlength{\my@algoheight}
+\newlength{\my@algodepth}
+\newcommand{\my@algorule}[2]%
+  {\color{beamerstructure}\rule{#1}{#2}}  %Balken!
+
+\RequirePackage{calc}
+\newenvironment{my@linedtext}%
+  {\begin{block}{\inserttheoremname}~\\[-13pt]%
+   \begin{lrbox}{\my@algobox}%
+   \begin{minipage}[b]{\linewidth-7pt}\raggedright}
+  {\end{minipage}\end{lrbox}%
+   \settoheight{\my@algoheight}{\usebox{\my@algobox}}%
+   \settodepth{\my@algodepth}{\usebox{\my@algobox}}%
+   \addtolength{\my@algoheight}{\my@algodepth}%
+   \hspace*{1pt}\my@algorule{1pt}{\my@algoheight+5pt}%
+   \hspace*{5pt}\raise\my@algodepth\hbox{\usebox{\my@algobox}}%
+   \end{block}}
+
+% hyper links
+
+\hypersetup{colorlinks=true,urlcolor=green!20!black,linkcolor=black}
+
+\def\myurl#1{\href{#1}{#1}}
+\def\wikiurl#1#2{\href{http://en.wikipedia.org/wiki/#1}{#2}}
+
+\def\sourcepath#1{\def\@sourcepath{#1}}
+
+\def\source#1#2{\begin{lstinputlisting}[basicstyle=\ttfamily,style=htmlstyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\smallsource#1#2{\begin{lstinputlisting}[basicstyle=\small\ttfamily,style=htmlstyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\footsource#1#2{\begin{lstinputlisting}[basicstyle=\footnotesize\ttfamily,style=htmlstyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\phpsource#1#2{\begin{lstinputlisting}[basicstyle=\ttfamily,style=phpfilestyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\phpsmallsource#1#2{\begin{lstinputlisting}[basicstyle=\small\ttfamily,style=phpfilestyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\phpfootsource#1#2{\begin{lstinputlisting}[basicstyle=\footnotesize\ttfamily,style=phpfilestyle,caption={\href{\@sourcepath/#1}{#2}},captionpos=b]{source/#1}\end{lstinputlisting}}
+
+\def\inline#1{\lstinline[style=inlinehtmlstyle]$#1$}
+\def\inlinephp#1{\lstinline[style=inlinephpstyle]$#1$}
+
+\def\slide#1{\begin{frame}
+\addtolength\textwidth{2cm}
+\begin{center}\vskip-10mm
+\includegraphics[height=0.98\textheight,width=0.9\textwidth]{slides/#1}%#1
+\end{center}
+\end{frame}}
+
+\mode
+<all>

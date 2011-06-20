@@ -1,0 +1,38 @@
+\documentclass[t,xcolor=svgnames]{beamer}
+%\documentclass[t,handout,xcolor=svgnames]{beamer}
+\usecolortheme[named=DarkOrchid]{structure}
+\usepackage{myTheme}
+\usepackage[utf8x]{inputenc}
+\usepackage[ngerman]{babel}
+\beamertemplatetransparentcovered
+\beamertemplateplaintoc            % original plain theme adapted for us
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{urlcolor=DarkOrchid}
+\usepackage{pgfpages}
+\usepackage{tikz}
+
+\subtitle[OOPLSS]{An Object-Oriented Language with Subtyping and Subclassing}
+\title[LISA -- \textbf{L}ISA \textbf{i}ncludes \textbf{S}ubcl\textbf{a}ssing]{LISA -- \textbf{L}ISA \textbf{i}ncludes \textbf{S}ubcl\textbf{a}ssing}
+\institute[BFH-TI]{\textbf{Bern University of Applied Sciences}\\
+Engineering and Information Technology}
+\author[Ruben Bär und Stefan Heinemann]{Ruben Bär und Stefan Heinemann}
+\date{29. Juni 2011}
+
+\input{mydefs}
+
+%\setbeameroption{show notes on second screen}
+
+\begin{document}
+  \include{include/00_intro}         % Outline
+	\include{include/01_definition}    % Project definition
+	\include{include/02_pm}            % Project management
+	\include{include/03_background}    % Background
+	\include{include/04_lisa}          % LISA
+	\include{include/05_implementation}% Implementation
+	\include{include/06_further}       % Further work
+	\include{include/07_conclusion}    % Conclusion
+	\include{include/08_demo}          % Demo
+	\include{include/09_questions}     % Discussion
+\end{document}
