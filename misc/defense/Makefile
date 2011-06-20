@@ -11,6 +11,9 @@ default: build
 build: clean pdf
 
 show:
+	impressive -g 1024x768 -t none ooplss.pdf
+
+present:
 	impressive -g 2048x768 -t none ooplss.pdf
 
 pdf:
