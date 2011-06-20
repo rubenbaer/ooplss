@@ -10,6 +10,9 @@ default: build
 
 build: clean pdf
 
+show:
+	impressive -g 2048x768 -t none main.pdf
+
 pdf:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode main 1> /dev/null
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode main 1> /dev/null
