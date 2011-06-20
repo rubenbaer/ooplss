@@ -1,4 +1,4 @@
-\ProvidesPackage{myTheme}[2008/25/08 ver 1.0]
+\ProvidesPackage{myTheme}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \RequirePackage{ifthen}
 
@@ -24,12 +24,11 @@
 \def\insertlogofoot{\pgfuseimage{logobfh}}
 \def\insertlogotitle{\pgfuseimage{logowhite}}
 %Set subitem marker to be bullet
-\usesubitemizeitemtemplate{\small\hbox{\color{beamerstructure}$\bullet$}}
+%\usesubitemizeitemtemplate{\small\hbox{\color{beamerstructure}$\bullet$}}
 
 % Head
 
 \useheadtemplate{\vbox{\vskip1mm}%
-%
 %   \vbox{%
 % 		\insertvrule{12pt}{brown!30}\vskip-12pt%
 %     \vskip2pt%
@@ -42,21 +41,17 @@
 
 \usefoottemplate{%
   \def\insertlogo{\pgfuseimage{logobfh}}%
-  %\color{beamerstructure}
   \vbox{%
     \insertvrule{20pt}{DarkOrchid!10}\vskip-20pt%
     \insertvrule{0.5pt}{black!60}%
     \vskip2pt%
-    %\hbox{\lower0pt\hbox{\insertlogo}}%
     \setbox\beamer@logobox=\hbox{\lower0pt\hbox{\insertlogo}}%
     \setbox1=\hbox{\insertsubtitle}%
     \tinyline{%
-      \hbox{\hskip\wd\beamer@logobox\hskip0.2cm\textbf{\insertshortinstitute}%
-      \,--\,\insertauthor}%
+      \hbox{\hskip\wd\beamer@logobox\hskip0.2cm\insertauthor}%
       \hfill\insertnavigationsymbols}%
-    \setbox1=\hbox{\insertpart}%
-    \setbox2=\hbox{\insertsection}%
-    \setbox3=\hbox{\insertsubsection}%
+    \setbox1=\hbox{\insertsection}%
+    \setbox2=\hbox{\insertsubsection}%
     \tinyline{%
       \hbox{%
         \dp\beamer@logobox=0pt%
@@ -64,15 +59,11 @@
         \box\beamer@logobox\hskip0.2cm%
         \insertshorttitle%
         \ifdim\wd1>0pt%
-          \,--\,\insertpart%
+          \,--\,\insertsection%
           \ifdim\wd2>0pt%
-            :\,\insertsection%
-%            \ifdim\wd3>0pt%
-%              :\insertsubsection%
-%            \fi%
+            :\,\insertsubsection%
           \fi%
         \fi%
-%         \insertshortauthor%
       }%
       \hfill\insertframenumber%
     }%
@@ -87,7 +78,7 @@
     \vskip5.0em%
     {\huge\structure{\bf\inserttitle}}\par
     \ifx\insertsubtitle\@empty\else\vskip2em{\LARGE{\structure{\insertsubtitle}}}\par\fi
-    \vskip5em\par
+    \vskip2em\par
     \normalsize\insertauthor\vskip1em\par
     \insertdate\par
   \end{centering}
