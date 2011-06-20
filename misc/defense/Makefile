@@ -11,7 +11,7 @@ default: build
 build: clean pdf
 
 show:
-	impressive -g 2048x768 -t none main.pdf
+	impressive -g 2048x768 -t none ooplss.pdf
 
 pdf:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode main 1> /dev/null
