@@ -2,10 +2,112 @@
 \begin{frame}[t]{Implementation}
 	\note{Heine\\}
 	\note{Dauer 7min\\}
-	\note{Betonen, was nicht erwhänt wurde in Doku\\}
-	\note[item]{Was wurde implementiert}
-	\note[item]{Wie wurde implementiert}
-	\note[item]{Schwierigkeiten und Probleme}
-	\note[item]{Verwendete Technologien (Warum ANTLR3)}
-	\note[item]{Testing?}
+
+	\begin{itemize}[<+->]
+		\item Lexer / Parser
+		\note[item]<1> {Zuerst Grammatik für Lexer / Parser}
+		\item AST Generierung
+		\note[item]<2> {Daraus einen Abstract Syntax Tree generieren}
+		\note[item]<2> {AST = Bereinigt von unnötigen Input-Symbolen}
+		\note[item]<2> {Operationen mit richtigem Vorrang}
+		\item Aufbau der Symbol Table
+		\note[item]<3> {Eine Struktur mit allen Symbolen, die im Input-Code vorkommen}
+		\item Type Checking
+		\note[item]<4> {Auflösen der Symbole}
+		\note[item]<4> {Überprüfen der Typenkompatibilität}
+		\item Übersetzung
+		\note[item]<5> {Wenn sicher ist, dass der code stimmt, Übersetzung}
+	\end{itemize}
+
 \end{frame}
+
+\begin{frame}[t]{Technologien}
+	\begin{itemize}[<+->]
+		\item Parser Generator
+		\note[item]<1> {Begrenzte Zeit, zuviel Aufwand wenn selber machen}
+		\note[item]<1> {Tool zum Erstellen von einem Parser}
+		\note[item]<1> {Entscheidung zwischen ANTLR und JavaCC}
+		\begin{itemize}
+			\item ANTLR (\textbf{AN}other \textbf{T}ool for \textbf{L}anguage \textbf{R}ecognition)
+			\note[item]<2> {ANTLR=Another Tool for Language Recognition}
+			\note[item]<2> {Wahl, weil es enthält alles}
+			\note[item]<2> {JavaCC benötigt weitere Tools}
+		\end{itemize}
+
+		\item Java 
+		\note[item]<3> {Programmiersprache Java gewählt}
+		\begin{itemize}
+			\item Implementierungssprache 
+			\note[item]<4> {Sprache für die Implementation}
+			\note[item]<4> {Hauptsprache von ANTLR nebst anderen Zielsprachen}
+			\item Zielsprache
+			\note[item]<5> {Zielsprache nach Übersetzung auch Java}
+			\note[item]<5> {Gut bekannt bei beiden Studenten}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Symbol Table}
+	\begin{itemize}[<+->]
+		\item Bereitstellen der möglichen Symbole und Typen
+		\note[item]<1> {Bereitstellen der möglichen Symbole und Typen}
+		\note[item]<1> {Klassensymbole}
+		\note[item]<1> {Methodensymbole}
+		\note[item]<1> {Variablen}
+		\note[item]<1> {Built-In types}
+
+		\item Aufbau der Scopes 
+		\note[item]<2> {Scope-Aufbau}
+		\note[item]<2> {Stack-Mässiger Aufbau}
+		\note[item]<2> {Beim betreten eines Blocks push}
+		\note[item]<2> {Beim verlassen pop}
+
+		\item Auflösen von Symbolen
+		\note[item]<3> {Auflösen der Symbole}
+		\note[item]<3> {Überprüft dabei gleich das vorhandensein}
+
+		\item Type Checking
+		\note[item]<4> {Alle Methoden für's Type-Checking}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{ANTLR Grammatiken}
+	\begin{itemize}[<+->]
+		\item Lexer / Parser
+		\note[item]<1> {Grammatik für den Lexer und Parser}
+		\note[item]<1> {Rewrite-Rules für den AST}
+
+		\item Definition Run
+		\note[item]<2> {Definition Run}
+		\note[item]<2> {Grammatik um den AST zu matchen}
+		\note[item]<2> {Baut den Stack auf}
+		\note[item]<2> {Legt alle Symboldefinitionen in der Symboltable ab}
+		\note[item]<2> {Speichert die Scopes im AST}
+
+		\item Referencing Run
+		\note[item]<3> {Referencing Run}
+		\note[item]<3> {Versucht alle Symbole aufzulösen, da jetzt alle bekannt sind}
+		\note[item]<3> {Im Falle von unbekannten Symbolen Exception}
+
+		\item Type Checker
+		\note[item]<4> {Type checking}
+		\note[item]<4> {Im Grund Vergleich links/rechts}
+		\note[item]<4> {Problematisch war vor allem MyType-Bindung}
+		\note[item]<4> {Problematisch waren Methodenargumente, visited bevor konkreter Type bekannt war}
+		\note[item]<4> {Besteht aus eigentlich 2 files und damit 2 runs}
+
+		\item Übersetzung
+		\note[item]<5> {Am Schluss die Übersetzung}
+		\note[item]<5> {Mittels String Templates}
+		\note[item]<5> {Problematiken beim }
+		\note[item]<5> {\textbf{TODO}}
+	\end{itemize}
+\end{frame}
+
+%	\note{Betonen, was nicht erwähnt wurde in Doku\\}
+%	\note[item]{Was wurde implementiert}
+%	\note[item]{Wie wurde implementiert}
+%	\note[item]{Schwierigkeiten und Probleme}
+%	\note[item]{Verwendete Technologien (Warum ANTLR3)}
+%	\note[item]{Testing?}
+%\end{frame}
