@@ -1,0 +1,83 @@
+% New itemize to insert space between items
+% 1st param. optional: options for itemize (e.g. <+->)
+% 2nd size to add between items
+\newenvironment{bigitemize}[2][]%
+{\begin{itemize}[#1]\addtolength{\itemsep}{#2}}%
+{\end{itemize}}
+
+%
+% Package for formatting Listings
+%
+\renewcommand*\lstlistlistingname{List of Listings}
+\definecolor{lbcolor}{rgb}{0.90,0.90,0.90}
+\definecolor{commentcolor}{rgb}{0.0,0.80,0.0}
+\lstset{ %
+	float=h,
+  language=Java,
+  basicstyle=\footnotesize,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+ % numbersep=5pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=single,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  escapeinside={/*}{*/},
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{blue}\bfseries,
+	identifierstyle=\color{black},
+	commentstyle=\color{commentcolor},
+	stringstyle=\color{red}\ttfamily
+}
+
+%
+% "define" OOPLSS (Based on scala syntax)
+%
+\lstdefinelanguage{ooplss}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,self,base,__construct,%
+    type,val,var,while,with,yield,MyType,subtypeOf,subclassOf},
+  otherkeywords={=>,<-,<\#,<:,>:,\#,@},
+  sensitive=true,
+  escapeinside={\%}{)},
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+%  morestring=[b]',
+  morestring=[b]"""
+}
+
+%
+% "define" Scala
+%
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,self,base,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\#,<:,>:,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  escapeinside={/*}{*/},
+%  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+%  morestring=[b]',
+  morestring=[b]"""
+}
+
+\newcommand{\textdef}[1]{\textcolor{DarkOrchid}{\textbf{#1}}}
+\newcommand{\textem}[1]{\textcolor{DarkOrchid}{#1}}
+\newcommand{\textcode}[1]{\textcolor{DarkOrchid}{\texttt{#1}}}
