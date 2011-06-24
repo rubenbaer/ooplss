@@ -12,19 +12,18 @@
 \beamertemplateplaintoc
 \setbeamertemplate{navigation symbols}{\insertslidenavigationsymbol}
 
-\AtBeginSection{}%\frame{\frametitle{Outline}\tableofcontents[current]}}
+%\AtBeginSection[]{\frame{\frametitle{Outline}\tableofcontents[current]}}
 
 \setbeamertemplate{itemize/enumerate body begin}{\vskip-2mm}
 \setbeamertemplate{itemize/enumerate subbody begin}{\vskip0mm}
-%\setbeamertemplate{itemize subitem}{\ding{221}}
 
 
 \pgfdeclareimage[width=1.7cm]{logobfh}{logo/bfhviolet}
-\pgfdeclareimage[height=6.5mm]{logowhite}{logo/bfhwhite}
+\pgfdeclareimage[height=6.5mm]{logowhite}{logo/bfh}
 \def\insertlogofoot{\pgfuseimage{logobfh}}
 \def\insertlogotitle{\pgfuseimage{logowhite}}
 %Set subitem marker to be bullet
-%\usesubitemizeitemtemplate{\small\hbox{\color{beamerstructure}$\bullet$}}
+\usesubitemizeitemtemplate{\small\hbox{\color{beamerstructure}$\bullet$}}
 
 % Head
 

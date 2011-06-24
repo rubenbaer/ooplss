@@ -9,11 +9,4 @@
 *.1
 *.nlo
 *.tdo
-imgs/logo.eps
-ooplss.*
-ooplss-book.*
-ooplss-print.*
-ooplss-web.*
-!metauml_*.mp
-!ooplss.tex
-exclude
+*.*~
