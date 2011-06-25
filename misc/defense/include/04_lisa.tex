@@ -1,13 +1,96 @@
-\section{LISA}
-\begin{frame}[t]{LISA}
+\section{Sprachspezifikation}
+\begin{frame}[t]{Sprachspezifikation}
 	\note{Ruben\\}
 	\note{Dauer 8min\\}
-	\note{Betonen, was nicht erwhänt wurde in Doku\\}
 	\note[item]{Syntax}
+	\note[item]{Spezielle Sprachkonstrukte}
 	\note[item]{SubtypeOf}
 	\note[item]{SubclassOf}
 	\note[item]{MyType}
 	\note[item]{Recursion}
 	\note[item]{Parametrisation}
 	\note[item]{Inference Rules}
+
+	\begin{bigitemize}{3mm}
+		\item Syntax
+		\item Spezielle Sprachkonstrukte
+		\item Rekursion
+		\item Typen Parametrisierung
+		\item Inferenzregeln
+	\end{bigitemize}
+\end{frame}
+
+\subsection{Syntax}
+\begin{frame}[fragile]{Syntax}
+\begin{lstlisting}[language=ooplss]
+class Animal {
+  def mate(other: MyType): MyType { return null; }
+}
+
+class Dog subclassOf Animal {
+  def mate(other: MyType): MyType { return null; }
+}
+
+class Cat subclassOf Animal {
+  def mate(other: MyType): MyType { return null; }
+}
+
+class Persian subtypeOf Cat {
+  var needsGrooming: Bool;
+  def mate(other: MyType): MyType { return null; }
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Spezielle Sprachkonstrukte}
+\begin{frame}{Spezielle Sprachkonstrukte}
+	\begin{description}[<+->]
+		\item[SubtypeOf] Erstellt einen expliziten Subtyp
+		\note[item]<1>{Subtypeof => extends in Java}
+
+		\item[SubclassOf] Erstellt eine explizite Subklasse
+		\note[item]<2>{SubclassOf}
+
+		\item[MyType] Impliziter Typparameter
+		\note[item]<3>{MyType}
+
+		\item[Typenparametrisierung] F-Bounded Subtyping mit Matching
+		\note[item]<4>{Parametrisierung}
+	\end{description}
+\end{frame}
+
+\subsection{Rekursion}
+\begin{frame}[c]{Rekursion}
+	\begin{figure}
+		\includedot[scale=0.7]{../../doc/dot/naiveRecursion}
+		\caption{Naive Rekursion}
+	\end{figure}
+	\begin{figure}
+		\includedot[scale=0.7]{../../doc/dot/mutualRecursion}
+		\caption{Mututal Rekursion}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[c,fragile]{Rekursion}
+\begin{lstlisting}[language=ooplss]
+class A {
+  def m(other: MyType): MyType { return m(other); }
+}
+
+class B subtypeOf A {
+  def m(other: MyType): MyType { return A.m(other); }
+}
+
+class C subtypeOf B {
+  def m(other: MyType): MyType { return B.m(other); }
+}
+
+class D subclassOf C {
+  def m(other: MyType): MyType { return C.m(other); }
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Typen Parametrisierung}
+\begin{frame}{Typen Parametrisierung}
 \end{frame}
