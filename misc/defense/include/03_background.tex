@@ -1,10 +1,130 @@
-\section{Idee und Hintergründe}
-\begin{frame}[t]{Idee und Hintergründe}
-	\note{Ruben\\}
-	\note{Dauer 6min\\}
-	\note{Betonen, was nicht erwhänt wurde in Doku}
+\section{Hintergründe und These}
+\begin{frame}{Hintergründe und These}
+	\note[item]{Begriffe}
 	\note[item]{Nominal / Structural Type System}
 	\note[item]{Subtyping}
 	\note[item]{Subclassing}
 	\note[item]{Matching}
+	\note[item]{These}
+	\begin{bigitemize}{3mm}
+		\item Begriffe
+		\item Subtyping
+		\item Subclassing
+		\item Matching
+		\item These
+	\end{bigitemize}
+\end{frame}
+
+\begin{frame}{Begriffe}
+	\begin{description}
+		\item[Nominal Type System] Kompatibilität von Typen wird explizit deklariert
+		\item[Structural Type System] Kompatibilität wird implizit durchgeführt
+		\item[Derivation] Beinhaltet beides, \emph{Extension} und \emph{Inheritance}
+		\item[Extension] Generiert Subtypen
+		\item[Inheritance] Generiert Subklassen
+		\item[Subtyping] Typenrelation für Typen-Polymorphimus
+		\item[Matching] Schwächere Typenrelation als Subtyping
+		\item[Subclassing] Klassenerweiterung für Matching
+	\end{description}
+	\note[item]{Subtyping}
+	\note[item]{Subclassing}
+	\note[item]{Matching}
+\end{frame}
+
+\begin{frame}{Subtyping}
+	\begin{bigitemize}[<+->]{3mm}
+		\item Wird mit `$<:$' gekennzeichnet
+		\note[item]<1>{Bezeichnung von Subtype relation}
+		\note[item]<1>{In nominal type systems wird es explizit definiert}
+
+		\item Ist transitiv und reflexiv
+		\note[item]<2>{Transitiv und reflexiv}
+
+		\item Definiert auf Objekten, Funktionen und Variablen
+		\note[item]<3>{Objektrelation, subtype muss mehr Felder haben. Alle Superfelder müssen korrespondierende Subtypen Felder haben}
+		\note[item]<3>{Funktionenrelatio, Parameter sind contravariant und Returntypen sind Covariant}
+		\note[item]<3>{Variablen, sind invariant}
+
+		\item Unterstützt Typenpolymorphie
+		\note[item]<4>{Typen polymorphie}
+
+		\item Problem mit rekursiven Typen
+		\note[item]<5>{Problem mit rekursiven typen}
+
+		\item Typen unsichere binäre Methoden
+		\note[item]<6>{Typenunsicherheit bei binären Methoden}
+	\end{bigitemize}
+\end{frame}
+
+\begin{frame}{Subclassing}
+	\begin{bigitemize}[<+->]{3mm}
+		\item Offener als Subtyping
+		\begin{itemize}
+			\item<1-> Kovariante Methodenparameter
+			\note[item]<1>{Kovariante Methodenparameter}
+
+			\item<1-> Kontravariante Rückgabetypen
+			\note[item]<1>{Kontravariante Rückgabetypen}
+
+			\item<1-> Kovariante Variablen
+			\note[item]<1>{Kovariante Variablen}
+		\end{itemize}
+
+		\item Subtyping ist nicht mehr gegeben
+		\note[item]<2>{Als konsequenz, kein Subtyping mehr}
+
+		\item Mögliche Umsetzung mit Generics
+		\note[item]<3>{Mögliche Umsetzung mit Generics}
+		\note[item]<3>{Problem bei rekursiven Typen, e.g., binären Methoden}
+
+		\item Problem mit rekursiven Typen
+		\note[item]<4>{Problem mit rekursiven typen}
+
+		\item Typen unsichere binäre Methoden
+		\note[item]<5>{Immer noch Typenunsicherheit bei binären Methoden}
+	\end{bigitemize}
+\end{frame}
+
+\begin{frame}{\mytype}
+	\begin{bigitemize}{3mm}
+		\item Impliziter Typenparameter
+		\note[item]{Impliziter Typenparameter}
+
+		\item Typensicherheit für rekursive Typen!
+		\note[item]{Typensicherheit für rekursive Typen}
+
+		\item Typensicherheit für binäre Methoden!
+		\note[item]{Typensicherheit für binäre Methoden}
+	\end{bigitemize}
+\end{frame}
+
+\begin{frame}{Matching}
+	\begin{bigitemize}[<+->]{3mm}
+		\item Wird mit `\match' gekennzeichnet
+		\note[item]<1>{Bezeichnung von Match relation}
+		\note[item]<1>{In nominal type systems wird es explizit definiert}
+
+		\item Reflexiv und transitiv
+		\note[item]<2>{Reflexiv und transitiv}
+
+		\item Schwächer als Subtyping
+		\note[item]<3>{Schächer als Subtyping}
+
+		\item Nur auf Objekttypen definiert
+		\note[item]<4>{Nur auf Objekttypen definiert}
+
+		\item Unterstützt keine Typenpolymorphie
+		\note[item]<5>{Keine Polymorphie}
+
+		\item Unterstützt den \mytype Parameter
+		\note[item]<6>{Unterstützt den \mytype}
+	\end{bigitemize}
+\end{frame}
+
+\begin{frame}[c]{These}
+	\begin{quote}
+	Die Modell von Subclassing kann simultan zu einem Subtyping-Modell
+	in einem einzigen Modell vereint werden, wobei rekursive Typen mit
+	einem impliziten Typenparameter, \mytype, dargestellt werden kann.
+	\end{quote}
 \end{frame}
