@@ -9,13 +9,15 @@
 	\note[item]{MyType}
 	\note[item]{Recursion}
 	\note[item]{Parametrisation}
+	\note[item]{Translation}
 	\note[item]{Inference Rules}
 
 	\begin{bigitemize}{3mm}
 		\item Syntax
 		\item Spezielle Sprachkonstrukte
 		\item Rekursion
-		\item Typen Parametrisierung
+		\item Typen-Parametrisierung
+		\item Übersetzung
 		\item Inferenzregeln
 	\end{bigitemize}
 \end{frame}
@@ -53,6 +55,8 @@ class Persian subtypeOf Cat {
 
 		\item[MyType] Impliziter Typparameter
 		\note[item]<3>{MyType}
+		\note[item]<3>{Implizit wegen Rekursion}
+		\note[item]<3>{Type Parameter für jede Klasse}
 
 		\item[Typenparametrisierung] F-Bounded Subtyping mit Matching
 		\note[item]<4>{Parametrisierung}
@@ -91,6 +95,25 @@ class D subclassOf C {
 \end{lstlisting}
 \end{frame}
 
-\subsection{Typen Parametrisierung}
-\begin{frame}{Typen Parametrisierung}
+\subsection{Typen-Parametrisierung}
+\begin{frame}{Typen-Parametrisierung}
+	\begin{bigitemize}{3mm}
+		\item F-Bound mit Matching
+		\note[item]{Matching kommt im F-Bound zum Einsatz}
+	\end{bigitemize}
+\end{frame}
+
+\subsection{Übersetzung}
+\begin{frame}{Übersetzung}
+	\begin{bigitemize}{3mm}
+		\item Direkte Übersetzung bei Extensions
+		\item Kopieren bei Inheritance
+		\item Parametrisierung ohne Type Erasures!
+		\item Inheritance und Parametrisierung verwendet \emph{Name Mangling}
+		\item Typen-Information zur Laufzeit
+	\end{bigitemize}
+\end{frame}
+
+\subsection{Inferenzregeln}
+\begin{frame}{Inferenzregeln}
 \end{frame}
