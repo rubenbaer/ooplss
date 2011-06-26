@@ -75,20 +75,26 @@ class Persian subtypeOf Cat {
 	\end{figure}
 \end{frame}
 
-\begin{frame}[c,fragile]{Rekursion}
+\begin{frame}[c,fragile]
 \begin{lstlisting}[language=ooplss]
 class A {
   def m(other: MyType): MyType { return m(other); }
 }
-
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
 class B subtypeOf A {
   def m(other: MyType): MyType { return A.m(other); }
 }
-
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
 class C subtypeOf B {
   def m(other: MyType): MyType { return B.m(other); }
 }
-
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
 class D subclassOf C {
   def m(other: MyType): MyType { return C.m(other); }
 }
@@ -101,6 +107,32 @@ class D subclassOf C {
 		\item F-Bound mit Matching
 		\note[item]{Matching kommt im F-Bound zum Einsatz}
 	\end{bigitemize}
+\end{frame}
+
+\begin{frame}[c,fragile]
+\begin{lstlisting}[language=ooplss]
+class A[X <# T] {
+  def m(a: A): A { %\ldots) }
+}
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
+class A[MyType <# A[MyType]] {
+  def m(other: MyType): MyType { %\ldots) }
+}
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
+var a : A[A[A[A[%\ldots)A[A[%\ldots)]]%\ldots)]]]];
+\end{lstlisting}
+\pause
+\begin{lstlisting}[language=ooplss]
+class B[MyType <# B[MyType], MyTypeA <# A[MyTypeA]]
+    subtypeOf A {
+  def m(other: MyTypeA): MyTypeA { %\ldots) }
+  def n(other: MyType): MyType { %\ldots) }
+}
+\end{lstlisting}
 \end{frame}
 
 \subsection{Übersetzung}
