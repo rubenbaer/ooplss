@@ -1,7 +1,6 @@
 \section{Hintergründe und These}
 \begin{frame}{Hintergründe und These}
 	\note[item]{Begriffe}
-	\note[item]{Nominal / Structural Type System}
 	\note[item]{Subtyping}
 	\note[item]{Subclassing}
 	\note[item]{Matching}
@@ -27,9 +26,14 @@
 		\item[Matching] Schwächere Typenrelation als Subtyping
 		\item[Subclassing] Klassenerweiterung für Matching
 	\end{bigdescription}
-	\note[item]{Subtyping}
-	\note[item]{Subclassing}
-	\note[item]{Matching}
+		\note[item]{Nominal Type System, Kompatibilität von Typen wird explizit deklariert}
+		\note[item]{Structural Type System, Kompatibilität wird implizit durchgeführt}
+		\note[item]{Derivation, Beinhaltet beides, \emph{Extension} und \emph{Inheritance}}
+		\note[item]{Extension, Generiert Subtypen}
+		\note[item]{Inheritance, Generiert Subklassen}
+		\note[item]{Subtyping, Typenrelation für Typen-Polymorphimus}
+		\note[item]{Matching, Schwächere Typenrelation als Subtyping}
+		\note[item]{Subclassing, Klassenerweiterung für Matching}
 \end{frame}
 
 \subsection{Subtyping}
@@ -43,6 +47,7 @@
 		\note[item]<2>{Transitiv und reflexiv}
 
 		\item Definiert auf Objekten, Funktionen und Variablen
+		\note[item]<3>{Definiert auf:}
 		\note[item]<3>{Objektrelation, subtype muss mehr Felder haben. Alle Superfelder müssen korrespondierende Subtypen Felder haben}
 		\note[item]<3>{Funktionenrelatio, Parameter sind contravariant und Returntypen sind Covariant}
 		\note[item]<3>{Variablen, sind invariant}
@@ -52,6 +57,7 @@
 
 		\item Problem mit rekursiven Typen
 		\note[item]<5>{Problem mit rekursiven typen}
+		\note[item]<5>{Was heisst das?}
 
 		\item Typen unsichere binäre Methoden
 		\note[item]<6>{Typenunsicherheit bei binären Methoden}
@@ -61,7 +67,7 @@
 \subsection{Subclassing}
 \begin{frame}{Subclassing}
 	\begin{bigitemize}[<+->]{3mm}
-		\item Offener als Subtyping
+		\item Schwächer als Subtyping
 		\begin{itemize}
 			\item<1-> Kovariante Methodenparameter
 			\note[item]<1>{Kovariante Methodenparameter}

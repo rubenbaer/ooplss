@@ -4,12 +4,12 @@
 	\note{Dauer 8min\\}
 	\note[item]{Syntax}
 	\note[item]{Spezielle Sprachkonstrukte}
-	\note[item]{SubtypeOf}
-	\note[item]{SubclassOf}
-	\note[item]{MyType}
-	\note[item]{Recursion}
-	\note[item]{Parametrisation}
-	\note[item]{Translation}
+	\note[item]{Rekursion}
+	\note[item]{Typen-Parametrisierung}
+	\note[item]{Übersetzung}
+	%\note[item]{Recursion}
+	%\note[item]{Parametrisation}
+	%\note[item]{Translation}
 %	\note[item]{Inference Rules}
 
 	\begin{bigitemize}{3mm}
@@ -73,9 +73,11 @@ class Persian subtypeOf Cat {
 		\includedot[scale=0.7]{../../doc/dot/mutualRecursion}
 		\caption{Mututal Rekursion}
 	\end{figure}
+	\note{Nächte Folie hat ein Codeexample}
 \end{frame}
 
 \begin{frame}[c,fragile]
+\note{Zeige, wie der Code als UML ausshieht\\ Mehrdeutigkeit von MyType}
 \begin{lstlisting}[language=ooplss]
 class A {
   def m(other: MyType): MyType { return m(other); }
@@ -105,7 +107,13 @@ class D subclassOf C {
 \begin{frame}{Typen-Parametrisierung}
 	\begin{bigitemize}{3mm}
 		\item F-Bound mit Matching
-		\note[item]{Matching kommt im F-Bound zum Einsatz}
+		\note[item]<1>{Matching kommt im F-Bound zum Einsatz}
+		
+		\item \mytype könnte auch ein Parameter sein
+		\note[item]<2>{Könnte auch ein Parameter sein}
+		\note[item]<2>{Rekursionsproblem! Nächste folie mit code}
+		
+		\item 
 	\end{bigitemize}
 \end{frame}
 
@@ -143,6 +151,11 @@ class B[MyType <# B[MyType], MyTypeA <# A[MyTypeA]]
 		\item Parametrisierung ohne Type Erasures!
 		\item Inheritance und Parametrisierung verwendet \emph{Name Mangling}
 		\item Typen-Information zur Laufzeit
+		\note[item]{Direkte Übersetzung bei Extensions}
+		\note[item]{Kopieren bei Inheritance}
+		\note[item]{Parametrisierung ohne Type Erasures!}
+		\note[item]{Inheritance und Parametrisierung verwendet \emph{Name Mangling}}
+		\note[item]{Typen-Information zur Laufzeit}
 		\note[item]{Beispiel wird in Demo gezeigt}
 	\end{bigitemize}
 \end{frame}
