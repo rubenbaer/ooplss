@@ -11,10 +11,10 @@ default: build
 build: clean pdf
 
 show:
-	impressive -g 1024x768 -t none ooplss.pdf
+	impressive -L time=BL -g 1024x768 -t none ooplss.pdf
 
 present:
-	impressive -g 2048x768 -t none ooplss.pdf
+	impressive -L time=BL -g 2048x768 -t none ooplss.pdf
 
 pdf:
 	pdflatex -jobname $(JOB) -shell-escape -interaction=nonstopmode main 1> /dev/null
