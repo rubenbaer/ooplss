@@ -104,34 +104,30 @@ class D subclassOf C {
 \end{frame}
 
 \subsection{Typen-Parametrisierung}
-\begin{frame}{Typen-Parametrisierung}
+\begin{frame}[t,fragile]{Typen-Parametrisierung}
 	\begin{bigitemize}{3mm}
 		\item F-Bound mit Matching
 		\note[item]<1>{Matching kommt im F-Bound zum Einsatz}
-		
-		\item \mytype könnte auch ein Parameter sein
-		\note[item]<2>{Könnte auch ein Parameter sein}
-		\note[item]<2>{Rekursionsproblem! Nächste folie mit code}
-		
-		\item 
 	\end{bigitemize}
-\end{frame}
-
-\begin{frame}[c,fragile]
+\pause
 \begin{lstlisting}[language=ooplss]
 class A[X <# T] {
   def m(a: A): A { %\ldots) }
 }
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[t,fragile]{Typen-Parametrisierung}
+	\begin{bigitemize}{3mm}
+		\item \mytype könnte auch ein Parameter sein
+		\note[item]<2>{Könnte auch ein Parameter sein}
+		\note[item]<2>{Rekursionsproblem! Nächste folie mit code}
+	\end{bigitemize}
 \pause
 \begin{lstlisting}[language=ooplss]
 class A[MyType <# A[MyType]] {
   def m(other: MyType): MyType { %\ldots) }
 }
-\end{lstlisting}
-\pause
-\begin{lstlisting}[language=ooplss]
-var a : A[A[A[A[%\ldots)A[A[%\ldots)]]%\ldots)]]]];
 \end{lstlisting}
 \pause
 \begin{lstlisting}[language=ooplss]
@@ -143,23 +139,43 @@ class B[MyType <# B[MyType], MyTypeA <# A[MyTypeA]]
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}[t,fragile]{Typen-Parametrisierung}
+	\begin{bigitemize}{3mm}
+		\item Rekursive Typendeklaration ist ein Problem!
+	\end{bigitemize}
+\pause
+\begin{lstlisting}[language=ooplss]
+var a : A[A[A[A[%\ldots)A[A[%\ldots)]]%\ldots)]]]];
+\end{lstlisting}
+\pause
+
+	\begin{bigitemize}{3mm}
+		\item Fix-Point-Deklaration könnte ein Ausweg sein
+	\end{bigitemize}
+\pause
+\begin{lstlisting}[language=ooplss]
+var a : A[A*];
+\end{lstlisting}
+\end{frame}
+
 \subsection{Übersetzung}
 \begin{frame}{Übersetzung}
-	\begin{bigitemize}{3mm}
+	\begin{bigitemize}[<+->]{3mm}
 		\item Direkte Übersetzung bei Extensions
+		\note[item]<1>{Direkte Übersetzung bei Extensions}
+
 		\item Kopieren bei Inheritance
+		\note[item]<2>{Kopieren bei Inheritance}
+
 		\item Parametrisierung ohne Type Erasures!
+		\note[item]<3>{Parametrisierung ohne Type Erasures!}
+
 		\item Inheritance und Parametrisierung verwendet \emph{Name Mangling}
+		\note[item]<4>{Inheritance und Parametrisierung verwendet \emph{Name Mangling}}
+
 		\item Typen-Information zur Laufzeit
-		\note[item]{Direkte Übersetzung bei Extensions}
-		\note[item]{Kopieren bei Inheritance}
-		\note[item]{Parametrisierung ohne Type Erasures!}
-		\note[item]{Inheritance und Parametrisierung verwendet \emph{Name Mangling}}
-		\note[item]{Typen-Information zur Laufzeit}
-		\note[item]{Beispiel wird in Demo gezeigt}
+		\note[item]<5>{Typen-Information zur Laufzeit}
+
+		\note[item]{Übersetzung wird in Demo gezeigt}
 	\end{bigitemize}
 \end{frame}
-%
-%\subsection{Inferenzregeln}
-%\begin{frame}{Inferenzregeln}
-%\end{frame}
