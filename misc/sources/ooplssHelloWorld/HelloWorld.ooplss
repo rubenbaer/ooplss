@@ -1,3 +1,4 @@
+
 class Application {
   // Application entry point.
   def run(): Void {
