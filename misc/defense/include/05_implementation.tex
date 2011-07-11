@@ -61,6 +61,7 @@
 		\item Aufbau der Scopes 
 		\note[item]<2> {Scope-Aufbau}
 		\note[item]<2> {Stack-Mässiger Aufbau}
+		\note[item]<2> {Mit Pointer auf aktuellen Stack}
 		\note[item]<2> {Beim betreten eines Blocks push}
 		\note[item]<2> {Beim verlassen pop}
 
@@ -70,6 +71,18 @@
 
 		\item Type Checking
 		\note[item]<4> {Alle Methoden für's Type-Checking}
+		\note[item]<4> {Assignments} 
+		\note[item]<4> {Operationen} 
+		\note[item]<4> {Rückgabewerte} 
+		\note[item]<4> {Methodenargumente}
+		\note[item]<4> {Schritt für Schritt Aufbau}
+		\note[item]<4> {Basic: Sind zwei Typen gleich}
+		\note[item]<4> {Subtypes: Ist ein Typ ein Subtyp}
+		\note[item]<4> {MyType-Bindung, grösstes Problem}
+
+		\item Weitere Checks
+		\note[item]<5> {Standalone-Statements müssen Überprüft werden wegen Java}
+		\note[item]<5> {Kümmert sich um Sachen wie zyklisches Subtyping etc.}
 	\end{bigitemize}
 \end{frame}
 
@@ -77,7 +90,8 @@
 \begin{frame}[t]{ANTLR Grammatiken}
 	\begin{bigitemize}[<+->]{3mm}
 		\item Lexer / Parser
-		\note[item]<1> {Grammatik für den Lexer und Parser}
+		\note[item]<1> {ANTLR bietet Grammatiken für die verschiedenen Schritte}
+		\note[item]<1> {Erstes: Grammatik für den Lexer und Parser}
 		\note[item]<1> {Rewrite-Rules für den AST}
 
 		\item Definition Run
@@ -102,8 +116,8 @@
 		\item Übersetzung
 		\note[item]<5> {Am Schluss die Übersetzung}
 		\note[item]<5> {Mittels String Templates}
-		\note[item]<5> {Problematiken beim }
-		\note[item]<5> {\textbf{TODO}}
+		\note[item]<5> {Schwierig war hier das Zusammensetzen des Subclassing}
+		\note[item]<5> {Auch hier zwei Durchläufe}
 	\end{bigitemize}
 \end{frame}
 
